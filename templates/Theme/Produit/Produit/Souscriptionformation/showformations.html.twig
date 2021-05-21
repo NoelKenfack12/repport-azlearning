@@ -1,0 +1,158 @@
+<div class="form-group">
+<select name="offrespremium" id="offrespremium" class="form-control" style="padding: 7px; width: 100%;">
+<option value="0">Sélectionnez une autre formation</option>
+{% for formation in offres %}
+	<option value="{{ formation.id }}">{{ formation.nom }}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="pack-description">
+{% if firstoffert != null %}
+<div class="row">
+<div class="col-md-12">
+	<h3 style="margin: 0px;text-align: left;">{{ firstoffert.nom }}</h3>
+	<div class="graph" style="text-align: left;">
+	<div class="tables">								
+		<table class="table table-bordered"> 
+		<thead> <tr> <th>#</th> <th>Offres</th> <th>Valeurs</th> </tr> </thead> 
+		<tbody> 
+		<tr> <th scope="row">1</th> <td>Nombre de Cours</td> <td>{{ firstoffert.produits|length }} </td> </tr>
+		{% set nbtp = 0 %}
+		{% set nbexo = 0 %}
+		{% set nbqcm = 0 %}
+		{% set nbsupport = 0 %}
+		{% set nbvideo = 0 %}
+		{% set listeformateur = [] %}
+		{% for cours in firstoffert.produits %}
+			{{ cours.setEm(em) }}
+			{% set listechap = cours.getChapitreCours %}
+			{% for chap in listechap %}
+				{% set nbtp = nbtp + chap.pratiquechapitres|length %}
+				{% set nbexo = nbexo + chap.exerciceparties|length %}
+				{% set nbsupport = nbsupport + chap.supportchapitres|length %}
+				{% if chap.type != 1 %}
+					{% set nbqcm = nbqcm + 1 %}
+				{% endif %}
+				{% if chap.type != 1 %}
+					{% set nbvideo = nbvideo + 1 %}
+				{% endif %}
+			{% endfor %}
+			{% set nbvideo = nbvideo + 1 %}
+			
+			{% if cours.user.id not in listeformateur %}
+				{% set listeformateur = listeformateur|merge([cours.user.id]) %}
+			{% endif %}
+		{% endfor %}
+		<tr> <th scope="row">2</th> <td>TP</td> <td>{{ nbtp }}</td> </tr> 
+		<tr> <th scope="row">3</th> <td>Exercices</td> <td>{{ nbexo }}</td></tr>			
+		<tr> <th scope="row">4</th> <td>QCM</td> <td>{{ nbqcm }}</td> </tr> 
+		<tr> <th scope="row">5</th> <td>Support de cours</td> <td>{{ nbsupport }}</td> </tr> 
+		<tr> <th scope="row">6</th> <td>Vidéos</td> <td>{{ nbvideo }}</td> </tr> 
+		<tr> <th scope="row">7</th> <td>Enseignant(e)s</td> <td>{{ listeformateur|length }}</td> </tr> 
+		<tr> <th scope="row">8</th> <td>Attestation</td> <td><span class="fa fa-check pull-right"></span></td> </tr> 
+		</tbody> 
+		</table> 
+	</div>
+	
+	{#
+	<div class="clearfix" style="padding: 0px;"></div>
+	 <div class="col-xs-12 col-md-6" style="padding: 0px;">
+		 <div style="margin-top: 10px;" class="online-choise">
+		 <input type="radio" name="nature" value="online" id="online" checked />
+		 <strong class="text-danger"><label for="online"> En ligne uniquement</label></strong>
+		 </div>
+	 </div>
+	 <div class="col-xs-12 col-md-6" style="padding: 0px;">
+		 <div style="margin-top: 10px;" class="offline-choise">
+		 <input type="radio" name="nature" value="offline" id="offline"/>
+		 <strong class="text-danger"><label for="offline"> En ligne et au centre</label></strong>
+		 </div>
+	 </div>
+	 #}
+	 
+	<div class="clearfix" style="padding: 0px;"></div>
+	<div class="formation-online" style="margin-top: 10px;">
+	<a href="#!" class="btn btn-primary" style="margin: 0px;">Montant: {{ firstoffert.nprix }} {{ devise }}</a>
+	<a href="#!" class="btn souscription-operation" value="{{ firstoffert.nprix }}" name="En ligne uniquement: Formation {{ firstoffert.nom }}" id="{{ firstoffert.id }}" type="1" style="float: right; margin: 0px; background: #3498db; color: #fff;"><span class="fa fa-thumbs-o-up"></span> Souscrire</a>
+	</div>
+	
+	<div class="formation-offline" style="margin-top: 10px; display: none;">
+	<a href="#!" class="btn btn-primary" style="margin: 0px;">Montant: {{ firstoffert.nprixoff }} {{ devise }}</a>
+	<a href="#!" class="btn souscription-operation" value="{{ firstoffert.nprixoff }}" name="En ligne et au centre: Formation {{ firstoffert.nom }}" id="{{ firstoffert.id }}" type="0" style="float: right; margin: 0px; background: #3498db; color: #fff;"><span class="fa fa-thumbs-o-up"></span> Souscrire</a>
+	</div>
+	<div class="clearfix" style="padding: 0px;"></div>
+	</div>
+</div>
+</div>
+{% endif %}
+</div>
+{% if firstoffert != null %}
+<div class="form-pass-souscription" style="display: none; text-align: left;">
+<form action="{{ path('produit_service_add_formation_panier', {'id': firstoffert.id }) }}" method="post" style="margin-top: 15px;">
+<div class="form-group">
+	<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 0px;">
+	<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 0px;">
+</div>
+<div style="margin-top: 15px;">
+	<button type="submit" class="btn btn-warning" style="border-radius: 0px;">Confirmez le payement avec votre compte {{ site }} </button>
+</div>
+</form>
+</div>
+{% endif %}
+<div class="clearfix"> </div>
+<script type="text/javascript">
+$('#offrespremium').on('change', function (e){
+if($(this).val() != 0)
+{
+  var hauteur = $('.content-pack-premium').height() + 2; 
+  var largeur = $('.content-pack-premium').width() + 30;
+  var padding = Math.round(hauteur/2 - 15);
+  $('.content-pack-premium').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/attente.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+  $.post('{{ path('produit_produit_show_formation_scat', {'id': cat.id }) }}', { item: $(this).val() }, function(data) {
+  $('.attente-resultat').hide();
+  $('.content-pack-premium').html(data);
+  });
+}
+});
+$('.online-choise').click(function(){
+$('.formation-online').show('slow');
+$('.formation-offline').hide('slow');
+});
+$('.offline-choise').click(function(){
+$('.formation-online').hide('slow');
+$('.formation-offline').show('slow');
+});
+
+$('.souscription-operation').click(function(){
+{% if app.user != null %}
+	var moneyuser = {{ app.user.soldeprincipal }};
+	$('.pack-description').html('<div class="text-align: center;"><img src="{{ asset('template/images/attente.gif') }}" alt="" style="width: 20px; height: 20px;"/></div>');
+	if(moneyuser >= $(this).attr('value'))
+	{
+		namepackage = $(this).attr('name');
+		typepack = $(this).attr('type');
+		ammount = $(this).attr('value');
+		setTimeout(function(){
+		  $('.pack-description').html('<div class="alert" style="text-align: left; background: #00c6d7; color: #fff;"><h3 style="border-bottom: 1px solid #ddd; color: #fff;">Inscription '+namepackage+'</h3>Le solde de votre compte peut bien supporter cette facture. <span class="label label-info">'+ammount+'{{ devise }}</span> </br> <a class="btn btn-primary continu-button" href="#!" onclick="payementpremium('+typepack+')" style="margin-top: 10px;">Continuer <span class="fa fa-angle-double-right"></span></a>');
+		  //ajouter le code ici.
+		}, 1000, namepackage,typepack,ammount);
+	}else{
+		namepackage = $(this).attr('name');
+		setTimeout(function(namepackage){
+		  $('.pack-description').html('<div class="alert alert-danger" style="text-align: left;"><h3 style="border-bottom: 1px solid #ddd; color: red;">Inscription '+namepackage+'</h3>Désoler, Le solde de votre compte ne peut pas supporter cette facture. Veuillez créditer votre compte Africexplorer Afin de souscrire à ce service</br> <a class="btn btn-primary" href="{{ path('produit_service_yourcv_recrutement') }}" style="margin-top: 10px;">Créditer mon compte <span class="fa fa-angle-double-right"></span></a></div>');
+		  //ajouter le code ici.
+		}, 1000, namepackage);
+	}
+{% else %}
+	$('.pack-description').html('<div class="alert alert-danger" style="text-align: left;"><h3>Vous n\'êtes pas connecté !</h3><div><span class="fa fa-hand-o-right"></span> <a href="{{ path('login') }}">Connectez-vous</a> ou <a href="{{ path('users_user_inscription_user') }}">Inscrivez-vous</a> gratuitement </div></div>');
+{% endif %}
+});
+
+function payementpremium(type)
+{
+	$('.input-type-deformation').attr('value',type);
+	$('.form-pass-souscription').show('slow');
+	$('.continu-button').hide('slow');
+}
+</script>

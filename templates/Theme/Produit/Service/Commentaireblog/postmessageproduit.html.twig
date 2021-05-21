@@ -1,0 +1,302 @@
+<style>
+	@media (min-width: 728px){
+	.container-market{
+		max-width: 70%;
+		width: 1200px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	#box-chat-input{
+		width: 1200px;
+	}
+	}
+	@media (min-width: 400px){
+	.container-market{
+		width: 80%;
+		width: 1000px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	#box-chat-input{
+		width: 1000px;
+	}
+	}
+	@media (max-width: 400px){
+	.container-market{
+		max-width: 90%;
+		width: 400px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	#box-chat-input{
+		width: 400px;
+	}
+	}
+	
+	
+.chat {
+  width: 100%;
+  border: solid 1px #EEE;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: #fff;
+}
+
+.messages {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  border-radius: 20px;
+  padding: 8px 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.yours {
+  align-items: flex-start;
+}
+
+.yours .message {
+  margin-right: 25%;
+  background-color: #eee;
+  position: relative;
+}
+
+.yours .message.last:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: -7px;
+  height: 20px;
+  width: 20px;
+  background: #eee;
+  border-bottom-right-radius: 15px;
+}
+.yours .message.last:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-right-radius: 10px;
+}
+
+.mine {
+  align-items: flex-end;
+}
+
+.mine .message {
+  color: white;
+  margin-left: 25%;
+  background: linear-gradient(to bottom, #092759 0%, #092759 100%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+.mine .message.last:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  right: -8px;
+  height: 20px;
+  width: 20px;
+  background: linear-gradient(to bottom, #092759 0%, #092759 100%);
+  background-attachment: fixed;
+  border-bottom-left-radius: 15px;
+}
+
+.mine .message.last:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-left-radius: 10px;
+}
+
+</style>
+
+<div class="container-market" style="background: rgba(255,255,255,0.8);">
+<div style="height: 100%;">
+<div class="silly_scrollbar" style="padding: 0px!important;">
+	<div style="background: #fff;  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1); padding: 15px;">
+		<div>
+			<div class="dropdown show" style="float: right; margin: 7px 15px;">
+			  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 2px 7px;">
+				
+			  <span class="fa fa-ellipsis-v"></span>
+			  </a>
+
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" href="#">Action</a>
+				<a class="dropdown-item" href="#">Another action</a>
+				<a class="dropdown-item" href="#">Something else here</a>
+			  </div>
+			</div>
+			
+			<img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="height: 50px; float: left; margin-right: 7px; margin-top: -7px;"/>
+			<div><strong>{{ produit.name(120) }}</strong></div>
+			<div style="margin-top: 10px;">{{ produit.souscategorie.nom }} <span class="fa fa-angle-right"></span> Par {{ produit.user.name(25) }}</div>
+			
+			
+		</div>
+	</div>
+	
+	
+	<div style="padding: 15px;">
+	
+		<div class="chat" style="min-height: 800px; padding-bottom: 150px;">
+		  {% if message != null %}
+			<div class="text-center" style="padding: 20px;">
+				<img src="{% if message.user.imgprofil != null %}{{ asset(message.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" style="width: 80px; height: 80px; border-radius: 50%;">
+				<div style="margin-top: 15px;"><strong>{{ message.user.name(30) }} a envoyé un message</strong></div>
+				<div style="font-size: 20px; margin-top: 10px;">{{ message.contenu }}</div>
+			</div>
+			
+			{% for collection2 in collection1 %}
+					
+					  {% set addclass = "mine" %}
+					  {% for reponse in collection2 %}
+						
+						{% if reponse.user == app.user %}
+							{% set addclass = "mine" %}
+						{% else %}
+							{% set addclass = "yours" %}
+						{% endif %}
+						
+					  {% endfor %}
+					  
+					  <div class="{{ addclass }} messages">
+						{% for reponse in collection2 %}
+							<div class="message {% if loop.last %}last{% endif %}">
+							  {{ reponse.contenu }}</br>
+							  <span style="font-size: 9px; color: #ddd;">{{ reponse.getDuree }}</span>
+							</div>
+						{% endfor %}
+					  </div>
+
+				  
+			  {% endfor %}
+		  
+		  {% else %}
+			<div>
+				<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+					<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+					<hr style="width: 100px; border-bottom: 1px solid red;">
+				</div>
+			</div>
+		  {% endif %}
+	</div>
+	</div>
+	
+	
+	<div style="position: fixed; z-index: 1000; padding: 15px; bottom: 0px;  background: #092759;" id="box-chat-input">
+		
+		<form method="post" action="#!" id="form-submit-message">
+		<div class="form-group">
+			<div class="input-group">
+			  <textarea class="form-control" aria-label="With textarea" placeholder="Exprimez-vous ici" style="font-size: 18px;" required=""></textarea>
+			  <button class="input-group-prepend" style="cursor: pointer;">
+				<span class="input-group-text">Envoyer <span class="fa fa-send"></span> </span>
+			  </button>
+			</div>
+		</div>
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+$('.open-scroll-bar-body').click(function(){
+	$('aside').removeClass('open');
+	$('.content-article-tech').html('');
+});
+
+{% if message != null %}
+	$('form#form-submit-message').on('submit', function(){
+		{% if app.user == null %}
+			$('#modal-infos-action-connexion').modal('show');
+		{% else %}
+			var contentmess = $(this).find('textarea').val();
+			
+			var height = ($(window).height() + $(window).scrollTop());
+			var width = $(window).width() + 100;
+			var scrolltop = $(window).scrollTop();
+			$('.panel-result-action-elearning-user').show();
+			$('.content-alert-action-elearning-user').show();
+			$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 900000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+			$.post('{{ path('produit_service_add_new_reponse_message', {'id': message.id, 'type': 'cours' }) }}',{'contentmess': contentmess}, function(data){
+			  if(data != 0)
+			  {
+				  $('.panel-result-action-elearning-user').hide();
+				  $('.content-alert-action-elearning-user').hide();
+				 
+				  $('.content-article-tech').html(data);
+				  $('aside').addClass('open');
+			  }else{
+				  resetNotif();
+				  alertify.alert("Echec, Une erreur a été rencontrée lors de l\'enregistrement de la commande.");
+				  $('.panel-result-action-elearning-user').hide();
+				  $('.content-alert-action-elearning-user').hide();
+			  }
+			});
+		
+		{% endif %}
+		return false;
+	});
+{% else %}
+	$('form#form-submit-message').on('submit', function(){
+		{% if app.user == produit.user %}
+			resetNotif();
+			alertify.alert("Echec, Vous ne pouvez pas créer un sujet sur votre propre cours");
+		{% elseif(app.user == null) %}
+			$('#modal-infos-action-connexion').modal('show');
+		{% else %}
+			var contentmess = $(this).find('textarea').val();
+			
+			var height = ($(window).height() + $(window).scrollTop());
+			var width = $(window).width() + 100;
+			var scrolltop = $(window).scrollTop();
+			$('.panel-result-action-elearning-user').show();
+			$('.content-alert-action-elearning-user').show();
+			$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 900000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+			$.post('{{ path('produit_service_post_message_produit_formateur', {'id': produit.id, 'type': 'cours'}) }}',{'contentmess': contentmess}, function(data){
+			  if(data != 0)
+			  {
+				  $('.panel-result-action-elearning-user').hide();
+				  $('.content-alert-action-elearning-user').hide();
+				  
+				  $('.content-article-tech').html(data);
+				  $('aside').addClass('open');
+			  }else{
+				  resetNotif();
+				  alertify.alert("Echec, Une erreur a été rencontrée lors de l\'enregistrement de la commande.");
+				  $('.panel-result-action-elearning-user').hide();
+				  $('.content-alert-action-elearning-user').hide();
+			  }
+			});
+		{% endif %}
+		return false;
+	});
+{% endif %}
+</script>
+	

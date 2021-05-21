@@ -1,0 +1,100 @@
+{% extends "UsersUserBundle::layouthome.html.twig" %}
+
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Inscription, Connexion, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} - {{ metier }} - Créditez votre compte {{ site }} | fiche d'ajout des fonds"/>
+	
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - {{ site }} - Fiche d'ajout des fonds
+{% endblock %}
+
+{% block stylesheets %}
+
+	{{ parent() }}
+	
+{% endblock %}
+
+{% block userblog_body %}
+
+<div class="container" style="min-height: 10px;">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{% include "GeneralTemplateBundle:Menu:contacts.html.twig" %}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">{{ app.user.name(25) }}</a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">Fiche d'ajout des fonds</a></li>
+		</ol>
+	</div>
+</div>
+</div>
+</div>
+	
+	
+<div class="container">
+	<div class="row mt centered">
+		{% for infos in app.session.flashbag.get('information') %}
+		{% if loop.first %}	
+			<div class="col-md-12">
+				<div class=" alert alert-warning text-left" style="broder-radius: 0px;">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="fa fa-warning"></span> {{ infos|raw }} 
+				</div>	
+			</div>	
+		{% endif %}
+		{% endfor %}
+		
+		<div class="col-md-12">
+		<div id="work" class="panel panel-widget work all_pad" style="padding: 15px 0px;;">
+
+			<div class="alert alert-info" style="text-align: left; ">
+			Téléchargez votre fiche d'ajout des fonds et procédez au transfert via le compte choisi en incluant les frais de retrait (si transaction mobile). 
+
+			<strong style="font-size: 12px;">NB: Le service financier pourra vous demander le N° de cette fiche</strong>
+			</div>
+
+			<div>
+				<a href="{{ path('produit_service_telechargement_fiche_ouverture_dossier', {'id': dossier.id }) }}" class="btn btn-primary" target="_blank" style="text-align: left;"><span class="fa fa-download"></span> Téléchargez votre fiche </a>
+				<div style="border: 2px solid #f2f2f2; border-radius: 2px; margin-top: 15px; height: 700px;">
+					<object data="{{ asset(dossier.getDossierwebpath) }}" type="application/pdf" style="display: block;margin:0;padding:0;border:0;width:100%;height:100%;">
+					<p>Télécharger : <a href="{{ path('produit_service_telechargement_fiche_ouverture_dossier', {'id': dossier.id }) }}">{{ asset(dossier.getDossierwebpath) }}</a></p>
+					</object>
+				</div>
+			</div>
+						
+		   <div class="clearfix"> </div>
+		   <div class="head text-left" style="padding: 7px; background: #ddd; margin: 0px -1px 10px -1px; color: #fff;">
+			<span class="fa fa-money"></span> Tous les modes de payement: <img src="{{ asset('template/images/mtnmobile.jpg') }}" class="img-thumbnail" style="height: 40px; width: 60px;"/> 
+			<img src="{{ asset('template/images/orangemonnaie.png') }}" class="img-thumbnail" style="height: 40px; width: 60px;"/>
+		   </div>
+		   
+		   <div >
+			<!-- special-services -->
+			{% include 'ProduitServiceBundle:Recrutement:menustruct.html.twig' %}
+			
+		   </div>
+		</div>
+		</div>
+	</div>
+</div>
+
+<hr>
+<!-- //mail -->
+
+{% endblock %}
+
+{% block javascripttemplate %}
+
+{% endblock %}

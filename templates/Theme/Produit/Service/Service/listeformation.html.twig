@@ -1,0 +1,181 @@
+
+ <div class="row">
+	{% for formation in liste_formation %}
+	<div class="col-md-6">
+		<div class="lp">
+			<section class="lp__header text-center" style="padding: 7px;">
+				<h1>{{ formation.nom }}</h1>
+			</section>
+			
+			<section class="lp__grid">
+			  <a href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" style="display: block; text-decoration: none; background: url('{% if formation.imgservice != null and formation.imgservice.src != null %}{{ asset(formation.imgservice.getwebpath) }}{% else %}{{ asset('template/images/present.jpg') }}{% endif %}') no-repeat center center;background-size: cover" class="lp__gridItem lp__gridItem__image">
+			  
+				
+			  </a>
+				<div class="lp__gridItem lp__gridItem__text" style="position: sticky;">
+				  <div class="pricing-formation"><strong>{{ formation.nprix }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ formation.aprix }} {{ devise|raw }}</span></div>
+				  <p class="lp__gridItemText-sm" style="font-size: 15px; margin-bottom: 20px; margin-top: 30px;"><span class="fa fa-video-camera"></span> {{ formation.getNbvideos }} vidéos</p>
+				  <h2 class="lp__gridItemText-lg">Formation en ligne</h2>
+				  <p class="lp__gridItemText-md" style="height: 150px;">{{ formation.pubinline[:150] }}..</p>
+				  <p class="lp__gridItemText-sm lp__gridItemText-sm-bw"><strong>Formation: du</strong>  {{ formation.datebegin|slice(0, 2) }} {{ formation.user.mois(formation.datebegin|slice(4, 2)) }} au {{ formation.datefin|slice(0, 2) }} {{ formation.user.mois(formation.datefin|slice(4, 2)) }} {{ formation.datebegin|slice(6, 4) }}</p>
+				</div>
+			</section>
+			<a href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" class="btn btn-primary" style="position: relative; left: 15px; bottom: 15px;">En savoir plus</a>
+		</div>
+	</div>
+	{% else %}
+		<div class="col-md-12">
+			<div class="text-center" style="height: 600px; padding-top: 200px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+				<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+				<hr style="width: 100px; border-bottom: 1px solid red;">
+			</div>
+		</div>
+	{% endfor %}
+  </div>
+
+<div class="clearfix"></div>
+{% set p = page %}
+<div class="afficheresultatrechercheannonce">
+{% if page != nombrepage and nombrepage != 0 %}
+{% set pagesuivante = page + 1 %}
+<div class="panel panel-widget annoncaactionpagesuivant" style="width: 100%; padding: 0px;">
+	<div style="background: transparent; padding: 5px;">
+	</div>
+	<div class="chat-grid widget-shadow" style="text-align: center;">
+	<img src="{{ asset('template/images/wait-user-big.gif') }}" alt="Attente"/>
+	</div>
+	<div style="background: transparent; border-top: 1px solid #fff; padding: 5px;">
+	</div>
+</div>
+{% endif %}
+</div>
+
+<script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
+
+<script type="text/javascript" class="annuler-script-page">
+$(function(){
+
+{% if p != nombrepage and nombrepage != 0 %}
+function plusdevisite()
+{
+var visibility = visibleElement('.annoncaactionpagesuivant');
+
+if(visibility){
+
+ if($('.variation-contenu').attr('value') == 0)
+  {
+  $('.variation-contenu').attr('value',1);
+
+  window.clearInterval(refresch);
+  $.ajax({
+		url : '{{ path('produit_service_all_formation_struct', {'page': pagesuivante}) }}',
+		type : 'POST',
+		dataType : 'html', // On désire recevoir du HTML
+		success : function(data, statut){ // code_html contient le HTML renvoyé
+		  $('.annuler-script-page').replaceWith(' ');
+		  $('.afficheresultatrechercheannonce').replaceWith(data);
+		  $('.variation-contenu').attr('value',0);
+		}
+	});
+  }
+}
+
+}
+refresch = window.setInterval(function() { plusdevisite(); }, 400);
+{% endif %}
+});
+</script>
+	
+{#
+{% for formation in liste_formation %}
+<div class="col-md-12 photoday-grid" style="padding: 3px 7px; margin-bottom: 15px;">
+<div class="message-top" style="padding: 0px 7px; background: #428bca; ">
+	<div class="message-left" style="display: inline-block; width: 100%;">
+	<h3><span class="mdi-action-wallet-membership"></span> {{ formation.nom }}
+	<div class="btn-group pull-right" style="margin-bottom: -20px; margin-top: -10px;">
+	<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; color: #fff;"><span class="fa fa-sort-down"></span></a>
+		<ul class="dropdown-menu pull-right" style="margin-top: 0px; border-radius: 0px;">
+			<li><a href="#!"><span class=" fa fa-info-circle"></span> À propos </a></li>
+			<li class="divider"></li>
+			<li><a href="#!"><span class=" fa fa-check"></span> Formation en ligne et au centre</a></li>
+		</ul>
+	</div>
+	</h3>
+	</div>
+	<div class="clearfix"></div>
+</div>
+<div class="message-bottom">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+<div class="col-md-4">
+<div style="background: #f2f2f2; border-radius: 0px;" class="img-thumbnail">
+<img src="{% if formation.imgservice != null %}{{ asset(formation.imgservice.getwebpath) }}{% else %}{{ asset('template/assets/img/1.jpg') }}{% endif %}" alt="{{ formation.keyword }}"  style="height: 200px; width: 100%; border-radius: 0px;"/>
+</div>
+</div>
+<div class="col-md-8">
+	<div class="message1-left" style="display: inline-block!important; width: 100%;">
+		<h4 style="border-bottom: 1px solid #eea236; padding-bottom: 5px;"><img src="{{ asset('template/images/badgeaz.png') }}" alt="Certificat" class="pull-right" title="Formations certifiantes" style="height: 30px; width: 25px; margin-top: -10px;"/><span class="fa fa-chevron-right" style="color: #eea236;"></span> Formation certifiante au centre et en ligne</h4>
+		{{ formation.detail|raw }}
+		<a href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" class="btn btn-primary pull-right">Démarrez avec cette formation <span class="fa fa-angle-double-right"></span></a>
+	</div>
+	<div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+</div>
+</div>
+</div>
+
+{% else %}
+<div class="alert alert-warning" style="margin-bottom: 50px;">Aucune formation publiée pour le moment !</div>
+{% endfor %}
+
+<div class="clearfix"></div>
+{% set p = page %}
+<div class="afficheresultatrechercheannonce">
+{% if page != nombrepage and nombrepage != 0 %}
+{% set pagesuivante = page + 1 %}
+<div class="panel panel-widget annoncaactionpagesuivant" style="width: 100%; padding: 0px;">
+	<div style="background: transparent; padding: 5px;">
+	</div>
+	<div class="chat-grid widget-shadow" style="text-align: center;">
+	<img src="{{ asset('template/images/wait-user-big.gif') }}" alt="Attente"/>
+	</div>
+	<div style="background: transparent; border-top: 1px solid #fff; padding: 5px;">
+	</div>
+</div>
+{% endif %}
+</div>
+
+<script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
+
+<script type="text/javascript" class="annuler-script-page">
+$(function(){
+
+{% if p != nombrepage and nombrepage != 0 %}
+function plusdevisite()
+{
+var visibility = visibleElement('.annoncaactionpagesuivant');
+if(visibility){
+ if($('.variation-contenu').attr('value') == 0)
+  {
+  $('.variation-contenu').attr('value',1);
+  window.clearInterval(refresch);
+  $.ajax({
+		url : '{{ path('produit_service_all_formation_struct', {'page': pagesuivante}) }}',
+		type : 'POST',
+		dataType : 'html', // On désire recevoir du HTML
+		success : function(data, statut){ // code_html contient le HTML renvoyé
+		  $('.annuler-script-page').replaceWith(' ');
+		  $('.afficheresultatrechercheannonce').replaceWith(data);
+		  $('.variation-contenu').attr('value',0);
+		}
+	});
+  }
+}
+
+}
+refresch = window.setInterval(function() { plusdevisite(); }, 400);
+{% endif %}
+});
+</script>
+
+#}

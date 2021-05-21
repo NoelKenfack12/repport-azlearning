@@ -1,0 +1,34 @@
+			<!--categories-->
+			<div class="categories animated wow fadeInUp animated" data-wow-delay=".5s" >
+					<h3 style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 7px; color: #333;">Catalogue</h3>
+					<ul class="cate" style="margin-bottom: 3px; margin-top: 3px; padding-bottom: 3px; padding-top: 3px;">
+						{% for cat in liste_cat %}
+						<li style="border-bottom: 1px solid #ddd;"><i class="glyphicon glyphicon-stop" ></i> {{ cat.nom }}
+						<ul class="cate" style="margin-bottom: 3px; margin-top: 3px; padding-bottom: 3px; padding-top: 3px;">
+						{% for scat in cat.souscategories %}
+						<li><i class="glyphicon glyphicon-menu-right" ></i>  <a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': scat.id }) }}">{{ scat.nom }} - {{ scat.produits|length }}</a></li>		
+						{% endfor %}
+						</ul>
+						</li>
+						{% endfor %}	
+					</ul>
+			</div>
+		<!--//menu-->
+		<!--price-->
+				<div class="categories animated wow fadeInUp animated" data-wow-delay=".10s" >
+					<h3 style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 7px; color: #333;">Les plus achetés</h3>
+					<ul class="cate">
+						{% for prod in plus_vendu %}
+						<li><i class="glyphicon glyphicon-menu-right" ></i>  <a href="{{ path('produit_produit_detail_produit_market', {'id': prod.id }) }}">{{ prod.nom }}</a></li>
+						{% endfor %}	
+					</ul>	
+				</div>
+				
+				<div class="categories animated wow fadeInUp animated" data-wow-delay=".15s" >
+					<h3 style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 7px; color: #333;">Les plus aimés</h3>
+					<ul class="cate">
+						{% for prod in plus_like %}
+						<li><i class="glyphicon glyphicon-menu-right"></i>  <a href="{{ path('produit_produit_detail_produit_market', {'id': prod.id }) }}">{{ prod.nom }}</a></li>
+						{% endfor %}		
+					</ul>		
+				</div>

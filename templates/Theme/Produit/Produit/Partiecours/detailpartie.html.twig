@@ -1,0 +1,147 @@
+{% if addform == 0 %}
+
+<li class="sidebar-dropdown {% if partie.id == idpartie %}active{% endif %}">
+<a href="#!" class="item-selected">
+	{{ partie.name(30) }} </br>
+	<span>{{ partie.getDureePartie }}</span>
+</a>
+	
+<div class="sidebar-submenu" style="{% if partie.id == idpartie %}display: block;{% endif %}">
+  <ul>
+	{% for chapitre in partie.getRessources %}
+	<li>
+	  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %} sub-item-left-sidebar item-chapter-cours item-chapter-cour-{{ chapitre.id }}">
+		<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
+			<span class="fa fa-circle-thin"></span>
+		</span>
+		
+		{{ chapitre.titre }}<br/>
+		<span>{% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+	  </a>
+	</li>
+	{% endfor %}
+	
+	{% for chapitre in partie.getChapitres %}
+	<li>
+	  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %} sub-item-left-sidebar item-chapter-cours item-chapter-cour-{{ chapitre.id }}">
+		<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
+			<span class="fa fa-circle-thin"></span>
+		</span>
+		
+		{{ chapitre.titre }}<br/>
+		<span>{% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+	  </a>
+	</li>
+	{% endfor %}
+	
+	{% for chapitre in partie.getConclusion %}
+	
+	<li>
+	  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %} sub-item-left-sidebar item-chapter-cours item-chapter-cour-{{ chapitre.id }}">
+		<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
+			<span class="fa fa-circle-thin"></span>
+		</span>
+		
+		{{ chapitre.titre }}<br/>
+		<span>{% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+	  </a>
+	</li>
+	{% endfor %}
+	{% if partie.getRessources|length + partie.getChapitres|length + partie.getConclusion|length ==0 %}
+		<li>
+		  <a href="#!" class="sub-item-left-sidebar">
+			<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
+				<span class="fa fa-circle-thin"></span>
+			</span>
+			
+			Aucune leçon ! <br/>
+			<span>00 min 00 s</span>
+		  </a>
+		</li>
+	{% endif %}
+  </ul>
+</div>
+</li>
+
+
+<li class="sidebar-dropdown">
+<a href="#!" class="item-selected">
+	Mise à jour de la partie.
+</a>
+	
+<div class="sidebar-submenu">
+{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+	<a href="{{ path('produit_produit_add_new_chapter', {'id': partie.id }) }}" class="btn btn-block" style="width: 30%;" title="Ajouter une leçon"><em class="fa fa-plus"></em> </a>
+	<a href="#!" class="btn btn-block modifier-partiecours-{{ partie.id }}" style="width: 30%;" title="Modifier cette partie"><em class="fa fa-edit"></em> </a>
+	<a href="{{ path('produit_produit_supprimer_partie_cours', {'id': partie.id}) }}" class="btn btn-block" style="width: 30%;" title="Supprimer cette partie"><span class="fa fa-times"></span> </a>
+{% endif %}
+</div>
+</li>
+
+{% else %}
+
+
+<div class="modal fade" id="infos-action-modifpartie-{{ partie.id }}" style="margin-top: 100px;">
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-edit"></span> Modification de la partie
+	</h4>
+</div>
+	
+<div class="modal-body" style="background: #fff; color: #333;">
+
+	{{ form_start(formedit, {'attr': {'id': 'modif_new_part_course_'~partie.id, 'class': 'col s12','action': path('produit_produit_modification_partie_cours', {'id': partie.id}) }}) }}
+		<div class="form-group champ2{{ partie.id }}">
+		{{ form_widget(formedit.titre, {'attr': {'class': 'form-control titre_partie_course_modif_'~partie.id}}) }}
+		</div>
+		<div class="alert alertnotif2{{ partie.id }} alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
+		<h4 style="margin-bottom: 0px;">Erreur </h4>
+		Taille invalide !!! <span class="label label-info pull-right control-info-champ2{{ partie.id }}"></span>
+		</div>
+		<div class="form-group champ3{{ partie.id }}">
+		{{ form_widget(formedit.rang, {'attr': {'class': 'form-control number_partie_course_modif_'~partie.id}}) }}
+		</div>
+		<div class="alert alertnotif3{{ partie.id }} alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
+		<h4 style="margin-bottom: 0px;">Erreur </h4>
+		Entier positif !!! <span class="label label-info pull-right control-info-champ3{{ partie.id }}"></span>
+		</div>
+		<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+		{{ form_end(formedit) }}
+</div>
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+maxchamp1 = 70;
+minchamp1 = 3;
+
+$('.modifier-partiecours-{{ partie.id }}').click(function(){
+	$('#infos-action-modifpartie-{{ partie.id }}').modal('show');
+});
+$("#modif_new_part_course_{{ partie.id }}").on("submit", function(){
+if($('.titre_partie_course_modif_{{ partie.id }}').val().length < minchamp1 || $('.titre_partie_course_modif_{{ partie.id }}').val().length > maxchamp1){
+$("div.champ2{{ partie.id }}").addClass("has-error");
+$("div.alertnotif2{{ partie.id }}").show("slow").delay(6000).hide("slow");
+$('.control-info-champ2{{ partie.id }}').html($('.titre_partie_course_modif_{{ partie.id }}').val().length+'/'+maxchamp1);
+$('.titre_partie_course_modif_{{ partie.id }}').focus();
+return false;
+}
+if(!is_int($('.number_partie_course_modif_{{ partie.id }}').val()) || $('.number_partie_course_modif_{{ partie.id }}').val() < 0){
+$("div.champ3{{ partie.id }}").addClass("has-error");
+$("div.alertnotif3{{ partie.id }}").show("slow").delay(6000).hide("slow");
+$('.control-info-champ3{{ partie.id }}').html('Not Int');
+$('.number_partie_course_modif_{{ partie.id }}').focus();
+return false;
+}
+});
+
+</script>
+{% endif %}

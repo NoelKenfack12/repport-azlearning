@@ -1,0 +1,527 @@
+<style>
+	.profile-card {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: 110px 1fr;
+	grid-template-areas:
+	"pc-project-1 pc-project-2 pc-project-3 pc-project-4"
+	"pc-user pc-user pc-user pc-user-buttons";
+	width: 100%;
+	max-height: 380px!important;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0px 0px 50px rgba(63,57,71,.15);
+}
+
+.pc-project {
+	overflow: hidden;
+	position: relative;
+	height: 200px;
+}
+
+/* We define "grid-area" names for the direct child of the grid parent */
+.pc-project-1 {
+	grid-area: pc-project-1;
+	border-radius: 6px 0 0 0;
+}
+
+.pc-project-2 {
+	grid-area: pc-project-2;
+}
+
+.pc-project-3 {
+	grid-area: pc-project-3;
+}
+
+.pc-project-4 {
+	grid-area: pc-project-4;
+	border-radius: 0 6px 0 0;
+}
+
+/* Project thumbnails styling */
+.pc-project-link {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-size: cover;
+	background-position: center center;
+	transition: all .4s ease-in-out;
+}
+
+.pc-project:hover .pc-project-link {
+	transform: scale(1.14);
+}
+
+.pc-project:hover .pc-project-overlay {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0%);
+}
+
+.pc-project-overlay {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(40,27,64,0.6);
+	/*opacity: 0;
+	visibility: hidden;*/
+	transform: translateY(-100%);
+	transition: transform .3s cubic-bezier(.8,0,.5,1.05);
+}
+
+.pc-project-overlay-link {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	width: 40px;
+	height: 40px;
+	background: #E5DFEF;
+	border-radius: 50%;
+	box-shadow: 0 0 10px rgba(259,253,239,0.15);
+	transition: background .2s ease-in-out;
+}
+
+.pc-project-overlay-link:hover {
+	background: #fff;
+}
+
+.pc-project-overlay-link svg {
+	width: 18px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+}
+
+
+/* Direct child of the grid parent. Again we define the name of the "grid-area" porperty */
+.pc-user {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	grid-area: pc-user;
+}
+
+.pc-user-image {
+	padding: 30px 26px 0px 18px;
+	position: relative;
+}
+
+.pc-user-image:before {
+	content: '';
+	position: absolute;
+	top: 100px;
+	left: 200px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: red;
+	border: 4px solid red;
+}
+
+.pc-user-image img {
+	border-radius: 50%;
+	width: 100%;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.pc-user-info {
+	padding: 100px 20px 20px 0;
+}
+
+.pc-user-info > h3 {
+	font-size: 24px;
+	line-height: 1.3em;
+  margin-bottom: 6px;
+}
+
+.pc-user-info > h3 a {
+	color: #241943;
+	text-decoration: none;
+	transition: color .3s ease-in-out;
+}
+
+.pc-user-info > h3 a:hover {
+	color: #432F7A;
+}
+
+.pc-user-title {
+  margin-bottom: 3px;
+}
+
+.pc-user-location {
+	margin-bottom: 20px;
+}
+
+.pc-user-location svg {
+	width: 9px;
+	margin-right: 5px;
+	opacity: 0.4;
+}
+
+.pc-social {
+	list-style-type: none;
+	display: flex;
+}
+
+.pc-social li + li {
+	margin-left: 15px;
+}
+
+.pc-social li svg {
+	max-width: 22px;
+	position: relative;
+	opacity: 0.5;
+	transition: opacity .2s ease-in-out;
+}
+
+.pc-social li a:hover svg {
+	opacity: 1;
+}
+
+/* Again >> direct child of the grid parent. We define the "grid-area" name */
+.pc-user-buttons {
+	grid-area: pc-user-buttons;
+	padding: 100px;
+}
+
+.pc-user-buttons .pc-btn {
+	display: block;
+	padding: 15px 20px;
+	font-size: 13px;
+	font-weight: 600;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 50px;
+	border: 1px solid #E5DFEF;
+	color: #231A3B;
+	transition: background .2s ease-in-out;
+}
+
+.pc-user-buttons .pc-btn:hover {
+	background: #E5DFEF;
+}
+
+.pc-user-buttons .pc-btn.accent {
+	border-color: #4F3FF1;
+	background: #4F3FF1;
+	color: #fff;
+	box-shadow: 0 4px 10px rgba(80,60,240,0.2);	
+}
+
+.pc-user-buttons .pc-btn.accent:hover {
+	background: #483AD7;
+}
+
+.pc-user-buttons .pc-btn + .pc-btn {
+	margin-top: 12px;
+}
+
+/* Responsive styling */
+@media only screen and (max-width: 1024px) {
+	.site {
+		padding: 60px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.site {
+		padding: 25px;
+	}
+	/* Here we define new columns and rows template. Then we rearrange the "grid-area" to match our needs. */
+	.profile-card {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: repeat(auto, 4);
+		grid-template-areas:
+		"pc-project-1 pc-project-2"
+		"pc-project-3 pc-project-4"
+		"pc-user pc-user"
+		"pc-user-buttons pc-user-buttons"	
+	}
+
+	.pc-project-2 {
+		border-radius: 0 6px 0 0;
+	}
+
+	.pc-project-4 {
+		border-radius: 0;
+	}
+
+	.pc-user-image {
+		padding: 18px
+	}
+
+	.pc-user-info {
+		padding: 18px 18px 18px 0;
+	}
+
+	.pc-user-buttons {
+		padding: 0 18px 18px 18px;
+	}
+}
+
+
+.transition-animation {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.icons {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  color: #f1f1f1;
+  line-height: 52px;
+  text-align: center;
+  background-color: #092759;
+}
+.icons:after {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  content: '';
+  box-sizing: content-box;
+}
+/* Hover effect */
+.icon-effect .icons {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.icon-effect .icons:after {
+  top: -7px;
+  left: -7px;
+  padding: 7px;
+  box-shadow: 0 0 0 4px #f1f1f1;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  -o-transform: scale(0.8);
+  transform: scale(0.8);
+  opacity: 0;
+}
+.icon-effect-1a .icons:hover {
+  background-color: #f1f1f1;
+  color: #48a65b;
+}
+.icon-effect-1a .icons:hover:after {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+  opacity: 1;
+}
+
+</style>
+
+<div class="row">
+<div class="col-md-12">
+	<div class="site">
+  <div class="profile-card">
+    <div class="pc-project pc-project-1">
+      <div class="pc-project-link" style="background-image: url('{{ asset('template/images/word.jpg') }}');"></div>
+      <div class="pc-project-overlay">
+        <a href="" class="pc-project-overlay-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.409 6.94">
+            <path id="eye" d="M5.205,68.048a1.157,1.157,0,1,0,0-2.313c-.018,0-.034,0-.052.005a.858.858,0,0,1-1.1,1.1c0,.018-.005.034-.005.052A1.157,1.157,0,0,0,5.205,68.048Zm5.142-.842A5.8,5.8,0,0,0,5.205,64,5.8,5.8,0,0,0,.063,67.206a.585.585,0,0,0,0,.528A5.8,5.8,0,0,0,5.205,70.94a5.8,5.8,0,0,0,5.142-3.206.585.585,0,0,0,0-.528ZM5.205,64.578a2.313,2.313,0,1,1-2.313,2.313A2.313,2.313,0,0,1,5.205,64.578Zm0,5.783A5.209,5.209,0,0,1,.579,67.47a5.327,5.327,0,0,1,2.345-2.337A2.887,2.887,0,1,0,8.1,66.891a2.865,2.865,0,0,0-.61-1.759A5.327,5.327,0,0,1,9.832,67.47,5.209,5.209,0,0,1,5.205,70.361Z" transform="translate(-0.001 -64)" fill="#231a3b"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="pc-project pc-project-2">
+      <div class="pc-project-link" style="background-image: url('{{ asset('template/images/powerpoint.jpg') }}');"></div>
+      <div class="pc-project-overlay">
+        <a href="" class="pc-project-overlay-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.409 6.94">
+            <path id="eye" d="M5.205,68.048a1.157,1.157,0,1,0,0-2.313c-.018,0-.034,0-.052.005a.858.858,0,0,1-1.1,1.1c0,.018-.005.034-.005.052A1.157,1.157,0,0,0,5.205,68.048Zm5.142-.842A5.8,5.8,0,0,0,5.205,64,5.8,5.8,0,0,0,.063,67.206a.585.585,0,0,0,0,.528A5.8,5.8,0,0,0,5.205,70.94a5.8,5.8,0,0,0,5.142-3.206.585.585,0,0,0,0-.528ZM5.205,64.578a2.313,2.313,0,1,1-2.313,2.313A2.313,2.313,0,0,1,5.205,64.578Zm0,5.783A5.209,5.209,0,0,1,.579,67.47a5.327,5.327,0,0,1,2.345-2.337A2.887,2.887,0,1,0,8.1,66.891a2.865,2.865,0,0,0-.61-1.759A5.327,5.327,0,0,1,9.832,67.47,5.209,5.209,0,0,1,5.205,70.361Z" transform="translate(-0.001 -64)" fill="#231a3b"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="pc-project pc-project-3">
+      <div class="pc-project-link" style="background-image: url('{{ asset('template/images/excel.jpg') }}');"></div>
+      <div class="pc-project-overlay">
+        <a href="" class="pc-project-overlay-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.409 6.94">
+            <path id="eye" d="M5.205,68.048a1.157,1.157,0,1,0,0-2.313c-.018,0-.034,0-.052.005a.858.858,0,0,1-1.1,1.1c0,.018-.005.034-.005.052A1.157,1.157,0,0,0,5.205,68.048Zm5.142-.842A5.8,5.8,0,0,0,5.205,64,5.8,5.8,0,0,0,.063,67.206a.585.585,0,0,0,0,.528A5.8,5.8,0,0,0,5.205,70.94a5.8,5.8,0,0,0,5.142-3.206.585.585,0,0,0,0-.528ZM5.205,64.578a2.313,2.313,0,1,1-2.313,2.313A2.313,2.313,0,0,1,5.205,64.578Zm0,5.783A5.209,5.209,0,0,1,.579,67.47a5.327,5.327,0,0,1,2.345-2.337A2.887,2.887,0,1,0,8.1,66.891a2.865,2.865,0,0,0-.61-1.759A5.327,5.327,0,0,1,9.832,67.47,5.209,5.209,0,0,1,5.205,70.361Z" transform="translate(-0.001 -64)" fill="#231a3b"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="pc-project pc-project-4">
+      <div class="pc-project-link" style="background-image: url('https://mir-s3-cdn-cf.behance.net/projects/404/a440e659961547.Y3JvcCw4MTAsNjM0LDAsMA.jpg');"></div>
+      <div class="pc-project-overlay">
+        <a href="" class="pc-project-overlay-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.409 6.94">
+            <path id="eye" d="M5.205,68.048a1.157,1.157,0,1,0,0-2.313c-.018,0-.034,0-.052.005a.858.858,0,0,1-1.1,1.1c0,.018-.005.034-.005.052A1.157,1.157,0,0,0,5.205,68.048Zm5.142-.842A5.8,5.8,0,0,0,5.205,64,5.8,5.8,0,0,0,.063,67.206a.585.585,0,0,0,0,.528A5.8,5.8,0,0,0,5.205,70.94a5.8,5.8,0,0,0,5.142-3.206.585.585,0,0,0,0-.528ZM5.205,64.578a2.313,2.313,0,1,1-2.313,2.313A2.313,2.313,0,0,1,5.205,64.578Zm0,5.783A5.209,5.209,0,0,1,.579,67.47a5.327,5.327,0,0,1,2.345-2.337A2.887,2.887,0,1,0,8.1,66.891a2.865,2.865,0,0,0-.61-1.759A5.327,5.327,0,0,1,9.832,67.47,5.209,5.209,0,0,1,5.205,70.361Z" transform="translate(-0.001 -64)" fill="#231a3b"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="pc-user" >
+      <div class="pc-user-image">
+        <a href="{{ path('users_user_user_accueil', {'id': user.id}) }}">
+          <img src="{% if user.imgprofil != null %}{{ asset(user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="{{ user.name(20) }}" style="height: 250px;"/>
+        </a>
+      </div>
+      <div class="pc-user-info">
+        <h3><a href="{{ path('users_user_user_accueil', {'id': user.id}) }}">{{ user.name(20) }}</a></h3>
+        <div class="pc-user-title">
+          <strong>{% if user.diplome != null %} {{ user.diplome }}{% else %}Formateur Az{% endif %}</strong>
+        </div>
+        <div class="pc-user-location">
+          {% if user.message != null %}{{ user.message|raw }}{% else %}Mon message à mes étudiant(e)s{% endif %}
+        </div>
+		
+		<ul class="pc-social icon-effect icon-effect-1a" style="position: absolute; bottom: -10px;">
+		  <li><a href="#" class="icons"><i class="fa fa-facebook"></i></a></li>
+		  <li><a href="#" class="icons"><i class="fa fa-twitter"></i></a></li>
+		  <li><a href="#" class="icons"><i class="fa fa-linkedin"></i></a></li>
+		  <li><a href="#" class="icons"><i class="fa fa-youtube"></i></a></li>
+		</ul>  
+
+      </div>
+    </div>
+    <div class="pc-user-buttons">
+	  {% if app.user == user %}
+		<a href="{{ path('users_user_accueil_commande_user', {'id': app.user.id }) }}" class="pc-btn" style="width: 200px; bottom: 30px; position: absolute; right: 25px;">Formations à suivre</a>
+	  {% else %}
+		<a href="#" class="pc-btn" style="width: 200px; bottom: 30px; position: absolute; right: 25px;">Envoyer un message</a>
+	  {% endif %}
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+
+
+{#
+<div class="row mt centered">	
+<div class="col-md-12" style="padding: 3px 7px;">
+	<div id="profile-page-header" class="card">
+	<div class="card-image waves-effect waves-block waves-light">
+		<img class="activator" src="{% if user.imgcouverture != null %}{{ asset(user.imgcouverture.getwebpath) }}{% else %}{{ asset('template/images/user-bg.jpg') }}{% endif %}" alt="user background" style="height: 170px;">                    
+	</div>
+	<figure class="card-profile-image" style="position: absolute; z-index: 1; top: 180px; left: 15px;">
+		<img src="{% if user.imgprofil != null %}{{ asset(user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="profile image" class="circle z-depth-2 responsive-img activator" style="width: 120px; height: 120px; border-radius: 60px;">
+	</figure>
+	<div class="card-content">
+	  <div class="row">                    
+		<div class="col s3 offset-s2">                        
+			<h4 class="card-title grey-text text-darken-4">{{ user.name(20) }}</h4>
+			<p class="medium-small grey-text">{% if user.diplome != null %} {{ user.diplome }}{% else %}Formateur Az{% endif %}</p>                        
+		</div>
+		<div class="col s2 center-align">
+			<a href="#cours-courant-user" class="page-scroll-to"><h4 class="card-title grey-text text-darken-4">{{ liste_produit|length }}</h4>
+			<p class="medium-small grey-text">Cours complets</p>  </a>                      
+		</div>
+		<div class="col s2 center-align">
+			{% if app.user == user %}
+			<a href="{{ path('users_user_accueil_commande_user', {'id': user.id }) }}"><h4 class="card-title grey-text text-darken-4">{{ liste_panier|length }}</h4>
+			<p class="medium-small grey-text">Formations en cours</p></a>  
+			{% else %}
+			<a href="mailto:{% if user.mailformateur != null %} {{ user.mailformateur }}{% else %}{{ email }}{% endif %}"><h4 class="card-title grey-text text-darken-4"><span class="glyphicon glyphicon-send"></span></h4>
+			<p class="medium-small grey-text">{% if user.mailformateur != null %} {{ user.mailformateur }}{% else %}Email{% endif %}</p></a> 
+			{% endif %}
+		</div>                    
+		<div class="col s2 center-align">
+			
+			{% if app.user == user %}
+			<a href="{{ path('users_user_modifier_profil', {'id': user.id }) }}"><h4 class="card-title grey-text text-darken-4"><i class="mdi-maps-rate-review" style="margin-left: 0px; margin-top: -10px;"></i></h4>
+			<p class="medium-small grey-text">Modifier le profil</p></a>  
+			{% else %}
+			<a href="#!" class="affichephone"><h4 class="card-title grey-text text-darken-4"><span class="mdi-action-settings-phone"></span></h4>
+			<p class="medium-small grey-text">{% if user.telpublic != null %}{% if user.tel != null %}{{ user.tel }}{% else %}Téléphone{% endif %}{% else %}Téléphone{% endif %}</p></a> 
+			{% endif %}
+		</div>                    
+		<div class="col s1 right-align">
+		  <a class="btn-floating activator waves-effect waves-light darken-2 right" style="margin-top: 20px;">
+			  <i class="mdi-action-perm-identity" style="margin-left: 0px; margin-top: -10px;"></i>
+		  </a>
+		</div>
+	  </div>
+	</div>
+	<div class="card-reveal text-left">
+		<p>
+		  <span class="card-title grey-text text-darken-4">{{ user.name(20) }} <i class="mdi-navigation-close right"></i></span>
+		  <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> {% if user.diplome != null %} {{ user.diplome }}{% else %}Formateur Az{% endif %}</span>
+		</p>
+
+		<p>{% if user.message != null %}{{ user.message|raw }}{% endif %}</p>
+		
+		<p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> {% if user.telpublic != null %}{% if user.tel != null %}{{ user.tel }}{% else %}{{ telephone }}{% endif %}{% else %}{{ telephone }}{% endif %}</p>
+	</div>
+</div>
+</div>
+
+{% if user.message != null %}
+<div class="col-md-12 photoday-grid" style="padding: 3px 7px; margin-top: 10px;">
+<div class="panel panel-default" style="margin-top: 15px; text-align: justify; padding: 7px; border-radius: 0px;">
+
+<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> {{ user.poste }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+	<div class="content-panel-1">
+		{{ user.message|raw }}
+	</div>
+</div>
+</div>
+{% endif %}
+</div><!-- /row -->
+
+<script type="text/javascript">
+$('.open-content').click(function(){
+	$('.content-panel-'+$(this).attr('name')).toggle('slow');
+	if($(this).attr('value') == 'down')
+	{
+		$(this).attr('value','up');
+		$('.open-content[name='+$(this).attr('name')+']').html('<span class="mdi-hardware-keyboard-arrow-right"></span>');
+	}else{
+		$(this).attr('value','down');
+		$('.open-content[name='+$(this).attr('name')+']').html('<span class="mdi-hardware-keyboard-arrow-down"></span>');
+	}
+});
+
+$('a.page-scroll-to').click(function() {
+if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+  var target = $(this.hash);
+  target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+  if (target.length) {
+	$('html,body').animate({
+	  scrollTop: target.offset().top - 40
+	}, 900);
+	return false;
+  }
+}
+});
+
+$('.affichephone').click(function(){
+	$('.infos-action-effectuer').html('<div>Joindre {{ user.name(30) }} via le numéro:</div> <span class="mdi-action-settings-phone"></span> {% if user.telpublic != null %}{% if user.tel != null %}{{ user.tel }}{% else %}{{ telephone }}{% endif %}{% else %}{{ telephone }}{% endif %}');
+	$('#infos-action-effectuer').modal('show');
+});
+</script>
+
+#}

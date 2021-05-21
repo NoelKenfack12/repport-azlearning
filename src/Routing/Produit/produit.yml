@@ -1,0 +1,333 @@
+produit_produit_liste_produit_souscategorie:
+    path: /liste/cours/module/{id}/{page}
+    controller: App\Controller\Produit\Produit\ProduitController::listeproduituser
+    defaults:
+        id: 0
+        page: 1
+    requirements:
+        id: \d+
+        page: \d+
+produit_produit_module_deformation:
+    path: /catalogue/cours
+    controller: App\Controller\Produit\Produit\ProduitController::moduleformation
+produit_produit_ajouter_nouveau_produit:
+    path: /user/ajouter/nouveau/cours
+    controller: App\Controller\Produit\Produit\ProduitController::ajouterproduit
+produit_produit_check_corant_tickect:
+    path: /check/corant/tickect
+    controller: App\Controller\Produit\Produit\ProduitController::checkticket
+produit_produit_modification_produit_controller:
+    path: /user/modification/cours/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::modifierproduit
+    requirements:
+        id: \d+
+produit_produit_detail_produit_market:
+    path: /detail/cours/{id}/{mess}
+    controller: App\Controller\Produit\Produit\ProduitController::detailproduit
+    defaults:
+        mess: 0
+    requirements:
+        id: \d+
+        mess: \d+
+produit_produit_add_new_partie_cours:
+    path: /user/add/new/partie/cours/{id}
+    controller: App\Controller\Produit\Produit\PartiecoursController::addpartiecours
+    requirements:
+        id: \d+
+produit_produit_modification_partie_cours:
+    path: /user/modification/partie/cours/{id}
+    controller: App\Controller\Produit\Produit\PartiecoursController::modificationpartiecours
+    requirements:
+        id: \d+
+produit_produit_supprimer_partie_cours:
+    path: /user/supprimer/partie/cours/{id}
+    controller: App\Controller\Produit\Produit\PartiecoursController::supprimerpartiecours
+    requirements:
+        id: \d+
+produit_produit_add_quartier_ville:
+    path: /market/add/quartier/ville/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::addquartierville
+    requirements:
+        id: \d+
+produit_produit_inscription_user_produit:
+    path: /market/inscription/user/produit/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::inscriptionuser
+    requirements:
+        id: \d+
+produit_produit_connexion_user_produit_indent:
+    path: /market/connexion/user/produit/indent/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::connexionuser
+    requirements:
+        id: \d+
+produit_produit_like_courant_product:
+    path: /like/courant/product
+    controller: App\Controller\Produit\Produit\ProduitController::likeproduct
+produit_produit_remove_sujet_epingle:
+    path: /remove/sujet/epingle
+    controller: App\Controller\Produit\Produit\ProduitController::removeepingle
+produit_produit_add_mention_animation_produit:
+    path: /add/mention/animation/produit/{id}/{position}
+    controller: App\Controller\Produit\Produit\AnimationproduitController:addmentionanimation
+    defaults:
+        position: ''
+    requirements:
+        id: \d+
+produit_produit_ajouter_product_panier:
+    path: /user/ajouter/product/panier/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::ajouterpanier
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+produit_produit_add_chapitre_panier_user:
+    path: /user/add/chapter/panier/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::ajouterpanier
+    requirements:
+        id: \d+
+produit_produit_add_panier_produit:
+    path: /add/panier/produit/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::addpanier
+    requirements:
+        id: \d+
+produit_produit_reglement_commande_du_panier:
+    path: /reglement/commande/dupanier/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::reglementcommande
+    requirements:
+        id: \d+
+produit_produit_editer_courant_commande:
+    path: /edit/courant/commande
+    controller: App\Controller\Produit\Produit\ProduitController::editcommande
+    requirements:
+        id: \d+
+produit_produit_elever_produit_commande:
+    path: /enleve/produit/commande/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::eleveproduit
+    requirements:
+        id: \d+
+produit_produit_recherche_new_produit:
+    path: /recherche/new/produit
+    controller: App\Controller\Produit\Produit\ProduitController::rechercheproduit
+produit_produit_valider_payement_ticket:
+    path: /valider/payement/ticket/user/{id}
+    controller: App\Controller\Produit\Produit\PanierController::validationpayement
+    requirements:
+        id: \d+
+produit_produit_modifier_lieu_livraison:
+    path: /modifier/lieu/livraison/panier/{id}
+    controller: App\Controller\Produit\Produit\PanierController::modifierlieulivraison
+    requirements:
+        id: \d+
+produit_produit_accueil_boutique_produit:
+    path: /nos/cours/{page}
+    controller: App\Controller\Produit\Produit\ProduitController::accueilboutique
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+produit_produit_add_new_chapter:
+    path: /user/add/new/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::addnewchapter
+    requirements:
+        id: \d+
+produit_produit_presentation_chapter:
+    path: /presentation/chapter/{id}/{mess}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::presentationchapter
+    defaults:
+        mess: 0
+    requirements:
+        id: \d+
+        mess: \d+
+produit_produit_user_modif_chapter:
+    path: /user/modifier/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::modifierchapter
+    requirements:
+        id: \d+
+produit_produit_user_supprimer_chapter:
+    path: /user/supprimer/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::supprimerchapter
+    requirements:
+        id: \d+
+structure_pubquartier_delete_image_produit_en_vente:
+    path: /user/delete/image/produit/en/vente
+    controller: App\Controller\Produit\Produit\ProduitController::deleteimageproduit
+produit_produit_telecherger_panier:
+    path: /telechergement/facture/{id}
+    controller: App\Controller\Produit\Produit\PanierController::telechargerpanier
+    requirements:
+        id: \d+
+produit_produit_download_video_chapter:
+    path: /user/download/video/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::downloadvideochapitre
+    requirements:
+        id: \d+
+produit_produit_ajout_nouveau_support_chapter:
+    path: /user/ajout/nouveau/support/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::ajoutnouveausupport
+    requirements:
+        id: \d+
+produit_produit_modif_support_courant_chapter:
+    path: /user/modif/support/courant/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::modifsupportchapter
+    requirements:
+        id: \d+
+produit_produit_telecharger_support_chapter:
+    path: /user/telecharger/support/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::telechargersupport
+    requirements:
+        id: \d+
+produit_produit_supprimer_support_chapter:
+    path: /user/supprimer/support/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::supprimersupport
+    requirements:
+        id: \d+
+produit_produit_ajout_new_travaux_pratique:
+    path: /user/ajout/new/travaux/pratique/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::ajoutnewtravauxpratique
+    requirements:
+        id: \d+
+produit_produit_modif_exercice_chapter_current:
+    path: /user/modif/exercice/chapter/current/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::modifexercicechapter
+    requirements:
+        id: \d+
+produit_download_correction_exercice_chapter:
+    path: /user/download/correction/exercice/chapter/{id}/{prodpan}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::downloadcorrectionexo
+    requirements:
+        id: \d+
+        prodpan: \d+
+produit_telecharg_correction_tp_chapter:
+    path: /user/elecharg/correction/tp/chapter/{id}/{prodpan}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::telechargcorrectiontp
+    requirements:
+        id: \d+
+        prodpan: \d+
+produit_produit_download_travaux_pratique:
+    path: /user/download/travaux/pratique/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::telechargertp
+    requirements:
+        id: \d+
+produit_produit_suppression_travaux_pratique:
+    path: /user/suppression/travaux/pratique/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::suppressiontp
+    requirements:
+        id: \d+
+produit_produit_ajout_new_exercice:
+    path: /user/ajouter/exercice/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::ajouterexercice
+    requirements:
+        id: \d+
+produit_produit_telecharge_exercice:
+    path: /user/telecharge/exercice/chapter/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::downloadexercice
+    requirements:
+        id: \d+
+produit_produit_supprime_exercice:
+    path: /user/supprime/exercice/{id}
+    controller: App\Controller\Produit\Produit\ChapitrecoursController::supprimeexercice
+    requirements:
+        id: \d+
+produit_produit_user_nouvelle_question_chapter:
+    path: /user/nouvelle/question/{id}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::nouvellequestion
+    requirements:
+        id: \d+
+produit_produit_user_liste_propos_questionnaire:
+    path: /user/liste/propos/questionnaire/{id}/{src}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::questionnairenotion
+    defaults:
+        src: 0
+    requirements:
+        id: \d+
+        src: \d+
+produit_produit_user_ajouter_new_proposition_question:
+    path: /user/ajouter/new/proposition/question/{id}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::addnewproposition
+    requirements:
+        id: \d+
+produit_produit_question_update_reponse:
+    path: /user/question/update/reponse/{id}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::updatereponse
+    requirements:
+        id: \d+
+produit_produit_liste_questionnaire_composition_chapter:
+    path: /liste/questionnaire/composition/chapter/{id}/{idpropan}/{src}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::composquestionnaire
+    defaults:
+        src: 0
+    requirements:
+        id: \d+
+        idpropan: \d+
+        src: \d+
+produit_produit_valider_questionnaire_courant_chapter:
+    path: /user/valider/questionnaire/courant/chapter/{id}/{prodpan}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::validationquestionnaire
+    requirements:
+        id: \d+
+        prodpan: \d+
+produit_produit_composition_update_compos_questionnaire:
+    path: /user/composition/update/compos/questionnaire/{id}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::updatecomposition
+    requirements:
+        id: \d+
+produit_produit_supprimer_proposition_question:
+    path: /user/supprimer/proposition/question/{id}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::supprimerproposition
+    requirements:
+        id: \d+
+produit_produit_validate_courant_question:
+    path: /user/validate/courant/question/{id}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::validatequestion
+    requirements:
+        id: \d+
+produit_produit_user_delete_questionnaire:
+    path: /user/delete/questionnaire/{id}
+    controller: App\Controller\Produit\Produit\QuestionnaireController::deletequestionnaire
+    requirements:
+        id: \d+
+produit_produit_download_video_cours:
+    path: /download/video/cours/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::downloadvideocours
+    requirements:
+        id: \d+
+produit_produit_guide_formateur:
+    path: /user/guide/formateur/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::guideformateur
+    requirements:
+        id: \d+
+produit_produit_auto_recherche_cours_target:
+    path: /user/auto/recherche/cours/target/{taille}
+    controller: App\Controller\Produit\Produit\ProduitController::autorecherchecours
+    defaults:
+        taille: 300
+    requirements:
+        taille: \d+
+produit_produit_show_formation_scat:
+    path: /show/formation/scat/{id}/{ident}
+    controller: App\Controller\Produit\Produit\SouscriptionformationController::showformations
+    defaults:
+        ident: 0
+    requirements:
+        id: \d+
+        ident: \d+
+produit_produit_async_ressources_formation_dwld:
+    path: /async/ressources/formation/dwld/{type}/{id}/{idprodpan}/{mess}
+    controller: App\Controller\Produit\Produit\SouscriptionformationController::asyncressourcesdwld
+    defaults:
+        idprodpan: 0
+        mess: 0
+    requirements:
+        id: \d+
+        idprodpan: \d+
+        mess: \d+
+produit_produit_update_recommandation_current_user:
+    path: /update/recommandations/current/user
+    controller: App\Controller\Produit\Produit\CataloguechantierController::updaterecommandations
+produit_produit_confirmation_lectrure_video_chapitre:
+    path: /confirmation/lectrure/video/chapitre/{id}/{idprodpan}
+    controller: App\Controller\Produit\Produit\AnimationproduitController:confirmationlectrure
+    defaults:
+        idprodpan: 0
+    requirements:
+        id: \d+
+        idprodpan: \d+

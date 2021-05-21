@@ -1,0 +1,142 @@
+produit_service_contact_us:
+    path: /nous/contacter
+    controller: App\Controller\Produit\Service\MessageController::contactus
+produit_service_apropos_denous:
+    path: /apropos/denous
+    controller: App\Controller\Produit\Service\AproposController::aproposdenous
+produit_service_gallery_struct:
+    path: /gallery/struct
+    controller: App\Controller\Produit\Service\InfoentrepriseController::gallerystruct
+produit_service_azelearning_faq:
+    path: /azelearning/faq
+    controller: App\Controller\Produit\Service\InfoentrepriseController::azelearningfaq
+produit_service_videos_struct:
+    path: /videos/struct
+    controller: App\Controller\Produit\Service\InfoentrepriseController::videosstruct
+produit_service_assistance_entreprise:
+    path: /presentation/formation/{id}
+    controller: App\Controller\Produit\Service\ServiceController::presentationformation
+    requirements:
+        id: \d+
+produit_service_yourcv_recrutement:
+    path: /user/crediter/compte
+    controller: App\Controller\Produit\Service\RecrutementController:votredossier
+produit_service_souscription_programme_formateur:
+    path: /user/souscription/programme/formateur
+    controller: App\Controller\Produit\Service\RecrutementController:souscriptionprogramme
+produit_service_dossier_derecrutement_user:
+    path: /dossier/user/ouverture/dossier/recherche/{id}
+    controller: App\Controller\Produit\Service\RecrutementController:affichedossieruser
+    requirements:
+        id: \d+
+produit_service_telechargement_fiche_ouverture_dossier:
+    path: /telechargement/fiche/ouverture/dossier/{id}
+    controller: App\Controller\Produit\Service\RecrutementController:telechargerlettre
+    requirements:
+        id: \d+
+produit_service_key_of_product_authentification:
+    path: /key/of/product/authentification
+    controller: App\Controller\Produit\Service\CurentwebsiteController::curentwebsite
+produit_service_affiche_contenu_detaille_article_blog:
+    path: /affiche/contenu/detaill/article/blog/{id}
+    controller: App\Controller\Produit\Service\ServiceController::affichearticle
+    requirements:
+        id: \d+
+produit_service_ajouter_commentaire_article_user:
+    path: /sujets/forum/{id}/{page}/{addProduct}
+    controller: App\Controller\Produit\Service\ServiceController::ajoutersujetforum
+    defaults:
+        page: 0
+        addProduct: 1
+    requirements:
+        id: \d+
+        page: \d+
+        addProduct: \d+
+produit_service_interventions_sujets_courant:
+    path: /interventions/sujets/courant/{id}/{page}
+    controller: App\Controller\Produit\Service\ServiceController::interventionsujet
+    defaults:
+        page: 1
+    requirements:
+        id: \d+
+        page: \d+
+produit_service_supprimer_commentaire_courant_article:
+    path: /supprimer/commentaire/courant/article/{id}
+    controller: App\Controller\Produit\Service\ServiceController::supprimercommentaire
+    requirements:
+        id: \d+
+produit_service_delete_intervention_sujet:
+    path: /delete/intervention/sujet/{id}
+    controller: App\Controller\Produit\Service\ServiceController::deleteintervention
+    requirements:
+        id: \d+
+produit_service_toute_actualite_entreprise:
+    path: /formateurs/{page}
+    controller: App\Controller\Produit\Service\ServiceController::formateurstruct
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+produit_service_search_recommandations_user:
+    path: /search/recommandations/user
+    controller: App\Controller\Produit\Produit\CataloguechantierController::searchrecommandations
+produit_service_liste_formateur_struct:
+    path: /liste/formateurs/struct/{page}
+    controller: App\Controller\Produit\Service\ServiceController::listeformateur
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+produit_service_download_video_formation:
+    path: /download/video/formation/{id}
+    controller: App\Controller\Produit\Service\ServiceController::downloadvideoformation
+    requirements:
+        id: \d+
+produit_service_visiter_notre_blog:
+    path: /formations/{page}
+    controller: App\Controller\Produit\Service\ServiceController::nosformations
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+produit_service_all_formation_struct:
+    path: /all/formations/struct/{page}
+    controller: App\Controller\Produit\Service\ServiceController::listeformation
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+produit_service_add_formation_panier:
+    path: /user/add/formation/panier/{id}
+    controller: App\Controller\Produit\Service\ServiceController::addformationpanier
+    requirements:
+        id: \d+
+produit_service_forum_site:
+    path: /az/forum
+    controller: App\Controller\Produit\Service\ServiceController::accueilforum
+produit_service_recherche_forum:
+    path: /service/recherche/forum/{donnee}{page}
+    controller: App\Controller\Produit\Service\ServiceController::rechercheforum
+    defaults:
+        page: 1
+        donnee: ''
+    requirements:
+        page: \d+
+produit_service_post_message_produit_formateur:
+    path: /post/message/produit/formateur/{id}/{type}/{idmessage}
+    controller: App\Controller\Produit\Service\CommentaireblogController::postmessageproduit
+    defaults:
+        idmessage: 1
+    requirements:
+        id: \d+
+        idmessage: \d+
+produit_service_add_new_reponse_message:
+    path: /add/new/reponse/message/{id}/{type}
+    controller: App\Controller\Produit\Service\CommentaireblogController::addnewreponse
+    requirements:
+        id: \d+
+produit_service_liste_message_user:
+    path: /liste/message/user/{id}
+    controller: App\Controller\Produit\Service\CommentaireblogController::listemessage
+    requirements:
+        id: \d+

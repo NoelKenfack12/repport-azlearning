@@ -1,0 +1,125 @@
+{% extends "UsersUserBundle::layoutuser.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Boutique,e-commerce, bonnes affaires au Cameroun, actualité immobilière, immobilier, location, vente, annonces immobilière, appartements, duplex, villas, studios, terrains, chambres,consils immobilier, terrain à vendre Cameroun, maisons à louer au cameroun, appartements à louer au cameroun"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }}, Conditions d'utilisations des services - {{ metier }}" />
+{% endblock %}
+{% block title %}
+{{ parent() }} | {{ site }}, Conditions d'utilisations des services - {{ metier }}
+{% endblock %}
+{% block userblog_body %}
+
+<!-- welcome section -->
+<section class="welcome" style="padding-top: 50px; padding-bottom: 20px; margin-top: 100px;">
+<h3 style="padding: 0px 25px; color: #fff;"><span class="fa fa-stop"></span> Entreprise <span class="fa fa-angle-double-right"></span> Conditions d'utilisations</h3>
+</section>
+<!-- /welcome section -->
+
+<!-- pricing section -->
+<section class="team" style="padding-top: 20px; border-top: 1px solid #ddd; margin-bottom: 200px; background: #f5f5f5;">
+	<div class="container" style="padding: 15px; width: 98%; margin-right: 30px;">
+		<div class="row pull-right">
+		<div class="col-lg-12 animecourant-panel">
+		</div>
+
+		<div class="col-md-8 panel panel-widget" style="text-align: left;">		
+		 <div style="text-align:left;">
+			<div class="skill-wrap clearfix" style="margin: 15px 0px;">
+			{% for infos in app.session.flashbag.get('information') %}
+			{% if loop.first %}	
+				<div class="alert alert-warning" style="broder-radius: 0px;"><span class="fa fa-warning"></span> {{ infos|raw }}</div>	
+			{% endif %}
+			{% endfor %}
+			
+			<a href="#!" class="btn btn-primary btn-block" style="border-radius: 0px;text-align: left;"><span class="fa fa-money"></span> Procédez au payement des frais de réservation en faisant un dépot sur l'un des comptes ci-dessus.</a>
+			<div style="border: 2px solid #f2f2f2; border-radius: 2px; margin-top: 15px; height: 650px;">
+				<object data="{{ asset(panier.getwebpath) }}" type="application/pdf" style="display: block;margin:0;padding:0;border:0;width:100%;height:100%;">
+				<p>Télécharger : <a href="{{ path('produit_produit_telecherger_panier', {'id': panier.id }) }}">{{ asset(panier.getwebpath) }}</a></p>
+				</object>
+			</div>
+
+			</div>
+		</div>
+	   <div class="clearfix"> </div>
+			   
+		</div>
+		<div class="col-md-4">
+		<div class="filtr-container toutleblock">
+			
+		{% include 'UsersUserBundle:User:lienutile.html.twig' %}
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 stop-courant-panel">
+						
+		</div>
+		</div>
+		</div>
+		</div>
+</div>
+</section>
+<!-- /pricing section -->
+<script src="{{ asset('mcs/js/onvisible.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+
+{% block javascripttemplate %}
+
+var bouge = 1;
+var dimension = 200;
+function activateelement()
+{
+var visibility = visibleElement('.animecourant-panel');
+
+if(visibility && bouge == 0){
+	bouge = 1;
+	$('.toutleblock').css('position','relative');
+	$('.toutleblock').css('bottom','0px');
+	$('.toutleblock').css('margin-bottom','0px');
+}
+}
+
+function stopelement()
+{
+var visibility = visibleElement('.stop-courant-panel');
+if(visibility && bouge == 1){
+	if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+	{
+	
+	}else{
+	bouge = 0;
+	$('.toutleblock').css('position','fixed');
+	$('.toutleblock').css('width',dimension+'px');
+	$('.toutleblock').css('bottom','7px');
+	$('.toutleblock').css('margin-bottom','50px');
+	}
+}
+}
+
+var idStopelement = 0;
+var idActivateelement = 0;
+function controlScroll()
+{
+	var largeur = ($(window).width());
+	dimension = $('.toutleblock').width();
+	if (largeur >= 768)
+	{
+	   /*
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+		
+		$('.toutleblock').css('position','fixed');
+		$('.toutleblock').css('width',dimension+'px'); 
+		}else{ 
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+		} */
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+	}
+}
+
+controlScroll();
+$('.active').removeClass('active');
+$('.menu-entreprise').addClass('active');
+
+{% endblock %}

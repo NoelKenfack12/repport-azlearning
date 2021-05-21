@@ -1,0 +1,114 @@
+{% extends "Theme/Users/User/layouthome.html.twig" %}
+
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, formateurs, enseignants, éducateurs, travaux pratiques, exercices corrigés, formations"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} - {{ metier }} - liste des formateurs {{ site }}."/>
+	
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - Cours {{ cat.nom }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block userblog_body %}
+	
+<div class="container" style="min-height: 10px;">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{% include "Theme/General/Template/Menu/contacts.html.twig" %}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">Cours</a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">{{ cat.nom }}</a></li>
+		</ol>
+	</div>
+</div>
+</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
+				<h2>{{ cat.nom }}</h2>
+				<p>{{ cat.description }}</p>
+			</div>
+		</div>
+	  </div>
+	  
+	<div class="row">
+		{{ render(controller("App\\Controller\\Produit\\Produit\\SouscriptionformationController:souscriptionformation", {'id': cat.id })) }}
+		
+		{#
+		<div class="col-lg-12">
+			{% if nombrepage > 0  %}
+
+			{% if page > 1 and page <= nombrepage %}
+			{% set pagepre = page - 1 %}
+			{% else %}
+			{% set pagepre = nombrepage %}
+			{% endif %}
+
+			{% if page < nombrepage %}
+			{% set pagesuiv = page + 1 %}
+			{% else %}
+			{% set pagesuiv =  1 %}
+			{% endif %}
+
+			<ul class="pagination pull-right">
+				<li><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': scat.id, 'page': pagepre }) }}" ><<</a></li>
+				{% for p in 1..nombrepage %}
+				<li value="{{ p }}" class="{% if p == page %}active{% endif %}"><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': scat.id, 'page': p }) }}">{{ p }}</a></li>
+				{% endfor %}
+				<li><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': scat.id, 'page': pagesuiv }) }}">>></a></li>
+			</ul>
+			
+			{% endif %}
+		</div>
+		#}
+	</div><!-- /row -->
+	
+	<div class="row">
+		{% for produit in liste_produit %}
+			
+			<div class="col-md-4" style="margin-bottom: 15px;">
+				{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
+			</div>
+
+		{% else %}
+			<div class="col-md-12">
+				<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+					<span class="fa fa-frown-o"></span> Aucun cours valide pour le module {{ scat.nom }}</br>
+					<hr style="width: 100px; border-bottom: 1px solid red;">
+				</div>
+			</div>
+		{% endfor %}
+	</div><!-- /row -->
+	
+	<div class="row mt centered">
+	  <div class="col-lg-12" >
+	  	<div style="border-top: 1px dashed #999; text-align: left;"><a href="{{ path('produit_produit_accueil_boutique_produit') }}" style="padding: 0px; margin: 0px;"><span class="fa fa-list"></span> Tous les cours <span class="fa fa-arrow-circle-right"></span></a> <a href="{{ path('produit_service_visiter_notre_blog') }}" class="pull-right"><span class="fa fa-arrow-circle-left"></span> Formations <span class=" fa fa-bookmark-o"></span></a> </div>
+	  </div>
+	</div>
+</div><!-- /container -->
+
+<hr>
+{% endblock %}
+
+{% block javascripttemplate %}
+
+{% endblock %}

@@ -1,0 +1,204 @@
+{% extends "Theme/Users/User/layouthome.html.twig" %}
+
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, formateurs, enseignants, éducateurs, travaux pratiques, exercices corrigés, formations"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} - {{ metier }} - liste des formateurs {{ site }}."/>
+	
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - Liste des métiers {{ site }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	
+	<style>
+		label {
+			width: 100%;
+		}
+
+		.card-input-element {
+			display: none;
+		}
+
+		.card-input {
+			margin: 10px;
+			padding: 00px;
+		}
+
+		.card-input:hover {
+			cursor: pointer;
+		}
+
+		.card-input-element:checked + .card-input {
+			 box-shadow: 0 0 2px 2px #2ecc71;
+			 
+		 }
+		 
+		 .panel-default>.panel-heading {
+			color: #333;
+			background-color: #f5f5f5;
+			border-color: #ddd;
+		}
+		.panel-heading {
+			padding: 10px 15px;
+			border-bottom: 1px solid transparent;
+			border-top-right-radius: 3px;
+			border-top-left-radius: 3px;
+			font-weight: bold;
+		}
+		.panel-default {
+			border-color: #ddd;
+		}
+		.panel {
+			margin-bottom: 20px;
+			background-color: #fff;
+			border: 1px solid transparent;
+			border-radius: 4px;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+			transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+		}
+		.panel:hover{
+			box-shadow: 0 2px 2px rgba(0,0,0,0.5);
+		}
+		.panel-body {
+			padding: 15px;
+		}
+	</style>
+{% endblock %}
+
+{% block userblog_body %}
+	
+	<div class="container" style="min-height: 10px;">	
+	<div class="row">	
+	<div class="col-md-12 text-left">
+		<div aria-label="breadcrumb">
+			<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+				Allez à
+				<i class="fa fa-caret-down"></i>
+			</button>
+			
+			{% include "Theme/General/Template/Menu/contacts.html.twig" %}
+			
+			<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+				<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+				<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">Nos formateurs</a></li>
+			</ol>
+		</div>
+	</div>
+	</div>
+	</div>
+	
+	<div class="container">	
+
+	 <div class="row">
+		<div class="col-md-12">
+			<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
+				<h2>Domaines de compétence</h2>
+				<p>Choisissez les domaines dans lesquels vous souhaitez booster vos connaissance</p>
+			</div>
+		</div>
+	  </div>
+	  
+	  <div class="row">	
+		<div class="col-md-12">
+		<div style="background: #fff; margin: 15px 0px;">
+			<div class="row">
+				{% for metier in liste_categorie %}
+				  <div class="col-md-3 col-lg-3 col-sm-6">
+					
+					<label>
+					  <input type="checkbox" name="typeproduct" class="card-input-element" value="{{ metier.id }}"/>
+
+						<div class="panel panel-default card-input" style="height: 200px;">
+						  <div class="panel-heading">{{ metier.nom }}</div>
+						  <div class="panel-body">
+							<div style="font-weight: normal;">{{ metier.description }}</div>
+						  </div>
+						</div>
+						
+					</label>
+					
+				  </div>
+				{% else %}
+					<div class="col-md-12">
+						<div class="text-center" style="height: 250px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+							<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+							<hr style="width: 100px; border-bottom: 1px solid red;"/>
+						</div>
+					</div>
+				{% endfor %}
+				
+			</div>
+	    </div>
+	    </div>
+		
+		<div class="col-md-12">
+		<div style="background: #fff; margin: 15px 0px; padding: 15px 0px; min-height: 80px;">
+			<button class="btn btn-primary pull-right submit-select-item">Continuer <span class="fa fa-arrow-right"></span></button>
+		</div>
+	    </div>
+	  </div>
+	</div>
+
+
+{% endblock %}
+
+
+{% block javascripttemplate %}
+
+$('.submit-select-item').click(function(){
+	
+	var list = '';
+	$("input[name='typeproduct']:checked").each(function(){
+		if(list.length == 0)
+		{
+			list = $(this).attr('value');
+		}else{
+			list = list+'-'+$(this).attr('value');
+		}
+	})
+
+	if(list.length == 0)
+	{
+		resetNotif();
+		alertify.alert('<div style="margin-bottom: 20px;">Echec !!! <br/>Vous devez choisir au moins un metier pour nous aider à mieux personnaliser vos recommandations.</div>');
+	}else{
+	
+		{% if app.user == null %}
+		
+			$('#modal-infos-action-connexion').modal('show');
+			
+		{% else %}
+			var height = ($(window).height() + $(window).scrollTop());
+			var width = $(window).width() + 100;
+			var scrolltop = $(window).scrollTop();
+			$('.panel-result-action-elearning-user').show();
+			$('.content-alert-action-elearning-user').show();
+			$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+		  
+			$.post('{{ path('produit_produit_update_recommandation_current_user') }}',{ list: list }, function(data){
+			  if(data != 0)
+			  {
+				  $('.panel-result-action-elearning-user').hide();
+				  $('.content-alert-action-elearning-user').hide();
+				
+				  resetNotif();
+				  alertify.alert('<div style="margin-bottom: 20px;">Excellent !!! <br/>La mention j\'aime le cours a été ajoutée avec succès !</div>');
+			  }else{
+				  resetNotif();
+				  alertify.alert("Echec, Une erreur a été rencontrée lors de l\'enregistrement de la commande.");
+				  $('.panel-result-action-elearning-user').hide();
+				  $('.content-alert-action-elearning-user').hide();
+			  }
+			});
+		{% endif %}
+	}
+});
+{% endblock %}	
+

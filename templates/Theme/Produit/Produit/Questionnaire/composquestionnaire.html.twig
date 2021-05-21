@@ -1,0 +1,106 @@
+{% for question in liste_questionnaire %}
+{% set submitsolution = 0  %}
+<div class="panel panel-default" style="border-radius: 0px;">
+<div class="panel-heading">
+<h3 class="panel-title text-left">
+{{ loop.index }}. {{ question.titre }}
+<div class="btn-group pull-right" style="margin-top: 0px; padding: 0px;">
+<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; padding: 0px; margin: 0px;"><i class="fa fa-info-circle" style="padding: 0px; margin: 0px;"></i></a>
+	<ul class="dropdown-menu pull-right" style="margin-top: 0px; border-radius: 0px;">
+		<li><a href="#!"><span class="fa fa-list-alt"></span> Réponse unique</a></li>
+	</ul>
+</div>
+</h3>
+</div>
+<div class="panel-body text-left">
+	<div class="col-md-12">
+	   <div class="form-group">
+		  {% for proposition in question.propositions %}
+		  <label class="radio">
+			<input type="radio" data-toggle="radio" class="elem-radio-check" proposition="{{ proposition.id }}" question="{{ question.id }}" propan="{% if prodpan != null %}{{ prodpan.id }}{% else %}0{% endif %}" name="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" id="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" value="option1" style="cursor: pointer!important;" data-radiocheck-toggle="radio" {% if proposition.id == question.element %}checked="" {% set submitsolution = 1 %}{% endif %}/>
+			{{ proposition.titre }}
+			{% if proposition.id == question.element %}
+			<a href="#!" class="pull-right"><span class="fa fa-check"></span></a>
+			{% endif %}
+		  </label>
+		  {% endfor %}
+		</div>
+	</div>
+	<input type="hidden" value="{{ loop.index }}" name="{{ submitsolution }}" class="itemquestionnaire"/>
+</div>
+</div>
+{% endfor %}
+{% if prodpan != null and liste_questionnaire|length > 0 %}
+<form action="{{ path('produit_produit_valider_questionnaire_courant_chapter', {'id': chapitre.id, 'prodpan': prodpan.id }) }}" method="post" class="submit-feuille-composition">
+	<button href="#!" class="btn btn-primary btn-lg btn-block" style="border-radius: 0px;">Soumettre ma feuille de composition pour validation <span class="glyphicon glyphicon-send"></span></button>
+</form>
+{% endif %}
+<script src="{{ asset('template/assets/js/flat-ui.min.js') }}"></script>
+<script src="{{ asset('template/assets/js/application.js') }}"></script>
+<script type="text/javascript">
+$('.elem-radio-check').click(function(){
+var id = $(this).attr('proposition');
+var question = $(this).attr('question');
+	
+	{% if prodpan != null %}
+		{% if prechapter == null or (prechapter != null and prechapter.getNoteQuestionnaire(prodpan) >= notemin) %}
+			if($('.variation-sub-contenu').attr('value') != 1)
+			{
+			  $('.variation-sub-contenu').attr('value',1);
+			  var hauteur = $('.variation-sub-contenu').height() + 2; 
+			  var largeur = $('.variation-sub-contenu').width() + 2;
+			  var padding = Math.round(hauteur/2 - 15);
+			  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+			  $.post('{{ path('produit_produit_composition_update_compos_questionnaire', {'id': prodpan.id}) }}', { id: id, question: question }, function(data) {
+			  $('.attente-resultat').hide();
+			  $('.variation-sub-contenu').attr('value',0);
+			  if(data == -1)
+			  {
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec !! Cette feuille de composition a déjà été validé.');
+				$('#infos-action-effectuer').modal('show');
+			  }else if(data < 5000)
+			  {
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous devez attendre environs '+data+'H pour une nouvelle tentative.');
+				$('#infos-action-effectuer').modal('show');
+			  }else{
+				$('.variation-sub-contenu').html(data);
+			  }
+			  
+			  });
+			}
+		{% else %}
+			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous n\'avez pas obtenu la note réquise à la notion précedente. Pour valider cette partie, <a href="{{ path('produit_produit_presentation_chapter', {'id': prechapter.id }) }}">Essayez d\'abord de valider la leçon précedente.</a>');
+			$('#infos-action-effectuer').modal('show');
+		{% endif %}
+	{% else %}
+		{% if app.user != null %}
+			$('#modal-inscription-cours').modal('show');
+		{% else %}
+			$('#modal-infos-action-connexion').modal('show');
+		{% endif %}
+	{% endif %}
+});
+
+$('.submit-feuille-composition').on('submit',function(){
+	var valid = true;
+	var question = 0;
+	$('.itemquestionnaire').each(function(){
+		if($(this).attr('name') == 0)
+		{
+			valid = false;
+			question = $(this).attr('value');
+		}
+	});
+	if(valid == false)
+	{
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec d\'envoi ! Vous n\'avez pas traité la question '+question+'.');
+		$('#infos-action-effectuer').modal('show');
+		return false;
+	}
+});
+
+$('.dropdown-toggle').mouseover(function() {
+$(this).dropdown('toggle');
+});
+
+</script>

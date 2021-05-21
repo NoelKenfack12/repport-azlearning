@@ -1,0 +1,399 @@
+users_adminuser_accueil_administration:
+    path: /admin/accueil
+    controller: App\Controller\Users\Adminuser\AccueilController::accueiladmin
+users_adminuser_categorisation_produit_plateforme:
+    path: /categorisation/produit/plateforme
+    controller: App\Controller\Users\Adminuser\AccueilController::categorieproduit
+users_adminuser_save_categorie_product:
+    path: /enregistrer/nouvelle/categorie
+    controller: App\Controller\Produit\Produit\CategorieController::savecategorie
+users_adminuser_ajouter_sous_categorie:
+    path: /ajouter/nouvelle/souscategorie
+    controller: App\Controller\Produit\Produit\CategorieController::ajoutersouscategorie
+users_adminuser_liste_scat_categorie:
+    path: /liste/scat/categorie/{id}/{pagesuivante}
+    controller: App\Controller\Produit\Produit\CategorieController::listecategorie
+    defaults:
+        pagesuivante: 1
+    requirements:
+        id: \d+
+        pagesuivante: \d+
+users_adminuser_modification_categorie_produit:
+    path: /modification/categorie/produit/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::modificationcategorie
+    requirements:
+        id: \d+
+users_adminuser_modifier_sous_categorie_produit:
+    path: /modifier/sous/categorie/produit/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::altersouscategorie
+    requirements:
+        id: \d+
+users_adminuser_supprimer_cat_prod:
+    path: /supprimer/cat/prod/{id}
+    controller: App\Controller\Produit\Produit\Bundle\CategorieController::Supprimercategories
+    requirements:
+        id: \d+
+users_adminuser_delete_scat_prod:
+    path: /delete/scat/prod/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::Supprimersouscategorie
+    requirements:
+        id: \d+
+users_adminuser_add_new_slide:
+    path: /add/new/slide
+    controller: App\Controller\Users\User\ImgslideController::addnewslide
+users_adminuser_delete_courant_slide:
+    path: /delete/courant/slide/{id}
+    controller: App\Controller\Users\User\ImgslideController::deleteslide
+    requirements:
+        id: \d+
+users_adminuser_liste_produit_souscategorie:
+    path: /liste/produit/souscategorie/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::listeproduitadmin
+    requirements:
+        id: \d+
+users_adminuser_prod_invalide_courant_souscategorie:
+    path: /prod/invalide/courant/souscategorie/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::listeproduitinvalide
+    requirements:
+        id: \d+
+users_adminuser_allprod_archive_courant_souscategorie:
+    path: /allprod/archive/courant/souscategorie/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::listeprodarchive
+    requirements:
+        id: \d+
+users_adminuser_solder_gain_courant_user:
+    path: /solder/gain/courant/user/{id}/{user}
+    controller: App\Controller\Users\User\UserController::soldergainuser
+    requirements:
+        id: \d+
+        user: \d+
+users_adminuser_demande_gagnant_rencontres_souscategorie:
+    path: /demande/gagnant/rencontres/souscategorie/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::demandegagnant
+    requirements:
+        id: \d+
+users_adminuser_publier_produit_courant_souscategorie:
+    path: /publier/produit/courant/souscategorie/{id}/{guide}
+    controller: App\Controller\Produit\Produit\CategorieController::publierproduitadmin
+    defaults:
+        guide: 0
+    requirements:
+        id: \d+
+        guide: \d+
+users_adminuser_placer_produit_acceuilcourant_souscategorie:
+    path: /placer/produit/acceuilcourant/souscategorie/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::addproduitaccueil
+    requirements:
+        id: \d+
+users_adminuser_modifier_courant_categorie:
+    path: /modification/categorie/{id}/{scat}
+    controller: App\Controller\Produit\Produit\CategorieController::modificationcategorie
+    requirements:
+        id: \d+
+        scat: \d+
+users_adminuser_alter_courant_souscategorie:
+    path: /modifier/courant/souscategorie/{id}
+    controller: App\Controller\Produit\Produit\CategorieController::altersouscategorie
+    requirements:
+        id: \d+
+users_adminuser_update_courant_produit:
+    path: /modification/produit/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::modifierproduit
+    requirements:
+        id: \d+
+users_adminuser_alter_score_rencontre:
+    path: /alter/score/rencontre/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::alterprixproduit
+    requirements:
+        id: \d+
+produit_produit_suppression_produit_user_controller:
+    path: /suppression/produit/user/controller/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::supprimerproduit
+    requirements:
+        id: \d+
+users_adminuser_miseajour_produit:
+    path: /miseajour/du/produit/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::miseajourproduit
+    requirements:
+        id: \d+
+users_adminuser_supprimer_image_produit:
+    path: /supprimer/image/produit/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::supprimerimage
+    requirements:
+        id: '^[a-zA-Z0-9]*$'
+users_adminuser_validation_dupayement:
+    path: /validation/du/payement/{id}
+    controller: App\Controller\Produit\Produit\PanierController::validationpayement
+    requirements:
+        id: \d+
+users_adminuser_liste_panier_non_livrer:
+    path: /liste/des/paniers/non/livrer
+    controller: App\Controller\Produit\Produit\PanierController::paniernonlivrer
+    requirements:
+        id: \d+
+users_adminuser_contenu_panier_user:
+    path: /contenu/admin/panier/user/{id}
+    controller: App\Controller\Produit\Produit\PanierController::contenupanier
+    requirements:
+        id: \d+
+users_adminuser_livraison_panier_commander:
+    path: /livraison/panier/commander/{id}
+    controller: App\Controller\Produit\Produit\PanierController::livraisonpanier
+    requirements:
+        id: \d+
+users_adminuser_tousles_panier_livrer:
+    path: /tousles/paniers/livrer
+    controller: App\Controller\Produit\Produit\PanierController::panierlivrer
+    requirements:
+        id: \d+
+users_adminuser_supprimer_courant_produit:
+    path: /supprimer/produit/admin/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::supprimerproduit
+    requirements:
+        id: \d+
+users_adminuser_ajout_nouveau_admin:
+    path: /ajout/nouveau/admin/plateforme
+    controller: App\Controller\Users\User\UserController::nouveauadmin
+    requirements:
+        id: \d+
+users_adminuser_enleve_role_admin:
+    path: /enleve/role/admin/user/{id}/{idrole}
+    controller: App\Controller\Users\User\UserController::eleverole
+    defaults:
+        idrole: 1
+    requirements:
+        id: \d+
+users_adminuser_ajouter_nouveau_service:
+    path: /offres/formations
+    controller: App\Controller\Produit\Service\ServiceController::nouveauservice
+users_adminuser_ajouter_nouvelle_competition_user:
+    path: /ajouter/module/forum
+    controller: App\Controller\Produit\Service\ServiceController::nouvellecompetition
+users_adminusers_add_new_service:
+    path: /add/new/service/struct
+    controller: App\Controller\Produit\Service\ServiceController::addnewservice
+users_adminuser_modifier_un_service:
+    path: /modifier/un/nouveau/service/{id}
+    controller: App\Controller\Produit\Service\ServiceController::modifierservice
+    requirements:
+        id: \d+
+users_adminuser_remove_cours_formation:
+    path: /remove/cours/formation/{id}/{cours}
+    controller: App\Controller\Produit\Service\ServiceController::removecours
+    requirements:
+        id: \d+
+        cours: \d+
+users_adminuser_modification_nouveau_service_struct:
+    path: /modification/courant/service/struct/{id}
+    controller: App\Controller\Produit\Service\ServiceController::modificationservice
+    requirements:
+        id: \d+
+users_adminuser_service_modifier_evenement_service:
+    path: /modifier/evenement/service/{id}
+    controller: App\Controller\Produit\Service\ServiceController::modifierevenement
+    requirements:
+        id: \d+
+users_adminuser_competition_modifier_competition_user:
+    path: /competition/modifier/theme/forum/user/{id}
+    controller: App\Controller\Produit\Service\ServiceController::modifiercompetition
+    requirements:
+        id: \d+
+users_adminuser_add_un_evenement:
+    path: /add/new/evenement/service/{id}
+    controller: App\Controller\Produit\Service\ServiceController::addevenement
+    requirements:
+        id: \d+
+users_adminuser_supprim_service_evenement:
+    path: /supprim/service/evenement/{id}
+    controller: App\Controller\Produit\Service\ServiceController::supprimevenement
+    requirements:
+        id: \d+
+users_adminuser_supprimer_service_even:
+    path: /supprimer/service/even/{id}
+    controller: App\Controller\Produit\Service\ServiceController::supprimerservice
+    requirements:
+        id: \d+
+users_adminuser_delette_valeur_formation:
+    path: /delette/valeur/formation/{id}
+    controller: App\Controller\Produit\Service\ServiceController::supprimervaleurformation
+    requirements:
+        id: \d+
+users_adminuser_supprimer_competition_championnat:
+    path: /supprimer/competition/championnat/{id}
+    controller: App\Controller\Produit\Service\ServiceController::supprimercompetition
+    requirements:
+        id: \d+
+users_adminuser_liste_message_recu:
+    path: /liste/des/messages/recu
+    controller: App\Controller\Produit\Service\MessageController::messagerecu
+users_adminuser_supprim_message_contact:
+    path: /supprimer/message/contact/{id}
+    controller: App\Controller\Produit\Service\MessageController::supprimermessage
+    requirements:
+        id: \d+
+produit_service_ajouter_ville:
+    path: /ajout/nouvelle/ville
+    controller: App\Controller\Produit\Service\VilleController:ajoutville
+produit_service_supprimer_ville_courante:
+    path: /supprimer/ville/courante/{id}
+    controller: App\Controller\Produit\Service\VilleController:supprimerville
+    requirements:
+        id: \d+
+users_adminuser_add_cout_livraison:
+    path: /add/cout/livraison/produit/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::addcoutlivraison
+    requirements:
+        id: \d+
+users_adminuser_modif_coutlivraison_produit:
+    path: /modif/coutlivraison/produit/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::modifcoutlivraison
+    requirements:
+        id: \d+
+users_adminuser_delete_coutlivraison:
+    path: /delete/produit/coutlivraison/{id}
+    controller: App\Controller\Produit\Produit\ProduitController::supprimercoutlivraison
+    requirements:
+        id: \d+
+users_adminuser_apropos_de_nous:
+    path: /ils/parlent/denous
+    controller: App\Controller\Produit\Service\AproposController::direapropos
+users_adminuser_modification_propos_client:
+    path: /modification/propos/client/{id}
+    controller: App\Controller\Produit\Service\AproposController::modifierapropos
+    requirements:
+        id: \d+
+users_adminuser_about_us_supprimer:
+    path: /supprimer/le/on/enparlent/{id}
+    controller: App\Controller\Produit\Service\AproposController::deleteapropos
+    requirements:
+        id: \d+
+users_adminuser_liste_dossier_recrutement:
+    path: /liste/dossier/recrutement/user
+    controller: App\Controller\Produit\Service\RecrutementController::listedossier
+users_adminuser_gestion_info_entreprise:
+    path: /gestion/information/entreprise/{page}
+    controller: App\Controller\Produit\Service\InfoentrepriseController::infoentreprise
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+users_adminuser_supprission_information_entreprise:
+    path: /supprission/information/entreprise/{id}
+    controller: App\Controller\Produit\Service\InfoentrepriseController::supprimerinfoentreprise
+    requirements:
+        id: \d+
+users_adminuser_modification_information_entreprise_courant:
+    path: /modification/information/entreprise/courant/{id}/{page}
+    controller: App\Controller\Produit\Service\InfoentrepriseController::modifierinfoentreprise
+    defaults:
+        page: 1
+    requirements:
+        id: \d+
+        page: \d+
+users_adminuser_ajouter_detail_info_entreprise:
+    path: /ajouter/detail/info/entreprise/{id}
+    controller: App\Controller\Produit\Service\InfoentrepriseController::ajouterinfoentreprise
+    requirements:
+        id: \d+
+users_adminuser_supprimer_detail_information_entreprise:
+    path: /supprimer/detail/information/entreprise/{id}
+    controller: App\Controller\Produit\Service\InfoentrepriseController::supprimerdetailinfoentreprise
+    requirements:
+        id: \d+
+users_adminuser_delete_dossier_recrut:
+    path: /supprimer/dossier/recrutement/{id}
+    controller: App\Controller\Produit\Service\RecrutementController::supprimerdossier
+    requirements:
+        id: \d+
+users_adminuser_valider_demande_defont:
+    path: /valider/demande/defont/{id}
+    controller: App\Controller\Produit\Service\RecrutementController::validerdossier
+    requirements:
+        id: \d+
+users_adminuser_telecharg_cv_user:
+    path: /telecharge/cv/recrutement/{id}
+    controller: App\Controller\Produit\Service\RecrutementController::telechargercv
+    requirements:
+        id: \d+
+users_adminuser_telecharg_lettre_motivation_user:
+    path: /telecharge/lettre/motivation/recrutement/{id}
+    controller: App\Controller\Produit\Service\RecrutementController::telechargerlettre
+    requirements:
+        id: \d+
+users_adminuser_modification_image_slide_accueil:
+    path: /modification/image/slide/accueil/{id}
+    controller: App\Controller\Users\User\ImgslideController::modifierslide
+    requirements:
+        id: \d+
+users_adminuser_ajouter_image_service_courant:
+    path: /ajouter/image/service/courant/{id}
+    controller: App\Controller\Produit\Service\ServiceController::ajouterimgservice
+    requirements:
+        id: \d+
+users_adminuser_supprimer_img_service_courant:
+    path: /supprimer/img/service/courant/{id}
+    controller: App\Controller\Produit\Service\ServiceController::supprimerimgservice
+    requirements:
+        id: \d+
+users_adminuser_message_email_new_letter:
+    path: /message/email/news/letter
+    controller: App\Controller\Produit\Service\Messemail::messageemail
+users_adminuser_send_message_email_identified_user:
+    path: /send/message/email/identified/user
+    controller: App\Controller\Produit\Service\Messemail::messageidentifieduser
+users_adminuser_suppression_mess_email_user:
+    path: /suppression/mess/email/user/{id}
+    controller: App\Controller\Produit\Service\Messemail::supprimermessemail
+    requirements:
+        id: \d+
+users_adminuser_supp_panier_produit_user:
+    path: /supp/panier/produit/user/{id}
+    controller: App\Controller\Produit\Produit\PanierController::supprimerpanier
+    requirements:
+        id: \d+
+users_adminuser_liste_all_user:
+    path: /liste/all/user
+    controller: App\Controller\Users\User\UserController::listealluser
+users_adminuser_searching_courant_liste:
+    path: /searching/courant/liste/{page}
+    controller: App\Controller\Users\User\UserController::searchinguser
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+users_adminuser_update_rang_produit_formation:
+    path: /update/rang/produit/formation/{id}
+    controller: App\Controller\Produit\Service\ServiceController::updaterangproduit
+    requirements:
+        id: \d+
+users_adminuser_catalogue_chantier_pro:
+    path: /catalogue/chantier/pro
+    controller: App\Controller\Produit\Produit\CataloguechantierController::cataloguechantier
+users_adminuser_update_catalogue_chantier_invest:
+    path: /update/catalogue/chantier/invest/{id}
+    controller: App\Controller\Produit\Produit\CataloguechantierController::modifcatalogue
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_cataloguechantier_supprimer_entity:
+    path: /cataloguechantier/supprimer/entity/{id}
+    controller: App\Controller\Produit\Produit\CataloguechantierController::supprimercatalogue
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_metier_update_rocommandation_apprenant:
+    path: /metier/update/rocommandation/apprenant/{id}
+    controller: App\Controller\Produit\Produit\CataloguechantierController::updaterocommandation
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_assossiation_metier_cours:
+    path: /assossiation/metier/cours/{id}
+    controller: App\Controller\Produit\Produit\CataloguechantierController::assossiationmetier
+    defaults:
+        id: 0
+    requirements:
+        id: \d+

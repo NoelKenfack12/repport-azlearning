@@ -1,0 +1,174 @@
+<!-- //breadcrumbs -->
+<div class="general_social_icons">
+	<nav class="social" style="top: 205px;">
+		<ul>
+			<li class="w3_g_plus"><a href="#" title="" class="aide-joueur">Obtenir l'aide <i class="fa"> <strong>CommentJouer</strong></i></a></li>
+			<li class="w3_twitter"><a href="#" title=""><span style="margin-right: -10px;">Cagnote en jeu </span> <i class="fa fa-thumbs-o-up"> <strong>{% if souscategorie != null %}{{ souscategorie.cagnote }}{{ devise }}{% else %}0{{ devise }}{% endif %}</strong></i></a></li>
+			<li class="w3_facebook"><a href="#" title="" class="ticket_courant_joueur">Mon ticket <i class="fa fa-edit"> <strong id="DivClignotante" style="visibility:visible;">Parier ({% if panier != null %}0{{ panier.produitpaniers|length }}{% else %}0{% endif %})</strong></i></a></li>				  
+		</ul>
+    </nav>
+</div>
+
+
+<div class="modal" id="aide-joueur-play-game" style="margin-top: 100px; z-index: 9999;">
+<div class="modal-dialog modal-md">
+<div class="modal-content">
+<div class="modal-header" style="border-bottom: 1px solid #34495e;">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title">Comment parier sur {{ site }}</h4>
+</div>
+<div class="modal-body" style="background: #fff;color: #333; border-radius: 0px 0px 5px 5px; border-top: 2px solid #37c0fb;">{{ commentjouer|raw }}</div>
+</div>
+</div>
+</div>
+
+<div class="modal" id="panel_ticket_courant_joueur" style="margin-top: 100px; z-index: 9999;">
+<div class="modal-dialog modal-md">
+<div class="modal-content">
+<div class="modal-header" style="border-bottom: 1px solid #34495e;">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title"><span class="fa fa-file-text-o"></span> {% if panier != null %}Votre ticket N°: {{ panier.numFacture }}{% else %}Vous n'avez aucun ticket en cours !{% endif %} </h4>
+</div>
+<div class="modal-body" style="background: #fff;color: #333; border-radius: 0px 0px 5px 5px; border-top: 2px solid #37c0fb;">
+
+<div style="border: 1px solid #ddd; width: 100%;">
+
+	<div class="notication-action"></div>
+	{% if scatpan != null and scatpan.active == false %}
+		<div class="alert alert-danger" style="border-radius: 0px;"><span class="fa fa-warning"></span> La date de validation de votre ticket est dépassé. Supprimer les rencontres qui ont déjà été lancés du ticket.</div>
+	{% endif %}
+
+	{% if panier != null %}
+	{% for propan in panier.produitpaniers %}
+	{% set produit = propan.produit %}
+	<div class="message-bottom" style="border-bottom: 1px solid #ddd;">
+		<div class="message1-left">
+			<h4>{% if propan.quantite == 0 %}{{ produit.equipedom.nom }} # {{ produit.equipeext.nom }}{% else %}{% if propan.quantite == 1 %}<a href="#!" class="btn-primary">{{ produit.equipedom.nom }}</a> # <a href="#!" class="btn-danger">{{ produit.equipeext.nom }}</a>{% else %}<a href="#!" class="btn-danger">{{ produit.equipedom.nom }}</a> # <a href="#!" class="btn-primary">{{ produit.equipeext.nom }}</a>{% endif %}{% endif %} [{{ produit.souscategorie.datetext }}] {% if produit.updatescore == true %}{{ produit.butdom }}#{{ produit.butext }}{% else %}{{ produit.heure }}:{{ produit.minute }}{% endif %}</h4>
+			<p><strong>Paris:</strong> {% if propan.quantite == 0 %}Parier pour le match null{% else %}{% if propan.quantite == 1 %}Parier pour le victoire à domicile du {{ produit.equipedom.nom }}{% else %}Parier pour la victoire à l'extérieure du {{ produit.equipeext.nom }}{% endif %}{% endif %}</p>
+		</div>
+		<div class="message1-right">
+			<p><a href="{{ path('produit_produit_elever_produit_commande', {'id': propan.id }) }}" class="btn btn-danger"><span class="fa fa-times"></span></a></p>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	{% else %}
+		<div class="message-bottom" style="border-bottom: 1px solid #ddd;">
+			<div class="message1-left">
+				<h4>Votre ticket est encore vide</h4>
+				<p>Ajouter les rencontres à votre ticket <a href="{{ path('produit_produit_liste_produit_souscategorie') }}" class="btn btn-primary">à cette page</a></p>
+			</div>
+			<div class="message1-right">
+				<p><a href="#!" class="btn btn-danger"><span class="fa fa-times"></span></a></p>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	{% endfor %}
+
+	{% else %}
+		<div class="message-bottom" style="border-bottom: 1px solid #ddd;">
+			<div class="message1-left">
+				<h4>Aucun ticket en cours</h4>
+				<p>Ajouter les rencontres à votre ticket <a href="{{ path('produit_produit_liste_produit_souscategorie') }}" class="btn btn-primary">à cette page</a></p>
+			</div>
+			<div class="message1-right">
+				<p><a href="#!" class="btn btn-danger"><span class="fa fa-times"></span></a></p>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	{% endif %}
+	{% if scatpan != null and scatpan.active == true %}
+		<div class="message-bottom">
+		<form method="post" action="{{ path('produit_produit_valider_payement_ticket', {'id': panier.user.id }) }}">
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+		Montant Ticket
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+		<select name="montantparier" class="form-control">
+		{% set j = 1 %}
+		{% if panier.user.soldeprincipal >= 400 %}
+		{% for i in range(200, panier.user.soldeprincipal, 200) %}
+			<option value="{{ j }}">{{ i }}{{ devise }}</option>
+			{% set j = j + 1 %}
+		{% endfor %}
+		{% else %}
+			<option value="1">200{{ devise }}</option>
+		{% endif %}
+		</select>
+		</div>
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+			<button class="btn btn-primary btn-block">Valider <span class="fa fa-check"></span></button>
+		</div>
+		<input type="hidden" value="{{ panier.numFacture }}" name="monpanier"/>
+		</form>
+		<div class="clearfix"></div>
+		</div>
+	{% endif %}
+	</div>
+
+</div>
+</div>
+</div>
+</div>
+	
+<script type="text/javascript">
+$(document).ready(function(){
+
+$('.aide-joueur').click(function(){
+$('#aide-joueur-play-game').modal('show');
+});
+
+$('.ticket_courant_joueur').click(function(){
+$('.notication-action').html('');
+$('#panel_ticket_courant_joueur').modal('show');
+});
+
+{% if panier != null and panier.produitpaniers|length == 5 %}
+$('.notication-action').html('<div class="alert alert-info" style="border-radius: 0px;"><span class="fa fa-hand-o-right"></span> Procédez à la validation de votre ticket.</div>');
+$('#panel_ticket_courant_joueur').modal('show');
+{% endif %}
+
+{% for infos in app.session.flashbag.get('thesameproduit') %}
+{% if loop.first %}
+$('.notication-action').html('<div class="alert alert-info" style="border-radius: 0px;"><span class="fa fa-hand-o-right"></span> {{ infos|raw }}.</div>');	
+$('#panel_ticket_courant_joueur').modal('show');
+{% endif %}
+{% endfor %}
+
+{% for infos in app.session.flashbag.get('thesamecategorie') %}
+{% if loop.first %}
+$('.notication-action').html('<div class="alert alert-info" style="border-radius: 0px;"><span class="fa fa-hand-o-right"></span> {{ infos|raw }}.</div>');	
+$('#panel_ticket_courant_joueur').modal('show');
+{% endif %}
+{% endfor %}
+
+{% for infos in app.session.flashbag.get('nbmatchsuffisant') %}
+{% if loop.first %}	
+$('.notication-action').html('<div class="alert alert-info" style="border-radius: 0px;"><span class="fa fa-hand-o-right"></span> {{ infos|raw }}.</div>');
+$('#panel_ticket_courant_joueur').modal('show');
+{% endif %}
+{% endfor %}
+
+{% for infos in app.session.flashbag.get('matchenleve') %}
+{% if loop.first %}	
+$('.notication-action').html('<div class="alert alert-info" style="border-radius: 0px;"><span class="fa fa-hand-o-right"></span> {{ infos|raw }}.</div>');
+$('#panel_ticket_courant_joueur').modal('show');
+{% endif %}
+{% endfor %}
+
+{% if panier != null and panier.produitpaniers|length >= 1 %}
+var clignotement = function(){ 
+   if (document.getElementById('DivClignotante').style.visibility=='visible'){ 
+      document.getElementById('DivClignotante').style.visibility='hidden'; 
+   } 
+   else{ 
+   document.getElementById('DivClignotante').style.visibility='visible'; 
+   } 
+}; 
+
+// mise en place de l appel de la fonction toutes les 0.8 secondes 
+// Pour arrêter le clignotement : clearInterval(periode); 
+periode = setInterval(clignotement, 800); 
+{% endif %}
+
+});
+</script>

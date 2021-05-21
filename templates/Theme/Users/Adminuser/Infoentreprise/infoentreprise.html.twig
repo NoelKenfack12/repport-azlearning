@@ -1,0 +1,456 @@
+{% extends "UsersAdminuserBundle::layoutadmin.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
+{% endblock %}
+{% block title %}
+{{ parent() }} | Accueil Admin
+{% endblock %}
+
+{% block userblog_body %}
+<hr style="margin-top: 45px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="container" style="color: #fff;">
+	Accueil <span class="mdi-av-play-arrow" style="font-size: 10px;"></span>  Administration
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;"/>
+<!--content-->
+<div class="product" style="padding-top: 20px; margin-bottom: 20px;">
+	<div class="container" style="padding: 0px;">
+	<div class="col-lg-12 animecourant-panel">
+	</div>
+		<div class="col-md-4 product-bottom">
+			{{ render(controller("UsersAdminuserBundle:Accueil:menuadmin")) }}
+			<!---->
+		</div>
+		
+		<div class="col-md-8 panel panel-widget">
+			<div style="background: #ddd; margin: -1px -16px 7px -16px;">
+				<div style="padding: 7px; color: #fff;">Espace informations à propos de l'entreprise</div>	
+			</div>
+
+			{% set id = '' %}
+			{% for infos in app.session.flashbag.get('supprime_apropos') %}
+				{% if loop.last %}
+					<div class="alert alert-warning alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert">&times;</button><span class="fa fa-warning"></span> Êtes vous certain de vouloir supprimer la publication {{ infos|lower }} 
+						<form action="{{ path('users_adminuser_supprission_information_entreprise', {'id': id }) }}" method="post" style="display: inline;">
+						<input type="submit" value="Supprimer" style="background: red;"/>
+						{{ form_rest(formsupp) }}
+						</form>
+					</div>
+				{% else %}
+					{% set id = infos %}
+				{% endif %}
+			{% endfor %}
+			
+			{% for infos in app.session.flashbag.get('information') %}
+				{% if loop.first %}
+					<div class="alert alert-warning alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						{{ infos|raw }}
+					</div>
+				{% endif %}
+			{% endfor %}
+			
+			<div style="padding: 5px 0px;">
+			{% for apropos in allinfo %}
+				<div class="col-md-12" style="padding: 5px;">
+					<div class="col-sm-1" style="padding: 0px;">
+						<a href="{{ path('users_user_user_accueil', {'id': apropos.user.id }) }}" title="{{ apropos.user.name(20) }}"><img src="{% if apropos.user.imgprofil != null %} {{ asset(apropos.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" alt="{{ apropos.user.name(20) }}" class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/></a>
+					</div>
+					<div class="col-md-4">
+						<a href="#!">
+							<div class="hover01 column">
+								<div>
+									<figure style="padding: 0px!important; margin: 0px!important; height: 150px;">{% if apropos.imginfoentreprise != null %}<img class="img-responsive img-hover img-thumbnail" src="{% if apropos.imginfoentreprise != null %}{{ asset(apropos.imginfoentreprise.getWebpath) }}{% else %}#!{% endif %}" alt="" title="" style="height: 150px; width: 100%; margin-bottom: 15px;">{% endif %}</figure>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-7">
+						<h3 style="margin: 0px; border-bottom: 1px solid #ddd;">
+							{{ apropos.titre }}
+						</h3>
+						<p class="blog-agile1 w3layouts w3 w3l w3ls" style="font-size: 11px; margin-bottom: 0px;">Le {{ apropos.date|date('d/m/y') }} <a href="#!">Rang:</a> {{ apropos.rang }}; 
+						<a href="#!">Type:</a>
+							{% if apropos.type == "slide-about" %}
+								Image slide about-us
+							{% elseif (apropos.type == "image-galerie") %}
+								Image galerie
+							{% elseif (apropos.type == "article-faq") %}
+								Article Faq
+							{% elseif (apropos.type == "article-about") %}
+								Article about-us
+							{% elseif (apropos.type == "nos-avantage") %}
+								Article atout
+							{% elseif (apropos.type == "lien-video") %}
+								Article vidéo
+							{% elseif (apropos.type == "slide-faq") %}
+								Image slide de la page faq.
+							{% elseif (apropos.type == "article-galerie") %}
+								Image Galerie
+							{% elseif (apropos.type == "slide-galerie") %}
+								Slide Galerie
+							{% elseif (apropos.type == "slide-video") %}
+								Slide Page Vidéo
+							{% endif %}
+						</p>
+						<p class="blog-agile2 agileits agileinfo wthree w3-agileits">{{ apropos.description }}</p>
+						<a class="btn btn-danger pull-right" href="{{ path('users_adminuser_supprission_information_entreprise', {'id': apropos.id }) }}" style="border-radius: 0px; height: 35px; font-size: 14px; padding: 2px;">Supprimer <i class="fa fa-times"></i></a>
+						<a class="btn btn-primary pull-right" href="{{ path('users_adminuser_modification_information_entreprise_courant', {'id': apropos.id }) }}" style="border-radius: 0px; height: 35px; font-size: 14px; padding: 2px;">Modifier <i class="fa fa-pencil"></i></a>
+					</div>
+				</div>
+			{% endfor %}
+			<div class="clearfix"></div>
+			</div>
+		
+		<div style="border: 1px solid #ddd; padding-bottom: 7px; margin-bottom: 15px;">
+			<div style="background: #f7f7f7; border-bottom: 1px solid #ddd; margin: -5px 0px 7px 0px;">
+				<h2 style="margin: 5px;">Ajouter les informations à propos de l'entreprise.</h2>	
+			</div>
+			
+			<form class="form_info_about_struct" action="{{ path('users_adminuser_gestion_info_entreprise') }}" method="post" {{ form_enctype(form) }}>
+			  <div class="col-sm-6">
+				 <span style="color:red;">{{ form_errors(form) }}</span>
+				 <span style="color:red;">{{ form_errors(form.titre) }}</span>
+				 <div class="form-group champ1">
+				 {{ form_widget(form.titre) }}
+				 </div>
+				 <div class="alert alertnotif1 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				 <h4 style="margin-bottom: 0px;">Erreur </h4>
+				 Taille invalide !!! <span class="label label-info pull-right control-info-champ1"></span>
+				 </div>
+				 <span style="color:red;">{{ form_errors(form.description) }}</span>
+				 <div class="form-group champ2">
+				 {{ form_widget(form.description) }}
+				 </div>
+				 <div class="alert alertnotif2 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				 <h4 style="margin-bottom: 0px;">Erreur </h4>
+				 Taille invalide !!! <span class="label label-info pull-right control-info-champ2"></span>
+				 </div>
+				 <span style="color:red;">{{ form_errors(form.imginfoentreprise) }}</span>
+				 <span>{{ form_label(form.imginfoentreprise, 'Ajouter une image de présentation.') }}</span>
+				 <div class="champ3" style="margin-bottom: 18px;">{{ form_widget(form.imginfoentreprise) }}</div>
+				 <div class="alert alertnotif3 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				 <h4 style="margin-bottom: 0px;">Erreur </h4>
+				 Fichier invalide !!! <span class="label label-info pull-right control-info-champ3"></span>
+				 </div>
+			  </div>
+			  <div class="col-sm-6">	
+				 <span style="color:red;">{{ form_errors(form.rang) }}</span>
+				 <div class="form-group champ4">
+				 {{ form_widget(form.rang) }}
+				 </div>
+				 <div class="alert alertnotif4 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				 <h4 style="margin-bottom: 0px;">Erreur </h4>
+				 Entier positif !!! <span class="label label-info pull-right control-info-champ4"></span>
+				 </div>
+				 <span style="color:red;">{{ form_errors(form.linkvideo) }}</span>
+				 <div class="form-group champ5">
+				 {{ form_widget(form.linkvideo) }}
+				 </div>
+				 <div class="alert alertnotif5 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				 <h4 style="margin-bottom: 0px;">Erreur </h4>
+				 Taille invalide !!! <span class="label label-info pull-right control-info-champ5"></span>
+				 </div>
+				 
+				 <div class="form-group">
+					<select class="form-control" name="type" style="width: 100%;">
+						<option value="slide-about">Slide À propos de nous</option>
+						<option value="image-galerie">Image galerie</option>
+						<option value="article-faq">Article Faq</option>
+						<option value="article-about">Article À propos de nous</option>
+						<option value="nos-atouts">Article Atout</option>
+						<option value="lien-video">Article vidéo</option>
+						<option value="slide-faq">Slide Faq</option>
+						<option value="article-galerie">Image Galerie</option>
+						<option value="slide-galerie">Slide Galerie</option>
+						<option value="slide-video">Slide Page Vidéo</option>
+					</select>
+				 </div>
+			  </div>
+			  
+			  <div class="col-md-12">
+			  
+				<div class="form-group" id="input_detail_article" style="display: none;">
+					<textarea class="form-group" name="detailarticle" id="detail_article_help" placeholder="Ajouter la description de l'article"></textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary pull-right">Envoyer  <span class="glyphicon glyphicon-send"></span></button>
+				</div>
+				 
+			  </div>
+
+			 <div class="clear"></div>
+			 {{ form_rest(form) }}
+			</form>
+			<div class="clearfix"></div>
+		</div>
+
+		<div style="background: #fff; padding: 10px; margin-top: 15px;">
+		
+			<div class="clearfix"></div>
+		  {% if nombrepage > 0 %}
+						
+			{% if page > 1 and page <= nombrepage %}
+			{% set pagepre = page - 1 %}
+			{% else %}
+				{% set pagepre = nombrepage %}
+			{% endif %}
+
+			{% if page < nombrepage %}
+				{% set pagesuiv = page + 1 %}
+			{% else %}
+				{% set pagesuiv =  1 %}
+			{% endif %}
+
+			{% if nombrepage < 5 %}
+				{% set debut = 1 %}
+				{% set fin = nombrepage %}
+			{% else %}
+				{% if page > 2 and page < (nombrepage - 2) %}
+					{% set debut = page - 2 %}
+					{% if page + 2 >= nombrepage %}
+						{% set fin = nombrepage %}
+					{% else %}
+						{% set fin = page + 2 %}
+					{% endif %}
+				{% else %}
+					{% if page <= 2 %}
+						{% if page == 1 %}
+							{% set debut = 1 %}
+							{% set fin = page + 3 %}
+						{% else %}
+							{% set debut = 1 %}
+							{% set fin = page + 2 %}
+						{% endif %}
+					{% else %}
+						{% set debut = page - 2 %}
+						{% if page + 2 >= nombrepage %}
+							{% set fin = nombrepage %}
+						{% else %}
+							{% set fin = page + 2 %}
+						{% endif %}
+					{% endif %}
+				{% endif %}
+				
+			{% endif %}
+			
+
+			<div class="row text-left" style="margin: 0px 0px 15px 0px; background: #fafafa; padding: 7px 0px;">
+			<div class="col s12 m12 32">
+			   <ul class="pagination"> 
+				    <li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': 1 }) }}" title="Première page" style=" width: 34px; height: 34px; border-radius: 17px; padding-top: 4px; padding-left: 10px;"><span class="fa fa-fast-backward" style="font-size: 13px;"></span></a></li>
+					<li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': pagepre }) }}" title="Page précedente" style=" width: 34px; height: 34px; border-radius: 17px; padding-top: 4px; padding-left: 10px;"><span class="fa fa-step-backward" style="font-size: 13px;"></span></a></li>
+					{% for p in debut..fin %}
+					<li value="{{ p }}"><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': p }) }}" class="{% if p == page %}activepage{% endif %}" style="margin: 0px;">{{ p }}</a></li>
+					{% endfor %}
+					<li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': pagesuiv }) }}"  title="Page suivante" style=" width: 34px; height: 34px; border-radius: 17px; padding-top: 4px; padding-left: 10px;"><span class="fa fa-step-forward" style="font-size: 13px;"></span></a></li>
+					<li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': nombrepage }) }}" title="Dernière page" style=" width: 34px; height: 34px; border-radius: 17px; padding-top: 4px; padding-left: 10px;"><span class="fa fa-fast-forward" style="font-size: 13px;"></span></a></li>
+			   </ul>
+			</div>
+			</div>
+			<div class="clearfix"></div>
+			{% else %}
+
+			<div class="row text-left" style="margin: 0px 0px 15px 0px; background: #fafafa; padding: 7px 0px;">
+			<div class="col s12 m12 32">
+			   <ul class="pagination"> 
+				    <li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': page }) }}" title="Première page" style=" width: 34px; height: 34px; border-radius: 17px; padding-top: 4px; padding-left: 10px;"><span class="fa fa-fast-backward" style="font-size: 13px;"></span></a></li>
+					<li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': page }) }}" title="Page précedente" style=" width: 34px; height: 34px; border-radius: 17px; padding-top: 4px; padding-left: 10px;"><span class="fa fa-step-backward" style="font-size: 13px;"></span></a></li>
+					
+					<li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': 1 }) }}" class="activepage" style="margin: 0px;">1</a></li>
+					
+					<li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': page }) }}"  title="Page suivante" style=" width: 34px; height: 34px; border-radius: 17px; padding-top: 4px; padding-left: 10px;"><span class="fa fa-step-forward" style="font-size: 13px;"></span></a></li>
+					<li><a href="{{ path('users_adminuser_gestion_info_entreprise', {'page': page }) }}" title="Dernière page" style=" width: 34px; height: 34px; border-radius: 17px; padding-top: 4px; padding-left: 10px;"><span class="fa fa-fast-forward" style="font-size: 13px;"></span></a></li>
+			   </ul>
+			</div>
+			</div>
+			
+			<div class="clearfix"></div>
+			{% endif %}
+			
+			
+		</div>
+		
+		
+		</div>
+	</div class="clearfix"></div>
+	</div>
+
+<script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
+<!-- /js files -->
+<hr>
+<script src="{{ asset('template/js/tiny.min.js') }}"></script>
+
+<script type="text/javascript">
+tinymce.init({ selector:'#detail_article_help', entity_encoding: "raw" });
+
+var maxchamp1 = 300;
+var minchamp1 = 0;
+var maxchamp2 = 500;
+var minchamp2 = 0;
+var maxchamp3 = 1000;
+var minchamp3 = 0;
+var extensionsImgValides= new Array({{ imagesite|raw }});
+var maximgsize = 1500000;
+
+$('select').on('change', function(){
+	if($(this).val() == 'article-about' || $(this).val() == 'lien-video')
+	{
+		$('#input_detail_article').show();
+	}else{
+		$('#input_detail_article').hide();
+	}
+});
+
+$(".form_info_about_struct").on("submit", function() {
+
+var detail = tinyMCE.get('detail_article_help').getContent({format : 'raw'});
+$('#detail_article_help').val(detail);
+
+if($('#produit_servicebundle_infoentreprise_titre').val().length != minchamp1 && $('#produit_servicebundle_infoentreprise_titre').val().length > maxchamp1){
+	$("div.champ1").addClass("has-error");
+	$("div.alertnotif1").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ1').html($('#produit_servicebundle_infoentreprise_titre').val().length+'/'+maxchamp1);
+	$('#produit_servicebundle_infoentreprise_titre').focus();
+	return false;
+}
+if($('#produit_servicebundle_infoentreprise_description').val().length != minchamp2 && $('#produit_servicebundle_infoentreprise_description').val().length > maxchamp2){
+	$("div.champ2").addClass("has-error");
+	$("div.alertnotif2").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ2').html($('#produit_servicebundle_infoentreprise_description').val().length+'/'+maxchamp2);
+	$('#produit_servicebundle_infoentreprise_description').focus();
+	return false;
+}
+if(scriptVerifFile('produit_servicebundle_infoentreprise_imginfoentreprise_file',extensionsImgValides,maximgsize) == false)
+{
+	$("div.champ3").addClass("has-error");
+	$("div.alertnotif3").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ3').html('Image; Size: <'+Math.floor(maximgsize/1000)+'Ko');
+	return false;
+}
+if(!is_int($('#produit_servicebundle_infoentreprise_rang').val()) || $('#produit_servicebundle_infoentreprise_rang').val() < 0){
+	$("div.champ4").addClass("has-error");
+	$("div.alertnotif4").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ4').html('Not Int');
+	$('#produit_servicebundle_infoentreprise_rang').focus();
+	return false;
+}
+if($('#produit_servicebundle_infoentreprise_linkvideo').val().length != minchamp3 && $('#produit_servicebundle_infoentreprise_linkvideo').val().length > maxchamp3){
+	$("div.champ5").addClass("has-error");
+	$("div.alertnotif5").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ5').html($('#produit_servicebundle_infoentreprise_linkvideo').val().length+'/'+maxchamp3);
+	$('#produit_servicebundle_infoentreprise_linkvideo').focus();
+	return false;
+}
+});
+
+function is_int(value){
+  if((parseFloat(value) == parseInt(value)) && !isNaN(value)){ 
+      return true;
+  } else {
+      return false;
+  }
+}
+function getExtension(filename)
+{
+	var parts = filename.split(".");
+	return (parts[(parts.length-1)]);
+}    
+
+function scriptVerifFile(champ,listeExt,taillemax)
+{
+var files = $('#'+champ)[0].files;
+if (files.length > 0){
+file = files[0],
+filename = file.name;
+filesize = file.size;
+}else{
+filename = '';
+filesize = 0;
+return true;
+}
+if(filesize == 0 || filesize > taillemax)
+{
+	return (false);
+}
+fileExt = getExtension(filename);
+for (i=0; i<listeExt.length; i++)
+{
+	if ( fileExt == listeExt[i] ) 
+	{
+		return (true);
+	}
+}
+return (false);
+}
+
+var bouge = 1;
+var dimension = 200;
+function activateelement()
+{
+var visibility = visibleElement('.animecourant-panel');
+
+if(visibility && bouge == 0){
+	bouge = 1;
+	$('.toutleblock').css('position','relative');
+	$('.toutleblock').css('bottom','0px');
+	$('.toutleblock').css('margin-bottom','0px');
+}
+}
+
+function stopelement()
+{
+var visibility = visibleElement('.stop-courant-panel');
+if(visibility && bouge == 1){
+	if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+	{
+	
+	}else{
+	bouge = 0;
+	$('.toutleblock').css('position','fixed');
+	$('.toutleblock').css('width',dimension+'px');
+	$('.toutleblock').css('bottom','7px');
+	$('.toutleblock').css('margin-bottom','165px');
+	}
+}
+}
+
+var idStopelement = 0;
+var idActivateelement = 0;
+function controlScroll()
+{
+	var largeur = ($(window).width());
+	dimension = $('.toutleblock').width();
+	if (largeur >= 768)
+	{
+	   /*
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+		
+		$('.toutleblock').css('position','fixed');
+		$('.toutleblock').css('width',dimension+'px'); 
+		}else{ 
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+		} */
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+	}
+}
+controlScroll();
+
+</script>			
+{% endblock %}
+
+{% block javascripttemplate %}
+$('.active').removeClass('active');
+$('.menu-about-us').addClass('position-user');
+{% endblock %}

@@ -1,0 +1,75 @@
+
+
+<div class="panel panel-widget" style="width: 100%; padding: 5px; margin-bottom: 15px;">
+<div class="chat-grid widget-shadow">
+<div class="coffee">
+<div class="coffee-top">
+	<a href="#!">
+	<img src="{{ asset('template/images/map.jpg') }}" style="width: 100%; height: 150px;"></img>
+	
+	<div class="doe">
+		<h6>{{ user.name(100) }}</h6>
+		<p>Inscript depuis {{ user.dateins|date('d') }} {{ user.mois(user.dateins|date('m')) }} {{ user.dateins|date('Y') }}</p>
+	</div>
+	<i style="border: solid 1px white; background: url('{% if user.imgprofil != null %}{{ asset(user.imgprofil.webpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}') no-repeat center; -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover; background-size: cover;"></i>
+	</a>
+</div>
+<div class="follow" style="background: #ecf0f1;">
+	<div class="row">
+	<div class="col-xs-4 two" style="text-align: center;">
+		<p><a href="#!" title="Vous avez {{ panier_payer|length }} Ticket(s)">Tickets Val</a></p>
+		<span>{{ panier_payer|length }}</span>
+	</div>
+	<div class="col-xs-4 two" style="text-align: center;">
+		<p><a href="#!" title="Votre solde principale est de {{ user.soldeprincipal }}{{ devise }}">Solde[{{ devise }}]</a></p>
+		
+		<span>{{ user.soldeprincipal }}</span>
+	</div>
+	<div class="col-xs-4 two" style="text-align: center;">
+		<p><a href="#!" title="Votre solde gain est de {{ user.soldegain }}{{ devise }}">Gain[{{ devise }}]</a></p>
+		<span>{{ user.soldegain }}</span>
+	</div>
+	</div>
+	<div class="clearfix"> </div>
+</div>
+</div>
+</div>
+	<div class="text-left" style="background: #3498db; border-top: 1px solid #fff; padding: 3px 10px;">
+	<div>
+	<div class="btn-group dropup pull-left" style="margin-top: 10px;">
+	<a href="#a" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-ellipsis-v mail-icon" style="padding-bottom: 0px; color: white;"></i></a>
+	<ul class="dropdown-menu pull-left">
+	<li class="menu-dropdown"><a href="{{ path('produit_service_yourcv_recrutement') }}" value="1" title="Nouvelle annonce"><span class="fa fa-money"></span> <span class="fa fa-angle-right" style="float: right"></span> <span style="margin-right: 5px;">Créditer votre compte</span> </a></li>
+	<li class="divider"></li>
+	<li class="menu-dropdown modif-profil"><a href="#!" title="Mise à jour du profil"><span class="fa fa-pencil"></span> <span class="fa fa-angle-right" style="float: right"></span> <span style="margin-right: 5px;">Modifier votre profil</span></a></li>
+	</ul>
+	</div>
+	<strong style="color: #fff; margin-left: 10px !important; padding-top: 10px; display: inline-block;">{{ user.username }}</strong>
+	<a href="#a" class="btn btn-info pull-right modif-profil" style="border-radius: 0px; background: #2980b9; height: 35px; padding: 3px 7px; margin-top: 5px; margin-bottom: 5px;">Modifier <i class="fa fa-pencil"></i> </a>
+	</div>	
+	<div class="clearfix"> </div>
+	</div>
+</div>
+
+<div class="panel panel-widget formulaire-profil" style="width: 100%; padding: 5px; margin-bottom: 15px; display: none;">
+<form action="{{ path('users_user_modifier_profil',{'id': app.user.id }) }}" method="post" {{ form_enctype(form) }}>
+	<div class="text-left" style="border-bottom: 1px solid #ddd;"><strong>Modification du profil:</strong></div>
+	<div class="text-left">Numéro Orange Money:</div>
+	<div class="text-left" style="margin-bottom: 15px;"><input type="text" name="orangemoney" id="orangemoney" class="form-control" value="{{ user.orangemoney }}" placeholder="Numéro Orange Money"/></div>
+	
+	<div class="text-left">Muméro Mtn Mobile Money:</div>
+	<div class="text-left" style="margin-bottom: 15px;"><input type="text" name="mtnmobile" id="mtnmobile" class="form-control" value="{{ user.mtnmobile }}" placeholder="Muméro Mtn Mobile Money"/></div>
+
+	<span style="color:red;">{{ form_errors(form.file) }}</span>
+	<div class="text-left">{{ form_label(form.file, 'Importez une image de profil') }}</div>
+	<div style=" margin-bottom: 7px; margin-top: 7px;">{{ form_widget(form.file) }}</div>
+	<div style=" margin-bottom: 7px; margin-top: 7px;"><button class="btn btn-primary" style="width: 100%;">Enregistrez</button></div>
+	{{ form_rest(form) }}
+</form>
+</div>
+
+<script type="text/javascript">
+$('.modif-profil').click(function(){
+	$('.formulaire-profil').toggle('slow');
+});
+</script>

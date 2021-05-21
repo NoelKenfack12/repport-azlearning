@@ -1,0 +1,1120 @@
+{% extends "Theme/Users/User/layouthome.html.twig" %}
+
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos, Informatique Cameroun, Génie logicielle."/>
+	<meta name="author" content="Noel Kenfack, noel.kenfack@afhunt.com"/>
+	<meta name="description" content="{{ site }} - {{ metier }} - Suivez à votre rythme une formation professionnelle sur la plateforme d'e-learning de l'institut de formation proffessionnelle AZ corporation."/>
+	
+{% endblock %}
+
+{% block title %}
+
+	{{ parent() }} - Accueil
+	
+{% endblock %}
+
+{% block stylesheets %}
+
+{{ parent() }}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<style>
+	.owl-carousel .owl-item .single-staff-item img{
+		width: 100%;
+		height: 350px;
+		border-radius: 50%;
+	}
+	.staff-meta {
+		font-size: 12px;
+		color: #b7b7b7;
+		margin-top: 20px;
+	}
+
+	.staff-meta h3 {
+		font-size: 20px;
+		margin: 0 0 10px;
+	}
+	.staff-list .owl-nav button {
+		display: inline-block;
+		width: 50px;
+		height: 40px;
+		background-color: #f3f3f3 !important;
+		margin-left: 10px;
+		transition: .3s;
+	}
+	.staff-list .owl-nav button:hover{
+		background: #14ADF3 !important;
+		color: white !important;
+	}
+	.staff-list .owl-nav {
+		position: absolute;
+		right: 0;
+		top: -46px;
+	}
+	.staff-desc{
+		margin-top: 20px;
+	}
+	.single-staff-item{
+		background: #fff;
+		padding: 7px;
+		border-radius: 7px;
+	}
+	
+	.carousel-control-next {
+		right: -70px;
+	}
+	
+	.carousel-control-prev-icon, .carousel-control-next-icon {
+		display: inline-block;
+		width: 25px;
+		height: 250px;
+		background: transparent no-repeat center center;
+		background-size: 100% 100%;
+		padding-top: 110px;
+		font-size: 25px;
+	}
+	
+	.carousel-control-prev-icon:hover, .carousel-control-next-icon:hover {
+		background: #f4f4f4;
+		color: #333;
+	}
+
+	.carousel-control-prev {
+		left: -70px;
+	}
+</style>
+{% endblock %}
+
+{% block userblog_body %}
+
+<section style="background: linear-gradient(-45deg, rgba(117, 113, 249, .8), rgba(59, 151, 211, .8)) , url({% if slidebg != null and slidebg.src != null %}{{ asset(slidebg.getwebpath) }}{% else %}{{ asset('template/images/user-bg.jpg') }}{% endif %}) ;
+  background-size: cover; background-attachment: scroll;">
+	<div class="container">
+    <div class="row">
+    <div class="col-md-12">
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		 
+		  <ol class="carousel-indicators">
+			{% for slide in slideaccueil %}
+				<li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" class="{% if loop.index0 == 0 %}active{% endif %}"></li>
+			{% endfor %}
+		  </ol>
+		  
+		  <div class="carousel-inner">
+			{% for slide in slideaccueil %}
+				<div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}" style="width: 100%; background: transparent; color: #fff; padding: 15px 40px;">
+				  <div class="row">
+					  <div class="col-md-6">
+						{% if slide.produit != null %}
+							<h3 class="text-shadow" >{{ slide.titre }}</h3>
+							<h4 class="text-shadow" >{{ slide.description }}</h4>
+							<div style="margin-top: 50px;">
+								<a href="{{ path('users_user_user_accueil', {'id': slide.produit.user.id }) }}" >
+								    <img src="{% if slide.produit.user.imgprofil != null %}{{ asset(slide.produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="height: 60px; float: left; margin-right: 7px; border-radius: 7px;"/>
+									<strong class="text-shadow" style="display: block;">{{ slide.produit.user.name(40) }}</strong>
+									<div class="text-shadow"  style="display: block;">Formateur {{ site }}</div>
+								</a>
+							</div>
+						{% else %}
+							<h3 class="text-shadow" style="margin-top: 25px;">{{ slide.titre }}</h3>
+							<h4 class="text-shadow" >{{ slide.description }}</h4>
+						{% endif %}
+					  </div>
+					  
+					  <div class="col-md-6">
+						{% if slide.produit != null %}
+							{% set lastsecvice = slide.produit.getLastFormationCours %}
+							<a href="{% if lastsecvice != null %}{{ path('produit_service_assistance_entreprise', {'id': lastsecvice.id }) }}{% else %}{{ path('produit_produit_detail_produit_market', {'id': slide.produit.id }) }}{% endif %}" style="display: block; height: 220px; text-align: right; position: sticky;">	
+								<img src="{% if slide.src != null %}{{ asset(slide.getwebpath) }}{% else %}{{ asset('template/images/user-bg.jpg') }}{% endif %}" alt="" style="height: 100%;"/>
+							</a>
+						{% else %}
+							<a href="{{ slide.link }}" style="display: block; height: 220px; text-align: right; position: sticky;">	
+								<img src="{% if slide.src != null %}{{ asset(slide.getwebpath) }}{% else %}{{ asset('template/images/user-bg.jpg') }}{% endif %}" alt="" style="height: 100%;"/>
+							</a>
+						{% endif %}
+					  </div>
+				  </div>
+				</div>
+			{% endfor %}
+		  </div>
+		  
+		  <a class="carousel-control-prev" data-target="#carouselExampleIndicators" href="#!" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"><i class="mdi mdi-chevron-left"></i></span>
+			<span class="sr-only">Previous</span>
+		  </a>
+		  
+		  <a class="carousel-control-next" data-target="#carouselExampleIndicators" href="#!" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"><i class="mdi mdi-chevron-right"></i></span>
+			<span class="sr-only">Next</span>
+		  </a>
+		</div>
+    </div>
+    </div>
+    </div>
+</section>
+
+<style>
+#client-logos .item {
+	margin: 1px;
+}
+.cover-wrapper {
+	padding: 5px 0px;
+}
+.client-inners img {
+	height: 100%;
+	object-fit: contain;
+}
+.client-inners {
+	border: 1px solid #ccc;
+	height: 100px;
+	text-align: center;
+	padding: 7px 0px;
+}
+.owl-nav img {
+	width: 34px;
+}
+.owl-prev img {
+	position: absolute;
+	left: -38px;
+	top: 37px;
+}
+.owl-next img {
+	position: absolute;
+	right: -38px;
+	top: 37px;
+}
+
+.item-inner:hover{
+	background: #f8f8f8;
+	box-shadow: 0px 0px 3px 1px #333;
+}
+
+.theme-bg-light{
+	border: 1px  #CCC solid;
+
+	box-shadow: 
+	inset 0px 11px 8px -10px #CCC,
+	inset 0px -11px 8px -10px #CCC;
+}
+
+.logo-partner .owl-stage-outer{
+	max-height: 100px!important;
+}
+
+.progression-cours{
+	height: 140px; display: block;
+	text-decoration: none!important;
+	border: 2px solid #fff;
+}
+.progression-cours:hover{
+	background: #f7f7f7!important;
+}
+
+.owl-carousel .owl-dot{
+    display: none;
+}
+.owl-carousel .owl-nav .owl-next, .owl-carousel .owl-nav .owl-prev {
+    
+}
+.staff-list .owl-nav button{
+	background: transparent!important;
+	border: none;
+	height: 30px!important;
+	width: 30px!important;
+	border-radius: 50%;
+}
+.staff-list .owl-nav button:hover{
+	background: #333!important;
+	border: 1px sold red;
+}
+</style>
+
+
+<section class="logo-partner" style="background: #f4f4f4; border-top: 1px solid #ddd; max-height: 120px; margin-top: 0px;">
+<div class="container">
+<div class="cover-wrapper">
+	<div id="client-logos" class="owl-carousel text-center">
+		<div class="item" >
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire1.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire2.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire3.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire4.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire5.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire6.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire7.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire8.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire9.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire10.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire11.png') }}" alt=""/>
+			</div>
+		</div>
+		<div class="item">
+			<div class="client-inners">
+			  <img src="{{ asset('template/images/partner/Logo_partenaire12.png') }}" alt=""/>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</section>
+
+
+<script type="text/javascript">
+$('#client-logos').owlCarousel({
+	loop:true,
+	margin:15,
+	nav:true,
+	responsive:{
+		0:{
+			items:2
+		},
+		600:{
+			items:4
+		},
+		1000:{
+			items:6
+		}
+	},
+	navText: ["<img src='{{ asset('template/images/av8a49a4f81c3318dc69d.png') }}'/>","<img src='{{ asset('template/images/avcc910c4ee5888b858fe.png') }}'/>"]
+});
+</script>
+
+<style>
+.card-view {
+    -webkit-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    padding: 22px;
+    margin-bottom: 20px;
+	background: #fff;
+	
+}
+.card-view:hover {
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.01);
+	background: #f9f9f9;
+	cursor: pointer;
+}
+.flex-row-cours {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.spacer {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.bg-gray{
+    background: #F8F8F8;
+}
+.no-margin{
+    margin: 0 !important;
+}
+.flex-row-cours .flex-col{
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.r-layout {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+}
+.r-layout .r-img {
+    position: relative;
+    width: 199px;
+    height: 192px;
+    margin-right: 20px;
+}
+.cm-sm {
+    width: 154px !important;
+    height: 156px !important;
+}
+.r-layout .r-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+.r-layout .s-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: 500;
+    margin-right: 0;
+}
+.s-tag {
+    width: 41px;
+    height: 36px;
+    background: transparent;
+    color: #212121;
+    border-radius: 3px;
+    background: var(--theme-color1);
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 20px;
+}
+.card-sm-content .r-layout .r-content .title {
+    font-size: 17px;
+}
+.r-layout .r-content .title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #212121;
+    margin: 0;
+}
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+}
+.r-layout .r-content p {
+    font-size: 14px;
+    color: #666666;
+    margin: 0;
+    margin-bottom: 10px;
+}
+.taglist {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 10px;
+}
+.taglist .tag:first-child {
+    margin-left: 0;
+}
+.taglist .tag {
+    margin-left: 10px;
+}
+.tag {
+    width: 67px;
+    height: 26px;
+    border-radius: 2px;
+    background-color: #e4e4e4;
+    font-size: 14px;
+    color: #666666;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+}
+.r-layout .r-content p {
+    font-size: 14px;
+    color: #666666;
+    margin: 0;
+    margin-bottom: 10px;
+}
+.r-layout .r-content .color-text {
+    font-weight: 600;
+    color: #00796b;
+}
+.r-layout .r-content p {
+    font-size: 14px;
+    color: #666666;
+    margin: 0;
+    margin-bottom: 10px;
+}
+/* common css up */
+
+.h3-titlte {
+    font-size: 20px;
+    font-weight: 600;
+    color: #212121;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+@media screen and (max-width: 600px){
+	canvas{
+		max-height: 150px!important;
+		max-width: 130px!important;
+		margin-top: -40px;
+	}
+}
+</style>
+
+
+<section class="theme-bg-light">
+	<div class="container">
+	<section class="text-center">
+	Ces structures qui font la fierté du groupe AZ Corporation : elles nous ont donné l'opportunité de nous exprimer…
+    </section>
+	<div style="margin-top: 20px;">
+
+	  <input id="tab-1" class="input-tabs" type="radio" name="tabs" checked/>
+	  <label for="tab-1" class="label-tab">Votre progression</label>
+		
+	  <input id="tab-2" class="input-tabs" type="radio" name="tabs"/>
+	  <label for="tab-2" class="label-tab">Vos enregistrements</label>
+		
+	  <input id="tab-3" class="input-tabs" type="radio" name="tabs"/>
+	  <label for="tab-3" class="label-tab">Recommandations</label>
+		
+      <div class="section-tabs" id="content1">
+		<div class="row" style="margin: 20px 0px; ">
+			{% for cours in liste_produit %} 
+			<div class="col-md-4 grid-margin grid-margin-md-0">
+			  <a  href="{{ path('produit_produit_detail_produit_market', {'id': cours.id }) }}" class="card progression-cours">
+				<div class="card-body">
+				  <div class="row">
+					<div class="col-4 col-sm-4 col-md-4">
+					<canvas id="canvaspie{{ cours.id }}" height="300"></canvas>
+					</div>
+					<div class="col-8 col-sm col-sm-8 col-md-8">
+					  <p class="font-weight-medium">{{ cours.name(50) }}</p>
+					  <p class="text-muted">{{ cours.souscategorie.nom }}</p>
+					  <p class="text-info mb-0 font-weight-medium">Suivre maintenant</p>
+					</div>
+				  </div>
+				</div>
+			  </a>
+			</div>
+			{% endfor %}
+		</div>
+	  </div>
+
+	  <div class="section-tabs" id="content2">
+			<div class="row" style="margin: 20px 0px; ">
+				{% for animation in produit_enregistrer %}
+				{% if animation.produit.ancienPrixProduit > 0 %}
+					{% set taux =  (animation.produit.newprise - animation.produit.ancienPrixProduit)/animation.produit.ancienPrixProduit %}
+				{% else %}
+					{% set taux = 0 %}
+				{% endif %}
+				{% set taux = taux*100 %}
+				
+				<div class="col-md-4 grid-margin grid-margin-md-0">
+				  <a href="{{ path('produit_produit_detail_produit_market', {'id': animation.produit.id }) }}" class="card-view" title="{{ animation.produit.titre }}" style="display: block; text-decoration: none;">
+					<div class="r-layout">
+						<div class="r-img cm-sm">
+						  <img src="{% if animation.produit.imgproduit != null %}{{ asset(animation.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" alt="">
+						</div>
+						<div class="r-content">
+						  <div class="s-tag"></div>
+						  <h4 class="title">{{ animation.produit.name(30) }}..</h4>
+						  <p>
+							  {{ animation.produit.souscategorie.nom }}
+						  </p>
+						  
+						  <div class="taglist">
+							  <div class="tag" style="text-decoration: line-through">{{ animation.produit.lastprise }}{{ devise }}</div>
+							  <div class="tag">{{ animation.produit.newprise }}{{ devise }}</div>
+							  <div class="tag">NIRF</div>
+						  </div>
+						  
+						  <p>
+							Par {{ animation.produit.user.name(30) }}
+						  </p>
+						  <p class="color-text">
+							  {% if taux > 0 %}Augmentation de{% else %}Réduction de {% endif %}{{ taux|round }}% sur ce produit.
+						  </p>
+						</div>
+					</div>
+				</a>
+				</div>
+				{% endfor %}
+			</div>
+	  </div>
+		
+	  <div class="section-tabs" id="content3">
+			<div class="row" style="margin: 20px 0px;">
+			    {% for animation in liste_recommandation|slice(0,3) %}
+				{% if animation.produit.ancienPrixProduit > 0 %}
+					{% set taux =  (animation.produit.newprise - animation.produit.ancienPrixProduit)/animation.produit.ancienPrixProduit %}
+				{% else %}
+					{% set taux = 0 %}
+				{% endif %}
+				{% set taux = taux*100 %}
+				<div class="col-md-4 grid-margin grid-margin-md-0">
+				  <a href="{{ path('produit_produit_detail_produit_market', {'id': animation.produit.id }) }}"  class="card-view" style="display: block; text-decoration: none;">
+					<div class="r-layout">
+						<div class="r-img cm-sm">
+						  <img src="{% if animation.produit.imgproduit != null %}{{ asset(animation.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" alt="">
+						</div>
+						<div class="r-content">
+						  <div class="s-tag"></div>
+						  <h4 class="title">{{ animation.produit.name(30) }}</h4>
+						  <p>
+							  {{ animation.produit.souscategorie.nom }}
+						  </p>
+						  
+						  <div class="taglist">
+							  <div class="tag" style="text-decoration: line-through">{{ animation.produit.lastprise }}{{ devise }}</div>
+							  <div class="tag">{{ animation.produit.newprise }}{{ devise }}</div>
+							  <div class="tag">NIRF</div>
+						  </div>
+						  
+						  <p>
+							Par {{ animation.produit.user.name(30) }}
+						  </p>
+						  <p class="color-text">
+							  {% if taux > 0 %}Augmentation de{% else %}Réduction de {% endif %}{{ taux|round }}% sur ce produit.
+						  </p>
+						</div>
+					</div>
+				</a>
+				</div>
+				{% endfor %}
+				
+			</div>
+	  </div>
+	</div>
+
+	</div>
+</section>
+		
+<div class="content-wrapper" style="margin-bottom: -20px;">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
+					<h2>Appréciés en ce moment</h2>
+					<p>Consultez les cours les plus suivis en ce moment dans notre institut</p>
+				</div>
+			</div>
+		</div>
+            
+		<div class="row">
+			<div class="col-md-12">
+				<div class="owl-carousel staff-list" style="padding-top: 10px;">
+					{% for produit in produit_aime %}
+					<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="card-cours" style="display: block; text-decoration: none; margin-left: -1px;">
+					<div class="image-cours">
+					  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="min-height: 350px;"/>
+					  <div class="pricing-formation"><strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span></div>
+					  <div style="height: 80px; background: #fff; position: absolute; z-index: 2; width: 100%; bottom: 0px; padding: 3px 7px;">
+						<h2 style="font-size: 18px; margin-top: 15px;"><strong>{{ produit.name(40) }}</strong> <span class="fa fa-bookmark pull-right"></span></h2>
+						<span>{{ produit.souscategorie.nom }}</span>
+					  </div>
+					</div>
+					<div class="details">
+					  <div class="center text-left">
+						<div style="text-align: left!important;">
+							
+								<img src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="height: 30px; width: 30px; float: left; margin-right: 7px; border-radius: 7px;"/>
+								<strong style="display: block;">{{ produit.user.name(25) }}</strong>
+								<div style="display: block;">Formateur </div>
+							
+						</div>
+						<p>{{ produit.description|raw }}</p>
+						<ul>
+						  
+						</ul>
+					  </div>
+					</div>
+					</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+    
+		
+        <script type="text/javascript">
+		$(document).ready(function(){
+		  $(".owl-carousel").owlCarousel({
+			  items:4,
+			  autoplay:false,
+			  margin:30,
+			  loop:true,
+			  nav:true,
+			  responsive:{
+				0:{
+					items:1,
+					nav:true
+				},
+				600:{
+					items:2,
+					nav:false
+				},
+				1000:{
+					items:3,
+					nav:true,
+					loop:false
+				}
+			  },
+			  navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
+			  
+		  });
+		});
+        </script>
+		
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
+					<h2> Les plus visités</h2>
+					<p>Voici les les cours les plus recherchés par nos abonnés en ce moment</p>
+				</div>
+			</div>
+		</div>
+            
+		<div class="row">
+			<div class="col-md-12">
+				<div class="owl-carousel staff-list" id="owl-carousel" style="padding-top: 10px;">
+					{% for produit in produit_visite %}
+					<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="card-cours" style="display: block; text-decoration: none; border: none;">
+					<div class="image-cours">
+					  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="min-height: 350px;"/>
+					  <div class="pricing-formation"><strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span>{{ produit.ancienPrixProduit }} {{ devise|raw }}</span></div>
+					  <div style="height: 80px; background: #fff; position: absolute; z-index: 2; width: 100%; bottom: 0px; padding: 3px 7px;">
+						<h2 style="font-size: 18px; margin-top: 15px;"><strong>{{ produit.name(40) }}</strong> <span class="fa fa-bookmark pull-right"></span></h2>
+						<span>{{ produit.souscategorie.nom }}</span>
+					  </div>
+					</div>
+					<div class="details">
+					  <div class="center text-left">
+						<div style="text-align: left!important;">
+							
+								<img src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="height: 30px; width: 30px; float: left; margin-right: 7px; border-radius: 7px;"/>
+								<strong style="display: block;">{{ produit.user.name(25) }}</strong>
+								<div style="display: block;">Formateur </div>
+							
+						</div>
+						<p>{{ produit.description|raw }}</p>
+						<ul>
+						  
+						</ul>
+					  </div>
+					</div>
+					</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+    
+		
+        <script type="text/javascript">
+		$(document).ready(function(){
+		  $("#owl-carousel").owlCarousel({
+			  items:4,
+			  autoplay:false,
+			  margin:30,
+			  loop:true,
+			  nav:true,
+			  responsive:{
+				0:{
+					items:1,
+					nav:true
+				},
+				600:{
+					items:2,
+					nav:false
+				},
+				1000:{
+					items:3,
+					nav:true,
+					loop:false
+				}
+			  },
+			  navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
+		  });
+		});
+        </script>
+</div>
+
+<section class="theme-bg-light">
+	<div class="container">
+		<div class="row">
+		<div class="col-md-12 text-center" style="height: 150px; padding: 20px;">
+			
+			<h2>Récommandations</h2>
+			<p>Aidez-nous à choisir les cours adaptés aux compétences que vous désirez avoir</p>
+			<a href="{{ path('produit_service_search_recommandations_user') }}" class="btn btn-primary">Mes recommandations</a>
+		</div>
+		</div>
+	</div>
+</section>
+
+<div class="content-wrapper">	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
+				<h2>Meilleures catégories</h2>
+				<p>"Nous les avons recensé d’après nous visiteurs et internautes 
+				(d'après les sondages faits à l'institut et sur nos réseaux sociaux). Voici vos meilleures catégories selon vous. "
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		{% for categorie in liste_categorie %}
+		<div class="col-md-4">
+			<div class="container-cat" style="background: url('{% if categorie.src != null %}{{ asset(categorie.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}'); background-size: cover;">
+			  <p class="title-cat" style="font-size: 15px;">
+				<span class="subtitle-cat" style="color: #fff!important; text-shadow: 0 0 3px #092759, 0 0 5px #092759; font-size: 20px;">
+				  {{ categorie.nom }}
+				</span>
+				{{ categorie.description[:100] }}..
+			  </p>
+			  <a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': categorie.id }) }}" class="button-cat" style="display: block; text-decoration: none;">Consulter</a>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+<section class="theme-bg-light">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center" style="height: 150px; padding: 20px;">
+				<h2>Devenir Enseignant </h2>
+				<p>Rejoingnez la communauté grandissante d'enseignant(e)s {{ site }}</p>
+				<a href="{{ path('produit_service_souscription_programme_formateur') }}" class="btn btn-primary">Devenir enseignant</a>
+			</div>
+		</div>
+	</div>
+</section>	
+
+
+<div class="content-wrapper">	
+		
+		 <div class="row">
+			<div class="col-md-12">
+				<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
+					<h2>Nos offres de formation</h2>
+					<p>
+					A des moments particuliers de l'année, nous lancons des campagnes de formation pour permettre à tous nos abonnés de renforcer leurs capacités à moindre coût. Découvrez nos campagnes de formation actuellement disponibles et 100% à distance.
+					</p>
+				</div>
+			</div>
+		 </div>
+		
+		 <div class="row">
+            {% for formation in liste_formation|slice(0,2) %}
+			<div class="col-md-6">
+				<div class="lp">
+					<section class="lp__header text-center" style="padding: 7px;">
+						<h1>{{ formation.nom }}</h1>
+					</section>
+					
+					<section class="lp__grid">
+					  <a href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" style="display: block; text-decoration: none; background: url('{% if formation.imgservice != null and formation.imgservice.src != null %}{{ asset(formation.imgservice.getwebpath) }}{% else %}{{ asset('template/images/present.jpg') }}{% endif %}') no-repeat center center;background-size: cover" class="lp__gridItem lp__gridItem__image">
+					  
+						
+					  </a>
+						<div class="lp__gridItem lp__gridItem__text" style="position: sticky;">
+						  <div class="pricing-formation"><strong>{{ formation.nprix }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ formation.aprix }} {{ devise|raw }}</span></div>
+						  <p class="lp__gridItemText-sm" style="font-size: 15px; margin-bottom: 20px; margin-top: 30px;"><span class="fa fa-video-camera"></span> {{ formation.getNbvideos }} vidéos</p>
+						  <h2 class="lp__gridItemText-lg">Formation en ligne</h2>
+						  <p class="lp__gridItemText-md" style="height: 150px;">{{ formation.pubinline[:150] }}..</p>
+						  <p class="lp__gridItemText-sm lp__gridItemText-sm-bw"><strong>Formation: du</strong>  {{ formation.datebegin|slice(0, 2) }} {{ formation.user.mois(formation.datebegin|slice(4, 2)) }} au {{ formation.datefin|slice(0, 2) }} {{ formation.user.mois(formation.datefin|slice(4, 2)) }} {{ formation.datebegin|slice(6, 4) }}</p>
+					    </div>
+					</section>
+					<a href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" class="btn btn-primary" style="position: relative; left: 15px; bottom: 15px;">En savoir plus</a>
+			    </div>
+            </div>
+			{% endfor %}
+
+          </div>
+		  
+
+		  <div class="row">
+			<div class="col-md-12">
+				<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
+					<h2>Notre priorité est d'apporter toutes les réponses à vos questions.</h2>
+					<p><i class="fa fa-info-circle"></i> Nous sommes tout d’abord un <a href="" title="Notre plateforme de présentation des parcourts au centre" style="text-decoration: underline; font-weight: bold;">Institut de Formation Professionnelle</a> agréé par le Ministère de l’Emploi et de la Formation Professionnelle du Cameroun depuis 2017 (Agrément N° 371/MINEFOP/SG/SDGSF/SACD). Trouvez ci-dessous les réponses à vos questions ou <a href="" title="Envoyez-nous un mail" style="text-decoration: underline; font-weight: bold;"> Contactez-vous</a> pour en savoir plus à propos de nos offres de formations.</p>
+				</div>
+			</div>
+		  </div>
+		  
+		  
+		<style>
+		
+
+
+		.card-effet{
+			position: relative;
+			width: 100%;
+			height: 255px;
+			cursor: pointer;
+			transition: .5s;
+			overflow: hidden;
+			margin-bottom: 20px;
+			background: #fff;
+		}
+		.card-effet:hover{
+			height: 397px;
+			display: relative;
+			margin-bottom: -300px;
+			z-index: 3;
+			box-shadow: 0 0 13px 0px rgba(0,0,0,.3);
+			background: #fff;
+		}
+
+		.card-effet img{
+			width: 100%;
+			transition: .5s;
+		}
+		.card-effet:hover img{
+		}
+
+		.card-effet .card-effet-body{
+			padding: .5rem .85rem 1rem;
+			height: 0;
+		}
+
+		.card-effet .card-effet-body h6{
+			
+		}
+
+		.card-effet .card-effet-body p{
+			
+		}
+
+		.card-effet .card-effet-body div{
+			width: 100%;
+		}
+
+		div.demotabs {
+		  border: 2px dashed #e6e6e6;
+		  border-radius: .8125rem;
+		  box-shadow: inset 0px 0px 1.625rem rgba(0, 0, 0, 0.05);
+		  margin-top: 1.625rem;
+		  padding: 15px;
+		  background: #fff;
+		}
+				
+		</style>
+		  
+	 
+	<div class="row">
+	<div class="col-md-12">
+	<div class="demotabs" >
+
+	<ul class="nav nav-tabs responsive" role="tablist">
+		<li class="nav-item" style="width:33%">
+			<a class="nav-link active" data-toggle="tab" data-target="#henin" href="#!" role="tab"><h4>Foire aux questions</h4><p style="color:black">Questions fréquemment posées</p></a>
+		</li>
+		<li class="nav-item" style="width:33%">
+			<a class="nav-link" data-toggle="tab" data-target="#voguet" href="#!" role="tab"><h4>Pourquoi nous choisir</h4><p style="color:black">Nos atouts</p></a>
+		</li>
+		<li class="nav-item" style="width:33%">
+			<a class="nav-link" data-toggle="tab" data-target="#soubranne" href="#!" role="tab"><h4>Nos forums</h4><p style="color:black">Entre-aide pour avancer sereinement </p></a>
+		</li>
+	</ul><!-- Tab panes -->
+	
+	<div class="tab-content responsive" style="min-height: 500px;">
+		<div class="tab-pane active" id="henin" role="tabpanel">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						{% for article in article_faq %}
+						<div class="accordion-faq">
+						  <h4 class="accordion__title">
+							{{ article.titre }}
+							<i class="accordion__icon">
+							  <div class="line-01"></div>
+							  <div class="line-02"></div>
+							</i>
+						  </h4><!-- end .accordion__title -->
+						  <div class="accordion__content">
+							<p>{{ article.description }}</p>
+						  </div><!-- end .accordion__content -->
+						</div><!-- end .accordion 01 -->
+						{% else %}
+							<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+								<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+								<hr style="width: 100px; border-bottom: 1px solid red;">
+							</div>
+						{% endfor %}
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="voguet" role="tabpanel">
+			<div class="container-fluid">
+
+
+			  <div class="row">
+				{% for article in article_avantage %}
+				<div class="col-md-4">
+				<div class="card-effet">
+					<img src="{% if article.imginfoentreprise != null %}{{ asset(article.imginfoentreprise.getWebpath) }}{% else %}https://source.unsplash.com/user/diegyms/300x200{% endif %}" alt="vitateach" />
+					<div class="card-effet-body">
+						<h3>{{ article.titre }}</h3>
+						<div>{{ article.description }}</div>
+					</div>
+				</div>
+				</div>
+				{% else %}
+					<div class="col-md-12">
+					<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+						<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+						<hr style="width: 100px; border-bottom: 1px solid red;">
+					</div>
+					</div>
+				{% endfor %}
+				
+			  </div>
+
+			</div>
+		</div>
+		<div class="tab-pane" id="soubranne" role="tabpanel">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+					<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+						<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+						<hr style="width: 100px; border-bottom: 1px solid red;">
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+
+	</div>
+
+	<script type="text/javascript">
+
+		// When any accordion title is clicked...
+		$(".accordion__title").click(function(){
+			const $accordion_wrapper = $(this).parent();
+			const $accordion_content = $(this).parent().find(".accordion__content");
+			const $accordion_open = "accordion--open";
+
+			// If this accordion is already open
+			if ($accordion_wrapper.hasClass($accordion_open)) {
+				$accordion_content.slideUp();                     // Close the content.
+				$accordion_wrapper.removeClass($accordion_open);  // Remove the accordionm--open class.
+			}
+			// If this accordion is not already open
+			else {
+				$accordion_content.slideDown();                 // Show this accordion's content.
+				$accordion_wrapper.addClass($accordion_open);   // Add the accordion--open class.
+			}
+		});
+
+	</script>
+    </div>
+		
+{% endblock %}
+
+{% block srcjavascripttemplate %}
+<script src="{{ asset('template/js/Chart.min.js') }}"></script>
+{% endblock %}
+
+{% block javascripttemplate %}
+
+{% for cours in liste_produit %}
+	var datapointspie{{ cours.id }} = [10,90]
+	var configpie{{ cours.id }} = {
+	type: 'pie',
+	data: {
+		datasets: [{
+			data: datapointspie{{ cours.id }},
+			backgroundColor: [
+				"#092759",
+				"#76b4e7"
+			],
+			label: 'Dataset 1'
+		}],
+		labels: [
+			'Red',
+			'Orange'
+		]
+	},
+	options: {
+		responsive: true,
+		legend: {
+			display: false,
+			labels: {
+				fontColor: 'rgb(255, 99, 132)'
+			}
+		}
+	}
+	};
+
+	var newDataset{{ cours.id }} = {
+		backgroundColor: ["#fff"],
+		data: [100],
+		label: 'New dataset ',
+	};
+		
+{% endfor %}
+
+window.onload = function() {
+	{% for cours in liste_produit %}
+		var ctxpie{{ cours.id }} = document.getElementById('canvaspie{{ cours.id }}').getContext('2d');
+		window.myPie{{ cours.id }} = new Chart(ctxpie{{ cours.id }}, configpie{{ cours.id }});
+
+
+		configpie{{ cours.id }}.data.datasets.push(newDataset{{ cours.id }});
+		window.myPie{{ cours.id }}.update();
+	{% endfor %}
+};
+
+{% endblock %}

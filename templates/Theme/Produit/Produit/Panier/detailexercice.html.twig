@@ -1,0 +1,210 @@
+
+<tr class="{% if ident % 3 == 1 %}success{% endif %} {% if ident % 3 == 2 %}danger{% endif %} {% if ident % 3 == 0 %}active{% endif %}">
+<td  data-column="Enoncé"><a href="{% if accessressource == true %}{{ path('produit_produit_telecharge_exercice', {'id': exercice.id }) }}{% else %}#!{% endif %}" {% if accessressource == false %}class="access-denied-exercice-{{ exercice.id }}"{% else %} target="_blank"{% endif %} title="téléchargez"><span class="fa fa-download"></span> Exercice N°{{ exercice.num }}</a></td>
+<td data-column="Composition">
+{% if panier.valide == true %}
+	{% if panier.user == app.user %}
+		{% if composexercice == null %}<a href="#!" class="add-copie-courant-exercice-{{ exercice.id }}"><span class="fa fa-cloud-upload"></span> Déposez votre copie ici</a>{% else %} <a href="{{ asset(composexercice.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ composexercice.alt[:20 ] }}</a><a href="#!" class="alter-copie-courant-exercice-{{ exercice.id }} pull-right"><span class="fa fa-edit"></span></a> {% endif %}
+	{% else %}
+		{% if composexercice != null %}
+		<a href="{{ asset(composexercice.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ composexercice.alt[:20 ] }}</a>
+		{% else %}
+		<a href="#!"><span class="fa fa-info-circle"></span> Aucune proposition de correction</a>
+		{% endif %}
+	{% endif %}
+{% else %}
+	{% if panier.user == app.user %}
+		<span class="fa fa-lock"></span> Accès Interdit
+	{% else %}
+		<a href="{{ asset(composexercice.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ composexercice.alt[:20 ] }}</a>
+	{% endif %}
+{% endif %}
+</td>
+<td data-column="Correction">
+{% if panier.valide == true %}
+	{% if composexercice != null and composexercice.note != 0 and  composexercice.lastvalidation != 0 %}
+		{% if noteminexo <= chapitre.getNoteExercice(prodpan) %}
+			{% if exercice.correctionexercice != null and prodpan != null %} <a href="{{ path('produit_download_correction_exercice_chapter', {'id': exercice.id, 'prodpan': prodpan.id}) }}" target="_blank"><span class="fa fa-download"></span> Correction Exercice N°{{ exercice.num }}</a> {% else %}<a href="#!" title="Aucune correction publiée."><span class="fa fa-download"></span> Correction Exercice N°{{ exercice.num }}</a>{% endif %}
+		{% else %}
+			<span class="fa fa-lock"></span> Accès Interdit
+		{% endif %}
+	{% else %}
+			<span class="fa fa-lock"></span> Accès Interdit
+	{% endif %}
+{% else %}
+	{% if panier.user == app.user %}
+		<span class="fa fa-lock"></span> Accès Interdit
+	{% else %}
+		{% if exercice.correctionexercice != null and prodpan != null %} <a href="{{ path('produit_download_correction_exercice_chapter', {'id': exercice.id, 'prodpan': prodpan.id}) }}" target="_blank"><span class="fa fa-download"></span> Correction Exercice N°{{ exercice.num }}</a> {% else %}<a href="#!" title="Aucune correction publiée."><span class="fa fa-download"></span> Correction Exercice N°{{ exercice.num }}</a>{% endif %}
+	{% endif %}
+{% endif %}
+</td>
+<td data-column="Note/{{ bareme }}">
+	{% if composexercice == null %}
+		<div class="progress progress-striped active" style="margin-bottom: 0px;">
+			<div class="progress-bar progress-bar-warning" style="width: 0%;"></div>
+		</div>
+	{% else %}
+		{% if panier.user == app.user %}
+			<a href="#!"><span class="fa fa-file-text-o"></span> {{ composexercice.note }} </a>
+		{% else %}
+			<div>
+				<select type="" class="form-control update-note-exercice-{{ exercice.id }}" style="width: 100%; height: 30px; padding: 5px; border-radius: 0px;">
+				{% for i in range(1,bareme,0.5) %}
+					<option value="{{ i }}" {% if composexercice != null and composexercice.note == i %}selected{% endif %}>{{ i }}</option>
+				{% endfor %}
+				</select>
+			</div>
+		{% endif %}
+	{% endif %}
+</td>
+</tr>
+
+{% if prodpan != null %}
+<div class="modal fade" id="infos-action-new-copie-exercice-{{ exercice.id }}" style="margin-top: 100px; z-index: 9999;">
+
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Ajoutez votre copie
+	</h4>
+</div>
+
+<div class="modal-body" style="background: #fff; color: #333;">
+
+<div class="text-left">
+Chapitre <span class="fa fa-angle-right" style="font-size: 10px;"></span> {{ chapitre.name(50) }} <span class="fa fa-angle-right" style="font-size: 10px;"></span> Exercice N°{{ exercice.num }}
+</div>	
+<hr style="margin-bottom: 0px;"/>
+
+<div style="background: #ECF0F1; padding: 15px;">
+	<form action="{{ path('users_user_add_new_copie_exercice', {'exercice': exercice.id,'prodpan': prodpan.id }) }}" method="post" {{ form_enctype(form) }}>
+	<div>{{ form_label(form.file,'Importez votre copie depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(form.file) }}
+	</div>
+	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+	{{ form_rest(form) }}
+	</form>
+</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+{% endif %}
+
+{% if prodpan != null and formmodif != null and composexercice != null %}
+<div class="modal fade" id="infos-action-alter-copie-exercice-{{ exercice.id }}" style="margin-top: 100px; z-index: 9999;">
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Modifiez votre copie
+	</h4>
+</div>
+
+<div class="modal-body" style="background: #fff; color: #333;">
+
+<div class="text-left">
+Chapitre <span class="fa fa-angle-right" style="font-size: 10px;"></span> {{ chapitre.name(50) }} <span class="fa fa-angle-right" style="font-size: 10px;"></span> Exercice N°{{ exercice.num }}
+</div>	
+<hr style="margin-bottom: 0px;"/>
+
+<div style="background: #ECF0F1; padding: 15px;">
+	<form action="{{ path('users_user_alter_copie_exercice_user', {'id': composexercice.id }) }}" method="post" {{ form_enctype(formmodif) }}>
+	<div>{{ form_label(formmodif.file,'Importez votre copie depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(formmodif.file) }}
+	</div>
+	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+	{{ form_rest(formmodif) }}
+	</form>
+</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+{% endif %}
+
+
+<script type="text/javascript">
+$('.access-denied-exercice-{{ exercice.id }}').click(function(){
+	$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec !! Vous n\'avez pas le droit d\'accéder à cette ressource.');
+	$('#infos-action-effectuer').modal('show');
+});
+$('.add-copie-courant-exercice-{{ exercice.id }}').click(function(){
+	{#
+	{% if (prechapter == null and prodpan != null) or (prechapter != null and prodpan != null and prechapter.getNoteExercice(prodpan) >= noteminexo ) %}
+		$('#infos-action-new-copie-exercice-{{ exercice.id }}').modal('show');
+	{% else %}
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous n\'avez pas obtenu la note réquise aux éxercices da la notion précedente. Pour valider cette partie, <a href="#!">Essayez d\'abord de valider les éxercices de la leçon précedente.</a>');
+		$('#infos-action-effectuer').modal('show');}
+	{% endif %} #}
+	$('#infos-action-new-copie-exercice-{{ exercice.id }}').modal('show');
+});
+
+$('.alter-copie-courant-exercice-{{ exercice.id }}').click(function(){
+	{% if composexercice != null and composexercice.note != 0 and  composexercice.lastvalidation != 0 %}
+		{% if chapitre.getNoteExercice(prodpan) < noteminexo %}
+			{% if waittime > 0 %}
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous devez attendre environ {{ waittime }}H Pour une nouvelle tentative.');
+				$('#infos-action-effectuer').modal('show');
+			{% else %}
+				$('#infos-action-alter-copie-exercice-{{ exercice.id }}').modal('show');
+			{% endif %}
+		{% else %}
+			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous ne pouvez procéder à la modification de votre copie, car vous avez déjà obtenu une note valide.');
+			$('#infos-action-effectuer').modal('show');
+		{% endif %}
+	{% else %}
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous ne pouvez procéder à la modification de votre copie qu\'en cas d\'obtention d\'une notre inférieure à la note requise.');
+		$('#infos-action-effectuer').modal('show');
+	{% endif %}
+});
+
+$('.update-note-exercice-{{ exercice.id }}').on('change', function(){
+	{% if composexercice != null %}
+			if($('.variation-sub-contenu').attr('value') != 1)
+			{
+			  $('.variation-sub-contenu').attr('value',1);
+			  var hauteur = $('.variation-sub-contenu').height() + 2; 
+			  var largeur = $('.variation-sub-contenu').width() + 2;
+			  var padding = Math.round(hauteur/2 - 15);
+			  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+			  $.post('{{ path('users_user_update_note_exercice_user', {'id': composexercice.id}) }}', { val: $(this).val() }, function(data) {
+			  $('.attente-resultat').hide();
+			  $('.variation-sub-contenu').attr('value',0);
+			  
+			  if(data == 1)
+			  {
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Mise à jour de la note effectuée avec succès !');
+				$('#infos-action-effectuer').modal('show');
+			  }else{
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Une erreur a été rencontrée lors de la mise à jour de la note !');
+				$('#infos-action-effectuer').modal('show');
+			  }
+			  
+			  });
+			}
+		{% else %}
+			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Aucune copie associée à cet éxercice !');
+			$('#infos-action-effectuer').modal('show');
+		{% endif %}
+});
+</script>
+

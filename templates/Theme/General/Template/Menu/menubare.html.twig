@@ -1,0 +1,631 @@
+{% if position ==  'home' %}
+	<style>
+		.tabs_wrapper {
+		  width: 100%;
+		  text-align: center;
+		  margin: 0 auto;
+		  background: transparent;
+		}
+
+		ul.tabs {
+		  display: inline-block;
+		  vertical-align: top;
+		  position: relative;
+		  z-index: 10;
+		  margin: 5px;
+		  padding: 0;
+		  width: 23%;
+		  min-width: 175px;
+		  list-style: none;
+		  -ms-transition: all .3s ease;
+		  -webkit-transition: all .3s ease;
+		  transition: all .3s ease;
+		}
+		ul.tabs li {
+		  margin: 0;
+		  cursor: pointer;
+		  padding: 15px 15px;
+		  line-height: 31px;
+		  color: #333;
+		  text-align: left;
+		  font-weight: bold;
+		  background-color: #fff;
+		  background: #fff;
+		  -ms-transition: all .3s ease;
+		  -webkit-transition: all .3s ease;
+		  transition: all .3s ease;
+		}
+		ul.tabs li:hover {
+		  background: #f7f7f7;
+		  color: #333;
+		  -ms-transition: all .3s ease;
+		  -webkit-transition: all .3s ease;
+		  transition: all .3s ease;
+		}
+		ul.tabs li.active {
+		  background: #092759;
+		  color: #FFF;
+		  -ms-transition: all .3s ease;
+		  -webkit-transition: all .3s ease;
+		  transition: all .3s ease;
+		}
+
+		.tab_container {
+		  display: inline-block;
+		  vertical-align: top;
+		  position: relative;
+		  z-index: 20;
+		  left: 10px;
+		  width: 72%;
+		  min-width: 10px;
+		  text-align: left;
+		  background: white;
+		}
+
+		.tab_content {
+		  padding: 5px;
+		  height: 100%;
+		  display: none;
+		  line-height: 30px;
+		}
+
+		.tab_drawer_heading {
+		  display: none;
+		}
+
+		@media screen and (max-width: 781px){
+		  ul.tabs {
+			display: none;
+		  }
+
+		  .tab_container {
+			display: block;
+			margin: 0 auto;
+			width: 100%;
+			border-top: none;
+			border-radius: 0;
+		  }
+
+		  .tab_drawer_heading {
+			background-color: #ccc;
+			background: #fff;
+			color: #333;
+			margin: 0;
+			padding: 5px 20px;
+			display: block;
+			cursor: pointer;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			text-align: left;
+		  }
+		  .tab_drawer_heading:hover {
+			background: #f7f7f7;
+			color: #333;
+		  }
+
+		  .d_active{
+			background: #f7f7f7;
+			color: #333;
+		  }
+		}
+	</style>
+
+	<!-- partial:partials/_horizontal-navbar.html -->
+    <div class="horizontal-menu">
+      <nav class="navbar top-navbar col-lg-12 col-12 p-0">
+        <div class="nav-top flex-grow-1">
+          <div class="container d-flex flex-row h-100 align-items-center">
+            
+			<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+              <a class="navbar-brand brand-logo" href="{{ path('users_user_acces_plateforme') }}"><img src="{{ asset('template/images/AZ_logo_e-learning.png') }}" alt="logo" style="height: 50px;"/></a>
+              <a class="navbar-brand brand-logo-mini" href="{{ path('users_user_acces_plateforme') }}"><img src="{{ asset('template/images/logo.png') }}" alt="logo"/></a>
+            </div>
+			
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end flex-grow-1">
+              <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown">
+                  {% set nb_notification = liste_notification|length %}
+				  <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                    <i class="mdi mdi-bell-outline mx-0"></i>
+					{% if nb_notification > 0 %}
+                    <span class="count" style="height: 15px; width: 15px; font-size: 9px; color: #fff;">{{ nb_notification }}</span>
+					{% endif %}
+                  </a>
+				  
+                  <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                    <a class="dropdown-item">
+                      <p class="mb-0 font-weight-normal float-left">Mes notifications</p>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    {% for notification in liste_notification %}
+						{% if notification.commentaireblog == null %}
+						<a href="{% if app.user != null %}{{ path('users_user_notifications_user', {'id': app.user.id }) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{% if notification.user.imgprofil != null %}{{ asset(notification.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="profile-pic" style="margin-top: -7px;">
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium"> {{ notification.user.name(30) }}
+							  <span class="float-right font-weight-light" style="font-size: 9px;">{{ notification.getDuree }}</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  {{ notification.titre }}
+							</p>
+						  </div>
+						</a>
+						{% else %}
+						<a href="{% if notification.commentaireblog.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': notification.commentaireblog.produit.id, 'mess': notification.commentaireblog.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': notification.commentaireblog.chapitrecours.id, 'mess': notification.commentaireblog.id }) }}{% endif %}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{% if notification.user.imgprofil != null %}{{ asset(notification.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="profile-pic" style="margin-top: -7px;">
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium"> {{ notification.user.name(30) }}
+							  <span class="float-right font-weight-light" style="font-size: 9px;">{{ notification.getDuree }}</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  {{ notification.titre }}
+							</p>
+						  </div>
+						</a>
+						{% endif %}
+					{% else %}
+						{% if app.user == null %}
+						
+							<a href="{{ path('login') }}" class="dropdown-item preview-item">
+							  <div class="preview-thumbnail">
+								  <img src="{{ asset('template/images/co.png') }}" alt="image" class="profile-pic"/>
+							  </div>
+							  <div class="preview-item-content flex-grow">
+								<h6 class="preview-subject ellipsis font-weight-medium">Anonyme
+								  <span class="float-right font-weight-light small-text">À l'instant</span>
+								</h6>
+								<p class="font-weight-light small-text">
+								  Veuillez vous connecter à votre compte
+								</p>
+							  </div>
+							</a>
+						
+						{% else %}
+						<a href="{{ path('login') }}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{{ asset('template/images/env.png') }}" alt="image" class="profile-pic"/>
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium">Aucune Notification
+							  <span class="float-right font-weight-light small-text">À l'instant</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  Pas de nouveau messages
+							</p>
+						  </div>
+						</a>
+						{% endif %}
+					{% endfor %}
+					<div class="dropdown-divider"></div>
+					<a href="{% if app.user != null %}{{ path('users_user_notifications_user', {'id': app.user.id }) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item">
+					  <i class="mdi mdi-chevron-right-circle-outline text-primary"></i>
+					  Liste complète
+					</a>
+
+                  </div>
+                </li>
+				
+                <li class="nav-item dropdown">
+                  <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                    <i class="mdi mdi-email-outline mx-0"></i>
+					{% set nb_message = liste_message|length %}
+                    {% if nb_message > 0 %}
+                    <span class="count" style="height: 15px; width: 15px; font-size: 9px; color: #fff;">{{ nb_message }}</span>
+					{% endif %}
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+                    <div class="dropdown-item">
+                      <p class="mb-0 font-weight-normal float-left">Mes Messages</p>
+                    </div>
+					
+                    <div class="dropdown-divider"></div>
+                    {% for message in liste_message %}
+						
+						<a href="{% if message.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': message.produit.id, 'mess': message.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': message.chapitrecours.id, 'mess': message.id }) }}{% endif %}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{% if message.user != null and message.user.imgprofil != null %}{{ asset(message.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="profile-pic" style="margin-top: -7px;"/>
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium"> {% if message.user != null %}{{ message.user.name(30) }}{% else %}Anonyme{% endif %}
+							  <span class="float-right font-weight-light" style="font-size: 9px;">{{ message.getDuree }}</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  {{ message.contenu }}
+							</p>
+						  </div>
+						</a>
+						
+					{% else %}
+						{% if app.user == null %}
+						<a href="{{ path('login') }}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{{ asset('template/images/co.png') }}" alt="image" class="profile-pic"/>
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium">Anonyme
+							  <span class="float-right font-weight-light small-text">À l'instant</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  Veuillez vous connecter à votre compte
+							</p>
+						  </div>
+						</a>
+						{% else %}
+						<a href="{{ path('login') }}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{{ asset('template/images/env.png') }}" alt="image" class="profile-pic"/>
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium">Aucun Message
+							  <span class="float-right font-weight-light small-text">À l'instant</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  Pas de nouveau messages
+							</p>
+						  </div>
+						</a>
+						{% endif %}
+					{% endfor %}
+					<div class="dropdown-divider"></div>
+					<a href="{% if app.user != null %}{{ path('produit_service_liste_message_user', {'id': app.user.id}) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item">
+					  <i class="mdi mdi-chevron-right-circle-outline text-primary"></i>
+					  Liste complète
+					</a>
+
+                  </div>
+                </li>
+				
+                <li class="nav-item nav-profile dropdown">
+                  <a class="nav-link dropdown-toggle" href="#!" data-toggle="dropdown" id="profileDropdown">
+                    <img src="{% if app.user != null and app.user.imgprofil != null %}{{ asset(app.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="profile" style="margin-top: -7px;"/>
+                  </a>
+				  
+                  <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                    
+					{% if app.user != null %}
+						<a href="{{ path('users_user_user_accueil', {'id': app.user.id}) }}" class="dropdown-item">
+						  <i class="mdi mdi-account text-primary"></i>
+						  {{ app.user.name(25) }}
+						</a>
+						
+						<div class="dropdown-divider"></div>
+						
+						<a href="{{ path('users_user_modifier_profil', {'id': app.user.id}) }}" class="dropdown-item">
+						  <i class="mdi mdi-settings text-primary"></i>
+						  Paramètres
+						</a>
+						
+
+						<a href="{{ path('produit_service_yourcv_recrutement') }}" class="dropdown-item">
+						  <i class="mdi mdi-basket-fill text-primary"></i>
+						  Créditer mon solde
+						</a>
+						
+						{% if app.user.formateur == true and is_granted('ROLE_FORMATEUR') %}
+							<a href="{{ path('produit_produit_ajouter_nouveau_produit') }}" class="dropdown-item">
+								<i class="fa fa-plus text-primary"></i>
+								Ajoutez un cours
+							</a>
+							
+							<a href="{{ path('users_user_accueil_commande_user', {'id': app.user.id}) }}" class="dropdown-item">
+								<i class="fa fa-eye text-primary"></i>
+								Formations à suivre
+							</a>
+						{% endif %}
+						<div class="dropdown-divider"></div>
+						<a href="{{ path('logout') }}" class="dropdown-item">
+						  <i class="mdi mdi-logout text-primary"></i>
+						  Déconnexion
+						</a>
+					{% else %}
+						<a href="{{ path('login') }}" class="dropdown-item">
+						  <i class="mdi mdi-settings text-primary"></i>
+						  Connexion
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="{{ path('users_user_inscription_user') }}" class="dropdown-item">
+						  <i class="mdi mdi-logout text-primary"></i>
+						  Inscription
+						</a>
+					{% endif %}
+					
+                  </div>
+                </li>
+				
+                <li class="nav-item nav-settings d-none d-lg-block">
+                  <a class="nav-link" href="#">
+                    <i class="mdi mdi-apps"></i>
+                  </a>
+                </li>
+              </ul>
+              <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
+                <span class="mdi mdi-menu"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <nav class="bottom-navbar">
+        <div class="container">
+          <ul class="nav page-navigation" style="justify-content: flex-start!important;">
+		  
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('users_user_acces_plateforme') }}">
+                <i class="mdi mdi-home menu-icon"></i>
+                <span class="menu-title">Accueil</span>
+              </a>
+            </li>
+			
+            <li class="nav-item mega-menu">
+              
+			  <a href="#" class="nav-link">
+                <i class="mdi mdi-play-protected-content menu-icon"></i>
+                <span class="menu-title">Catalogue</span>
+                <i class="menu-arrow"></i>
+              </a>
+			  
+              <div class="submenu">
+                <div class="col-group-wrapper row">
+
+					<div class="tabs_wrapper col-md-12">
+					
+					<ul class="tabs">
+					{% for cat in liste_categorie %}
+					  <li class="{% if loop.first %}active{% endif %}" rel="tab{{ cat.id }}">{{ cat.nom }}</li>
+					{% endfor %}
+					</ul>
+					
+					<div class="tab_container">
+					  {% for cat in liste_categorie %}
+					  <h3 class="d_active tab_drawer_heading" rel="tab{{ cat.id }}">{{ cat.nom }}</h3>
+					  <div id="tab{{ cat.id }}" class="tab_content">
+						<!-- h2>{{ cat.nom }}</h2 -->
+						
+						<div class="row">
+							{% for scat in cat.getScategories %}
+							<div class="col-md-4">
+								<strong>{{ scat.nom }}</strong></br>
+								{% for prod in scat.getProduitSouscategorie %}
+									<div>
+										<a href="{{ path('produit_produit_detail_produit_market', {'id': prod.id }) }}">{{ prod.titre }}</a>
+									</div>
+								{% endfor %}
+							</div>
+							{% endfor %}
+							<div class="col-md-12" style="background: #f4f4f4;">
+								<a href="{{ path('produit_produit_accueil_boutique_produit') }}"><span class="fa fa-arrow-circle-right"></span> Tous les cours</a>
+							</div>
+						</div>
+					  </div>
+					  {% endfor %}
+					</div>
+					<!-- .tab_container -->
+					</div>
+
+
+                </div>
+              </div>
+            </li>
+			
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="mdi mdi-bullseye-arrow menu-icon"></i>
+                <span class="menu-title">Campagnes</span>
+                <i class="menu-arrow"></i>
+			  </a>
+              <div class="submenu">
+                <ul class="submenu-item">
+					{% for formation in liste_formation %}
+					  <li class="nav-item"><a class="nav-link" href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}">{{ formation.nom }}</a></li>
+					{% endfor %}
+					<li class="nav-item"><a class="nav-link" href="{{ path('produit_service_visiter_notre_blog') }}">Toutes nos offres de formation</a></li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ path('produit_service_forum_site') }}" class="nav-link">
+                <i class="mdi mdi-account-search menu-icon"></i>
+                <span class="menu-title">Forum</span>
+			  </a>
+            </li>
+			
+			<li class="nav-item nav-item-formateurs">
+              <a href="{{ path('produit_service_toute_actualite_entreprise') }}" class="nav-link">
+                <i class="mdi mdi-account-supervisor menu-icon"></i>
+                <span class="menu-title">Formateurs AZ</span>
+			  </a>
+            </li>
+			
+			<li class="nav-item nav-item-aide">
+              <a href="#" class="nav-link">
+                <i class="mdi mdi-information-outline menu-icon"></i>
+                <span class="menu-title">Aide</span>
+                <i class="menu-arrow"></i></a>
+              <div class="submenu">
+                <ul class="submenu-item">
+                  <li class="nav-item"><a class="nav-link" href="{{ path('produit_service_apropos_denous') }}">À propos</a></li>
+				  <li class="nav-item"><a class="nav-link" href="{{ path('produit_service_videos_struct') }}">Vidéos</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{{ path('produit_service_azelearning_faq') }}">Foire aux questions</a></li>
+				  <li class="nav-item"><a class="nav-link" href="{{ path('produit_service_gallery_struct') }}">Galerie photo</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{{ path('produit_service_contact_us') }}">Nous contacter</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+	
+	
+    <script type="text/javascript">
+		
+    $(".tab_content").hide();
+    $(".tab_content:first").show();
+
+     /* if in tab mode */
+    $("ul.tabs li").mouseover(function(){
+	  
+      $(".tab_content").hide();
+      var activeTab = $(this).attr("rel"); 
+      $("#"+activeTab).fadeIn();		
+		
+      $("ul.tabs li").removeClass("active");
+      $(this).addClass("active");
+
+	  $(".tab_drawer_heading").removeClass("d_active");
+	  $(".tab_drawer_heading[rel^='"+activeTab+"']").addClass("d_active");
+	  
+		/*$(".tabs").css("margin-top", function(){ 
+		   return ($(".tab_container").outerHeight() - $(".tabs").outerHeight() ) / 2;
+		});*/
+    });
+	
+    $(".tab_container").css("min-height", function(){ 
+      return $(".tabs").outerHeight() + 50;
+    });
+	
+	/* if in drawer mode */
+	
+	$(".tab_drawer_heading").click(function(){
+      
+      $(".tab_content").hide();
+      var d_activeTab = $(this).attr("rel"); 
+      $("#"+d_activeTab).fadeIn();
+	  
+	  $(".tab_drawer_heading").removeClass("d_active");
+      $(this).addClass("d_active");
+	  
+	  $("ul.tabs li").removeClass("active");
+	  $("ul.tabs li[rel^='"+d_activeTab+"']").addClass("active");
+    });
+	
+    </script>
+{% else %}
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" style="box-shadow: 0 15px 15px -1px #f2f2f2 inset; background: #fff;">
+  <div style="box-shadow: 0px 6px 6px #CCC;">
+  <div class="container">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	  </button>
+	  <a class="navbar-brand" href="{{ path('users_user_acces_plateforme') }}" style="color: green;"><b>Az Corp</b></a>
+	</div>
+	<div class="navbar-collapse collapse">
+	  <ul class="nav navbar-nav">
+		<li><a href="{{ path('produit_service_visiter_notre_blog') }}" style="color: green;">Formations</a></li>
+		<li><a href="{{ path('produit_produit_module_deformation') }}" style="color: green;">Cours</a></li>
+		<li><a href="{{ path('produit_service_forum_site') }}" style="color: green;">Forum</a></li>
+		<li><a href="{{ path('produit_service_apropos_denous') }}" style="color: green;">À propos</a></li>
+		<li>
+		<div class="search zone-etab-rechercher" style="display: inline;" value="0" name="">
+			<form class="form-recherche-product" action="#!" method="post" style="display: inline;">
+				<input type="text" class="search-form form-products-plateforme" autocomplete= "off" placeholder="Lancez la recherche" style="color: #333; margin-top: 15px;"/>
+				<i class="glyphicon glyphicon-search recherche-products" style="color: green; z-index: 1000; position: absolute; margin-top: 20px;"></i>
+			</form>
+	   </div>
+		</li>
+	  </ul>
+	  <ul class="nav navbar-nav navbar-right">
+		
+		<li><a href="{{ path('produit_service_toute_actualite_entreprise') }}" style="color: green;">Formateurs</a></li>
+		<li>
+		<div class="btn-group" style="margin-top: 15px; margin-left: 5px;">
+		<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; color: green;">{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}<img src="{% if app.user.imgprofil != null %}{{ asset(app.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="width: 20px; height:20px; border-radius: 15px; margin-top: -5px;"/> {{ app.user.name(15) }} {% else %}<img src="{{ asset('template/images/co.png') }}" alt="" style="width: 20px; height:20px; border-radius: 15px; margin-top: -5px;"/> Espace membre{% endif %} <span class="caret"></span></a>
+			<ul class="dropdown-menu" style="margin-top: 13px; border-radius: 0px;">
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+				<li><a href="{{ path('users_user_user_accueil', {'id': app.user.id }) }}"><span class="fa fa-user"></span> Mon compte utilisateur</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('users_user_modifier_profil', {'id': app.user.id }) }}"><span class="fa fa-edit"></span> Modifier mes paramètres</a></li>
+				{% if app.user.formateur == true and is_granted('ROLE_FORMATEUR') %}
+				<li class="divider"></li>
+				<li><a href="{{ path('produit_produit_ajouter_nouveau_produit') }}"><span class="fa fa-plus"></span> Ajoutez un cours</a></li>
+				{% endif %}
+				<li class="divider"></li>
+				<li><a href="{{ path('produit_service_yourcv_recrutement') }}"><span class="fa fa-external-link"></span> Créditez votre compte</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('logout') }}"><span class="fa fa-sign-out"></span> Déconnexion</a></li>
+				{% else %}
+				<li><a href="{{ path('users_user_inscription_user') }}"><span class="fa fa-hand-o-right"></span> Inscription</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('login') }}"><span class="fa fa-sign-in"></span> Connexion</a></li>
+				<li class="divider"></li>
+				<li><a href="#!"><span class="fa fa-bell-o"></span> Notifications</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('produit_service_yourcv_recrutement') }}"><span class="fa fa-external-link"></span> Créditez votre compte</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('produit_service_toute_actualite_entreprise') }}"><span class="fa fa-users"></span> Formateurs</a></li>
+				{% endif %}
+			</ul>
+		</div>
+		</li>
+	  </ul>
+	</div><!--/.nav-collapse -->
+  </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+function rechercheetab()
+{
+if($('.form-products-plateforme').val().length >= 2)// on vérifier si l'utilisateur a entré plus de 5 caractères
+{
+  var libre = $('.zone-etab-rechercher').attr('value'); // on initialise la variable libre
+  var donnee = $('.form-products-plateforme').val();  //on récupère la donnée
+  if (libre == 0 && donnee != $('.zone-etab-rechercher').attr('name')){ // on vérifier si la requête précedente est rétournée et que la recherche ne corespnd pas à la dernière effectuée
+  $('.zone-etab-rechercher').attr('value',1); // on bloque d'autres recherches
+  $('.zone-etab-rechercher').attr('name',donnee); // on enregistre la recherche effectuer.
+  $('.recherche-products').removeClass('glyphicon-search');
+  $('.recherche-products').html('<img src="{{ asset('template/images/attente.gif') }}" alt="" style="width: 15px; height: 15px; margin-top: -10px;"/>'); //attente du résultat
+  
+	  $.get('{{ path('produit_produit_recherche_new_produit') }}', { donnee: $('.form-products-plateforme').val() }, function(data){
+		  $('.recherche-products').html('');
+		  $('.recherche-products').addClass('glyphicon-search');
+		  $('.content-recherche-products-market').html(data);
+		  $('.content-manage-market').hide();
+		  $('.content-recherche-products-market').show();
+		  $('.content-manage-market').css('margin-top','0px');
+		  $('.content-manage-market').css('padding-top','0px');
+		  $('.zone-etab-rechercher').attr('value',0);
+		  setTimeout(function() { rechercheetab(); }, 100);  // on relance la fonction après 200 ms.
+	  });
+  }else{
+	setTimeout(function() { rechercheetab(); }, 100);
+  }
+}else{
+	setTimeout(function() { rechercheetab(); }, 100);
+    }
+}
+
+
+$(".form-products-plateforme").focus(function(){
+rechercheetab(); 
+});
+
+$('.form-recherche-product').on('submit', function(){
+    if($('.form-products-plateforme').val().length < 2)// on vérifier si l'utilisateur a entré plus de 5 caractères
+	{
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Rentrez au moins 2 caractères !');
+		$('#infos-action-effectuer').modal('show');
+	}else{
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Patientez ! Auto-recherche en cours !');
+		$('#infos-action-effectuer').modal('show');
+	}
+	return false;
+});
+</script>
+
+{% endif %}

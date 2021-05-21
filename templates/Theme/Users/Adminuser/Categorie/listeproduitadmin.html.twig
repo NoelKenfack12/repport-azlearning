@@ -1,0 +1,199 @@
+{% extends "Theme/Users/Adminuser/layoutadmin.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
+{% endblock %}
+{% block title %}
+{{ parent() }} | Accueil Admin
+{% endblock %}
+
+{% block userblog_body %}
+<hr style="margin-top: 45px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="container" style="color: #fff;">
+	Accueil <span class="mdi-av-play-arrow" style="font-size: 10px;"></span>  Administration
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;">
+<!--content-->
+		<div class="product" style="padding-top: 20px; margin-bottom: 20px;">
+			<div class="container" style="padding: 0px;">
+			<div class="col-lg-12 animecourant-panel">
+			</div>
+				<div class="col-md-4 product-bottom">
+				{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
+				<!---->
+				</div>
+				<div class="col-md-8">
+				<div class="panel panel-widget" style="border: 1px solid #ddd; margin-bottom: 7px; border-radius: 0px;">
+						<h2 style="margin: 5px; background: #f7f7f7; ">{{ souscategorie.nom }} <span style="font-size: 12px;" class="fa fa-quote-right"></span> Valide</h2>	
+				</div>
+			
+				{% set id = '' %}				
+				{% for infos in app.session.flashbag.get('valide_prod') %}
+				{% if loop.last %}
+				<div class="panel panel-widget text-left" style="margin-bottom: 15px; padding: 0px;">
+				<div class="col-lg-12 alert alert-warning" style="border-radius: 0px; margin-bottom: 0px;">
+					<span style="color: red;"><span class="fa fa-warning"></span>  Êtes vous certain de vouloir dépublier le cours {{ infos|lower }} </span>
+					<form action="{{ path('users_adminuser_publier_produit_courant_souscategorie', {'id': id }) }}" method="post" style="display: inline;">
+					<input type="submit" class=" btn btn-primary" value="DéPublier" style="background: red;"/>
+					{{ form_rest(form) }}
+					</form>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				{% else %}
+					{% if loop.index == 1 %}
+						{% set id = infos %}
+					{% endif %}
+				{% endif %}
+				{% endfor %}
+				
+				{% for infos in app.session.flashbag.get('upgrade_prod') %}
+				{% if loop.last %}
+				<div class="panel panel-widget text-left" style="margin-bottom: 15px; padding: 0px;">
+				<div class="col-lg-12 alert alert-warning" style="border-radius: 0px; margin-bottom: 0px;">
+					<span style="color: red;"><span class="fa fa-warning"></span> Êtes vous certain de vouloir modifier le positionnement du cours {{ infos|lower }} à l'accueil.</span>
+					<form action="{{ path('users_adminuser_placer_produit_acceuilcourant_souscategorie', {'id': id }) }}" method="post" style="display: inline;">
+					<input type="submit" class=" btn btn-primary" value="Envoyer" style="background: red;"/>
+					{{ form_rest(form) }}
+					</form>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				{% else %}
+				{% set id = infos %}
+				{% endif %}
+				{% endfor %}
+				
+				<h4 class="title">
+				{% for infos in app.session.flashbag.get('information') %}
+				{% if loop.first %}
+				<div class="alert alert-warning">{{ infos|raw }}</div>
+				{% endif %}
+				{% endfor %}
+				</h4>
+				
+				
+	
+				<div style="margin-left: -5px; margin-right: -5px;">
+					{% for produit in liste_produit %}
+						<div class="col-md-4 photoday-grid" style="padding: 3px 7px;">
+						{% include 'Theme/Users/Adminuser/Produit/produitvaldescript.html.twig' %}
+						<div class="form-update-score-rencontre update-score-rencontre-{{ produit.id }}" style="display: none;">
+						<div class="col-xs-12 photoday-grid">
+						<form action="{{ path('users_adminuser_alter_score_rencontre', {'id': produit.id }) }}" method="post">
+							<div class="col-xs-12" style="padding: 1px;">
+								<input type="number" name="prixproduit" class="form-control" placeholder="Prix du cours" required style="width: 100%;"/>
+							</div>
+							<div class="col-xs-12" style="padding: 1px;">
+								<select name="dureeformation" class="form-control" style="width: 100%;">
+									<option value="30">Durée d'accès à la formation</option>
+									{% for i in range(1,24,1) %}
+									{% set nbre = i*30 %}
+									<option value="{{ nbre }}">{{ i }} Mois</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="col-xs-12 photoday-grid" style="padding: 1px;">
+								<button class="btn btn-primary btn-block">Envoyer <span class="glyphicon glyphicon-send"></span> </button>
+							</div>
+						</form>
+						</div>
+						</div>
+						</div>
+							
+						
+					{% else %}
+						<div class="panel panel-widget text-left">
+						<div class="col-lg-12 alert alert-warning" style="border-radius: 0px; margin-bottom: 0px;">
+						<span class=" fa fa-exclamation-circle"></span> La liste des cours de cette catégorie est encore vide. <span class="fa fa-warning pull-right"></span>
+						</div>
+						<div class="clearfix"> </div>
+						</div>
+					{% endfor %}
+					
+					<script type="text/javascript">
+					$('.update-score-rencontre').click(function(){
+						var id = $(this).attr('value');
+						$('.form-update-score-rencontre').hide();
+						$('.update-score-rencontre-'+id).toggle();
+					});
+					</script>
+				
+				   <div class="clearfix"> </div>
+			</div>
+				</div>
+			</div class="clearfix"></div>
+			</div>
+
+<script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
+<!-- /js files -->
+<hr>
+<script>
+
+var bouge = 1;
+var dimension = 200;
+function activateelement()
+{
+var visibility = visibleElement('.animecourant-panel');
+
+if(visibility && bouge == 0){
+	bouge = 1;
+	$('.toutleblock').css('position','relative');
+	$('.toutleblock').css('bottom','0px');
+	$('.toutleblock').css('margin-bottom','0px');
+}
+}
+
+function stopelement()
+{
+var visibility = visibleElement('.stop-courant-panel');
+if(visibility && bouge == 1){
+	if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+	{
+	
+	}else{
+	bouge = 0;
+	$('.toutleblock').css('position','fixed');
+	$('.toutleblock').css('width',dimension+'px');
+	$('.toutleblock').css('bottom','7px');
+	$('.toutleblock').css('margin-bottom','165px');
+	}
+}
+}
+
+var idStopelement = 0;
+var idActivateelement = 0;
+function controlScroll()
+{
+	var largeur = ($(window).width());
+	dimension = $('.toutleblock').width();
+	if (largeur >= 768)
+	{
+	   /*
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+		
+		$('.toutleblock').css('position','fixed');
+		$('.toutleblock').css('width',dimension+'px'); 
+		}else{ 
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+		} */
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+	}
+}
+controlScroll();
+
+</script>			
+{% endblock %}
+
+{% block javascripttemplate %}
+$('.categorie-produit').addClass('position-user');
+{% endblock %}

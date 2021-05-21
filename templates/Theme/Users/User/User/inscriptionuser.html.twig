@@ -1,0 +1,111 @@
+
+{% extends "UsersUserBundle::layoutlogin.html.twig" %}
+
+{% block meta %}
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos, Informatique Cameroun, Génie logicielle."/>
+	<meta name="author" content="Noel Kenfack, noel.kenfack@afhunt.com"/>
+	<meta name="description" content="{{ site }} - {{ metier }} - Suivez à votre rythme une formation professionnelle sur la plateforme d'e-learning de l'institut de formation proffessionnelle AZ corporation."/>
+	
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} | {{ site }} | Créez un nouveau compte et suivez votre formation à distance.
+{% endblock %}
+
+{% block userblog_body %}
+
+<div class="container-login100">
+	<div style="background: url('{{ asset('template/images/banniere.jpg') }}');
+  background-repeat: no-repeat;
+  background-size: cover; min-height: 250px; position: fixed; width: 100%; top: 0px; left: 0px;">
+	
+	</div>
+	<div class="wrap-login100" style="position: relative; z-index: 100;">
+		<form action="{{ path('users_user_inscription_user') }}" method="post" {{ form_enctype(form) }} class="login-form login100-form validate-form p-l-55 p-r-55 p-t-178">
+			
+			<div class="login100-form-title" style="margin-bottom: 150px;">
+				<div class="text-center"><strong>C'est beaucoup mieux avec un compte !</strong></div>
+                <div class="text-center" style="padding-top: 10px; text-align: center; display: block; font-size: 12px;">Veuillez remplir les champs ci-dessous </div>
+			</div>
+
+			{% for infos in app.session.flashbag.get('information') %}
+				{% if loop.last %}
+					<p class="center" style="color: red; padding: 7px; font-weight: bold;">{{ infos }}</p>
+				{% endif %}
+			{% endfor %}
+			<span style="color:red;">{{ form_errors(form) }}</span>
+			<div>
+				<span style="color:red;">{{ form_errors(form) }}</span>
+			</div>
+			<div>
+				<span style="color:red;">{{ form_errors(form.nom) }}</span>
+			</div>
+			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
+				{{ form_widget(form.nom, {'attr': {'class': 'input100', 'placeholder': 'Entrez votre nom'}}) }}
+				<span class="focus-input100"></span>
+			</div>
+			
+			<div>
+				<span style="color:red;">{{ form_errors(form.prenom) }}</span>
+			</div>
+			
+			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
+				{{ form_widget(form.prenom,{'attr': {'class': 'input100', 'placeholder': 'Entrez votre prenom'}}) }}
+				<span class="focus-input100"></span>
+			</div>
+			
+			<div>
+				<span style="color:red;">{{ form_errors(form.username) }}</span>
+			</div>
+			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
+				{{ form_widget(form.username, {'attr': {'class': 'input100', 'placeholder': 'Entrez votre Email ou Numéro de téléphone'}}) }}
+				<span class="focus-input100"></span>
+			</div>
+			
+			<div>
+				<span style="color:red;">{{ form_errors(form.password) }}</span>
+			</div>
+			
+			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
+				{{ form_widget(form.password, {'attr': {'class': 'input100', 'placeholder': 'Entrez votre Mot de passe'}}) }}
+				<span toggle="#users_userbundle_user_password" class="fa fa-fw fa-eye field-icon toggle-password" style="margin-top: -35px;"></span>
+				<span class="focus-input100"></span>
+			</div>
+
+			<div>
+				<span style="color:red;">{{ form_errors(form.tel) }}</span>
+			</div>
+			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
+				{{ form_widget(form.tel, {'attr': {'class': 'input100', 'placeholder': 'Entrez votre Numéro de téléphone'}}) }}
+				<span class="focus-input100"></span>
+			</div>
+
+			<div class="container-login100-form-btn">
+				<button class="login100-form-btn">
+					Je m'inscris
+				</button>
+			</div>
+
+			<div class="flex-col-c p-t-100 p-b-40">
+				<span class="txt1 p-b-9">
+					Vous avez un compte AZ ?
+				</span>
+
+				<a href="{{ path('login') }}" class="txt3">
+					Se connecter
+				</a>
+			</div>
+			{{ form_rest(form) }}
+		</form>
+	</div>
+</div>
+
+{% include 'GeneralTemplateBundle:Menu:menubottom.html.twig' %}
+{% endblock %}
+
+{% block javascripttemplate %}
+
+$('#users_userbundle_user_nom').focus();
+
+{% endblock %}

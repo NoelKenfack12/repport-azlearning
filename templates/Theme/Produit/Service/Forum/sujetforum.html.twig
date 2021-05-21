@@ -1,0 +1,37 @@
+<div class="panel panel-widget compose-left">
+<div class="dropdown" style="float: right; margin-right: 10px;">
+<div class="dropdown-btn">
+  <span class="fa fa-ellipsis-h"></span>
+  <div class="dropdown__menu" style="width: 250px;">
+	{% if sujetepingle|default(null) == null %}
+		<a href="#!" class="dropdown__option like-produit-courant" value="{{ sujet.id }}"><em class="fa fa-angle-right" style="float: right"></em> <span style="padding-right: 10px;"><em class=" fa fa-thumb-tack"></em>  Epingler ce sujet </span></a>
+	{% else %}
+		<a href="#!" class="dropdown__option sujetepingle-produit-courant" value="{{ sujetepingle.id }}"><em class="fa fa-angle-right" style="float: right"></em> <span style="padding-right: 10px;"><em class=" fa fa-thumb-tack"></em>  Désépingler ce sujet </span></a>
+	{% endif %}
+	
+	{% if sujet.user == app.user or is_granted('ROLE_GESTION') %}
+	<a href="{{ path('produit_service_supprimer_commentaire_courant_article', {'id': sujet.id}) }}" class="dropdown__option"><em class="fa fa-angle-right" style="float: right"></em> <span style="padding-right: 10px;"><em class="fa fa-times"></em>  Supprimer ce sujet</span></a>
+	{% endif %}
+	
+  </div>
+</div>
+</div>
+
+<div class="chat-grid widget-shadow text-left" style="margin: 0px;">
+	<div style="padding: 0px 10px;">
+		<a href="{{ path('produit_service_interventions_sujets_courant', {'id': sujet.id }) }}">
+			<div class="item-menu-right open-element" style="display: block; width: 100%;margin-top: 15px; border-bottom: 1Px solid #ddd;">
+				<div class="chat-left pull-left" style="width: 80px; margin-right: 15px;padding-right: 10px;">
+					<img src="{% if sujet.user != null %}{% if sujet.user.imgprofil != null %}{{ asset(sujet.user.imgprofil.getWebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="article aimé" class="img-thumbnail" style="width: 70px; height:70px; border-radius: 5px; margin: 10px;"/>
+				</div>
+				<div class="chat-right">
+					<p style="margin: 0px;"><strong>{% if sujet.user != null %}{{ sujet.user.name(25) }}{% else %}Anonyme{% endif %} <span class="fa fa-angle-double-right"></span> {{ sujet.titre }}</strong></p>
+					<p style="margin: 0px;">{{ sujet.contenu|raw }} </p>
+					<p style="margin: 0px;"><span class="badge"><span class="fa fa-calendar"></span> {{ sujet.date|date('d') }} {{ sujet.user.mois(sujet.date|date('m')) }} {{ sujet.date|date('Y') }} à {{ sujet.date|date('H') }}:{{ sujet.date|date('i') }}</span> - <span class="badge"><span class="fa fa-envelope"></span> {{ sujet.nbmessage }} {% if sujet.nbmessage > 1 %}Messages{% else %}Message{% endif %}</span> - <span class="badge"> Intervenir <span class="glyphicon glyphicon-send"></span></span> {% if sujet.user.formateur == true %}<span class="pull-right" title="Formateur"><img src="{{ asset('template/images/badgeaz.png') }}" alt="Certificat" class="pull-right" style="height: 30px; width: 20px;"/></span>{% endif %}</p>
+				</div>
+			<div class="clearfix"></div>
+			</div>
+		</a>
+	</div>
+</div>
+</div>

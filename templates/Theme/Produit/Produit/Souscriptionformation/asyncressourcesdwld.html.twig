@@ -1,0 +1,177 @@
+
+{% if type == "cours" %}
+<div class="col-md-12" style="padding: 0px; margin-top: 40px; margin-left: -35px; margin-right: -35px; width: 104%;">
+   <video
+	id="my-player"
+	class="video-js"
+	controls
+	preload="auto"
+	poster="{% if produit.imgproduit != null %} {{ asset(produit.imgproduit.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}"
+	data-setup="{}"
+    style="width: 100%!important; height: 450px; " onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
+	<source src="{% if produit.videoproduit != null %}{{ asset(produit.videoproduit.getwebpath) }} {% else %}{{ asset('template/player/media/intro.mp4') }}{% endif %}" type="video/mp4" />
+	<source src="{{ asset('template/player/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf') }}" type="video/webm" />
+	<p class="vjs-no-js">
+	  To view this video please enable JavaScript, and consider upgrading to a
+	  web browser that
+	  <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a
+	  >
+	</p>
+  </video>
+</div>
+
+<script type="text/javascript">
+{% if mess > 0 %}
+	var options = {autoplay: false};
+{% else %}
+	var options = {autoplay: true};
+{% endif %}
+
+var player = videojs('my-player', options, function onPlayerReady() {
+  videojs.log('Your player is ready!');
+
+  //How about an event listener?
+  this.on('ended', function() {
+    
+	{% if nextchapter != null %}
+		var height = ($(window).height() + $(window).scrollTop());
+		var width = $(window).width() + 100;
+		var scrolltop = $(window).scrollTop();
+		$('.panel-result-action-elearning-user').show();
+		$('.content-alert-action-elearning-user').show();
+		$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+		document.location.href= "{{ path('produit_produit_presentation_chapter', {'id': nextchapter.id}) }}";
+	{% endif %}
+	
+  });
+});
+</script>
+
+{% elseif(type == "formation") %}
+<div class="col-md-12" style="padding: 0px; margin-top: 40px; margin-left: -35px; margin-right: -35px; width: 104%;">
+   <video
+	id="my-player"
+	class="video-js"
+	controls
+	preload="auto"
+	poster="{% if service.imgservice != null %} {{ asset(service.imgservice.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}"
+	data-setup="{}"
+  style="width: 100%!important; height: 450px; " onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
+	<source src="{% if service.imgservicesecond != null %}{{ asset(service.imgservicesecond.getwebpath) }} {% else %}{{ asset('template/player/media/intro.mp4') }}{% endif %}" type="video/mp4" />
+	<source src="{{ asset('template/player/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf') }}" type="video/webm" />
+	<p class="vjs-no-js">
+	  To view this video please enable JavaScript, and consider upgrading to a
+	  web browser that
+	  <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+	</p>
+  </video>
+</div>
+
+<script type="text/javascript">
+{% if mess > 0 %}
+	var options = {autoplay: false};
+{% else %}
+	var options = {autoplay: true};
+{% endif %}
+
+var player = videojs('my-player', options, function onPlayerReady() {
+  videojs.log('Your player is ready!');
+
+  // How about an event listener?
+  this.on('ended', function(){
+  
+	{% if nextcourse != null %}
+		var height = ($(window).height() + $(window).scrollTop());
+		var width = $(window).width() + 100;
+		var scrolltop = $(window).scrollTop();
+		$('.panel-result-action-elearning-user').show();
+		$('.content-alert-action-elearning-user').show();
+		$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+		document.location.href= "{{ path('produit_produit_detail_produit_market', {'id': nextcourse.produit.id}) }}";
+	{% endif %}
+	
+  });
+});
+
+</script>
+{% elseif(type == "chapitre") %}
+<div style="padding: 0px; margin-top: 40px; margin-left: -35px; margin-right: -35px; width: 104%;">
+   <video
+	id="my-player"
+	class="video-js"
+	controls
+	preload="auto"
+	poster="{% if chapitre.imgchapitre != null %} {{ asset(chapitre.imgchapitre.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}"
+	data-setup="{}"
+  style="width: 100%!important; height: 450px; " onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
+	<source src="{% if chapitre.videochapitre != null %}{{ asset(chapitre.videochapitre.getwebpath) }} {% else %}{{ asset('template/player/media/intro.mp4') }}{% endif %}" type="video/mp4" />
+	<source src="{{ asset('template/player/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf') }}" type="video/webm" />
+	<p class="vjs-no-js">
+	  To view this video please enable JavaScript, and consider upgrading to a
+	  web browser that
+	  <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a
+	  >
+	</p>
+  </video>
+</div>
+
+<script type="text/javascript">
+{% if mess > 0 %}
+	var options = {autoplay: false};
+{% else %}
+	{% if chapitre.partiecours.produit.user == app.user or is_granted('ROLE_GESTION') %}
+		var options = {autoplay: true};
+	{% else %}
+		var options = {autoplay: false};
+	{% endif %}
+{% endif %}
+
+var player = videojs('my-player', options, function onPlayerReady(){
+  videojs.log('Your player is ready!');
+
+  // How about an event listener?
+  this.on('ended', function(){
+    
+	//Mentionnez la lecture de la vidéo en base de données !
+	sauveLectureVideo();
+	
+  });
+});
+
+function sauveLectureVideo()
+{
+	$.ajax({
+	   url : '{{ path('produit_produit_confirmation_lectrure_video_chapitre',{'id': chapitre.id, 'idprodpan': idprodpan }) }}',
+	   type : 'POST',
+	   dataType : 'html',
+	   success : function(data, statut){ // success est toujours en place, bien sûr !
+		   
+		   {% if nextchapter != null %}
+				if(data != 0)
+				{
+					var height = ($(window).height() + $(window).scrollTop());
+					var width = $(window).width() + 100;
+					var scrolltop = $(window).scrollTop();
+					$('.panel-result-action-elearning-user').show();
+					$('.content-alert-action-elearning-user').show();
+					$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+					document.location.href= "{{ path('produit_produit_presentation_chapter', {'id': nextchapter.id}) }}";
+				}else{
+					alert('Echec de sauvegarde de la lecture');
+				}
+			{% else %}
+				alert('Pas de suite');
+			{% endif %}
+			
+	   },
+
+	   error : function(resultat, statut, erreur){
+		 alert("Echec 1");
+	   }
+	});
+}
+</script>
+{% endif %}

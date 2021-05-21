@@ -1,0 +1,367 @@
+
+{% if position == 'home' %}
+
+<style>
+.footer-top ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.footer-logo img {
+    max-width: 100%;
+    height: auto;
+}
+
+.btn {
+    padding: 14px 25px;
+    text-transform: uppercase;
+    -webkit-transition: all 0.8s;
+    -moz-transition: all 0.8s;
+    -o-transition: all 0.8s;
+    transition: all 0.8s;
+}
+.red-btn {
+    background: #ed1b24;
+    border: 2px solid blue;
+    color: #fff;
+}
+
+.red-btn:hover{
+    background: #1c376c;
+    color: #fff;
+    border-color: #ffffff;
+}
+
+/*---------footer---------*/
+footer {
+    background-color: #222023;
+    background-image: -webkit-linear-gradient( top, #222023, #1e2c47 );
+    background-image: -moz-linear-gradient( top, #222023, #1e2c47 );
+    background-image: -o-linear-gradient( top, #222023, #1e2c47 );
+    background-image: linear-gradient( to bottom, #222023, #1e2c47 );
+    color: #fff;
+    padding: 25px 0px 3px 0px;
+    font-size: 17px;
+}
+footer h3 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+footer h4 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 2px;
+}
+.about-footer li i {
+    position: absolute;
+    left: 0;
+}
+.about-footer li {
+    padding-left: 40px;
+    position: relative;
+    margin-bottom: 7px;
+}
+
+.about-footer ul {
+    margin-top: 40px;
+}
+
+footer a {
+    color: #fff;
+}
+
+footer a:hover {
+   color: blue;
+}
+.footer-title {
+    border-bottom: 2px solid #a61f2d;
+    padding-bottom: 25px;
+    margin-bottom: 35px;
+}
+
+ul.footer-social {
+    float: right;
+}
+
+ul.footer-social li {
+    display: inline;
+    margin-right: 16px;
+}
+
+ul.footer-social i {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    color: #222025;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+    font-weight: 800;
+}
+
+ul.footer-social li:last-child {
+    margin-right: 0px;
+}
+
+ul.footer-social i:hover {
+    background: #ed1b24;
+    color: #fff;
+}
+
+.page-more-info li {
+    margin-bottom: 25px;
+}
+
+footer .table td:first-child {
+    font-weight: 600;
+    padding-left: 33px;
+}
+
+footer .table td:last-child {text-align: right;}
+footer .table td {
+    padding: 0px;
+    border: 0;
+}
+
+footer .table tr {
+}
+
+footer .table td i {
+    position: absolute;
+    left: 0px;
+    font-size: 21px;
+    top: 6px;
+}
+
+footer .table td {
+    position: relative;
+    padding: 4px 0;
+}
+.footer-logo td {
+    padding-right: 4px !important;
+}
+
+.footer-logo td:last-child {
+    padding-right: 0px !important;
+}
+footer hr {
+    border-color: #9294a0;
+}
+
+.footer-bottom p {
+    text-align: right;
+}
+.footer-bottom {
+    margin-top: 30px;
+}
+.open-hours hr {
+    margin: 30px 0;
+}
+
+.img-paiement-m{
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  display: inline-block;
+  background: #fff;
+  padding: 2px;
+}
+</style>
+
+
+<footer>
+    <div class="container">
+        <div class="footer-top" >
+            <div class="row">
+                <div class="col-md-6 col-lg-3 about-footer">
+					<h4 style="margin-bottom: 15px;">{{ site }}</h4>
+					<h6 style="margin: 0px;">Téléphones</h6>
+					<ul style="margin: 0px;">
+						<li><a href="https://wa.me/237699934926" target="_blank">Whatsapp: 237699934926</a></li>
+						<li><a href="tel:(237) 222 31 46 62">Ligne 1: (237) 222 31 46 62</a></li>
+						<li><a href="tel:(237) 697 27 97 70">Ligne 2: (237) 697 27 97 70</a></li>
+						<li><a href="tel:(237) 676 26 40 27">Ligne 3: (237) 676 26 40 27</a></li>
+					</ul>
+					<div style="margin-bottom: 15px;">
+						Notre siège social est situé à Yaoundé Biyem-Assi, Carrefour Kameni (Immeuble Mater). 
+					</div>
+                    <a href="{{ path('produit_service_contact_us') }}" class="btn btn-primary">Nous contacter</a>
+                </div>
+				
+                <div class="col-md-6 col-lg-2 page-more-info">
+                    <div class="footer-title">
+                        <h4>Nos formations</h4>
+                    </div>
+                    <ul>
+						{% for cat in liste_categorie %}
+                        <li><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': cat.id }) }}">{{ cat.nom }}</a></li>
+						{% endfor %}
+                    </ul>
+                </div>
+
+                <div class="col-md-6 col-lg-3 page-more-info">
+                    <div class="footer-title">
+                        <h4>À propos de nous</h4>
+                    </div>
+                    <ul>
+                        <li><a href="{{ path('produit_service_apropos_denous') }}">L'entreprise</a></li>
+                        <li><a href="{{ path('produit_service_forum_site') }}">Forum</a></li>
+                        <li><a href="{{ path('produit_service_azelearning_faq') }}">Foire aux questions</a></li>
+                        <li><a href="{{ path('produit_service_gallery_struct') }}">Galerie photos</a></li>
+                        <li><a href="{{ path('produit_service_videos_struct') }}">Vidéos</a></li>
+                    </ul>
+                </div>
+				
+                <div class="col-md-6 col-lg-4 open-hours">
+                    <div class="footer-title">
+                        <h4>Disponibilité</h4>
+                        <ul class="footer-social">
+                            <li><a href="http://facebook.com/AZcorpAfrica" target="_blank"><i class="fa fa-facebook-f"></i></a></li>
+                            <li><a href="https://twitter.com/gaielbleriot?lang=en" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://wa.me/237699934926" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+                        </ul>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr style="color: #333!important; border: none;">
+                                <td><i class="far fa-clock"></i>Lundi - Vendredi</td>
+                                <td>08:00 - 18:00</td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td><i class="far fa-clock"></i>Samedi</td>
+                                <td>08:00 - 14:00</td>
+                            </tr>
+                            <tr style="color: #333!important; border: none;">
+                                <td><i class="far fa-clock"></i>Dimanche</td>
+                                <td>Fermé</td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td><i class="far fa-clock"></i>Support & Forum</td>
+                                <td>24h/24</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <div class="footer-logo">
+						<div>Modes de paiement</div>
+					
+						<div class="row" style="margin: 0px;">
+							<div class="col-3 col-md-3" style="padding: 2px;"><a href="#!" title="Orange Money" class="img-paiement-m"><img src="{{ asset('template/images/orange-logo3.png') }}" style="width: 100%;"/></a></div>
+							<div class="col-3 col-md-3" style="padding: 2px;"><a href="#!" title="MTN Mobile Money" class="img-paiement-m"><img src="{{ asset('template/images/mtn-logo3.png') }}" style="width: 100%;"/></a></div>
+							<div class="col-3 col-md-3" style="padding: 2px;"><a href="#!" title="Afriland FirstBank" class="img-paiement-m"><img src="{{ asset('template/images/banque-logo3.png') }}" style="width: 100%;"/></a></div>
+							<div class="col-3 col-md-3" style="padding: 2px;"><a href="#!" title="Moneygram" class="img-paiement-m"><img src="{{ asset('template/images/money-gramme.png') }}" style="width: 100%;"/></a></div>
+							<div class="col-3 col-md-3" style="padding: 2px;"><a href="#!" title="Paiement Cash Au bureau" class="img-paiement-m"><img src="{{ asset('template/images/paiement-logo3.png') }}" style="width: 100%;"/></a></div>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="footer-bottom">
+            <div class="row">
+                <div class="col-sm-6">
+					<p class="text-left">
+                    Copyright © 2016 - {{ "now"|date('Y') }} <a href="http://azcorporation.net/" target="_blank">AZ Corporation</a>. All rights reserved.  {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('users_adminuser_accueil_administration') }}"> Administration</a> {% endif %}
+					</p>
+				</div>
+                <div class="col-sm-6">
+                    <p><a href="">Confidentialité</a> | <a href="">Conditions générales d'utilisation</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% elseif (position == 'presentation') %}
+
+<footer class="footer">
+  <div class="w-100 clearfix">
+	<div class="row">
+		<div class="col-sm-6">
+			<p class="text-left">
+			Copyright © 2020 <a href="http://azcorporation.net/" target="_blank">AZ Corporation</a>. All rights reserved.  {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('users_adminuser_accueil_administration') }}"> Administration</a> {% endif %}
+			</p>
+		</div>
+		<div class="col-sm-6 text-right">
+			<p><a href="">Confidentialité</a> | <a href="">Conditions générales d'utilisation</a></p>
+		</div>
+	</div>
+  </div>
+</footer> 
+
+{% else %}
+	<nav id="footer" style="position: absolute; z-index: 5; width: 100%; padding-top: 0px;">
+	<section style="background: #bdc3c7; margin-bottom: 20px;">
+	<div class="container">
+	<div class="row">
+		<div class="col-lg-12" style="padding-top: 15px;">
+			
+            Abonnez-vous à la newletter pour suivre la mise à jour des cours en temps réel. <span class="fa fa-angle-double-right"></span>  
+            {{ form_start(form, {'attr': {'action': path('users_user_create_newsletter_account') }}) }}
+
+                {{ form_widget(form.nom, {'attr': {'placeholder':'Rentrez votre nom','style':'height: 35px; padding: 7px;'}}) }} 
+                {{ form_widget(form.email, {'attr': {'placeholder':'Rentrez votre e-mail','style':'height: 35px; padding: 7px;'}}) }}  
+                <button class="btn btn-primary" style="height: 35px; border-radius: 0px;">S'inscrire</button> 
+
+            {{ form_end(form) }}
+
+		</div>
+	</div>
+	</div>
+	</section>
+
+	<div class="container">
+	<div class="row">
+		
+		<div class="col-lg-3">
+			<div><strong><span class="mdi-action-description"></span> Az Corp E-learning</strong></div>	
+			<div><a href="{{ path('produit_service_apropos_denous') }}" style="color: #fff;"> À propos</a></div>	
+			<div><a href="{{ path('produit_service_apropos_denous') }}" style="color: #fff;"> Comment ça marche ?</a></div>	
+			<div><a href="#!" style="color: #fff;"> Conditions d'utilisation</a></div>	
+		</div>
+		<div class="col-lg-3">
+			<div><strong><span class="mdi-action-open-in-new"></span> L'entreprise</strong></div>	
+			<div><a href="http://e-learning.azcorporation.net" style="color: #fff;" target="_blank"> e-learning.azcorporation.net</a></div>	
+			<div><a href="http://azcorporation.net" style="color: #fff;" target="_blank"> azcorporation.net</a></div>
+			
+			<div>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('users_adminuser_accueil_administration') }}" style="color: #fff;"> Administration</a> {% endif %} {% if is_granted('ROLE_FORMATEUR') %}| <a href="{{ path('produit_produit_ajouter_nouveau_produit') }}" style="color: #fff;"> Créez un cours</a>{% endif %}</div>
+			
+		</div>
+		<div class="col-lg-3">
+			<div><strong><span class="mdi-action-perm-phone-msg"></span> Nous Contactez</strong></div>	
+			<div><a href="#!" style="color: #fff;"> Tel: (+237) 697.27.97.70</a></div>
+			<div><a href="#!" style="color: #fff;"> BP: 154 Yaoundé</a></div>
+			<div><a href="{{ path('produit_service_contact_us') }}" style="color: #fff;"> Formulaire de contact</a></div>	
+		</div>
+		<div class="col-lg-3">
+			<div><strong><span class="mdi-communication-location-on"></span> Localisation</strong></div>	
+			<div><a href="#!" style="color: #fff;"> Yaoundé, Biyem-assi-Collège Bambis</a></div>
+			<div><a href="#!" style="color: #fff;"> Cameroun</a></div>
+		</div>
+	</div>
+			
+	</div>
+	<div class="container">
+		<hr>
+		<div class="pull-left fnav">
+			<p>© 2017 All rights reserved. Design By <a href="http://africexplorer.com/">Afex</a></p>
+		</div>
+		<div class="pull-right fnav">
+			<ul class="footer-social">
+				<li>Suivez-nous sur : </li>
+				<li><a href="{{ facebook }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+				<li><a href="{{ google }}" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+				<li><a href="{{ twitter }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+				<li><a href="{{ linkedin }}" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+			</ul>
+		</div>
+	</div>
+	</nav>
+{% endif %}

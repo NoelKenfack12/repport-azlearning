@@ -1,0 +1,39 @@
+<link href="{{ asset('template/css/tokenize2.css') }}" rel="stylesheet" />
+<script src="{{ asset('template/js/tokenize2.js') }}"></script>
+
+<div>
+<div style="margin-bottom: 15px;">Ajoutez les cours recommandées pour <strong>{{ categorie.nom }}</strong></div>
+<form method="post" class="submit-defaukt" action="{{ path('users_adminuser_assossiation_metier_cours', {'id': categorie.id}) }}">
+<select style="width: 100%!important; display: block;" class="tokenize-sample-demo1 form-control" multiple value="">
+	{% for cours in liste_cours %}
+	<option value="{{ cours.id }}">{{ cours.titre }}</option>
+	{% endfor %}
+</select>
+<input type="hidden" name="recommandation">
+<button class="btn btn-primary">
+Envoyer
+</button>
+</form>
+
+<div style="margin-top: 15px; border-top: 1px solid #ddd;">
+<strong>Liste des dernières recommandations assossiées</strong>
+{% for recommandation in liste_oldrecommandation %}
+	<div>
+		{{ recommandation.produit.titre }}
+	</div>
+{% endfor %}
+</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.tokenize-sample-demo1').tokenize2({
+		placeholder: 'Entrez le premier mot du cours',
+		sortable: true
+	});
+	
+	$('form.submit-defaukt').on('submit', function(){
+		$(this).find('input').attr('value',$(this).find('select').val());
+	});
+});
+</script>

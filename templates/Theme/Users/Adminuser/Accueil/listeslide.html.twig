@@ -1,0 +1,29 @@
+
+{% for slide in allslide %}
+<!-- Blog Post Row -->
+<div class="col-md-12" style="padding: 5px;">
+	<div class="col-md-1 text-center" style="padding: 0px;">
+		<a href="{{ path('users_user_user_accueil', {'id': slide.user.id }) }}" title="{{ slide.user.name(20) }}"><img src="{% if slide.user.imgprofil != null %} {{ asset(slide.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" alt="{{ slide.user.name(20) }}" class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/></a>
+	</div>
+	<div class="col-md-5">
+		<a href="#!">
+			<div class="hover01 column">
+				<div>
+					<figure style="padding: 0px!important; margin: 0px!important; height: 150px;"><img class="img-responsive img-hover img-thumbnail" src="{{ asset(slide.getWebpath) }}" alt="" title="" style="height: 150px; width: 100%; margin-bottom: 15px;"></figure>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-md-6">
+		<h3 style="margin: 0px; border-bottom: 1px solid #ddd;">
+			{% if slide.titre != null %}{{ slide.titre }}{% else %}Aucun titre{% endif %}{% if slide.link != null %}<a href="{{ slide.link }}" class="pull-right"><span class="fa fa-share"></span></a>{% endif %}
+		</h3>
+		<p class="blog-agile1 w3layouts w3 w3l w3ls" style="font-size: 11px; margin-bottom: 0px;">Le {{ slide.date|date('d/m/y') }} <a href="#!">Rang:</a> {{ slide.rang }}; <a href="#!">Position:</a> {% if slide.acceuil == 1 %}<span>Acueil</span>{% endif %} {% if slide.acceuil == 0 and slide.annonce == 0 %}<span>Forum</span>{% endif %} {% if slide.annonce == 1 %}<span>Inscription</span>{% endif %}</p>
+		<p class="blog-agile2 agileits agileinfo wthree w3-agileits" >{% if slide.description != null %}{{ slide.description[:200] }}{% else %}<span class="fa fa-warning"></span> Aucune description{% endif %}</p>
+		<a class="btn btn-danger pull-right" href="{{ path('users_adminuser_delete_courant_slide',{'id': slide.id }) }}" style="border-radius: 0px; height: 35px; font-size: 14px; padding: 2px;">Supprimer <i class="fa fa-times"></i></a>
+		<a class="btn btn-primary pull-right" href="{{ path('users_adminuser_modification_image_slide_accueil', {'id': slide.id}) }}" style="border-radius: 0px; height: 35px; font-size: 14px; padding: 2px;">Modifier <i class="fa fa-pencil"></i></a>
+	</div>
+</div>
+<!-- /.row -->
+{% endfor %}
+	

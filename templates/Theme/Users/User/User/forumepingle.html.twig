@@ -1,0 +1,105 @@
+
+{% extends "UsersUserBundle::layouthome.html.twig" %}
+
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos, forum {{ site }}"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos,  forum {{ site }}" />
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - Sujets Forums {{ user.name(25) }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block userblog_body %}
+
+{{ render(controller("ProduitServiceBundle:Service:banniereforum")) }}
+
+
+<div class="container" style="margin-top: -15px;">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{# % include "GeneralTemplateBundle:Menu:contacts.html.twig" % #}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+			<li class="breadcrumb-item"><a href="#!"><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">Sujets épinglés</a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">{{ user.name(25) }} </a></li>
+		</ol>
+	</div>
+</div>
+</div>
+</div>
+
+	<div class="container">
+		<div class="row mt centered" style="margin-bottom: 10px; margin-top: -25px;">
+			
+			<div class="col-md-12">
+				<h3 style="background: #ECF0F1; padding: 10px 7px; margin-top: 10px; border-bottom: 1px solid #ddd; text-align: left;">
+				<img src="{% if user != null %}{% if user.imgprofil != null %}{{ asset(user.imgprofil.getWebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="article aimé" class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/>
+				 Sujets épinglés.
+				</h3>
+			</div>
+			<div class="col-sm-12">
+			{% for sujetepingle in liste_epingle %}
+				{% set sujet = sujetepingle.commentaireblog %}
+				{% include 'ProduitServiceBundle:Forum:sujetforum.html.twig' %}
+		    {% else %}
+			    <div class="alert-warning text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;"><span class="fa fa-info-circle"></span> Aucun sujet épinglé par {{ user.name(30) }} <span class="fa fa-cog pull-right"></span></div>
+		    {% endfor %}
+			</div>
+			<div class="clearfix"></div>
+		</div><!-- /row -->
+		<div class="row mt centered" style="margin-bottom: 10px; margin-top: 0px;">
+		  <div class="col-lg-12"  style="padding: 3px 15px 3px 10px;">
+		  <div style="border-top: 1px dashed #999; text-align: left;"><a href="{{ path('produit_produit_accueil_boutique_produit') }}" style="padding: 0px; margin: 0px;"><span class="fa fa-list"></span> Tous les cours <span class="fa fa-arrow-circle-right"></span></a> <a href="{{ path('produit_service_visiter_notre_blog') }}" class="pull-right"><span class="fa fa-arrow-circle-left"></span> Formations <span class=" fa fa-bookmark-o"></span></a> </div>
+		  </div>
+		</div>
+	</div><!-- /container -->
+
+	<hr>
+{% endblock %}
+
+
+{% block javascripttemplate %}
+$('.sujetepingle-produit-courant').click(function(){
+	var id = $(this).attr('value');
+
+	var height = ($(window).height() + $(window).scrollTop());
+	var width = $(window).width() + 100;
+	var scrolltop = $(window).scrollTop();
+	$('.panel-result-action-elearning-user').show();
+	$('.content-alert-action-elearning-user').show();
+	$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 9000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+	$.get('{{ path('produit_produit_remove_sujet_epingle') }}',{ id: id }, function(data){
+	  if(data == 1)
+	  {
+		resetNotif();
+		alertify.alert("Succès, le sujet a été épeinglé avec succès !");
+		  $('.panel-result-action-elearning-user').hide();
+		  $('.content-alert-action-elearning-user').hide();
+		  window.location.reload();
+	  }else{
+		  resetNotif();
+		  alertify.alert("Echec, Une erreur a été rencontrée lors de l\'enregistrement de ce sujet.");
+		  $('.panel-result-action-elearning-user').hide();
+		  $('.content-alert-action-elearning-user').hide();
+	  }
+	});
+	return false;
+  return false;
+});
+{% endblock %}

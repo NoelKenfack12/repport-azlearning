@@ -1,0 +1,109 @@
+{% extends "UsersAdminuserBundle::layoutadmin.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | Administration | Cameroun | {{ metier }}"/>
+{% endblock %}
+{% block title %}
+{{ parent() }} | Accueil Admin
+{% endblock %}
+
+{% block userblog_body %}
+
+ <!--content-->
+		<div class="product">
+			<div class="container">
+				<div class="col-md-3 product-bottom">
+				 {{ render(controller("UsersAdminuserBundle:Accueil:menuadmin")) }} 
+				<!---->
+				</div>
+			<div class="col-md-9 animated wow fadeInRight variation-contenu" data-wow-delay=".5s" value="0">
+				<div  style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+				  <h2 style="margin-bottom: 3px; margin-top: 7px;">Liste des produits du panier N° {{ panier.date|date('d') }}_{{ panier.id }}_{{ panier.date|date('m') }}_{{ panier.date|date('y') }} de {{ panier.user.name(20) }}.</h2>
+				</div>
+				 {% set total = 0 %}
+						{% for prodpan in liste_produit  %}
+							<div class="col-sm-4 item-grid item-gr  simpleCart_shelfItem">
+								<div class="grid-pro">
+									<div  class=" grid-product " >
+										<figure>		
+											<a href="{{ path('produit_produit_detail_produit_market', {'id': prodpan.produit.id }) }}">
+												<div class="grid-img">
+												   {% set nbre = random() % prodpan.produit.imgproduits|length %}
+												   {% set nbre2 = random() % prodpan.produit.imgproduits|length %}
+												   {% if nbre == nbre2 and prodpan.produit.imgproduits|length >= 2 %}
+												   {% if nbre == prodpan.produit.imgproduits|length - 1 %}
+												   {% set nbre2 = 0 %}
+												   {% else %}
+												   {% set nbre2 = nbre + 1 %}
+												   {% endif %}
+												   {% endif %}
+												   {% for img in prodpan.produit.imgproduits %}
+												   {% if loop.index0 == nbre %}
+												   <img src="{{ asset(img.getWebpath) }}" class="img-responsive" alt="" style="height: 180px;"/>
+												   {% endif %}
+												   {% endfor %}
+												</div>
+												<div class="grid-img">
+													{% for img in prodpan.produit.imgproduits %}
+												   {% if loop.index0 == nbre2 %}
+												   <img src="{{ asset(img.getWebpath) }}" class="img-responsive" alt="" style="height: 180px;"/>
+												   {% endif %}
+												   {% endfor %}
+												</div>			
+											</a>		
+										</figure>	
+									</div>
+									{% set cout = prodpan.produit.newprise  * prodpan.quantite %}
+						            {% set total = total + cout %}
+									<div class="women">
+										<h6><a href="{{ path('produit_produit_detail_produit_market', {'id': prodpan.produit.id }) }}">{{ prodpan.produit.nom }}</a></h6>
+										<h6>{{ prodpan.produit.description[:30] }}</h6>
+										<h6>{{ prodpan.produit.newprise }} * {{ prodpan.quantite }} = {{ cout }} {{ devise }}</h6>
+										<a href="{% if app.user != null %}#a{% else %}{{ path('login') }}{% endif %}" data-text="J'aime" class="but-hover1 item_add {% if app.user != null %}like-produit-courant{% endif %}" value="{{ prodpan.produit.id }}">{{ prodpan.produit.nblike }} Likes</a>
+									</div>
+								</div>
+							</div>
+						{% endfor %}	
+			<div class="clearfix"></div>
+			{% if panier.livraisonpayer == false %}			  
+			  <div  style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+				  <h2 style="margin-bottom: 3px; margin-top: 7px;"><img src="{{ asset('template/images/amoney.png') }}" alt="" style="width: 22px; height: 22px;"/> Le coût du panier est de {{ total }} {{ devise }} Sans Livraison: Payé! </h2>
+			  </div>				
+			 {% else %}
+			 {% set allprix = total + coastlivraison %}
+			  <div  style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+				  <h2 style="margin-bottom: 3px; margin-top: 7px;"><a href="http://www.myaconect.com/adelivery" target="_blank"><img src="{{ asset('template/web/images/amoney.png') }}" alt="" style="width: 22px; height: 22px;"/></a> Le coût du panier est de {{ total }} + {{ coastlivraison }} = {{ allprix }} {{ devise }} Avec Livraison. </h2>
+			  </div>
+			 {% endif %}
+			</div>
+			</div>
+			</div>
+{% endblock %}
+{% block javascripttemplate %}
+
+$('.active').removeClass('active');
+$('.boutique').addClass('active');
+
+$('.like-produit-courant').click(function(){
+  var id = $(this).attr('value');
+  if($('.variation-contenu').attr('value') == 0)
+  {
+  $('.variation-contenu').attr('value',1);
+  $(this).attr('data-text','...');
+  $(this).html('<span><img src="{{ asset('template/images/wait-user.gif') }}" alt="..."/></span>'); //attente du résultat
+  $.get('{{ path('produit_produit_like_courant_product') }}',{ id: id }, function(data) {
+  $('.variation-contenu').attr('value',0);
+  if(data == 1)
+  {
+  window.location.reload();
+  }else{
+  alert('Une Erreur rencontrée');
+  window.location.reload();
+  }
+  });
+  }
+  return false;
+});
+{% endblock %}

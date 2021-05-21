@@ -1,0 +1,91 @@
+<div class="col-sm-12" style="padding: 0px;">
+	<div class="compose-left" style="margin-bottom: 7px;">
+	<div class="chat-grid widget-shadow">
+		<ul>
+			<li class="head" style="padding-right: 0px; margin-left: -20px; border-bottom: 1px solid #ddd;"><strong><img src="{% if cat.src != 'source' %}{{ asset(cat.webpath) }}{% else %}{{ asset('template/images/info.png') }}{% endif %}" alt="{{ cat.nom }}" style="width: 20px; height: 20px;"/> {{ cat.nom }}</strong>
+			<div class="btn-group pull-right">
+			<a href="#a" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0px; border: none;"> <i class="fa fa-ellipsis-v mail-icon"></i></a>
+			<ul class="dropdown-menu pull-right">
+				<li class="menu-dropdown ">
+					<a href="{{ path('users_adminuser_modification_categorie_produit', {'id': cat.id }) }}" value="1"><i class="fa fa-pencil"></i> Modifier la catégorie</a>
+					<a href="{{ path('users_adminuser_supprimer_cat_prod', {'id': cat.id}) }}" value="1"><i class="fa fa-times"></i> Supprimer la catégorie</a>
+				</li>
+			</ul>
+			</div>
+			</li>
+			{% for scat in liste_scat %}
+			<li class="item-menu-right open-element" style="display: block; width: 100%; margin-top: 15px; border-bottom: 1Px solid #ddd;">
+				<div class="btn-group pull-right">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#!"><i class="fa fa-caret-down" style="margin-right: 10px; margin-top: 15px;"></i></a>
+				<ul class="dropdown-menu pull-right">
+					<li><a href="{{ path('users_adminuser_liste_produit_souscategorie', {'id': scat.id}) }}" class="menutop-dropdown" style="border-radius: 0px;"> <strong style="padding-right: 10px;"><em class="fa fa-th-list"></em>  Liste des cours valides <i class="badge" style="color: #fff;">{{ scat.getNbprodval }}</i></strong> </a></li>
+					<li><a href="{{ path('users_adminuser_prod_invalide_courant_souscategorie',{'id': scat.id }) }}" class="menutop-dropdown" style="border-radius: 0px;">  <strong style="padding-right: 10px;"><em class="fa fa-th-list"></em>  Liste des cours invalides <i class="badge" style="color: #fff;">{{ scat.getnbprodinval }}</i></strong> </a></li>
+					<div class="divider"></div>
+					<li><a href="{{ path('users_adminuser_modifier_sous_categorie_produit', {'id': scat.id}) }}" class="menutop-dropdown" style="border-radius: 0px;"><strong style="padding-right: 10px;"><em class="fa fa-pencil"></em>  Modifier la liste </strong> </a></li>
+					<li><a href="{{ path('users_adminuser_delete_scat_prod', {'id': scat.id}) }}" class="menutop-dropdown" style="border-radius: 0px; color: red;"><strong style="padding-right: 10px;"><em class="fa fa-times"></em>  Supprimer la liste</strong> </a></li>
+				</ul>
+				</div>
+				
+				<div class="chat-left pull-left" style="width: 80px; padding-right: 10px; background: #f7f7f7;">
+					<img src="{% if scat.src != null %}{{ asset(scat.webpath) }}{% else %}{{ asset('template/images/info.png') }}{% endif %}" alt="article aimé" style="width: 70px; height:70px; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;"/>
+				</div>
+				<div class="chat-right">
+					<div style="background: #f7f7f7; border-bottom: 1px solid #ddd; margin: -5px 0px 7px 0px;">
+						<h3 style="margin: 5px;">{{ scat.nom }}</h3>	
+					</div>
+					<p style="margin: 0px;">{{ scat.contenu }} </p>
+					<p style="margin: 0px;">:: <i class="badge">Rang: {{ scat.rang }}</i> :: <i class="badge">Cours Invalides: {{ scat.getnbprodinval }}</i> :: <i class="badge">Cours valides: {{ scat.getNbprodval }}</i> :: <i class="badge">Inscription aux cours: {{ scat.getNbprodachive }}</i> ::</p>
+				</div>
+			<div class="clearfix"> </div>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+<div class="clearfix"></div>
+</div>
+
+{% if nombrepage > 0 %}
+
+{% if pagesuivante > 1 and pagesuivante <= nombrepage %}
+{% set pagepre = pagesuivante - 1 %}
+{% else %}
+{% set pagepre = nombrepage %}
+{% endif %}
+
+{% if pagesuivante < nombrepage %}
+{% set pagesuiv = pagesuivante + 1 %}
+{% else %}
+{% set pagesuiv =  1 %}
+{% endif %}
+
+<div>
+<ul class="pagination">
+<li value="{{ pagepre }}" class="search_courant_liste"><a href="#!"><<</a></li>
+{% for p in 1..nombrepage %}
+<li value="{{ p }}" class="{% if p == pagesuivante %}active{% endif %} search_courant_liste"><a href="#!">{{ p }}</a></li>
+{% endfor %}
+<li value="{{ pagesuiv }}" class="search_courant_liste"><a href="#!">>></a></li>
+</ul>
+</div>
+{% endif %}
+
+
+<script type="text/javascript">
+$('.search_courant_liste').click(function(){
+var page = $(this).attr('value');
+if($('.variation-contenu').attr('value') != 1)
+  {
+  $('.variation-contenu').attr('value',1);
+  $(this).html('<span><img src="{{ asset('template/images/wait-user.gif') }}" alt="..."/></span>'); //attente du résultat
+  $.post('{{ path('users_adminuser_liste_scat_categorie', {'id': cat.id }) }}', { page: page }, function(data) {
+  $('.variation-contenu').attr('value',0);
+  $('.liste_souscategorie_{{ cat.id }}').html(data);
+  });
+  }
+});
+
+$('.dropdown-toggle').mouseover(function() {
+$(this).dropdown('toggle');
+});
+</script>

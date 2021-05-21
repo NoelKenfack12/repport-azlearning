@@ -1,0 +1,164 @@
+{% extends "UsersUserBundle::layoutuser.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Inscription, Connexion, Maisons Cameroun, Immobilier, Annonce Cameron, Appartement, Studios à louer, Studio simple, Appartements meublés,terrains, duplex, villas,"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="Inscription gratuite sur {{ site }} - {{ metier }} - Annonce Cameroun, Annonce gratuite."/>
+{% endblock %}
+{% block title %}
+{{ parent() }} | Inscription 
+{% endblock %}
+
+{% block userblog_body %}
+<!-- banner -->
+	<div class="banner" style="{% if slide != null %}background: url({{ asset(slide.webpath) }}){% else %}background: url({{ asset('mcs/images/banner.jpg') }}){% endif %} no-repeat 0px 0px; background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+	min-height:600px;">
+		<div class="container" style="padding-top: 110px; margin-bottom: 20px;">
+			<div class="banner-left">
+				<h3>{% if slide != null %}{{ slide.titre }}{% else %}Inscription sur Mobile Games{% endif %}</h3>
+				<p>{% if slide != null %}{{ slide.description }} {% if slide.link != null %}<a href="{{ slide.link }}" class="btn btn-primary pull-right" style="border-radius: 0px;"><span class="fa fa-hand-o-right"></span> En savoir plus</a>{% endif %}{% else %}Gérez vos annonces sur votre espace personnel{% endif %}</p>
+			</div>
+			<div class="banner-right">
+			<h2 class="text-center"><span>Mon Compte Mobile Games</span></h2>
+				<h3><span>Créez Un Nouveau Compte</span></h3>
+				<div class="reservation">
+				<form class="form-submit-inscription" action="{{ path('users_user_inscription_user') }}" method="post" {{ form_enctype(form) }}>
+					<div><span style="color:red;">{{ form_errors(form) }}</span>
+					 <span style="color:red;">{{ form_errors(form.nom) }}</span>
+					 </div>
+					<div class="keywords">
+						<span class="glyphicon glyphicon-list-alt"></span>
+						{{ form_widget(form.nom) }}
+					</div>
+					<div>
+					<div><span style="color:red;">{{ form_errors(form.ville) }}</span></div>
+					<div class="keywords" style="margin-top: 15px;">
+						<span class="fa fa-map-marker" aria-hidden="true"></span>
+						{{ form_widget(form.ville) }}
+					</div>
+					</div>
+					<fieldset style="padding-bottom: 15px;">
+					<legend>Me contacter: </legend>
+					<div class="reservation-grids">
+						<div class="reservation-grid-left">
+						    <div><span style="color:red;">{{ form_errors(form.tel) }}</span></div>
+							<div class="keywords">
+								<span class="glyphicon glyphicon-phone"></span>
+								{{ form_widget(form.tel) }}
+							</div>
+						</div>
+						<div class="reservation-grid-right">
+							<div><span style="color:red;">{{ form_errors(form.username) }}</span></div>
+							<div class="keywords">
+								<span class="glyphicon glyphicon glyphicon-envelope"></span>
+								{{ form_widget(form.username) }}
+							</div>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					</fieldset>
+					<fieldset>
+					<legend>Date de naissance (Jour/Mois/Année): </legend>
+					<div class="col-xs-12  espace-bottom espace-top" style="padding-right: 0px; padding-left: 0px;">
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding: 0px;">
+					<div class="keywords">
+						<select name="jour" id="jour" style="border-radius: 0px;">
+						{% for i in 1..31 %}
+						<option value="{{ i }}">{{ i }}</option>
+						{% endfor %}
+						</select>
+					</div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 0px; padding-left: 0px;">
+					<div class="keywords">
+						<select name="mois" id="mois"  style="border-radius: 0px;">
+						<option value="01">Janvier</option>
+						<option value="02">Février</option>
+						<option value="03">Mars</option>
+						<option value="04">Avril</option>
+						<option value="05">Mai</option>
+						<option value="06">Juin</option>
+						<option value="07">Juillet</option>
+						<option value="08">Août</option>
+						<option value="09">Septembre</option>
+						<option value="10">Octobre</option>
+						<option value="11">Novembre</option>
+						<option value="12">Décembre</option>
+						</select>
+					</div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding: 0px;">
+					<div class="keywords">
+						{% set fin = "now"|date('Y') - 7 %}
+						{% set debut = "now"|date('Y') - 110 %}
+						<select name="annee" id="annee" style="border-radius: 0px;">
+						{% for i in fin..debut %}
+						<option value="{{ i }}">{{ i }}</option>
+						{% endfor %}
+						</select>
+					</div>
+					</div>
+					</div>
+
+					</fieldset>
+					<fieldset style="padding-bottom: 15px;">
+					<legend>Votre sexe: </legend>
+					<div class="col-xs-6 espace-bottom espace-top" id="pop" style="padding: 0px;" data-toggle="popover" data-content="Quel est votre sexe ?" title="<h4 style='color: red;'>Erreur !!!<h4>" data-html="true">
+					<input type="radio" name="genre" value="homme" id="homme"/>
+					<strong class="text-danger"><label for="homme"><span class="glyphicon glyphicon-tag"></span> Homme</label></strong>
+					</div>
+					<div class="col-xs-6 espace-bottom espace-top" style="padding: 0px;">
+					<input type="radio" name="genre" value="femme" id="femme" />
+					<strong class="text-danger"><label for="femme"><span class="glyphicon glyphicon-tag"></span> Femme</label></strong>
+
+					</div>
+					</fieldset>
+					<fieldset>
+					<legend>Sécuriser votre compte: </legend>
+					<div>
+					<div><span style="color:red;">{{ form_errors(form.password) }}</span></div>
+					<div class="keywords">
+						<span class="fa fa-lock"></span>
+						{{ form_widget(form.password) }}
+					</div>
+					</div>
+					
+					<div class="keywords">
+						<span class="fa fa-lock" style="margin-top: 15px;"></span>
+						<input type="password" name="KeyWords" value="" required="" style="width: 100%; margin: 15px 0px;" placeholder="Reprendre le mot de passe">
+					</div>
+					</fieldset>
+					<div class="keywords">
+						<input type="submit" value="S'inscrire" style="margin-top: 15px;">
+					</div>
+					{{ form_rest(form) }}
+				</form>
+				</div>
+				<h4 style="margin-top: 20px;">Vous avez déjà un compte ? <a href="{{ path('login') }}"><i class="fa fa-sign-in"></i> Connexion</a></h4>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+<!-- //banner -->
+
+{% endblock %}
+
+{% block javascripttemplate %}
+
+$('#users_userbundle_user_ville').prepend('<option value="">Ville de résidence</option>');
+$('.active').removeClass('active');
+$('.compte-user').addClass('active');
+
+$('.form-submit-inscription').on('submit', function(){
+	if( ($('input[id="homme"]:checked').val() &&  $('input[id="femme"]:checked').val()) || (!$('input[id="homme"]:checked').val() &&  !$('input[id="femme"]:checked').val()))
+	{
+	$("#pop").attr('data-content',''+$('#users_userbundle_user_nom').val()+' est un homme ou une femme ?');
+	$("#pop").popover({placement:'top'});
+	return false;
+	}
+});
+{% endblock %}

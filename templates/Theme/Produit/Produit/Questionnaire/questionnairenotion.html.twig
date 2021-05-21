@@ -1,0 +1,325 @@
+{% for question in liste_questionnaire %}
+<div class="panel panel-default" style="border-radius: 0px;">
+<div class="panel-heading">
+<h3 class="panel-title text-left">{{ loop.index }}. {{ question.titre }}  
+<div class="btn-group pull-right" style="margin-top: 0px; padding: 0px;">
+<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; padding: 0px; margin: 0px;"><i class="mdi-hardware-keyboard-arrow-down" style="padding: 0px; margin: 0px;"></i></a>
+	<ul class="dropdown-menu pull-right" style="margin-top: 0px; border-radius: 0px;">
+		<li><a href="#!" class="modifier-question" value="{{ question.id }}" name="{{ question.titre }}"><span class=" fa fa-edit"></span> Modifier cette question</a></li>
+		<li class="divider"></li>
+		<li><a href="#!" class="supprimer-question" value="{% if question.propositions|length == 0 %}{{ question.id }}{% else %}0{% endif %}"><span class=" fa fa-times"></span> Supprimer cette question</a></li>
+		<li class="divider"></li>
+		<li><a href="#!" class="validate-courant-question" value="{{ question.id }}"><span class="fa fa-check"></span> {% if question.valide == true %}Dépublier{% else %}Publier{% endif %}</a></li>
+	</ul>
+</div>
+
+{% if question.valide == true %}<span class="label label-success pull-right" style="margin-right: 25px;">Valide</span>{% else %}<span class="label label-warning pull-right" style="margin-right: 25px;">Invalide</span>{% endif %}
+</h3>
+</div>
+<div class="panel-body text-left">
+	<div class="col-md-12">
+	   <div class="form-group">
+		  {% for proposition in question.propositions %}
+		  <label class="radio">
+			<input type="radio" data-toggle="radio" class="elem-radio-check" proposition="{{ proposition.id }}" name="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" id="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" value="option1" style="cursor: pointer!important;" data-radiocheck-toggle="radio" {% if proposition.reponse == true %}checked=""{% endif %}> {# gestion de plusieurs réponses non prise en charge #}
+			{{ proposition.titre }}
+			<div class="btn-group pull-right" style="margin-top: 0px; padding: 0px;">
+			<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; padding: 0px; margin: 0px;"><i class="fa fa-ellipsis-v mail-icon" style="padding: 0px; margin: 0px;"></i></a>
+				<ul class="dropdown-menu pull-right" style="margin-top: 0px; border-radius: 0px;">
+					<li><a href="#!" class="modifier-proposition" value="{{ proposition.id }}" name="{{ proposition.titre }}"><span class=" fa fa-edit"></span> Modifier cette proposition</a></li>
+					<li class="divider"></li>
+					<li><a href="#!" class="delete-propos-question" value="{{ proposition.id }}"><span class=" fa fa-times"></span> Supprimer cette proposition</a></li>
+				</ul>
+			</div>
+		  </label>
+		  {% endfor %}
+		</div>
+	</div>
+	<div class="col-md-12">
+	<form id="form-new-response-questionnaire" action="#!" value="{{ question.id }}" class="form-submit-response">
+		<div class="form-group champ6{{ question.id }}">
+			<input type="text" name="" id="new-response-questionnaire" value="" class="form-control" placeholder="Rentrez une proposition" required style="width: 100%; border-radius: 0px;"/>
+		</div>
+		<div class="alert alertnotif6{{ question.id }} alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+		<h4 style="margin-bottom: 0px;">Erreur </h4>
+		Taille invalide !!! <span class="label label-info pull-right control-info-champ6{{ question.id }}"></span>
+		</div>
+		<div class="keywords">
+			<button class="btn btn-primary pull-right" style="border-radius: 0px;">Ajoutez la proposition <span class="glyphicon glyphicon-send"></span></button>
+		</div>
+	</form>
+	</div>
+</div>
+</div>
+{% endfor %}
+
+<div class="modal fade" id="modal-questionnaire-modification" style="margin-top: 100px; z-index: 9999;">
+<div class="modal-dialog modal-md">
+<div class="modal-content" style="border-radius: 0px;">
+<div class="modal-header" style="position: absolute; z-index: 3; width: 100%; padding: 2px 0px; box-shadow: 0 15px 15px -1px #f2f2f2 inset;background: #fff;">
+<div style="box-shadow: 0px 6px 6px #CCC; margin: 0px;">
+<button type="button" class="close" data-dismiss="modal" style="padding: 7px;">&times;</button>
+<h4 class="modal-title" style="padding: 7px; text-align: left;"><span class="fa fa-file-text-o"></span> Modification du questionnaire</h4>
+</div>
+</div>
+<hr style="margin-top: 38px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="text-left" style="color: #fff; padding-left: 15px;">
+	Chapitre <span class="mdi-av-play-arrow" style="font-size: 10px;"></span> {{ chapitre.name(50) }}
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;"/>
+<div class="modal-body" style="background: #fff; color: #333;">
+<div style="background: #ECF0F1; padding: 15px;">
+<form class="submit-form-modif-question" action="#!" method="post">
+<div class="form-group champ70">
+<input type="text" id="titre-questionnaire-modif" name="titrequestionnaire" value="" class="form-control" style="width: 100%;"/>
+</div>
+<div class="alert alertnotif70 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
+<h4 style="margin-bottom: 0px;">Erreur </h4>
+Taille invalide !!! <span class="label label-info pull-right control-info-champ70"></span>
+</div>
+<div class="form-group">
+<input type="hidden" id="id-questionnaire-modif" name="idquestionnaire" value="" class="form-control"/>
+</div>
+<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Modifier la question <span class="glyphicon glyphicon-send"></span></button>
+</form>
+</div>
+</div>
+<hr style="margin-bottom: 15px;"/>
+<div class="modal-footer" style="text-align: right; padding: 7px; background: #222222; color: #fff;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="modal-proposition-modification" style="margin-top: 100px; z-index: 9999;">
+<div class="modal-dialog modal-md">
+<div class="modal-content" style="border-radius: 0px;">
+<div class="modal-header" style="position: absolute; z-index: 3; width: 100%; padding: 2px 0px; box-shadow: 0 15px 15px -1px #f2f2f2 inset;background: #fff;">
+<div style="box-shadow: 0px 6px 6px #CCC; margin: 0px;">
+<button type="button" class="close" data-dismiss="modal" style="padding: 7px;">&times;</button>
+<h4 class="modal-title" style="padding: 7px; text-align: left;"><span class="fa fa-file-text-o"></span> Modification de la proposition</h4>
+</div>
+</div>
+<hr style="margin-top: 38px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="text-left" style="color: #fff; padding-left: 15px;">
+	Chapitre <span class="mdi-av-play-arrow" style="font-size: 10px;"></span> {{ chapitre.name(50) }}
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;"/>
+<div class="modal-body" style="background: #fff; color: #333;">
+<div style="background: #ECF0F1; padding: 15px;">
+<form class="submit-form-courant-modif-proposition" action="#!" method="post">
+<div class="form-group champ80">
+<input type="text" id="titre-proposition-modif" name="titreproposition" value="" class="form-control" style="width: 100%;"/>
+</div>
+<div class="alert alertnotif80 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
+<h4 style="margin-bottom: 0px;">Erreur </h4>
+Taille invalide !!! <span class="label label-info pull-right control-info-champ80"></span>
+</div>
+<div class="form-group">
+<input type="hidden" id="id-proposition-courant-modif" name="idcourantproposition" value="0" ident="" class="form-control"/>
+</div>
+<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Modifier la proposition <span class="glyphicon glyphicon-send"></span></button>
+</form>
+</div>
+</div>
+<hr style="margin-bottom: 15px;"/>
+<div class="modal-footer" style="text-align: right; padding: 7px; background: #222222; color: #fff;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+</div>
+</div>
+</div>
+
+<!-- <script type="text/javascript" src="{{ asset('template/assets/js/flat-ui.min.js') }}"></script> -->
+<!-- <script type="text/javascript" src="{{ asset('template/assets/js/application.js') }}"></script> -->
+<script type="text/javascript">
+$('.form-submit-response').on('submit', function(){
+if($(this).find('input').val().length < 3 ||  $(this).find('input').val().length > 250)
+{
+	$("div.champ6"+$(this).attr('value')).addClass("has-error");
+	$("div.alertnotif6"+$(this).attr('value')).show("slow").delay(6000).hide("slow");
+	$('.control-info-champ6'+$(this).attr('value')).html($(this).find('input').val().length+'/250');
+	$(this).find('input').focus();
+	return false;
+}else{
+var id = $(this).attr('value');
+var content = $(this).find('input').val();
+if($('.variation-sub-contenu').attr('value') != 1)
+{
+  $('.variation-sub-contenu').attr('value',1);
+  var hauteur = $('.variation-sub-contenu').height() + 2; 
+  var largeur = $('.variation-sub-contenu').width() + 2;
+  var padding = Math.round(hauteur/2 - 15);
+  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+  $.post('{{ path('produit_produit_user_ajouter_new_proposition_question', {'id': chapitre.id, 'src': 1}) }}', { id: id, titre :  content }, function(data) {
+  $('.attente-resultat').hide();
+  $('.variation-sub-contenu').html(data);
+  $('.variation-sub-contenu').attr('value',0);
+  });
+}
+return false;
+}
+return false;
+});
+
+$('.modifier-question').click(function(){
+	$('#titre-questionnaire-modif').val($(this).attr('name'));
+	$('#id-questionnaire-modif').val($(this).attr('value'));
+	$('#modal-questionnaire-modification').modal('show');
+});
+
+$('.modifier-proposition').click(function(){
+	$('#titre-proposition-modif').val($(this).attr('name'));
+	$('#id-proposition-courant-modif').val($(this).attr('value'));
+	$('#modal-proposition-modification').modal('show');
+});
+
+$('.submit-form-modif-question').on('submit', function(){
+if($('#titre-questionnaire-modif').val().length < 3 || $('#titre-questionnaire-modif').val().length > 250)
+{
+	$("div.champ70").addClass("has-error");
+	$("div.alertnotif70").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ70').html($('#titre-questionnaire-modif').val().length+'/250');
+	$('#titre-questionnaire-modif').focus();
+	return false;
+}else{
+var id = $('#id-questionnaire-modif').val();
+var content = $('#titre-questionnaire-modif').val();
+if($('.variation-sub-contenu').attr('value') != 1)
+{
+  $('#modal-questionnaire-modification').modal('hide');
+  $('.variation-sub-contenu').attr('value',1);
+  var hauteur = $('.variation-sub-contenu').height() + 2; 
+  var largeur = $('.variation-sub-contenu').width() + 2;
+  var padding = Math.round(hauteur/2 - 15);
+  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+  $.post('{{ path('produit_produit_user_nouvelle_question_chapter', {'id': chapitre.id }) }}', { ident: id, titre :  content }, function(data) {
+  $('.attente-resultat').hide();
+  $('.variation-sub-contenu').html(data);
+  $('.variation-sub-contenu').attr('value',0);
+  });
+}
+return false;
+}
+return false;
+});
+
+$('.submit-form-courant-modif-proposition').on('submit', function(){
+if($('#titre-proposition-modif').val().length < 3 || $('#titre-proposition-modif').val().length > 250)
+{
+	$("div.champ80").addClass("has-error");
+	$("div.alertnotif80").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ80').html($('#titre-proposition-modif').val().length+'/250');
+	$('#titre-proposition-modif').focus();
+	return false;
+}else{
+var id = $('#id-proposition-courant-modif').val();
+var content = $('#titre-proposition-modif').val();
+if($('.variation-sub-contenu').attr('value') != 1)
+{
+  $('#modal-proposition-modification').modal('hide');
+  $('.variation-sub-contenu').attr('value',1);
+  var hauteur = $('.variation-sub-contenu').height() + 2; 
+  var largeur = $('.variation-sub-contenu').width() + 2;
+  var padding = Math.round(hauteur/2 - 15);
+  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+  $.post('{{ path('produit_produit_supprimer_proposition_question', {'id': chapitre.id}) }}', { id: id, titre :  content }, function(data) {
+  $('.attente-resultat').hide();
+  $('.variation-sub-contenu').html(data);
+  $('.variation-sub-contenu').attr('value',0);
+  });
+}
+return false;
+}
+return false;
+});
+
+$('.elem-radio-check').click(function(){
+var id = $(this).attr('proposition');
+if($('.variation-sub-contenu').attr('value') != 1)
+{
+  $('.variation-sub-contenu').attr('value',1);
+  var hauteur = $('.variation-sub-contenu').height() + 2; 
+  var largeur = $('.variation-sub-contenu').width() + 2;
+  var padding = Math.round(hauteur/2 - 15);
+  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+  $.post('{{ path('produit_produit_question_update_reponse', {'id': chapitre.id}) }}', { id: id }, function(data) {
+  $('.attente-resultat').hide();
+  $('.variation-sub-contenu').html(data);
+  $('.variation-sub-contenu').attr('value',0);
+  });
+}
+});
+
+$('.delete-propos-question').click(function(){
+var id = $(this).attr('value');
+if($('.variation-sub-contenu').attr('value') != 1)
+{
+  $('.variation-sub-contenu').attr('value',1);
+  var hauteur = $('.variation-sub-contenu').height() + 2; 
+  var largeur = $('.variation-sub-contenu').width() + 2;
+  var padding = Math.round(hauteur/2 - 15);
+  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+  $.post('{{ path('produit_produit_supprimer_proposition_question', {'id': chapitre.id}) }}', { id: id }, function(data) {
+  $('.attente-resultat').hide();
+  $('.variation-sub-contenu').html(data);
+  $('.variation-sub-contenu').attr('value',0);
+  });
+}
+});
+
+$('.validate-courant-question').click(function(){
+var id = $(this).attr('value');
+if($('.variation-sub-contenu').attr('value') != 1)
+{
+  $('.variation-sub-contenu').attr('value',1);
+  var hauteur = $('.variation-sub-contenu').height() + 2; 
+  var largeur = $('.variation-sub-contenu').width() + 2;
+  var padding = Math.round(hauteur/2 - 15);
+  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+  $.post('{{ path('produit_produit_validate_courant_question', {'id': chapitre.id}) }}', { id: id }, function(data) {
+  $('.attente-resultat').hide();
+  $('.variation-sub-contenu').html(data);
+  $('.variation-sub-contenu').attr('value',0);
+  });
+}
+});
+
+$('.supprimer-question').click(function(){
+var id = $(this).attr('value');
+if(id != 0)
+{
+	if($('.variation-sub-contenu').attr('value') != 1)
+	{
+	  $('.variation-sub-contenu').attr('value',1);
+	  var hauteur = $('.variation-sub-contenu').height() + 2; 
+	  var largeur = $('.variation-sub-contenu').width() + 2;
+	  var padding = Math.round(hauteur/2 - 15);
+	  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+	  $.post('{{ path('produit_produit_user_delete_questionnaire', {'id': chapitre.id}) }}', { id: id }, function(data){
+	  $('.attente-resultat').hide();
+	  $('.variation-sub-contenu').html(data);
+	  $('.variation-sub-contenu').attr('value',0);
+	  });
+	}
+}else{
+	$('.infos-action-effectuer').html('<span class="fa fa-stop"></span> Supprimez d\'abord toutes les propositions liées à cette partie !');
+    $('#infos-action-effectuer').modal('show');
+}
+});
+
+$('.dropdown-toggle').mouseover(function() {
+$(this).dropdown('toggle');
+});
+</script>

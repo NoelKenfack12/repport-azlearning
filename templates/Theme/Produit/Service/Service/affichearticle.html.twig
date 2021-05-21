@@ -1,0 +1,179 @@
+{% extends "UsersUserBundle::layoutuser.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Boutique,e-commerce, {{ article.keyword }}, bonnes affaires au Cameroun, actualité immobilière, immobilier, location, vente, annonces immobilière, appartements, duplex, villas, studios, terrains, chambres,consils immobilier, terrain à vendre Cameroun, maisons à louer au cameroun, appartements à louer au cameroun"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | {{ article.nom }} | {{ article.description }} | Cameroun | {{ metier }}" />
+{% endblock %}
+{% block title %}
+{{ parent() }} | {{ article.nom }} - {{ article.description }}
+{% endblock %}
+{% block userblog_body %}
+<!-- breadcrumbs -->
+	<div class="services-top-breadcrumbs" style="padding-top: 150px; background: #fff;">
+		<div class="container">
+			<div class="services-top-breadcrumbs-right">
+				<ul>
+					<li><a href="{{ path('users_user_acces_plateforme') }}">Accueil</a> <i>/</i> </li>
+					<li>{{ site }}</li>
+				</ul>
+			</div>
+			<div class="services-top-breadcrumbs-left">
+				<h4>
+					<div class="btn-group" style="">
+					<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;"><i class="fa fa-bookmark-o"></i> Jeux Favoris  <i class="fa fa-caret-down"></i></a>
+					<ul class="dropdown-menu pull-right" style="border-radius: 0px;">
+					{% for jeux in liste_categorie %}
+					<li style="width: 100%;"><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': jeux.id }) }}">{{ jeux.nom }}</a></li>
+					{% endfor %}
+					<li class="divider"></li>
+					<li style="width: 100%;"><a href="#!">Tous les jeux</a></li>
+					</ul>
+					</div>
+				</h4>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+{{ render(controller("ProduitProduitBundle:Panier:detailpartie")) }}
+
+
+<div class="services-top-breadcrumbs" style="border-top: 1px solid #ddd; padding-top: 25px; background: #f5f5f5;">
+<div class="container" style="padding-right: 0px;">
+<!-- pricing section -->
+<section>
+	<div class="" style="width: 100%;">
+		<div class="row">
+		<div class="col-lg-12 animecourant-panel">
+		</div>
+
+		<div class="col-md-8" style="padding: 0px;">
+		<div  class="panel panel-widget" style="padding: 15px; width: 100%;">
+		<div style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px;">
+			<h2 style="margin: 5px; text-align: justify;">{{ article.nom }}</h2>	
+		</div>
+			<p class="blogpost-p1 agileits agileinfo wthree w3-agileits agileits-w3layouts agile w3-agile" style="text-align: justify;">{{ article.description }}</p>
+			<!-- Blog Post -->
+			<hr>
+			<!-- Date/Time -->
+			<p class="date-agile w3layouts w3 w3l w3ls agileits agileinfo wthree w3-agileits"><i class="fa fa-clock-o"></i> Poster le {{ article.date|date('d') }} {{ article.user.mois(article.date|date('m')) }} {{ article.date|date('Y') }} <a href="{{ path('produit_service_contact_us') }}" class="btn btn-primary pull-right"><span class="fa fa-comments"></span> Demander un conseil</a></p>
+			<hr>
+			<!-- Preview Image -->
+			<div class="hover01 column">
+				<div>
+					<figure style="height: 80px; width: 100px;"><img class="img-responsive" src="{% if article.imgservice != null %}{{ asset(article.imgservice.getWebpath) }}{% else %}{{ asset('mcs/images/blogpost-img.jpg') }}{% endif %}" alt="{{ asset(article.keyword) }}" title=""></figure>
+				</div>
+			</div>
+			<hr>
+			
+			{% for even in liste_even %}
+			<div style="border: 2px solid #f2f2f2; border-radius: 2px; margin-top: 15px;">
+			<div class="wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+			<h2 style="font-size: 25px; background: #f2f2f2; margin-bottom: 3px; padding: 3px;">
+			{{ even.nom }} 
+			</h2>
+			{% if even.imgevenement == null %}<p class="lead" style="text-align: justify;">{{ even.description }}</p>{% endif %}
+			</div>
+				{% if even.imgevenement != null %}
+				<div class="row">
+					<div class="col-sm-4">
+					<div style="margin: 3px;"><img src="{{ asset(even.imgevenement.getWebPath) }}"  alt="{{ even.nom }}" style="width: 100%; height: 150px;"/></div>
+					</div>
+					<div class="col-sm-8">
+					<p class="lead" style="text-align: justify;">{{ even.description }}</p>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+			</div>
+		</div>
+		<div class="col-md-4">
+		<div class="filtr-container toutleblock">
+			
+		{% include 'UsersUserBundle:User:lienutile.html.twig' %}
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 stop-courant-panel">
+						
+		</div>
+		</div>
+		</div>
+		</div>
+</div>
+
+</section>
+</div>
+</div>
+
+<script src="{{ asset('template/js/onvisible.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+
+{% block javascripttemplate %}
+{% for infos in app.session.flashbag.get('information') %}
+{% if loop.first %}	
+$('.infos-action-effectuer').html('{{ infos }}');
+$('#infos-action-effectuer').modal('show');
+{% endif %}
+{% endfor %}
+
+$('.about-us').addClass('active');
+$('.lien-about-us').addClass('position-user');
+
+var bouge = 1;
+var dimension = 200;
+function activateelement()
+{
+var visibility = visibleElement('.animecourant-panel');
+
+if(visibility && bouge == 0){
+	bouge = 1;
+	$('.toutleblock').css('position','relative');
+	$('.toutleblock').css('bottom','0px');
+	$('.toutleblock').css('margin-bottom','0px');
+}
+}
+
+function stopelement()
+{
+var visibility = visibleElement('.stop-courant-panel');
+if(visibility && bouge == 1){
+	if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+	{
+	
+	}else{
+	bouge = 0;
+	$('.toutleblock').css('position','fixed');
+	$('.toutleblock').css('width',dimension+'px');
+	$('.toutleblock').css('bottom','7px');
+	$('.toutleblock').css('margin-bottom','50px');
+	}
+}
+}
+
+var idStopelement = 0;
+var idActivateelement = 0;
+function controlScroll()
+{
+	var largeur = ($(window).width());
+	dimension = $('.toutleblock').width();
+	if (largeur >= 768)
+	{
+	   /*
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+		
+		$('.toutleblock').css('position','fixed');
+		$('.toutleblock').css('width',dimension+'px'); 
+		}else{ 
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+		} */
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+	}
+}
+
+controlScroll();
+
+{% endblock %}

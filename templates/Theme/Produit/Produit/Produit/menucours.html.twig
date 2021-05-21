@@ -1,0 +1,50 @@
+
+<div class="general_social_icons">
+	<div class="social" style="top:105px;">
+		<ul>
+			<li class="w3_twitter manage-catalogue-cours" style="border-radius: 0px; background: #428bca;"><a href="#"> <strong class="label-catalogue">Affichez</strong> <i class="mdi-hardware-keyboard-arrow-left indication-etat-catalogue" style="margin: 0px;"> <strong>Catalogue</strong></i></a></li>			  
+		</ul>
+    </div>
+</div>
+
+{% if categorie != null %} 
+<div class="catalogue-cours" style="position: fixed; z-index: 500; width: 250px; left: 0px; top: 167px; display: none;">
+
+<ul class="list-group" style="margin-bottom: 0px;">
+<a href="{{ path('produit_produit_accueil_boutique_produit') }}" class="list-group-item active">
+<img src="{% if categorie.src != "source" %}{{ asset(categorie.getwebpath) }}{% else %}{{ asset('template/images/user-bg.jpg') }}{% endif %}" alt="{{ categorie.nom }}" style="width: 20px; height:20px; margin-top: -5px;"/> {{ categorie.nom }} <span class="badge">{{ nbproduit }}</span>
+</a>
+{% for scat in liste_scat|slice(0,5) %}
+<a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': scat.id }) }}" class="list-group-item" style="padding-top: 5px 7px; min-height: 60px;">
+<img src="{% if scat.src != null %}{{ asset(scat.getwebpath) }}{% else %}{{ asset('template/images/user-bg.jpg') }}{% endif %}" alt="{{ scat.nom }}" class="pull-left" style="width: 40px; height: 40px; margin-right: 3px;"/> {{ scat.nom }} <span class="badge">{{ scat.nbproduit }}</span>
+</a>
+{% endfor %}
+
+<a href="{{ path('produit_produit_module_deformation') }}" class="list-group-item">
+<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+<img src="{{ asset('template/images/slide.png') }}" alt="{{ categorie.nom }}" style="width: 20px; height:20px;  margin-top: -5px;"/> Tous les modules 
+</a>
+</ul>
+
+</div>
+
+<script type="text/javascript">
+var showcatalogue = 2;
+$('.manage-catalogue-cours').click(function(){
+if(showcatalogue == 1)
+{
+showcatalogue = 2;
+$('.indication-etat-catalogue').removeClass('mdi-hardware-keyboard-arrow-right');
+$('.indication-etat-catalogue').addClass('mdi-hardware-keyboard-arrow-left');
+$('.label-catalogue').html('Affichez');
+}else{
+showcatalogue = 1;
+$('.indication-etat-catalogue').removeClass('mdi-hardware-keyboard-arrow-left');
+$('.indication-etat-catalogue').addClass('mdi-hardware-keyboard-arrow-right');
+$('.label-catalogue').html('Masquez');
+}
+$('.catalogue-cours').toggle('slow');
+});
+</script>
+
+{% endif %}

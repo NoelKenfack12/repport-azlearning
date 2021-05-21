@@ -1,0 +1,738 @@
+{% extends "Theme/Users/Adminuser/layoutadmin.html.twig" %}
+{% block meta %}
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Administration | Cameroun | {{ metier }}"/>
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} | Accueil Admin
+{% endblock %}
+
+{% block userblog_body %}
+<hr style="margin-top: 45px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="container" style="color: #fff;">
+	Accueil <span class="mdi-av-play-arrow" style="font-size: 10px;"></span>  Administration
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;">
+<!--content-->
+		<div class="product" style="padding-top: 20px; margin-bottom: 20px;">
+			<div class="container" style="padding: 0px;">
+				<div class="col-lg-12 animecourant-panel">
+			    </div>
+				<div class="col-md-4 product-bottom">
+				{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
+				<!---->
+				</div>
+				<div class="col-md-8 panel panel-widget">
+				<div style="background: #ddd;  margin: -1px -16px 7px -16px;">
+					<div style="padding: 7px; color: #fff;">Modification de l'équipe  {{ service.nom }} ! </div>	
+				</div>
+				{% for infos in app.session.flashbag.get('information') %}
+				{% if loop.first %}
+					<div class="alert alert-warning alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ infos|raw }}
+					</div>
+				{% endif %}
+				{% endfor %}
+				<div style="background: #f7f7f7;">
+				{{ form_start(form, {'attr': {'class': 'form-service-offert','action': path('users_adminuser_modifier_un_service', {'id': service.id}) }}) }}
+    			 <fieldset>
+				 <legend>Intitulé et prix de la formation</legend>
+				 <div class="col-sm-6">
+				     <span style="color:red;">{{ form_errors(form) }}</span>
+					 <span style="color:red;">{{ form_errors(form.nom) }}</span>
+					 <div class="form-group champ1">
+						{{ form_widget(form.nom) }}
+					 </div>
+					 <div class="alert alertnotif1 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+					 <h4 style="margin-bottom: 0px;">Erreur </h4>
+					 Taille invalide !!! <span class="label label-info pull-right control-info-champ1"></span>
+					 </div>
+					 <span style="color:red;">{{ form_errors(form.nprix) }}</span>
+					 <div class="input-group champ2">
+						{{ form_widget(form.nprix, {'attr': {'style': 'text-align: right;'}}) }}
+						<span class="input-group-addon">{{ devise }}</span>
+					 </div>
+					 <div class="alert alertnotif2 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+					 <h4 style="margin-bottom: 0px;">Erreur </h4>
+					 Montant invalide !!! <span class="label label-info pull-right control-info-champ2"></span>
+					 </div>
+		    	  </div>
+		    	  <div class="col-sm-6">
+					<span style="color:red;">{{ form_errors(form.keyword) }}</span>
+					 <div class="form-group champ3">
+						{{ form_widget(form.keyword) }}
+					 </div>	
+					 <div class="alert alertnotif3 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+					 <h4 style="margin-bottom: 0px;">Erreur </h4>
+					 Taille invalide !!! <span class="label label-info pull-right control-info-champ3"></span>
+					 </div>
+					 
+					 <span style="color:red;">{{ form_errors(form.nprixoff) }}</span>
+					 <div class="input-group champ4">
+						{{ form_widget(form.nprixoff, {'attr': {'style': 'text-align: right;'}}) }}
+                        <span class="input-group-addon">{{ devise }}</span>
+					 </div>
+					 <div class="alert alertnotif4 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+					 <h4 style="margin-bottom: 0px;">Erreur </h4>
+					 Montant invalide !!! <span class="label label-info pull-right control-info-champ4"></span>
+					 </div>
+		          </div>
+				  </fieldset>
+				  <div class="col-sm-12">
+				  <fieldset>
+				  <legend>Présentation générale de l'offre de formation</legend>
+				  <span style="color:red;">{{ form_errors(form.detail) }}</span>
+				  <div class="form-group champ5">
+					{{ form_widget(form.detail) }}
+				  </div>
+				  <div class="alert alertnotif5 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				  <h4 style="margin-bottom: 0px;">Erreur </h4>
+				  Taille invalide !!! <span class="label label-info pull-right control-info-champ5"></span>
+				  </div>
+				  </fieldset>
+				  <fieldset>
+				  <legend>Formation au centre</legend>
+				  <span style="color:red;">{{ form_errors(form.puboffline) }}</span>
+				  <div class="form-group champ6">
+					{{ form_widget(form.puboffline) }}
+				  </div>
+				  <div class="alert alertnotif6 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				  <h4 style="margin-bottom: 0px;">Erreur </h4>
+				  Taille invalide !!! <span class="label label-info pull-right control-info-champ6"></span>
+				  </div>
+				  </fieldset>
+				  <fieldset>
+				  <div class="col-xs-6" style="padding: 0px;">
+				  <legend>Début de la formation</legend>
+				  {% set tab = service.datebegin|split('-') %}
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding: 0px;">
+					<div class="form-group">
+						<select name="jour" id="jour" style="border-radius: 0px; width: 100%;" class="form-control">
+						{% for i in 1..31 %}
+							{% if i < 10 %}
+							<option value="0{{ i }}" {% if tab[0] == i %}selected{% endif %}>{{ i }}</option>
+							{% else %}
+							<option value="{{ i }}" {% if tab[0] == i %}selected{% endif %}>{{ i }}</option>
+							{% endif %}
+						{% endfor %}
+						</select>
+					</div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 0px; padding-left: 0px;">
+					<div class="form-group">
+						<select name="mois" id="mois"  style="border-radius: 0px; width: 100%;" class="form-control">
+						<option value="01" {% if tab[1] == 01 %}selected{% endif %} >Janvier</option>
+						<option value="02" {% if tab[1] == 02 %}selected{% endif %}>Février</option>
+						<option value="03" {% if tab[1] == 03 %}selected{% endif %}>Mars</option>
+						<option value="04" {% if tab[1] == 04 %}selected{% endif %}>Avril</option>
+						<option value="05" {% if tab[1] == 05 %}selected{% endif %}>Mai</option>
+						<option value="06" {% if tab[1] == 06 %}selected{% endif %}>Juin</option>
+						<option value="07" {% if tab[1] == 07 %}selected{% endif %}>Juillet</option>
+						<option value="08" {% if tab[1] == 08 %}selected{% endif %}>Août</option>
+						<option value="09" {% if tab[1] == 09 %}selected{% endif %}>Septembre</option>
+						<option value="10" {% if tab[1] == 10 %}selected{% endif %}>Octobre</option>
+						<option value="11" {% if tab[1] == 11 %}selected{% endif %}>Novembre</option>
+						<option value="12" {% if tab[1] == 12 %}selected{% endif %}>Décembre</option>
+						</select>
+					</div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-left: 0px; padding-right: 3px;">
+					<div class="form-group">
+						{% set fin = "now"|date('Y') %}
+						{% set debut = "now"|date('Y') + 1 %}
+						<select name="anneeend" id="annee" style="border-radius: 0px; width: 100%;" class="form-control">
+						{% for i in fin..debut %}
+							<option value="{{ i }}" {% if tab[2] == i %}selected{% endif %}>{{ i }}</option>
+						{% endfor %}
+						</select>
+					</div>
+					</div>
+					</div>
+					
+				     <div class="col-xs-6" style="padding: 0px;">
+				     <legend>Fin de la formation</legend>
+					 
+					 {% set tab = service.datefin|split('-') %}
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-left: 3px; padding-right: 0px;">
+					<div class="form-group">
+						<select name="jourend" id="jour" style="border-radius: 0px; width: 100%;" class="form-control">
+						{% for i in 1..31 %}
+							{% if i < 10 %}
+							<option value="0{{ i }}" {% if tab[0] == i %}selected{% endif %}>{{ i }}</option>
+							{% else %}
+							<option value="{{ i }}" {% if tab[0] == i %}selected{% endif %}>{{ i }}</option>
+							{% endif %}
+						{% endfor %}
+						</select>
+					</div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 0px; padding-left: 0px;">
+					<div class="form-group">
+						<select name="moisend" id="mois"  style="border-radius: 0px; width: 100%;" class="form-control">
+						<option value="01" {% if tab[1] == 01 %}selected{% endif %} >Janvier</option>
+						<option value="02" {% if tab[1] == 02 %}selected{% endif %}>Février</option>
+						<option value="03" {% if tab[1] == 03 %}selected{% endif %}>Mars</option>
+						<option value="04" {% if tab[1] == 04 %}selected{% endif %}>Avril</option>
+						<option value="05" {% if tab[1] == 05 %}selected{% endif %}>Mai</option>
+						<option value="06" {% if tab[1] == 06 %}selected{% endif %}>Juin</option>
+						<option value="07" {% if tab[1] == 07 %}selected{% endif %}>Juillet</option>
+						<option value="08" {% if tab[1] == 08 %}selected{% endif %}>Août</option>
+						<option value="09" {% if tab[1] == 09 %}selected{% endif %}>Septembre</option>
+						<option value="10" {% if tab[1] == 10 %}selected{% endif %}>Octobre</option>
+						<option value="11" {% if tab[1] == 11 %}selected{% endif %}>Novembre</option>
+						<option value="12" {% if tab[1] == 12 %}selected{% endif %}>Décembre</option>
+						</select>
+					</div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding: 0px;">
+					<div class="form-group">
+						{% set fin = "now"|date('Y') %}
+						{% set debut = "now"|date('Y') + 1 %}
+						<select name="anneeend" id="annee" style="border-radius: 0px; width: 100%;" class="form-control">
+						{% for i in fin..debut %}
+							<option value="{{ i }}" {% if tab[2] == i %}selected{% endif %}>{{ i }}</option>
+						{% endfor %}
+						</select>
+					</div>
+					</div>
+					</div>
+					</fieldset>
+				  <fieldset>
+				  <legend>Formation en ligne</legend>
+				  <span style="color:red;">{{ form_errors(form.pubinline) }}</span>
+				  <div class="form-group champ7">
+					{{ form_widget(form.pubinline) }}
+				  </div>
+				  <div class="alert alertnotif7 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				  <h4 style="margin-bottom: 0px;">Erreur </h4>
+				  Taille invalide !!! <span class="label label-info pull-right control-info-champ7"></span>
+				  </div>
+				  </fieldset>
+				  </div>
+				  <div class="col-sm-6">
+					 <span style="color:red;">{{ form_errors(form.imgservice) }}</span>
+					 {{ form_label(form.imgservice,'Image de présentation de la formation') }}
+					 <div class="form-group champ8" style="margin-bottom: 10px;">
+					 {{ form_widget(form.imgservice) }}
+				     </div>
+					 <div class="alert alertnotif8 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+					 <h4 style="margin-bottom: 0px;">Erreur </h4>
+					 Fichier invalide !!! <span class="label label-info pull-right control-info-champ8"></span>
+					 </div>
+				  </div>
+				  <div class="col-sm-6">
+					<span style="color:red;">{{ form_errors(form.imgservicesecond) }}</span>
+					 {{ form_label(form.imgservicesecond,'Vidéo de présentation de la formation') }}
+					 <div class="form-group champ9" style="margin-bottom: 10px;">
+					 {{ form_widget(form.imgservicesecond) }}
+				     </div>
+					 <div class="alert alertnotif9 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+					 <h4 style="margin-bottom: 0px;">Erreur </h4>
+					 Fichier invalide !!! <span class="label label-info pull-right control-info-champ9"></span>
+					 </div>
+				  </div>
+				  <div class="col-sm-12">
+				    <fieldset>
+				    <legend>Présentation intégrale de l'offre de formation</legend>
+				    <span style="color:red;">{{ form_errors(form.description) }}</span>
+				    <div class="form-group champ10">
+					  {{ form_widget(form.description) }}
+				    </div>
+					<div class="alert alertnotif10 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				    <h4 style="margin-bottom: 0px;">Erreur </h4>
+				    Taille invalide !!! <span class="label label-info pull-right control-info-champ10"></span>
+				    </div>
+				    </fieldset>
+				  
+					<fieldset style="margin-bottom: 15px;">
+					<legend>Liste des cours nécessaires pour cette formation</legend>
+					<div class="" style="padding: 8px 7px; 0px 7px; display: block;width: 100%; padding: 0px 12px; font-size: 14px;line-height: 1.42857143;color: #777;background-color: #fff;background-image: none;border: 1px solid #ddd;">
+					<div class="liste-poste-retenu">
+					{% for cours in service.getProduitformations %}
+					<div class="" style="margin: 10px 0px; border: 1px solid #008DE7; background: #428bca; padding: 4px; color: #fff; -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); white-space: nowrap;">
+					<img src="{% if cours.produit.imgproduit != null %}{{ asset(cours.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/valid.png') }}{% endif %}" alt="" style="height: 18px; width: 25px;"/> {{ cours.produit.titre }} <a href="{{ path('users_adminuser_remove_cours_formation', {'id': service.id, 'cours': cours.produit.id }) }}" style="color: #e50707;" class="pull-right"><span class="fa fa-times"></span></a>
+					</div>
+					{% endfor %}
+					
+					</div>
+					<div class="form-group nomuser poste champ11" style="margin: 0px -12px; padding: 0px;">
+					<input type="text" id="postes_necessaire" class="form-control" placeholder="Ajoutez le cours n°1" style="margin: 0px; border: none; width: 100%;"/>
+					</div>	
+					<div class="alert alertnotif11 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				    <h4 style="margin-bottom: 0px;">Erreur </h4>
+				    Cours non identifier !!! <span class="label label-info pull-right control-info-champ11"></span>
+				    </div>
+					</div>
+					<input type="hidden" name="allposteservice" id="allposteservice" value=""/>		
+					</fieldset>
+					</div>
+				  <div class="col-sm-6">
+					<span style="color:red;">{{ form_errors(form.rang) }}</span>
+					<div class="form-group champ12">
+					  {{ form_widget(form.rang) }}
+					</div>
+					<div class="alert alertnotif12 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				    <h4 style="margin-bottom: 0px;">Erreur </h4>
+				    Entier positif !!! <span class="label label-info pull-right control-info-champ12"></span>
+				    </div>
+					<div style="margin-top:15px;">
+						 {{ form_widget(form.recrutement) }} <strong>{{ form_label(form.recrutement,'Marquez comme important') }}</strong>
+					 </div>
+				  </div>
+				  <div class="col-sm-6">
+					<div class="form-group champ12">
+					  <select name="dureeacces" id="dureeacces" class="form-control" style="border-radius: 0px; width: 100%;">
+						<option value="0">Durée d'accès aux ressources</option>
+						<option value="30" {% if service.dureeacces == 30 %}selected{% endif %}>1 Mois</option>
+						<option value="60" {% if service.dureeacces == 60 %}selected{% endif %}>2 Mois</option>
+						<option value="90" {% if service.dureeacces == 90 %}selected{% endif %}>3 Mois</option>
+						<option value="120" {% if service.dureeacces == 120 %}selected{% endif %}>4 Mois</option>
+						<option value="150" {% if service.dureeacces == 150 %}selected{% endif %}>5 Mois</option>
+						<option value="180" {% if service.dureeacces == 180 %}selected{% endif %}>6 Mois</option>
+						<option value="210" {% if service.dureeacces == 210 %}selected{% endif %}>7 Mois</option>
+						<option value="240" {% if service.dureeacces == 240 %}selected{% endif %}>8 Mois</option>
+						<option value="270" {% if service.dureeacces == 270 %}selected{% endif %}>9 Mois</option>
+						<option value="300" {% if service.dureeacces == 300 %}selected{% endif %}>10 Mois</option>
+						<option value="330" {% if service.dureeacces == 330 %}selected{% endif %}>11 Mois</option>
+						<option value="360" {% if service.dureeacces == 360 %}selected{% endif %}>1 an</option>
+						<option value="720" {% if service.dureeacces == 720 %}selected{% endif %}>2 ans</option>
+					  </select>
+					</div>
+					<div class="alert alertnotif13 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+				    <h4 style="margin-bottom: 0px;">Erreur </h4>
+				    Choix invalie !!! <span class="label label-info pull-right control-info-champ13"></span>
+				    </div>
+				  </div>
+				  
+				    <div class="col-md-12">
+					<legend>Durée de la vidéo au format minute:seconde</legend>
+					</div>
+					<div class="col-md-6">
+						<div class="input-group">
+						  <input type="text" class="form-control text-right"  name="dureeminute" value="{% if service.dureeminute != null %}{{ service.dureeminute }}{% else %}0{% endif %}" aria-describedby="basic-addon2"/>
+						  <div class="input-group-append">
+							<span class="input-group-text" id="basic-addon2">Minutes</span>
+						  </div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="input-group">
+						  <input type="text" class="form-control text-right"  name="dureeseconde" value="{% if service.dureeminute != null %}{{ service.dureeseconde }}{% else %}0{% endif %}" aria-describedby="basic-addon2"/>
+						  <div class="input-group-append">
+							<span class="input-group-text" id="basic-addon2">Secondes</span>
+						  </div>
+						</div>
+					</div>
+					<div class="col-md-12">
+					<button type="submit" class="btn btn-primary btn-block btn-lg" style="border-radius: 0px;">Enregistrez <span class="glyphicon glyphicon-send"></Span> </button>
+					</div>
+					
+		         <div class="clearfix" style="margin-bottom: 15px; display: block;"></div>
+				 {{ form_end(form) }}
+				</div> 
+				
+				<div class="clearfix"></div>
+				<div style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; margin-top: 7px;">
+						<h2 style="margin: 5px;">Liste des offres de formation !</h2>	
+					</div>
+				<div class="mid-popular">
+					{% for service in liste_service %}
+					<!-- Preview Image -->
+					<div style="text-align:left; border-bottom: 1px solid #ddd; margin-bottom: 15px;">
+						<div class="skill-wrap clearfix" style="margin-bottom: 15px;">
+							<div class="row">
+								<div class="col-sm-1 text-center" style="padding: 0px;">
+									<a href="{{ path('users_user_user_accueil', {'id': service.user.id }) }}" title="{{ service.user.name(20) }}"><img src="{% if service.user.imgprofil != null %} {{ asset(service.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" alt="{{ service.user.name(20) }}" class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/> </a>
+								</div>
+								<div class="col-sm-3">
+								<a href="#!">
+								<div class="hover01 column">
+									<div>
+										<figure style="height: 150px;"><img class="img-responsive img-hover img-thumbnail" src="{% if service.imgservice != null %}{{ asset(service.imgservice.getWebpath) }}{% else %}{{ asset('template/images/info.png') }}{% endif %}" alt="" style="height: 150px; width: 100%; margin-bottom: 15px;"> </figure>
+									</div>
+								</div>
+								</a>
+								</div>
+								<div class="col-sm-8">
+								<h3 style="margin: 0px; border-bottom: 1px solid #ddd;">
+									<a href="{{ path('users_adminuser_add_un_evenement', {'id': service.id }) }}">{{ service.nom }}</a>
+									<div class="btn-group pull-right" style="margin-top: 0px; padding: 0px;">
+									<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; padding: 0px;"><i class="mdi-hardware-keyboard-arrow-down" style="padding: 0px; margin: 0px;"></i></a>
+										<ul class="dropdown-menu pull-right" style="margin-top: 0px; border-radius: 0px;">
+											<li><a href="{{ path('produit_service_assistance_entreprise', {'id': service.id }) }}"><span class="fa fa-plus"></span> Afficher tous les détails</a></li>
+											<li class="divider"></li>
+											<li><a href="{{ path('users_adminuser_modifier_un_service', {'id': service.id}) }}" class=""><span class=" fa fa-pencil"></span> Modifier cette formation</a></li>
+											<li class="divider"></li>
+											<li><a href="{{ path('users_adminuser_supprimer_service_even', {'id': service.id}) }}"><span class="fa fa-times"></span> Supprimer cette formation</a></li>
+										</ul>
+									</div>
+								</h3>
+								<p class="blog-agile1 w3layouts w3 w3l w3ls" style="font-size: 11px; margin-bottom: 0px;"><a href="#!">Rang:</a> {{ service.rang }}; <a href="#!">Positon:</a> {% if service.recrutement == true %}Accueil&Liste{% else %}Liste{% endif %}; {% set nbre = (service.dureeacces/30) %} <a href="#!">Durée:</a> {{ nbre }} Mois <a href="{{ path('produit_service_assistance_entreprise', {'id': service.id }) }}"> Afficher tout <i class=" fa fa-angle-double-right"></i></a></p>
+								{{ service.detail[:200]|raw }}
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					{% endfor %}	
+					<div class="clearfix"></div>
+				</div>
+				<div class="clearfix"></div>
+				</div>
+			</div class="clearfix"></div>
+			</div>	
+
+<hr>
+<script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
+<script src="{{ asset('autocomplete/js/jquery.auto-complete.js') }}"></script>
+
+<script src="{{ asset('template/js/tiny.min.js') }}"></script>
+
+<script type="text/javascript">
+tinymce.init({ selector:'#produit_servicebundle_service_detail', entity_encoding: "raw" });
+tinymce.init({ selector:'#produit_servicebundle_service_description', entity_encoding: "raw" });
+
+var maxchamp1 = 60000;
+var minchamp1 = 0;
+var maxchamp2 = 60000;
+var minchamp2 = 0;
+var maxchamp3 = 60000;
+var minchamp3 = 5;
+var maxchamp4 = 60000;
+var minchamp4 = 0;
+var maxchamp5 = 60000;
+var minchamp5 = 10;
+var extensionsImgValides= new Array({{ imagesite|raw }});
+var extensionsVideoValides= new Array({{ videosite|raw }});
+var maximgsize = 1500000;
+var maxvideosize = 500000000;
+$(".form-service-offert").on("submit", function() {
+
+
+var detail = tinyMCE.get('produit_servicebundle_service_detail').getContent({format : 'raw'});
+var description = tinyMCE.get('produit_servicebundle_service_description').getContent({format : 'raw'});
+
+$('#produit_servicebundle_service_detail').val(detail);
+$('#produit_servicebundle_service_description').val(description);
+
+if($('#produit_servicebundle_formationedit_nom').val().length < minchamp1 || $('#produit_servicebundle_formationedit_nom').val().length > maxchamp1){
+	$("div.champ1").addClass("has-error");
+	$("div.alertnotif1").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ1').html($('#produit_servicebundle_formationedit_nom').val().length+'/'+maxchamp1);
+	$('#produit_servicebundle_formationedit_nom').focus();
+	return false;
+}
+if(!is_int($('#produit_servicebundle_formationedit_nprix').val()) || $('#produit_servicebundle_formationedit_nprix').val() < 0){
+	$("div.champ2").addClass("has-error");
+	$("div.alertnotif2").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ2').html('Not Int');
+	$('#produit_servicebundle_formationedit_nprix').focus();
+	return false;
+}
+if($('#produit_servicebundle_formationedit_keyword').val().length != minchamp2 && $('#produit_servicebundle_formationedit_keyword').val().length > maxchamp2){
+	$("div.champ3").addClass("has-error");
+	$("div.alertnotif3").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ3').html($('#produit_servicebundle_formationedit_keyword').val().length+'/'+maxchamp2);
+	$('#produit_servicebundle_formationedit_keyword').focus();
+	return false;
+}
+if(!is_int($('#produit_servicebundle_formationedit_nprixoff').val()) || $('#produit_servicebundle_formationedit_nprixoff').val() < 0){
+	$("div.champ4").addClass("has-error");
+	$("div.alertnotif4").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ4').html('Not Int');
+	$('#produit_servicebundle_formationedit_nprixoff').focus();
+	return false;
+}
+if($('#produit_servicebundle_formationedit_detail').val().length < minchamp3 || $('#produit_servicebundle_formationedit_detail').val().length > maxchamp3){
+	$("div.champ5").addClass("has-error");
+	$("div.alertnotif5").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ5').html($('#produit_servicebundle_formationedit_detail').val().length+'/'+maxchamp3);
+	$('#produit_servicebundle_formationedit_detail').focus();
+	return false;
+}
+if($('#produit_servicebundle_formationedit_puboffline').val().length < minchamp4 || $('#produit_servicebundle_formationedit_puboffline').val().length > maxchamp4){
+	$("div.champ6").addClass("has-error");
+	$("div.alertnotif6").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ6').html($('#produit_servicebundle_formationedit_puboffline').val().length+'/'+maxchamp4);
+	$('#produit_servicebundle_formationedit_puboffline').focus();
+	return false;
+}
+if($('#produit_servicebundle_formationedit_pubinline').val().length < minchamp4 || $('#produit_servicebundle_formationedit_pubinline').val().length > maxchamp4){
+	$("div.champ7").addClass("has-error");
+	$("div.alertnotif7").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ7').html($('#produit_servicebundle_formationedit_pubinline').val().length+'/'+maxchamp4);
+	$('#produit_servicebundle_formationedit_pubinline').focus();
+return false;
+}
+if(scriptVerifFile('produit_servicebundle_formationedit_imgservice_file',extensionsImgValides,maximgsize) == false)
+{
+	$("div.champ8").addClass("has-error");
+	$("div.alertnotif8").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ8').html('Image; Size: <'+Math.floor(maximgsize/1000)+'Ko');
+	return false;
+}
+if(scriptVerifFile('produit_servicebundle_formationedit_imgservicesecond_file',extensionsVideoValides,maxvideosize) == false)
+{
+	$("div.champ9").addClass("has-error");
+	$("div.alertnotif9").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ9').html('Vidéo; .mp4: <'+Math.floor(maxvideosize/1000)+'Ko');
+	return false;
+}
+if($('#produit_servicebundle_formationedit_description').val().length < minchamp5 || $('#produit_servicebundle_formationedit_description').val().length > maxchamp5){
+	$("div.champ10").addClass("has-error");
+	$("div.alertnotif10").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ10').html($('#produit_servicebundle_formationedit_description').val().length+'/'+maxchamp5);
+	$('#produit_servicebundle_formationedit_description').focus();
+	return false;
+}
+
+if(!is_int($('#produit_servicebundle_formationedit_rang').val()) || $('#produit_servicebundle_formationedit_rang').val() < 0){
+	$("div.champ12").addClass("has-error");
+	$("div.alertnotif12").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ12').html('Not Int');
+	$('#produit_servicebundle_formationedit_rang').focus();
+	return false;
+}
+if($('#dureeacces').val() == 0){
+	$("div.champ13").addClass("has-error");
+	$("div.alertnotif13").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ13').html('Selectionner');
+	$('#dureeacces').focus();
+	return false;
+}
+});
+
+function is_int(value){
+  if((parseFloat(value) == parseInt(value)) && !isNaN(value)){ 
+      return true;
+  } else {
+      return false;
+  }
+}
+function getExtension(filename)
+{
+	var parts = filename.split(".");
+	return (parts[(parts.length-1)]);
+}    
+
+function scriptVerifFile(champ,listeExt,taillemax)
+{
+var files = $('#'+champ)[0].files;
+if (files.length > 0){
+file = files[0],
+filename = file.name;
+filesize = file.size;
+}else{
+filename = '';
+filesize = 0;
+return true;
+}
+if(filesize == 0 || filesize > taillemax)
+{
+	return (false);
+}
+fileExt = getExtension(filename);
+for (i=0; i<listeExt.length; i++)
+{
+	if ( fileExt == listeExt[i] ) 
+	{
+		return (true);
+	}
+}
+return (false);
+}
+
+
+var bouge = 1;
+var dimension = 200;
+function activateelement()
+{
+var visibility = visibleElement('.animecourant-panel');
+
+if(visibility && bouge == 0){
+	bouge = 1;
+	$('.toutleblock').css('position','relative');
+	$('.toutleblock').css('bottom','0px');
+	$('.toutleblock').css('margin-bottom','0px');
+}
+}
+
+function stopelement()
+{
+var visibility = visibleElement('.stop-courant-panel');
+if(visibility && bouge == 1){
+	if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+	{
+	
+	}else{
+	bouge = 0;
+	$('.toutleblock').css('position','fixed');
+	$('.toutleblock').css('width',dimension+'px');
+	$('.toutleblock').css('bottom','7px');
+	$('.toutleblock').css('margin-bottom','165px');
+	}
+}
+}
+
+var idStopelement = 0;
+var idActivateelement = 0;
+function controlScroll()
+{
+	var largeur = ($(window).width());
+	dimension = $('.toutleblock').width();
+	if (largeur >= 768)
+	{
+	   /*
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+		
+		$('.toutleblock').css('position','fixed');
+		$('.toutleblock').css('width',dimension+'px'); 
+		}else{ 
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+		} */
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+	}
+}
+controlScroll();
+
+</script>	
+{% endblock %}
+{% block javascripttemplate %}
+
+$('.article-service').addClass('position-user');
+
+{% for infos in app.session.flashbag.get('information') %}
+{% if loop.first %}	
+$('.infos-action-effectuer').html('{{ infos }}');
+$('#infos-action-effectuer').modal('show');
+{% endif %}
+{% endfor %}
+
+tinymce.init({ selector:'.tinymce-manager'});
+
+var jsonresult = {{ render(controller("App\\Controller\\Produit\\Produit\\ProduitController:autorecherchecours")) }};;
+var j = 0;
+var postechoices = [];
+for(var n in jsonresult){
+	nom = jsonresult[n].nom;
+	drapeau = jsonresult[n].drapeau;
+	idprod = jsonresult[n].idprod;
+	num = nom+":"+drapeau;
+	courantelem = [nom,drapeau,idprod];
+	postechoices[j] = courantelem;
+	j++;
+}
+
+var listePoste = '';
+var separateur = '$$$$$$';
+var compteur = 1;
+
+$('#postes_necessaire').autoComplete({
+    minChars: 0,
+    source: function(term, suggest){
+        term = term.toLowerCase();
+        var suggestions = [];
+        for (i=0;i< postechoices.length;i++)
+            if (~(postechoices[i][0]+' '+postechoices[i][1]).toLowerCase().indexOf(term)) suggestions.push(postechoices[i]);
+        suggest(suggestions);
+    },
+    renderItem: function (item, search){
+        search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+        return '<div class="autocomplete-suggestion" data-langname="'+item[0]+'" data-lang="'+item[1]+'" data-id="'+item[2]+'"  data-val="'+search+'" data-img="'+item[1]+'"><img src="{{ asset('') }}'+item[1]+'" style="width: 30px; height: 20px; padding: 2px;"> '+item[0].replace(re, "<b>$1</b>")+'</div>';
+    },
+    onSelect: function(e, term, item){
+	if(listePoste == '')
+	{
+		cSeparateur = '';
+	}else{
+	cSeparateur = separateur;
+	}
+	
+	var ajouterPoste = true;
+	var donnee = ''+item.data("id");
+	if(listePoste == '')
+	{
+		listePoste = donnee;
+		compteur++;
+	}else{
+		var tabPoste = listePoste.split(cSeparateur);
+		for (var i = 0, c = tabPoste.length; i < c; i++){
+			if(tabPoste[i] == donnee)
+			{
+				ajouterPoste = false;
+				break; 
+			}
+		}
+		if(ajouterPoste == true)
+		{
+		listePoste = listePoste +''+cSeparateur+''+donnee;
+		compteur++;
+		}
+	}
+	if(ajouterPoste == true)
+	{
+		$('.liste-poste-retenu').append('<div class="listeItem-'+compteur+'" style="margin: 10px 0px; border: 1px solid #008DE7; background: #428bca; padding: 4px; color: #fff; -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); white-space: nowrap;"><img src="{{ asset('') }}'+item.data("img")+'" alt="" style="height: 18px; width: 25px;"/> '+item.data("langname")+' <a href="#!" style="color: #e50707;" class="pull-right" onclick="deleteItem(\''+donnee+'\','+compteur+')"><span class="fa fa-times"></span></a></div>');
+	}
+	/*$('.input-final').show();
+		$('#departement_etab').attr('type','hidden');
+		$('#postes_necessaire').attr('value',item.data("id"));*/
+		$('#allposteservice').val(listePoste);
+		$('#postes_necessaire').attr('placeholder','Ajoutez le cours n°'+compteur);
+		$('#postes_necessaire').val('');
+		if(compteur == 11)
+		{
+			$('#postes_necessaire').attr('type','hidden');
+			$('.ajouter-nouveau-poste').hide();
+		}else{
+			$('#postes_necessaire').focus();
+		}
+		e.preventDefault();
+    },
+	cache: false
+});
+
+function deleteItem(element,num)
+{
+	if(listePoste == '')
+	{
+		cSeparateur = '';
+	}else{
+	    cSeparateur = separateur;
+	}
+	var newListe = '';
+	var tabPoste = listePoste.split(cSeparateur);
+	for (var i = 0, c = tabPoste.length; i < c; i++){
+		if(tabPoste[i] != element)
+		{
+			if(newListe == '')
+			{
+				newListe = tabPoste[i];
+			}else{
+			    newListe = newListe +''+cSeparateur+''+tabPoste[i];
+			}
+		}
+	}
+	listePoste = newListe;	
+	$('.listeItem-'+num).hide();
+	compteur--;
+	$('#allposteservice').val(listePoste);
+	$('#postes_necessaire').attr('placeholder','Ajoutez le cours n°'+compteur);
+	
+	$('#postes_necessaire').attr('type','text');
+	$('.ajouter-nouveau-poste').show();
+	$('#postes_necessaire').focus();
+}
+
+{% endblock %}

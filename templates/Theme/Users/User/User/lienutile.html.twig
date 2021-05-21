@@ -1,0 +1,148 @@
+
+<div class="panel panel-widget text-left">
+	<div style="padding: 7px; background: #ddd; margin: -2px -2px 0px -2px; color: #fff;"><span class="fa fa-link"></span> Liens utiles</div>
+	<div class="compose-left">
+		<div class="chat-grid widget-shadow">
+			<ul>
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+				<a class="img-slide open-element" href="{{ path('produit_service_visiter_notre_blog') }}">
+					<div class="col-xs-3" style="padding: 0px;">
+					<img class="img-circle img-thumbnail" src="{{ asset('template/images/appcode.png') }}" alt=""  style="border-radius: 25px; height: 50px; width: 50px;"/>
+					</div>
+					<div class="col-xs-9">
+					<strong>Nos formations</strong></br>
+					En ligne et au centre 
+					</div>
+					<div class="clearfix"> </div>	
+				</a>
+				</li>
+				
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="admin-site open-element" href="{{ path('produit_produit_accueil_boutique_produit') }}">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{{ asset('template/images/cours.png') }}" alt="" style="border-radius: 25px; height: 50px; width: 50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>Nos cours</strong></br>
+							Vidéos et Supports
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="categorie-produit open-element" href="{{ path('produit_service_forum_site') }}">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{{ asset('template/images/discussion.png') }}" alt="" style="border-radius: 25px; height: 50px; width: 50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>Forum</strong></br>
+							Entre-aide
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="article-service open-element lien-about-us" href="{{ path('produit_service_apropos_denous') }}">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{{ asset('template/images/about.png') }}" alt="" style="border-radius: 25px; height: 50px; width: 50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>À propos</strong></br>
+							Comment ça marche ?
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				{% if app.user != null %}
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="competition-service open-element" href="{{ path('users_user_user_accueil', {'id': app.user.id }) }}">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{% if app.user.imgprofil != null %}{{ asset(app.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="border-radius: 25px; height: 50px; width: 50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>Mon compte personnel</strong></br>
+							{{ app.user.name(25) }}
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				{% else %}
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="competition-service open-element" href="{{ path('login') }}">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{{ asset('template/images/co.png') }}" alt="" style="border-radius: 25px; height: 50px; width: 50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>Mon compte personnel</strong></br>
+							Connexion
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				{% endif %}
+				{% if app.user != null %}
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="fiche-enligne open-element" href="{{ path('users_user_modifier_profil', {'id': app.user.id }) }}">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{{ asset('template/images/key.png') }}" alt="" style="border-radius: 25px; height: 50px; width:50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>Modifier mes paramètres</strong></br>
+							Infos personnelles
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				{% else %}
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="fiche-enligne open-element connexion-necessaire" href="#!">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{{ asset('template/images/key.png') }}" alt="" style="border-radius: 25px; height: 50px; width: 50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>Modifier mes paramètres</strong></br>
+							Infos personnelles
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				{% endif %}
+				
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="fiche-enligne open-element lien-mon-solde" href="{{ path('produit_service_yourcv_recrutement') }}">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{{ asset('template/images/achat.png') }}" alt="" style="border-radius: 25px; height: 50px; width: 50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>Créditer mon compte</strong></br>
+							Ajout des fonds
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				
+				<li style="padding: 7px 0px; margin-right: -1px;">
+					<a class="fiche-enligne open-element" href="{{ path('produit_service_toute_actualite_entreprise') }}">
+						<div class="col-xs-3" style="padding: 0px;">
+							<img class="img-circle img-thumbnail" src="{{ asset('template/images/concours.png') }}" alt="" style="border-radius: 25px; height: 50px; width: 50px;">
+						</div>
+						<div class="col-xs-9">
+							<strong>Nos formateurs</strong></br>
+							Expérience et disponibilité
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				
+			</ul>
+			<div class="head" style="padding: 7px; background: #ddd; margin: 0px -1px -1px -1px; color: #fff;"><span class="fa fa-link"></span> Liens utiles</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$('.connexion-necessaire').click(function(){
+	$('.infos-action-effectuer').html('<span class="fa fa-stop"></span> Connexion Nécessaire ! <a href="{{ path('login') }}">Connectez-vous ici.</a>');
+	$('#infos-action-effectuer').modal('show');
+});
+</script>

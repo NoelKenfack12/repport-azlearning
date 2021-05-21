@@ -1,0 +1,106 @@
+<style>
+.docs-overview .card {
+	border-color: #e7e9ed;
+	position: relative;
+}
+.shadow-sm {
+	box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075) !important;
+}
+.card {
+	position: relative;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0,0,0,0.125);
+	border-radius: .25rem;
+}
+
+.docs-overview .card:hover {
+	box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+	background: #f5f6fe;
+}
+
+.docs-overview .card:hover .card-icon-holder {
+	background: #fff;
+}
+.docs-overview .card-icon-holder {
+	width: 60px;
+	height: 60px;
+	font-size: 1.5rem;
+	padding-top: 7px;
+	display: inline-block;
+}
+.theme-icon-holder {
+	display: inline-block;
+	background: #f5f6fe;
+	color: #4550E6;
+	width: 32px;
+	height: 32px;
+	padding-top: 4px;
+	font-size: 1rem;
+	text-align: center;
+	border-radius: 50%;
+}
+.dropdown .dropdown-toggle:after {
+	display: none;
+}
+
+</style>
+	
+<section style="margin-bottom: 15px; background: #092759;
+  background-size: cover;background-attachment: scroll;">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+	
+	<div class="row" style="margin: 25px 0px 0px 0px;">
+	<div class="col-md-10 offset-md-1">
+		<h2 class="text-center" style="color: #fff;">{% if slideaccueil != null %}{{ slideaccueil.titre }}{% else %}Welcome to the Az E-learning forum{% endif %}</h2>
+
+		{{ form_start(formrecher, {'attr': {'style': 'margin-top: 15px; margin-bottom: 30px;','action': path('produit_service_recherche_forum') }}) }}					
+			 <div class="input-group" style="margin-bottom: 0px;">
+			 {{ form_widget(formrecher.donnee, {'attr': {'placeholder': 'Recherche dans forum'}}) }}
+			 <span class="input-group-btn">
+			 <button class="btn btn-default" style="height: 43px; box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.18), 0 0px 0px 0 rgba(0, 0, 0, 0.15); border-radius: 0px 5px 5px 0px;"><span class="fa fa-search"></span></button>
+			 </span>
+			 {{ form_rest(formrecher) }}
+			 </div>
+		{{ form_end(formrecher) }}
+
+	</div>
+	<div class="col-md-12" style="padding: 0px;">
+		<a href="{{ path('produit_service_forum_site') }}" class="btn btn-primary" style="color: #fff; border-radius: 0px 5px 0px 0px;"><span class="fa fa-list-alt"></span> Catégories</a>
+		<a href="{% if app.user != null %}{{ path('users_user_liste_forum_epingle', {'id': app.user.id }) }}{% else %}#!{% endif %}" class="btn btn-secondary {% if app.user == null %}connexion-necessaire-epingle{% endif %}"><span class=" fa fa-thumb-tack"></span> Epinglés</a>
+	
+		<div class="dropdown" style="float: right;">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Ajouter un sujet <span class="fa fa-plus"></span>
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			{% for service in categorie_forum %}
+			<a class="dropdown-item" href="{{ path('produit_service_ajouter_commentaire_article_user', {'id': service.id, 'addProduct': 1 }) }}">{{ service.nom }}</a>
+			{% endfor %}
+		  </div>
+		</div>
+	</div>
+	</div>
+
+
+	<script type="text/javascript">
+	$('.connexion-necessaire-epingle').click(function(){
+		$('#modal-infos-action-connexion').modal('show');
+	});
+	</script>
+
+</div> 
+</div>
+</div>
+</section>

@@ -1,0 +1,111 @@
+{% extends "UsersAdminuserBundle::layoutadmin.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
+{% endblock %}
+{% block title %}
+{{ parent() }} | Accueil Admin
+{% endblock %}
+
+{% block userblog_body %}
+
+<!--content-->
+		<div class="product">
+			<div class="container">
+				<div class="col-md-3 product-bottom">
+				{{ render(controller("UsersAdminuserBundle:Accueil:menuadmin")) }}
+				<!---->
+				</div>
+				<div class="col-md-9 animated wow fadeInRight" data-wow-delay=".5s">
+					<div class="mens-toolbar" style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+							<h2 style="margin: 5px 2px 5px 0px;">Liste des images liées aux services {{ service.nom }}</h2>	
+					</div>
+					<h4>
+					{% set id = '' %}
+					{% for infos in app.session.flashbag.get('supprime_apropos') %}
+					{% if loop.last %}
+					<strong style="color: red;"><span class="fa fa-warning"></span> Êtes vous certain de vouloir supprimer l'image du service {{ infos|lower }} </strong>
+					<form action="{{ path('users_adminuser_supprimer_img_service_courant', {'id': id }) }}" method="post">
+					<input type="submit" value="Supprimer" style="background: red;"/>
+					{{ form_rest(formsupp) }}
+					</form>
+
+					{% else %}
+					{% set id = infos %}
+					{% endif %}
+					{% endfor %}
+					</h4>
+				<div class="mid-popular">
+					{% for image in allimage %}
+						<div class="col-sm-4 item-grid item-gr  simpleCart_shelfItem">
+							<div class="grid-pro">
+								<div  class=" grid-product " >
+									<figure>		
+										<a href="#s">
+											<div class="grid-img">
+												<img  src="{{ asset(image.getWebpath) }}" class="img-responsive" alt="" style="height: 120px;"/>
+											</div>
+											<div class="grid-img">
+												<img  src="{{ asset(image.getWebpath) }}" class="img-responsive" alt="" style="height: 120px;"/>
+											</div>			
+										</a>		
+									</figure>	
+								</div>
+								<div class="women">
+									<a href="{{ path('users_adminuser_supprimer_img_service_courant', {'id': image.id }) }}" data-text="Supprimer" class="but-hover1 item_add">Supprimer</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}	
+					<div class="clearfix"></div>
+				</div>
+				
+				<div class="mens-toolbar" style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+					<h2 style="margin: 5px 2px 5px 0px;">Lier une image à l'un des services proposés.</h2>	
+				</div>
+				
+				<div>
+    	        <h4 class="title">
+			    <span style="color: red;">
+				{% for infos in app.session.flashbag.get('information') %}
+				{% if loop.first %}
+				{{ infos|raw }}
+				{% endif %}
+				{% endfor %}
+				</span>
+				</h4>
+    		    <form action="{{ path('users_adminuser_ajouter_image_service_courant', {'id': service.id }) }}" method="post" {{ form_enctype(form) }}>
+    			  <div class="col-sm-6">
+				     <span style="color:red;">{{ form_errors(form) }}</span>
+					 <span style="color:red;">{{ form_errors(form.service) }}</span>
+					 <div class="login-mail" style="margin-top: 15px;">
+					 {{ form_widget(form.service) }}
+				     </div>
+		    	  </div>
+		    	  <div class="col-sm-6">	
+					 <span style="color:red;">{{ form_errors(form.file) }}</span>
+					{{ form_label(form.file,"Sélectionnez une image") }}
+				     <div style="margin-bottom: 18px;">{{ form_widget(form.file) }}</div>
+					 
+				  <div class="login-do animated wow fadeInRight" data-wow-delay=".5s" style="margin-top: 15px;">
+				  <label class="hvr-sweep-to-top login-sub">
+					<input type="submit" value="Enregistrer"/>
+				  </label>
+		          </div>
+		          </div>
+		         <div class="clear"></div>
+				 {{ form_rest(form) }}
+		        </form>
+				<div class="clearfix"></div>
+				</div> 
+				
+				</div>
+			</div class="clearfix"></div>
+		</div>	
+{% endblock %}
+
+{% block javascripttemplate %}
+$('.active').removeClass('active');
+{% endblock %}

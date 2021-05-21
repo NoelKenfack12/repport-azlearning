@@ -1,0 +1,116 @@
+<div class="panel panel-default text-left" style="border-radius: 0px;">
+<div class="panel-heading">
+<h3 class="panel-title">
+<a style="display: block;"><span class="mdi-action-speaker-notes" style="font-size: 15px;"></span> Quel est le titre de votre cours ? </a>
+</h3>
+</div>
+<span style="color:red;">{{ form_errors(formpro) }}</span>
+<span style="color:red;">{{ form_errors(formpro.titre) }}</span>
+<div>
+<div class="panel-body"> 
+	<div class="form-group champ1">
+		{{ form_widget(formpro.titre) }}
+	</div>
+	<div class="alert alertnotif1 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Taille invalide !!! <span class="label label-info pull-right control-info-champ1"></span>
+	</div>
+	<fieldset style="margin-top: 15px;">
+	<legend>Présentation générale du cours</legend>
+	<span style="color:red;">{{ form_errors(formpro.description) }}</span>
+	<div class="form-group champ2">
+	{{ form_widget(formpro.description) }}
+	</div>
+	<div class="alert alertnotif2 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+		<h4 style="margin-bottom: 0px;">Erreur </h4>
+		Taille invalide !!! <span class="label label-info pull-right control-info-champ2"></span>
+	</div>
+	</fieldset>
+	
+	<fieldset style="margin-top: 15px;">
+	<legend>Image visuelle  du cours</legend>
+	<span style="color:red;">{{ form_errors(formpro.imgproduit) }}</span>
+	<div style="border: 1px dashed #999; background: rgba(221, 221, 221, 0.48); margin-left: 0px; margin-top: 0px; padding: 5px; margin-right: 0px;">
+	<div class="form-group champ3" style=" margin-left: 10px; margin-top: 10px;"> 
+	{{ form_widget(formpro.imgproduit) }}
+	</div>
+	<div class="alert alertnotif3 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Fichier invalide !!! <span class="label label-info pull-right control-info-champ3"></span>
+	</div>
+	</div>
+	</fieldset>
+	
+	<fieldset style="margin-top: 15px;">
+	<legend>Vidéo de présentation du cours</legend>
+	<span style="color:red;">{{ form_errors(formpro.videoproduit) }}</span>
+	<div style="border: 1px dashed #999; background: rgba(221, 221, 221, 0.48); margin-left: 0px; margin-top: 0px; padding: 5px; margin-right: 0px;">
+	<div class="form-group champ4" style=" margin-left: 10px; margin-top: 10px;"> 
+	{{ form_widget(formpro.videoproduit) }}
+	</div>
+	<div class="alert alertnotif4 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Fichier invalide !!! <span class="label label-info pull-right control-info-champ4"></span>
+	</div>
+	</div>
+	</fieldset>
+	
+	<fieldset style="margin-top: 15px;"> 
+	<legend>Objectifs du  cours </legend>
+	<span style="color:red;">{{ form_errors(formpro.objectif) }}</span>
+	<div class="form-group champ5">
+	{{ form_widget(formpro.objectif) }}
+	</div>
+	<div class="alert alertnotif5 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Taille invalide !!! <span class="label label-info pull-right control-info-champ5"></span>
+	</div>
+	</fieldset>
+	
+	<fieldset style="margin-top: 15px;">
+	<legend>Prérequis du cours</legend>
+	<span style="color:red;">{{ form_errors(formpro.prerequis) }}</span>
+	<div class="form-group champ6">
+	{{ form_widget(formpro.prerequis) }}
+	</div>
+	<div class="alert alertnotif6 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Taille invalide !!! <span class="label label-info pull-right control-info-champ6"></span>
+	</div>
+	</fieldset>
+	
+	<fieldset style="margin-top: 15px;">
+	<legend>Module de formation du cours</legend>
+	<span style="color:red;">{{ form_errors(formpro.souscategorie) }}</span>
+	{{ form_widget(formpro.souscategorie) }}
+	</fieldset>
+	
+	<div class="row" style="margin-top: 15px;">
+		<div class="col-md-12">
+		<legend>Durée de la vidéo au format minute:seconde</legend>
+		</div>
+		<div class="col-md-6">
+			<div class="input-group">
+			  <input type="text" class="form-control text-right"  name="dureeminute" value="{% if produit|default(null) != null %}{{ produit.dureeminute }}{% else %}0{% endif %}" aria-describedby="basic-addon2"/>
+			  <div class="input-group-append">
+				<span class="input-group-text" id="basic-addon2">Minutes</span>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="input-group">
+			  <input type="text" class="form-control text-right"  name="dureeseconde" value="{% if produit|default(null) != null %}{{ produit.dureeseconde }}{% else %}0{% endif %}" aria-describedby="basic-addon2"/>
+			  <div class="input-group-append">
+				<span class="input-group-text" id="basic-addon2">Secondes</span>
+			  </div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="keywords" style="margin-top: 15px;">
+		<button class="btn btn-primary btn-lg" style="border-radius: 0px;">Publier le cours <span class="glyphicon glyphicon-send"></span></button>
+	</div>
+</div>
+</div>
+</div>		
+{{ form_rest(formpro) }}

@@ -1,0 +1,202 @@
+
+{% extends "UsersAdminuserBundle::layoutadmin.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
+{% endblock %}
+{% block title %}
+{{ parent() }} | Accueil Admin
+{% endblock %}
+
+{% block userblog_body %}
+<hr style="margin-top: 45px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="container" style="color: #fff;">
+	Accueil <span class="mdi-av-play-arrow" style="font-size: 10px;"></span>  Administration
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;"/>
+<!--content-->
+		<div class="product" style="padding-top: 20px; margin-bottom: 20px;">
+			<div class="container" style="padding: 0px;">
+			<div class="col-lg-12 animecourant-panel">
+			</div>
+				<div class="col-md-4 product-bottom">
+				{{ render(controller("UsersAdminuserBundle:Accueil:menuadmin")) }}
+				<!---->
+				</div>
+				<div class="col-md-8 panel panel-widget">
+				<div style="background: #ddd;  margin: -1px -16px 7px -16px;">
+					<div style="padding: 7px; color: #fff;">Modifier les propos de {{ apropos.nom }}</div>	
+				</div>
+
+    	        <h4 class="title">
+					{% for infos in app.session.flashbag.get('information') %}
+					{% if loop.first %}
+					<div class="alert alert-warning">{{ infos|raw }}</div>
+					{% endif %}
+					{% endfor %}
+				</h4>
+				<div style="border: 1px solid #ddd; padding-bottom: 7px; padding-top: 7px;">
+    		    <form action="{{ path('users_adminuser_modification_propos_client', {'id': apropos.id}) }}" method="post" {{ form_enctype(form) }}>
+    			  <div class="col-sm-6">
+					 <span style="color:red;">{{ form_errors(form) }}</span>
+					 <span style="color:red;">{{ form_errors(form.nom) }}</span>
+					 
+					 <div class="form-group">
+					 {{ form_widget(form.nom) }}
+					 </div>
+					 <span style="color:red;">{{ form_errors(form.poste) }}</span>
+					 <div class="form-group">
+					 {{ form_widget(form.poste) }}
+					 </div>
+					 <span style="color:red;">{{ form_errors(form.rang) }}</span>
+					 <div class="form-group">
+					 {{ form_widget(form.rang) }}
+					 </div>
+					 <span style="color:red;">{{ form_errors(form.facebook) }}</span>
+					 <div class="form-group">
+					 {{ form_widget(form.facebook) }}
+					 </div>
+					 
+				  </div>
+				  <div class="col-sm-6">	
+					 <span style="color:red;">{{ form_errors(form.contenu) }}</span>
+					 <div class="form-group">
+					 {{ form_widget(form.contenu,{'attr': {'style': 'width: 100%;'}}) }}
+					 </div>
+					 
+					 <span style="color:red;">{{ form_errors(form.twitter) }}</span>
+					 <div class="form-group">
+					 {{ form_widget(form.twitter) }}
+					 </div>
+					 <span style="color:red;">{{ form_errors(form.google) }}</span>
+					 <div class="form-group">
+					 {{ form_widget(form.google) }}
+					 </div>
+					 <span>{{ form_label(form.file,'Importer une image de profil') }}</span>
+					 <div style="margin-bottom: 18px;">
+					 {{ form_widget(form.file) }}
+					 </div>
+				  </div>
+				  <div class="col-sm-12">
+				  <div class="form-group">
+					<button class="btn btn-primary">Envoyer <span class="glyphicon glyphicon-send"></span> </button>
+				  </div>
+				  </div>
+		         <div class="clear"></div>
+				 {{ form_rest(form) }}
+		        </form>
+				<div class="clearfix"></div>
+				</div>
+				
+				<div style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px;">
+					<h2 style="margin: 5px;">Ils en parlent (Clients, Responsables et Partenaires)</h2>	
+				</div>
+
+				<div style="padding: 5px 0px;">
+				{% for apropos in alldire %}
+					<div class="col-md-12" style="padding: 5px; border-bottom: 1px solid #ddd; ">
+						<div class="col-md-1 text-center">
+							<p><img src="{% if apropos.user.imgprofil != null %} {{ asset(apropos.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" alt="{{ apropos.user.name(20) }}" style="width: 50px; height: 50px;"/>
+							</p>
+							<p class="date-w3ls w3layouts w3 w3l w3ls"><a href="{{ path('users_user_user_accueil', {'id': apropos.user.id }) }}">{{ apropos.user.name(20) }}</a></p>
+						</div>
+						<div class="col-md-5">
+							<a href="#!">
+								<div class="hover01 column">
+									<div>
+										<figure style="height: 100px;"><img class="img-responsive img-hover" src="{{ asset(apropos.getWebpath) }}" alt="" title="" style="height: 100px;"></figure>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="col-md-6">
+							<h3>
+								<a href="#!">{{ apropos.nom }} - {{ apropos.poste }}</a> 
+							</h3>
+							<p class="blog-agile1 w3layouts w3 w3l w3ls">Le {{ apropos.date|date('d/m/y') }} Classer: {{ apropos.rang }}</p>
+							<p class="blog-agile2 agileits agileinfo wthree w3-agileits">{{ apropos.contenu[:200] }}</p>
+							<a class="btn btn-danger pull-right" href="{{ path('users_adminuser_about_us_supprimer', {'id': apropos.id }) }}" style="border-radius: 0px;">Supprimer <i class="fa fa-times"></i></a>
+							<a class="btn btn-primary pull-right" href="{{ path('users_adminuser_modification_propos_client', {'id': apropos.id}) }}" style="border-radius: 0px;">Modifier <i class="fa fa-pencil"></i></a>
+						</div>
+					</div>
+				{% endfor %}
+				<div class="clearfix"></div>
+				</div>
+
+				</div>
+			</div class="clearfix"></div>
+			</div>
+
+<script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
+<!-- /js files -->
+<hr>
+
+<script>
+var bouge = 1;
+var dimension = 200;
+function activateelement()
+{
+var visibility = visibleElement('.animecourant-panel');
+
+if(visibility && bouge == 0){
+	bouge = 1;
+	$('.toutleblock').css('position','relative');
+	$('.toutleblock').css('bottom','0px');
+	$('.toutleblock').css('margin-bottom','0px');
+}
+}
+
+function stopelement()
+{
+var visibility = visibleElement('.stop-courant-panel');
+if(visibility && bouge == 1){
+	if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+	{
+	
+	}else{
+	bouge = 0;
+	$('.toutleblock').css('position','fixed');
+	$('.toutleblock').css('width',dimension+'px');
+	$('.toutleblock').css('bottom','7px');
+	$('.toutleblock').css('margin-bottom','165px');
+	}
+}
+}
+
+var idStopelement = 0;
+var idActivateelement = 0;
+function controlScroll()
+{
+	var largeur = ($(window).width());
+	dimension = $('.toutleblock').width();
+	if (largeur >= 768)
+	{
+	   /*
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+		
+		$('.toutleblock').css('position','fixed');
+		$('.toutleblock').css('width',dimension+'px'); 
+		}else{ 
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+		} */
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+	}
+}
+controlScroll();
+
+</script>			
+{% endblock %}
+
+{% block javascripttemplate %}
+$('.active').removeClass('active');
+$('.mytestimonials').addClass('position-user');
+{% endblock %}

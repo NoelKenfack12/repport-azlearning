@@ -1,0 +1,33 @@
+<div class="photoday card">
+	<div class="card-image waves-effect waves-block waves-light">
+	<img src="{% if produit.imgproduit != null %} {{ asset(produit.imgproduit.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}" class="img-responsive activator" alt="" style="height: 200px;"/>
+	</div>
+	<div class="photo-text">
+		<p style="margin: 0px; padding: 0px;"><a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" title="{{ produit.name(300) }}">{{ produit.name(30) }}</a> </p>
+		<p style="margin: 0px; padding: 0px;"><a href="{{ path('users_user_user_accueil', {'id': produit.user.id }) }}" style="cursor: pointer; color: #333;"><img src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="{{ produit.user.name(30) }}" style="width: 20px; height:20px; border-radius: 15px; margin-top: -5px;"/> {{ produit.user.name(20) }} </br> {{ produit.newprise }} {{ devise }} - {% set duree = produit.dureeacces/30 %} {{ duree }} Mois</a></p>
+	</div>
+	
+	<div class="photo1">
+		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px; margin-left: -2px;">
+			<p style="margin: 0px;"><a href="#!" title="Editez ce cours" class="update-score-rencontre" value="{{ produit.id }}"><i class="mdi-content-create"></i></a></p>
+		</div>
+		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px;">
+			<p style="margin: 0px;"><a href="{{ path('users_adminuser_publier_produit_courant_souscategorie',{'id': produit.id}) }}" title="Dépublier ce cours"><i class="mdi-action-thumb-down"></i> </a></p>
+		</div>
+		
+		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px; margin-bottom: -20px; border:none;">
+			<p style="margin: 0px;">
+			{% if produit.avant == true %}
+			<a href="{{ path('users_adminuser_placer_produit_acceuilcourant_souscategorie',{'id': produit.id}) }}" title="Produit en avant"><i class="mdi-action-assignment-turned-in"></i> </a>
+			{% else %}
+			<a href="{{ path('users_adminuser_placer_produit_acceuilcourant_souscategorie',{'id': produit.id}) }}" title="Mettre en avant"><i class="mdi-action-backup"></i> </a>
+			{% endif %}
+			</p>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="card-reveal">
+		<span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> <a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ produit.name(50) }}</a></span>
+		<p>{{ produit.objectif|raw }} ..</p>
+	</div>
+</div>

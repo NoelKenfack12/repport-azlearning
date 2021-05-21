@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Az E-learning</title>
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+<div style="margin: 4px 7px;">
+<div style="margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 4px; padding: 10px; border: 2px solid #ddd;">
+<div style="color: #333; background-color: #428bca; border-color: #ddd; padding: 10px 15px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px;">
+<h3 style="margin-top: 0; margin-bottom: 0; font-size: 16px; color: inherit;">
+<div style="width: 100%; display: inline-block;">
+<a href="#!" style="text-decoration: none; color: #fff;"><img src="{{ siteweb }}/Symfony/web/mcs/images/logosm.png" style="margin-bottom: -15px;"/> <strong>Az Corp E-learning</strong></a>
+</div>
+</h3>
+</div>
+<div style="padding: 15px;">
+<h4>Bonjour {{ nom }},</h4>
+<h4>{{ titre|raw }}</h4>
+<div style="text-align: justify;">{{ contenu|raw }}</div>
+
+{% if link|default(null) != null %}
+<div style="text-align: center; margin-top: 15px;">
+	<a href="{{ link }}" style="font-weight: 600;padding: 0.6rem 1.25rem;-webkit-transition: all 0.4s ease-in-out;transition: all 0.4s ease-in-out;border: none;background: #3765af; color: #fff;">Suivre le lien</a>
+</div>
+{% endif %}
+<div style="margin-top: 50px; border-top: 1px solid #f6f6f6; padding-top: 20px; background: #f5f5f5;padding: 10px;">
+
+	Az Corporation, {{ localisation }},
+	Tel: <a href="#!" style="text-decoration: none;">(+237) {{ telephone }} </a>,
+	Email.: <a href="#!" style="text-decoration: none;">{{ email }}</a>,
+	Site web.: <a href="#!" style="text-decoration: none;">{{ siteweb }}</a></br>
+	© {{ "now"|date('Y') }} Az Corporation, All rights reserved. <a href="#!" style="font-size: 1em; text-decoration:none;">Copyright</a> | <a href="" style="font-size: 1em; text-decoration:none;">Utilisation</a>  
+
+</div>
+</div>
+<div style="padding: 10px 15px; background-color: #428bca;  border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;">
+<div style="width: 60%; display: inline-block;">
+<a href="{{ siteweb }}" style="text-decoration: none; color: #fff; margin-bottom: -15px;"><img src="{{ siteweb }}/Symfony/web/mcs/images/logosm.png" style="float: left; margin-right: 5px;"/> <strong>Az Corporation</strong></a></br>
+<span>Formation en ligne</span>
+</div>
+<div style="width: 39%; text-align: right; display: inline-block;">
+<a href="{{ siteweb }}/Symfony/web/mcs/images/{{ twitter }}" title=" Twitter"><img src="twitter.png" style="margin: 2px;"/></a> 
+<a href="{{ siteweb }}/Symfony/web/mcs/images/{{ facebook }}" title=" Facebook"><img src="facebook.png" style="margin: 2px;"/></a>
+<a href="{{ siteweb }}/Symfony/web/mcs/images/{{ linkedin }}" title=" Linked In"><img src="linkedin.png" style="margin: 2px;"/></a>
+<a href="{{ siteweb }}/Symfony/web/mcs/images/{{ google }}" title=" Google Plus"><img src="google.png" style="margin: 2px;" /></a>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<div class="photoday card">
+	<div class="card-image waves-effect waves-block waves-light">
+	<img src="{% if produit.imgproduit != null %} {{ asset(produit.imgproduit.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}" class="img-responsive activator" alt="" style="height: 200px;"/>
+	</div>
+	<div class="photo-text">
+		<p style="margin: 0px; padding: 0px;"><a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" title="{{ produit.name(300) }}">{{ produit.name(30) }}</a> </p>
+		<p style="margin: 0px; padding: 0px;"><a href="{{ path('users_user_user_accueil', {'id': produit.user.id }) }}" style="cursor: pointer; color: #333;"><img src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="{{ produit.user.name(30) }}" style="width: 20px; height:20px; border-radius: 15px; margin-top: -5px;"/> {{ produit.user.name(20) }} </br> {{ produit.newprise }} {{ devise }} - {% set duree = produit.dureeacces/30 %} {{ duree }} Mois</a>{% if produit.guide == true %}<a href="#!" class="pull-right open-guide-link" value="{{ produit.id }}"><span class="label label-warning"><span class="fa fa-star" style="font-size: 12px;"></span> Guide</span></a>{% endif %}</p>
+	</div>
+	
+	<div class="photo1">
+		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px; margin-left: -2px;">
+			<p style="margin: 0px;"><a href="#!" title="Editez ce cours" class="update-score-rencontre" value="{{ produit.id }}"><i class="mdi-content-create"></i></a></p>
+		</div>
+		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px; margin-bottom: -20px;">
+			<p style="margin: 0px;">
+			
+			<div class="btn-group dropup" style="margin-bottom: -20px; margin-top: -10px;">
+			<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;" title=""><i class="mdi-action-thumb-up"></i></a>
+				<ul class="dropdown-menu pull-left text-left" style="margin-top: 0px; border-radius: 0px; padding-top: 0px; margin-left: -70px;">
+					<li style="background: #428bca; padding: 5px; color: #fff; margin: 0px;"><a href="#!" style="color: #fff;"><span class="mdi-action-toc" style="font-size: 15px;"></span> Opérations sur le cours</a></li>
+					<li class="divider" style="margin-top: 0px;"></li>
+					<li><a href="{{ path('users_adminuser_publier_produit_courant_souscategorie',{'id': produit.id}) }}"><span class="mdi-action-done" style="font-size: 15px;"></span> Publier ce cours</a></li>
+					<li><a href="{{ path('users_adminuser_publier_produit_courant_souscategorie',{'id': produit.id, 'guide': 1}) }}"><span class="mdi-action-trending-up" style="font-size: 15px;"></span> Guide de rédaction</a></li>
+				</ul>
+			</div>
+			</p>
+		</div>
+		
+		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px; margin-bottom: -20px; border:none;">
+			<p style="margin: 0px;">
+			<a href="{{ path('produit_produit_suppression_produit_user_controller', {'id': produit.id}) }}" title="Supprimer ce cours"><i class="mdi-content-clear"></i> </a>
+			</p>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="card-reveal">
+		<span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> <a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ produit.name(50) }}</a></span>
+		<p>{{ produit.objectif[:150]|raw }} ..</p>
+	</div>
+</div>
+
+<script type="text/javascript">
+$('.open-guide-link').click(function(){
+	$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Le lien d\'accès à ce guide formation est le : {{ siteweb }}/user/guide/formateur/'+$(this).attr('value'));
+	$('#infos-action-effectuer').modal('show');
+});
+</script>

@@ -1,0 +1,49 @@
+<div class="modal fade" id="infos-action-modif-exercice-chapter-{{ exercice.id }}" style="margin-top: 100px; z-index: 9999;">
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Modification de l'exercice n°{{ exercice.num }}
+	</h4>
+</div>
+
+
+<div class="modal-body" style="background: #fff; color: #333;">
+	<div style="background: #ECF0F1; padding: 15px;">
+	<form action="{{ path('produit_produit_modif_exercice_chapter_current', {'id': exercice.id }) }}" method="post" {{ form_enctype(formexercice1) }}>
+	<div>{{ form_label(formexercice1.file,'Importez l\'énnoncé de l\'éxercice depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(formexercice1.file) }}
+	</div>
+	<div>{{ form_label(formexercice1.num,'Ajoutez le numéro de l\'éxercice') }}</div>
+	<div class="form-group">
+	{{ form_widget(formexercice1.num) }}
+	</div>
+
+	<div>{{ form_label(formexercice1.correctionexercice,'Importez la correction de l\'éxercice depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(formexercice1.correctionexercice) }}
+	</div>
+
+	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+
+	{{ form_rest(formexercice1) }}
+	</form>
+	</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+$('.modification-exercice-{{ exercice.id }}').click(function(){
+	$('#infos-action-modif-exercice-chapter-{{ exercice.id }}').modal('show');
+});
+</script>

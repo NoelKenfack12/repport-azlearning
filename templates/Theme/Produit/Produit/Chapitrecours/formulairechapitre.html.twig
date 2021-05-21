@@ -1,0 +1,123 @@
+<div class="panel panel-default text-left" style="border-radius: 0px;">
+<div class="panel-heading">
+	<h3 class="panel-title">
+		<a style="display: block;"><span class="mdi-action-speaker-notes" style="font-size: 15px;"></span> {{ message }} </a>
+	</h3>
+</div>
+<div >
+<div class="panel-body"> 
+	<fieldset>
+	<legend>Type</legend>
+	<div class="col-md-4">
+	  <label class="radio">
+		<input type="radio" data-toggle="radio"  name="radios1" id="" value="chapitre" style="cursor: pointer!important;" data-radiocheck-toggle="radio" checked=""/> 
+		Nouveau Chapitre
+	  </label>
+	 </div>
+	 <div class="col-md-4">
+	  <label class="radio">
+		<input type="radio" data-toggle="radio" name="radios1" id="" value="ressource" style="cursor: pointer!important;" data-radiocheck-toggle="radio"/> 
+		Ressources nécessaires
+	  </label>
+	 </div>
+	 <div class="col-md-4">
+	  <label class="radio">
+		<input type="radio" data-toggle="radio"  name="radios1" id="" value="conclusion" style="cursor: pointer!important;" data-radiocheck-toggle="radio"/> 
+		Conclusion partie
+	  </label>
+	 </div>
+	 </fieldset>
+	 <span style="color:red;">{{ form_errors(formchap) }}</span>
+	 <span style="color:red;">{{ form_errors(formchap.titre) }}</span>
+	 <fieldset>
+	<legend>Titre de la partie</legend>
+	<div class="form-group champ1">
+		{{ form_widget(formchap.titre) }}
+	</div>
+	<div class="alert alertnotif1 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Taille invalide !!! <span class="label label-info pull-right control-info-champ1"></span>
+	</div>
+	</fieldset>
+	<fieldset>
+	<legend>Ajoutez le contenu du chapitre</legend>
+	<span style="color:red;">{{ form_errors(formchap.contenu) }}</span>
+	<div class="form-group champ2">
+	{{ form_widget(formchap.contenu) }}
+	</div>
+	<div class="alert alertnotif2 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Taille invalide !!! <span class="label label-info pull-right control-info-champ2"></span>
+	</div>
+	</fieldset>
+	
+	<fieldset style="margin-top: 15px;">
+	<legend>Ajoutez une image de présentation  de la partie</legend>
+	<span style="color:red;">{{ form_errors(formchap.imgchapitre) }}</span>
+	<div style="border: 1px dashed #999; background: rgba(221, 221, 221, 0.48); margin-left: 0px; margin-top: 0px; padding: 5px; margin-right: 0px;">
+	<div class="form-group champ3" style=" margin-left: 10px; margin-top: 10px;"> 
+	{{ form_widget(formchap.imgchapitre) }}
+	</div>
+	<div class="alert alertnotif3 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Fichier invalide !!! <span class="label label-info pull-right control-info-champ3"></span>
+	</div>
+	</div>
+	</fieldset>
+	
+	<fieldset style="margin-top: 15px;">
+	<legend>Ajouter la vidéo de présentation du chapitre</legend>
+	<span style="color:red!important;">{{ form_errors(formchap.videochapitre) }}</span>
+	<div style="border: 1px dashed #999; background: rgba(221, 221, 221, 0.48); margin-left: 0px; margin-top: 0px; padding: 5px; margin-right: 0px;">
+	<div class="form-group champ4" style=" margin-left: 10px; margin-top: 10px;"> 
+	{{ form_widget(formchap.videochapitre) }}
+	</div>
+	<div class="alert alertnotif4 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Fichier invalide !!! <span class="label label-info pull-right control-info-champ4"></span>
+	</div>
+	</div>
+	</fieldset>
+	
+	<fieldset style="margin-top: 15px;">
+	<legend>Quel est le numéro de ce chapitre ?</legend>
+	<span style="color:red;">{{ form_errors(formchap.rang) }}</span>
+	<div class="form-group">
+	{{ form_widget(formchap.rang) }}
+	</div>
+	<div class="alert alertnotif5 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
+	<h4 style="margin-bottom: 0px;">Erreur </h4>
+	Entier positif !!! <span class="label label-info pull-right control-info-champ5"></span>
+	</div>
+	</fieldset>
+	
+	<div class="row" style="margin-top: 15px;">
+		<div class="col-md-12">
+		<legend>Durée de la vidéo au format minute:seconde</legend>
+		</div>
+		<div class="col-md-6">
+			<div class="input-group">
+			  <input type="text" class="form-control text-right"  name="dureeminute" value="{% if chapitre|default(null) != null %}{{ chapitre.dureeminute }}{% else %}0{% endif %}" aria-describedby="basic-addon2"/>
+			  <div class="input-group-append">
+				<span class="input-group-text" id="basic-addon2">Minutes</span>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="input-group">
+			  <input type="text" class="form-control text-right"  name="dureeseconde" value="{% if chapitre|default(null) != null %}{{ chapitre.dureeseconde }}{% else %}0{% endif %}" aria-describedby="basic-addon2"/>
+			  <div class="input-group-append">
+				<span class="input-group-text" id="basic-addon2">Secondes</span>
+			  </div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="keywords" style="margin-top: 15px;">
+		<button class="btn btn-primary btn-lg" style="border-radius: 0px;">Publier le chapitre <span class="glyphicon glyphicon-send"></span></button>
+	</div>
+</div>
+</div>
+</div>
+
+{{ form_rest(formchap) }}

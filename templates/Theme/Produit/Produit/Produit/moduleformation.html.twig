@@ -1,0 +1,74 @@
+{% extends "UsersUserBundle::layouthome.html.twig" %}
+
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, formateurs, enseignants, éducateurs, travaux pratiques, exercices corrigés, formations"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} - {{ metier }} - liste des formateurs {{ site }}."/>
+	
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - Nos modules de formation
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block userblog_body %}
+	
+<div class="container" style="min-height: 10px;">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{% include "GeneralTemplateBundle:Menu:contacts.html.twig" %}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">Catalogue</a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">Nos modules de formation</a></li>
+		</ol>
+	</div>
+</div>
+</div>
+</div>
+
+
+<div class="container">
+	 <div class="row">
+		<div class="col-md-12">
+			<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
+				<h2>Meilleures catégories</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit pariatur neque consectetur. Repellendus odit, obcaecati.</p>
+			</div>
+		</div>
+		
+		{% for categorie in liste_categorie %}
+		<div class="col-md-4">
+			<div class="container-cat" style="background: url('{% if categorie.src != null %}{{ asset(categorie.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}'); background-size: cover;">
+			  <p class="title-cat">
+				<small class="subtitle-cat">
+				  {{ categorie.nom }}
+				</small>
+				{{ categorie.description }}
+			  </p>
+			  <a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': categorie.id }) }}" class="button-cat" style="display: block; text-decoration: none;">Consulter</a>
+			</div>
+		</div>
+		{% endfor %}
+	 </div>	
+</div><!-- /container -->
+
+<hr>
+{% endblock %}
+
+{% block javascripttemplate %}
+
+{% endblock %}

@@ -4,12 +4,84 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    nbcategorie: 10
+    nbsouscategorie: 7
+    nbslide: 7
+    nbproduitsouscat: 10
+    nbimgparproduit: 5
+    siteweb: http://www.test.azcorporation.net
+    conditionuserlink: http://www.test.azcorporation.net/condition/
+    url_single_email: http://sendapi.afhunt.com/email/singleemail
+    sitename: AZ E-learning
+    emailadmin: gaielbleriot@gmail.com
+    username: az_e-learning
+    password: africexplorer
+    tel: 695689632
+    bp: 1245
+    repeattime: 24
+    notemin: 1
+    noteminexo: 5
+    orangemoney: 695689632
+    mtnmobile: 675689632
+    curentwebsite: 0123-4567-8901
+    saltcookies: dkjdlkdsfnksdfsd
+    devise: XAF
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $curentwebsite: '%curentwebsite%'
+    general_service.servicetext:
+        class: App\Service\Servicetext\GeneralServicetext
+ #   general_service.myuserauthentification:
+ #       class: App\Service\UserAuthentification\Curentwebsite
+ #       arguments: ['@request','@doctrine.orm.entity_manager','%curentwebsite%']
+ #       tags:
+ #           - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+    App\Service\Servicetext\GeneralServicetext: '@general_service.servicetext'
+    general_validatortext.emailuser:
+        class: App\Validator\Validatortext\EmailValidator
+        arguments: ['@general_service.servicetext']
+        tags:
+            - { name: validator.constraint_validator, alias: email_user }
+    general_validatortext.sitewebuser:
+        class: App\Validator\Validatortext\SitewebValidator
+        arguments: ['@general_service.servicetext']
+        tags:
+            - { name: validator.constraint_validator, alias: siteweb_user }
+    general_validatortext.passworduser:
+        class: App\Validator\Validatortext\PasswordValidator
+        arguments: ['@general_service.servicetext']
+        tags:
+            - { name: validator.constraint_validator, alias: password_user }
+    general_validator.telephone:
+        class: App\Validator\Validatortext\TelephoneValidator
+        arguments: ['@general_service.servicetext']
+        tags:
+            - { name: validator.constraint_validator, alias: adresse_telephone }
+    general_validatorfile.image:
+        class:   App\Validator\Validatorfile\ImgValidator
+        arguments: ['@general_service.servicetext']
+        tags: 
+            - { name: validator.constraint_validator, alias: my_image }
+    general_validatorfile.yourfile:
+        class:   App\Validator\Validatorfile\YfileValidator
+        arguments: ['@general_service.servicetext']
+        tags: 
+            - { name: validator.constraint_validator, alias: your_file }
+    general_validatortext.telormailuser:
+        class: App\Validator\Validatortext\TelormailValidator
+        arguments: ['@general_service.servicetext']
+        tags:
+            - { name: validator.constraint_validator, alias: teloremail_user }
+    general_validator.filmnolimit:
+        class:   App\Validator\Validatorfile\FilmnolimiteValidator
+        arguments: []
+        tags: 
+            - { name: validator.constraint_validator, alias: film_no_limit }
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

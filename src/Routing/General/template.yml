@@ -1,0 +1,3 @@
+general_template_stop_alert_newsletter:
+    path: /stop/alert/newsletter
+    defaults: { _controller: GeneralTemplateBundle:Menu:stopAlertNewletter }

@@ -1,0 +1,176 @@
+{% extends "Theme/Users/User/layouthome.html.twig" %}
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}"/>
+
+{% endblock %}
+{% block title %}
+	{{ parent() }} | {{ user.name(20) }}
+{% endblock %}
+{% block userblog_body %}
+
+<div class="container" style="min-height: 10px;">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{% include "Theme/General/Template/Menu/contacts.html.twig" %}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!"> Formateurs</a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!"> Formations à suivre</a></li>
+		</ol>
+	</div>
+</div>
+</div>
+</div>
+
+
+<div class="container">
+	{% if user.formateur == true %}
+		{{ render(controller("App\\Controller\\Users\\User\\UserController:banniereuser", {'user': user.id })) }}
+	{% endif %}
+	<div class="row" style="margin-top: 15px;">
+		<div class="col-md-12 text-left">
+		<div style="background: #fff; padding: 10px;">
+			<div>
+				<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Liste des formations à suivre par {{ user.name(30) }}.</h4>
+			</div>
+			
+			<table>
+			<thead>
+				<tr>
+					<th>Date d'inscription</th>
+					<th>Type</th>
+					<th>Intitutlé</th>
+					<th>Progression</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for panier in liste_panier %}
+			<tr class="{% if loop.index % 3 == 1 %}success{% endif %} {% if loop.index % 3 == 2 %}danger{% endif %} {% if loop.index % 3 == 0 %}active{% endif %}">
+			<td data-column="Date d'inscription">{{ panier.date|date('d') }}/{{ panier.date|date('m') }}/{{ panier.date|date('Y') }} <a href="#!" class="label label-warning pull-right" title="Durée de formation" style="">{% if panier.service != null %}{% set duree = panier.service.dureeacces/30 %}{{ duree }}Mois{% else %} {% if panier.chapitrecours != null %} {% set duree = panier.chapitrecours.partiecours.produit.dureeacces/30 %}{{ duree }}Mois {% else %} {% for prodpan in panier.produitpaniers %}{% if loop.first %}{% set duree = prodpan.produit.dureeacces/30 %}{{ duree }}Mois{% endif %}{% endfor %}{% endif %}{% endif %}</a> </td>
+			<td data-column="Type">{% if panier.service != null %}Parcours{% else %}{% if panier.chapitrecours != null %}Chapitre{% else %}Cours{% endif %}{% endif %} </td>
+			<td data-column="Intitutlé">
+			{% if panier.service != null %}{{ panier.service.nom }}
+				<div class="btn-group pull-right" style="margin-top: 0px; padding: 0px;">
+				<a href="{{ path('produit_service_assistance_entreprise', {'id': panier.service.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a>
+				<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; display: inline-block; width: 40px;"><i class="mdi-hardware-keyboard-arrow-down" style="padding: 0px; margin: 0px;"></i></a>
+					<ul class=" dropdown-menu pull-right" style="padding: 0px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); width: 250px;">
+						<li style="background: #f4f4f4; padding: 7px;"><a href="#!"><span class="fa fa-info-circle"></span> Liste de cours à suivre</a></li>
+						<li class="divider"></li>
+						{% for product in panier.service.produits %}
+							<a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': product.id }) }}"  class="list-group-item">{{ product.titre }}</a>
+						{% endfor %}
+					</ul>
+				</div>
+			{% else %}
+				{% if panier.chapitrecours != null %}
+					{{ panier.chapitrecours.titre }} <span style="float: right;"><a href="{{ path('produit_produit_presentation_chapter', {'id': panier.chapitrecours.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': panier.chapitrecours.partiecours.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>
+				{% else %}  
+					{% for prodpan in panier.produitpaniers %}
+						{% if loop.first %}{{ prodpan.produit.titre }} <span style="float: right;"><a href="{{ path('produit_produit_detail_produit_market', {'id': prodpan.produit.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': prodpan.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>{% endif %}
+					{% endfor %}  
+				{% endif %}
+			{% endif %}
+			</td>
+			<td data-column="Progression">
+				{% if panier.chapitrecours != null %}
+				{% for prodpan in panier.produitpaniers %}
+					{% if loop.first %}
+						{% set notechap = panier.chapitrecours.getNoteQuestionnaire(prodpan) %}
+						{% if notemin <= notechap %}
+							{% set moy = 100 %}
+						{% else %}
+							{% if bareme != 0 %} {% set moy = ((notechap/bareme)*100)|round %} {% else %} {% set moy = 0 %} {% endif %}
+						{% endif %}
+						<div class="progress progress-striped active" style="margin-bottom: 0px;">
+							<div class="progress-bar progress-bar-warning" style="width: {{ moy }}%;"></div>
+						</div>
+					{% endif %}
+				{% endfor %} 
+				{% else %}
+				{% if panier.chapitrecours == null and panier.service == null %}
+					{% set chapitreval = 0 %}
+					{% for prodpan in panier.produitpaniers %}
+						{% if loop.first %}
+							{% for chapitre in prodpan.produit.getChapitreCours %}
+								{% set notechap = chapitre.getNoteQuestionnaire(prodpan) %}
+								{% if notemin <= notechap %}
+									{% set chapitreval = chapitreval + 1 %}
+								{% endif %}
+							{% endfor %}
+							
+							{% if prodpan.produit.getChapitreCours|length != 0 %} {% set moy = ((chapitreval/prodpan.produit.getChapitreCours|length)*100)|round %} {% else %} {% set moy = 0 %} {% endif %}
+							<div class="progress progress-striped active" style="margin-bottom: 0px;">
+								<div class="progress-bar progress-bar-warning" style="width: {{ moy }}%;"></div>
+							</div>
+						{% endif %}
+					{% endfor %} 
+				{% else %}
+					{% if panier.service != null %}
+						{% set chapitreval = 0 %}
+						{% set nbchapitre = 0 %}
+						
+						{% for prodpan in panier.produitpaniers %}
+							{% for chapitre in prodpan.produit.getChapitreCours %}
+
+								{% set notechap = chapitre.getNoteQuestionnaire(prodpan) %}
+								{% if notemin <= notechap %}
+									{% set chapitreval = chapitreval + 1 %}
+								{% endif %}
+								{% set nbchapitre = nbchapitre + 1 %}
+								
+							{% endfor %}
+						{% endfor %}
+						
+						{% if nbchapitre != 0 %} {% set moy = ((chapitreval/nbchapitre)*100)|round %} {% else %} {% set moy = 0 %} {% endif %}
+						<div class="progress progress-striped active" style="margin-bottom: 0px;">
+							<div class="progress-bar progress-bar-warning" style="width: {{ moy }}%;"></div>
+						</div>
+						
+					{% endif %}
+				{% endif %}
+				{% endif %}
+			</td>
+			</tr>
+			
+			{% else %}
+				<tr>
+					<td>-<br><br><br><br><br><br><br></td>
+					<td>-</td>
+					<td>-</td>
+					<td>-</td>
+				</tr>
+			{% endfor %}
+
+			</tbody>
+			<thead>
+			<tr>
+			<th>Date d'inscription</th>
+			<th>Type</th>
+			<th>Intitutlé</th>
+			<th>Progression</th>
+			</tr>
+			</thead>
+			</table>
+		</div>
+		</div>
+	</div>
+</div>
+
+	<hr>
+{% endblock %}
+
+
+{% block javascripttemplate %}
+
+{% endblock %}

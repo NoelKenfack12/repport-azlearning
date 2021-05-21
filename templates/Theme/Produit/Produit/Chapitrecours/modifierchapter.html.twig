@@ -1,0 +1,590 @@
+{% extends "UsersUserBundle::layouthome.html.twig" %}
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, E-learning, cours en ligne, Connexion,{{ produit.souscategorie.categorie.nom }}, {{ produit.souscategorie.nom }},{{ produit.titre }}."/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} {{ produit.souscategorie.categorie.nom }}, {{ produit.souscategorie.nom }},{{ produit.titre }} - Annonce Cameroun, Annonce gratuite."/>
+
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - {{ produit.souscategorie.categorie.nom }}, {{ produit.souscategorie.nom }},{{ produit.titre }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block userblog_body %}
+
+<div class="container">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb" style="background: #fff; border: 1px solid #f3f3f3;">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{% include "GeneralTemplateBundle:Menu:contacts.html.twig" %}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff; border: none; margin-bottom: 0px;">
+			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item"><a href=""> Cours </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">{{ produit.titre[:50] }}</a></li>
+		</ol>
+	</div>
+</div>
+</div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		{% for infos in app.session.flashbag.get('information') %}
+		{% if loop.first %}
+			<div class="col-md-12 alert alert-warning alert-dismissable" style="margin: 3px;">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				{{ infos|raw }}
+			</div>
+		{% endif %}
+		{% endfor %}
+	</div><!-- /row -->
+	
+	<div class="row">
+		<div class="col-md-12">
+		<div class="card-1" style="background: #fff; padding: 15px;margin: 15px 0px;">
+		<form id="form_post_new_chapter_product" action="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formchap) }}>
+			{% set message = "Modification du chapitre "~chapitre.rang %}
+			{% include 'ProduitProduitBundle:Chapitrecours:formulairechapitre.html.twig' %}
+		</form>
+		
+		<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 15px;">
+		  <li class="nav-item">
+			<a class="nav-link active" id="home-tab" data-toggle="tab" href="#documents-chapitre" role="tab" aria-controls="documents-chapitre" aria-selected="true">Documents associés</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" id="profile-tab" data-toggle="tab" href="#qcm-chapitre" role="tab" aria-controls="qcm-chapitre" aria-selected="false">QCM</a>
+		  </li>
+		</ul>
+		<div class="tab-content" id="myTabContent">
+		  <div class="tab-pane fade show active" id="documents-chapitre" role="tabpanel" aria-labelledby="home-tab">
+		  
+				<div  style="margin-top: 15px; text-align: justify; padding: 7px; border-radius: 0px;" >
+					<div style="border-bottom: 1px solid #ddd; margin-bottom: 15px;" class="text-primary text-left"><strong><span class="mdi-action-extension"></span> Détail du cours: </strong></div>
+					<div class="row">
+					<div class="col-md-12">
+					
+						<ul class="list-group list-group-flush">
+						  <li class="list-group-item">
+							 {{ produit.titre[:100] }} 
+							<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-file-video-o"></span> Vidéo </a>
+							<ul class="dropdown-menu" style="padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
+								<li><a href="{{ path('produit_produit_download_video_chapter', {'id': chapitre.id }) }}" target="_blank"><span class="fa fa-arrow-circle-o-down"></span> Télcharger la vidéo</a></li>
+							</ul>
+						  </li>
+						</ul>
+
+					</div>
+					</div>
+					
+					<div style="border-bottom: 1px solid #ddd; margin-bottom: 15px;" class="text-primary text-left">
+					<strong><span class="mdi-action-extension"></span> Supports associés aux cours </strong>
+						<a href="#!" class="pull-right btn btn-primary add-new-support">
+							<span class="fa fa-plus"></span>
+						</a>
+					</div>
+					
+					<div class="row">
+					<div class="col-md-12">
+					
+						<ul class="list-group list-group-flush">
+						  {% for support in chapitre.supportchapitres %}
+						  <li class="list-group-item">
+							<span class="fa fa-paperclip"></span> Support numéro {{ support.num }}
+							<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-sun-o"></span> action </a>
+							<ul class="dropdown-menu" style="padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
+								<li><a href="{{ path('produit_produit_telecharger_support_chapter', {'id': support.id}) }}" target="_blank"><span class="fa fa-download"></span> Télcharger</a></li>
+								<li class="divider"></li>
+								<li><a href="{{ path('produit_produit_supprimer_support_chapter', {'id': support.id}) }}"><span class="fa fa-times"></span> Supprimer</a></li>
+							</ul>
+						  </li>
+						  {% else %}
+							 <li class="list-group-item">
+							 Aucun support n'est associé à cette leçon.
+							 </li>
+						  {% endfor %}
+						</ul>
+
+					</div>
+					</div>
+					
+					<div style="border-bottom: 1px solid #ddd; margin-bottom: 15px;" class="text-primary text-left">
+					<strong><span class="mdi-action-extension"></span> Travaux Pratiques associés aux cours </strong>
+						<a href="#!" class="pull-right btn btn-primary add-new-travaux-pratique">
+							<span class="fa fa-plus"></span>
+						</a>
+					</div>
+					
+					<div class="row">
+					<div class="col-md-12">
+					
+						<ul class="list-group list-group-flush">
+						  {% for pratique in chapitre.pratiquechapitres %}
+						  <li class="list-group-item">
+							<span class="fa fa-paperclip"></span> TP numéro {{ pratique.num }}
+							<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-sun-o"></span> action </a>
+							<ul class="dropdown-menu" style="padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
+								<li><a href="{{ path('produit_produit_download_travaux_pratique', {'id': pratique.id }) }}" target="_blank"><span class="fa fa-download"></span> Télcharger</a></li>
+								<li class="divider"></li>
+								<li><a href="#!" class="modification-tp-num-{{ pratique.id }}"><span class="fa fa-edit"></span> Modification TP N°{{ pratique.num }}</a></li>
+								<li class="divider"></li>
+								<li><a href="{{ path('produit_produit_suppression_travaux_pratique', {'id': pratique.id }) }}"><span class="fa fa-times"></span> Supprimer</a></li>
+							</ul>
+						  </li>
+						  {% else %}
+							 <li class="list-group-item">
+							 Aucun TP n'est associé à cette leçon.
+							 </li>
+						  {% endfor %}
+						</ul>
+
+					</div>
+					</div>
+					
+					<div style="border-bottom: 1px solid #ddd; margin-bottom: 15px;" class="text-primary text-left">
+					<strong><span class="mdi-action-extension"></span> Exercices associés aux cours </strong>
+						<a href="#!" class="pull-right btn btn-primary add-new-exercice">
+							<span class="fa fa-plus"></span>
+						</a>
+					</div>
+					
+					<div class="row">
+					<div class="col-md-12">
+					
+						<ul class="list-group list-group-flush">
+						  {% for exercice in chapitre.exerciceparties %}
+						  <li class="list-group-item">
+							<span class="fa fa-paperclip"></span> Exercice numéro {{ exercice.num }}
+							<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-sun-o"></span> action </a>
+							<ul class="dropdown-menu" style="padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
+								<li><a href="{{ path('produit_produit_telecharge_exercice', {'id': exercice.id }) }}" target="_blank"><span class="fa fa-download"></span> Télcharger</a></li>
+								<li class="divider"></li>
+								<li><a href="#!" class="modification-exercice-{{ exercice.id }}"><span class="fa fa-edit"></span> Modifier l'éxercice n°{{ exercice.num }}</a></li>
+								<li class="divider"></li>
+								<li><a href="{{ path('produit_produit_supprime_exercice', {'id': exercice.id }) }}"><span class="fa fa-times"></span> Supprimer</a></li>
+							</ul>
+						  </li>
+						  {% else %}
+							 <li class="list-group-item">
+							 Aucun Exercice n'est associé à cette leçon.
+							 </li>
+						  {% endfor %}
+						</ul>
+
+					</div>
+					</div>
+					
+					
+					<div class="row">
+
+					{% for pratique in chapitre.pratiquechapitres %}
+						{{ render(controller("ProduitProduitBundle:Chapitrecours:formulairemodifpratique", {'id': pratique.id })) }}
+					{% endfor %}
+
+					{% for exercice in chapitre.exerciceparties %}
+						{{ render(controller("ProduitProduitBundle:Chapitrecours:formulairemodifexercice", {'id': exercice.id })) }}
+					{% endfor %}
+					
+					</div>
+					<div class="clearfix"></div>
+				</div>
+		
+		  </div>
+		  <div class="tab-pane fade" id="qcm-chapitre" role="tabpanel" aria-labelledby="profile-tab">
+		  
+				<div class="variation-sub-contenu" value="0">
+					{{ render(controller("ProduitProduitBundle:Questionnaire:questionnairenotion", {'id': chapitre.id, 'src': 0})) }}
+					<div class="clearfix"></div>
+				</div>
+					
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default text-left" style="border-radius: 10px; background: #f4f4f4; padding: 10px; min-height: 180px; margin-top: 15px;">
+						<h3 class="panel-title">
+							<a style="display: block;"><span class="mdi-action-speaker-notes" style="font-size: 15px;"></span> Construction du questionnaire pour cette notion.</a>
+						</h3>
+
+						<form id="submit-form-questionnaire" action="{{ path('produit_produit_user_nouvelle_question_chapter', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formquestion) }}>
+							<div class="form-group champ8">
+								{{ form_widget(formquestion.titre) }}
+							</div>
+							<div class="alert alertnotif8 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+							<h4 style="margin-bottom: 0px;">Erreur </h4>
+							Taille invalide !!! <span class="label label-info pull-right control-info-champ8"></span>
+							</div>
+							<div class="keywords">
+								<button class="btn btn-primary pull-right" style="border-radius: 0px;">Ajoutez la question <span class="glyphicon glyphicon-send"></span></button>
+							</div>
+							{{ form_rest(formquestion) }}
+						</form>
+						</div>
+					</div>
+				</div>
+		
+		  </div>
+		</div>
+
+
+		</div>
+		</div>
+	</div><!-- /row -->
+</div><!-- /container -->
+
+
+{#
+<div class="modal fade" id="infos-action-new-part" style="margin-top: 100px; z-index: 9999;">
+<div class="modal-dialog modal-md">
+<div class="modal-content" style="border-radius: 0px;">
+<div class="modal-header" style="position: absolute; z-index: 3; width: 100%; padding: 2px 0px; box-shadow: 0 15px 15px -1px #f2f2f2 inset;background: #fff;">
+<div style="box-shadow: 0px 6px 6px #CCC; margin: 0px;">
+<button type="button" class="close" data-dismiss="modal" style="padding: 7px;">&times;</button>
+<h4 class="modal-title" style="padding: 7px;"><span class="fa fa-file-text-o"></span> Nouvelle partie</h4>
+</div>
+</div>
+<hr style="margin-top: 38px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="text-left" style="color: #fff; padding-left: 15px;">
+	Cours <span class="mdi-av-play-arrow" style="font-size: 10px;"></span> {{ produit.name(50) }}
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;"/>
+
+<div class="modal-body" style="background: #fff; color: #333;">
+<div style="background: #ECF0F1; padding: 15px;">
+<form  id="add_new_part_course" action="{{ path('produit_produit_add_new_partie_cours', {'id': produit.id}) }}" method="post" {{ form_enctype(form) }}>
+<div class="form-group champ10">
+{{ form_widget(form.titre, {'attr': {'class': 'titre_partie_course_add form-control'}}) }}
+</div>
+<div class="alert alertnotif10 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+<h4 style="margin-bottom: 0px;">Erreur </h4>
+Taille invalide !!! <span class="label label-info pull-right control-info-champ10"></span>
+</div>
+<div class="form-group champ11">
+{{ form_widget(form.rang, {'attr': {'class': 'number_partie_course_add form-control'}}) }}
+</div>
+<div class="alert alertnotif11 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+<h4 style="margin-bottom: 0px;">Erreur </h4>
+Entier positif !!! <span class="label label-info pull-right control-info-champ11"></span>
+</div>
+<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+
+{{ form_rest(form) }}
+</form>
+</div>
+</div>
+
+<hr style="margin-bottom: 15px;"/>
+<div class="modal-footer" style="text-align: right; padding: 7px; background: #222222; color: #fff;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+#}
+
+
+<div class="modal fade" id="infos-action-new-support-chapter" style="margin-top: 100px; z-index: 9999;">
+
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Nouveau support - {{ chapitre.name(50) }}
+	</h4>
+</div>
+
+<div class="modal-body" style="background: #fff; color: #333;">
+<div style="background: #ECF0F1; padding: 15px;">
+	<form action="{{ path('produit_produit_ajout_nouveau_support_chapter', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formsupport) }}>
+	<div>{{ form_label(formsupport.num,'Ajoutez le numéro du support') }}</div>
+	<div class="form-group">
+	{{ form_widget(formsupport.num) }}
+	</div>
+	<div class="form-group">
+	{{ form_widget(formsupport.file) }}
+	</div>
+	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+
+	{{ form_rest(formsupport) }}
+	</form>
+</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="infos-action-new-travaux-pratique" style="margin-top: 100px; z-index: 9999;">
+
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Nouveau TP- {{ chapitre.name(50) }}
+	</h4>
+</div>
+
+
+<div class="modal-body" style="background: #fff; color: #333;">
+	<div style="background: #ECF0F1; padding: 15px;">
+	<form action="{{ path('produit_produit_ajout_new_travaux_pratique', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formpratique) }}>
+	<div>{{ form_label(formpratique.file,'Importez l\'énnoncé du TP depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(formpratique.file) }}
+	</div>
+	<div>{{ form_label(formpratique.num,'Ajoutez le numéro du TP') }}</div>
+	<div class="form-group">
+	{{ form_widget(formpratique.num) }}
+	</div>
+
+	<div>{{ form_label(formpratique.correctionpratique,'Importez la correction du TP depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(formpratique.correctionpratique) }}
+	</div>
+
+	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+
+	{{ form_rest(formpratique) }}
+	</form>
+	</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="infos-action-new-exercice" style="margin-top: 100px; z-index: 9999;">
+
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Nouveau Exercice - {{ chapitre.name(50) }}
+	</h4>
+</div>
+
+<div class="modal-body" style="background: #fff; color: #333;">
+	<div style="background: #ECF0F1; padding: 15px;">
+	<form action="{{ path('produit_produit_ajout_new_exercice', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formexercice) }}>
+	<div>{{ form_label(formexercice.file,'Importez l\'énnoncé de l\'éxercice depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(formexercice.file) }}
+	</div>
+	<div>{{ form_label(formexercice.num,'Ajoutez le numéro de l\'éxercice') }}</div>
+	<div class="form-group">
+	{{ form_widget(formexercice.num) }}
+	</div>
+
+	<div>{{ form_label(formexercice.correctionexercice,'Importez la correction de l\'éxercice depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(formexercice.correctionexercice) }}
+	</div>
+
+	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+
+	{{ form_rest(formexercice) }}
+	</form>
+	</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+
+	
+<script src="{{ asset('template/js/tiny.min.js') }}"></script>
+
+{% endblock %}
+
+{% block javascripttemplate %}
+tinymce.init({ selector:'#produit_produitbundle_chapitrecours_contenu', entity_encoding: "raw" });
+
+$('.add-new-part').click(function(){
+	$('#infos-action-new-part').modal('show');
+});
+
+$('.add-new-support').click(function(){
+	$('#infos-action-new-support-chapter').modal('show');
+});
+
+$('.add-new-travaux-pratique').click(function(){
+	$('#infos-action-new-travaux-pratique').modal('show');
+});
+
+$('.add-new-exercice').click(function(){
+	$('#infos-action-new-exercice').modal('show');
+});
+
+maxchamp1 = 70;
+minchamp1 = 3;
+
+$("#add_new_part_course").on("submit", function(){
+if($('.titre_partie_course_add').val().length < minchamp1 || $('.titre_partie_course_add').val().length > maxchamp1){
+	$("div.champ10").addClass("has-error");
+	$("div.alertnotif10").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ10').html($('.titre_partie_course_add').val().length+'/'+maxchamp1);
+	$('.titre_partie_course_add').focus();
+	return false;
+}
+if(!is_int($('.number_partie_course_add').val()) || $('.number_partie_course_add').val() < 0){
+	$("div.champ11").addClass("has-error");
+	$("div.alertnotif11").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ11').html('Not Int');
+	$('.number_partie_course_add').focus();
+	return false;
+}
+});
+
+$("#submit-form-questionnaire").on("submit", function(){
+if($('#produit_produitbundle_questionnaire_titre').val().length < 3 || $('#produit_produitbundle_questionnaire_titre').val().length > 250){
+	$("div.champ8").addClass("has-error");
+	$("div.alertnotif8").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ8').html($('#produit_produitbundle_questionnaire_titre').val().length+'/250');
+	$('#produit_produitbundle_questionnaire_titre').focus();
+	return false;
+}
+});
+
+$('#produit_produitbundle_chapitrecours_imgchapitre_file').removeAttr('required');
+$('#produit_produitbundle_chapitrecours_videochapitre_file').removeAttr('required');
+var maxchamp2 = 70000;
+var minchamp2 = 3;
+var maxchamp3 = 100000;
+var minchamp3 = 0;
+var extensionsImgValides= new Array({{ imagesite|raw }});
+var extensionsVideoValides= new Array({{ videosite|raw }});
+var maximgsize = 1500000;
+var maxvideosize = 500000000;
+
+
+$("#form_post_new_chapter_product").on("submit", function() {
+
+var description = tinyMCE.get('produit_produitbundle_chapitrecours_contenu').getContent({format : 'raw'});
+
+$('#produit_produitbundle_chapitrecours_contenu').val(description);
+	
+if($('#produit_produitbundle_chapitrecours_titre').val().length < minchamp2 || $('#produit_produitbundle_chapitrecours_titre').val().length > maxchamp2){
+	$("div.champ1").addClass("has-error");
+	$("div.alertnotif1").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ1').html($('#produit_produitbundle_chapitrecours_titre').val().length+'/'+maxchamp2);
+	$('#produit_produitbundle_chapitrecours_titre').focus();
+	return false;
+}
+if($('#produit_produitbundle_chapitrecours_contenu').val().length != minchamp3 && $('#produit_produitbundle_chapitrecours_contenu').val().length > maxchamp3){
+	$("div.champ2").addClass("has-error");
+	$("div.alertnotif2").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ2').html($('#produit_produitbundle_chapitrecours_contenu').val().length+'/'+maxchamp3);
+	$('#produit_produitbundle_chapitrecours_contenu').focus();
+	return false;
+}
+if(scriptVerifFile('produit_produitbundle_chapitrecours_imgchapitre_file',extensionsImgValides,maximgsize) == false)
+{
+	$("div.champ3").addClass("has-error");
+	$("div.alertnotif3").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ3').html('Image; Size: <'+Math.floor(maximgsize/1000)+'Ko');
+	return false;
+}
+if(scriptVerifFile('produit_produitbundle_chapitrecours_videochapitre_file',extensionsVideoValides,maxvideosize) == false)
+{
+	$("div.champ4").addClass("has-error");
+	$("div.alertnotif4").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ4').html('Vidéo Mp4; Size: <'+Math.floor(maxvideosize/1000000)+'Mo');
+	return false;
+}
+if(!is_int($('#produit_produitbundle_chapitrecours_rang').val()) || $('#produit_produitbundle_chapitrecours_rang').val() < 0){
+	$("div.champ5").addClass("has-error");
+	$("div.alertnotif5").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ5').html('Not Int');
+	$('#produit_produitbundle_chapitrecours_rang').focus();
+	return false;
+}
+});
+
+function is_int(value){
+  if((parseFloat(value) == parseInt(value)) && !isNaN(value)){ 
+      return true;
+  } else {
+      return false;
+  }
+}
+function getExtension(filename)
+{
+	var parts = filename.split(".");
+	return (parts[(parts.length-1)]);
+}    
+
+function scriptVerifFile(champ,listeExt,taillemax)
+{
+var files = $('#'+champ)[0].files;
+if (files.length > 0){
+file = files[0],
+filename = file.name;
+filesize = file.size;
+}else{
+filename = '';
+filesize = 0;
+return true;
+}
+if(filesize == 0 || filesize > taillemax)
+{
+	return (false);
+}
+fileExt = getExtension(filename);
+for (i=0; i<listeExt.length; i++)
+{
+	if ( fileExt == listeExt[i] ) 
+	{
+		return (true);
+	}
+}
+return (false);
+}
+
+
+$('.open-content').click(function(){
+$('.content-panel-'+$(this).attr('name')).toggle('slow');
+if($(this).attr('value') == 'down')
+{
+	$(this).attr('value','up');
+	$('.open-content[name='+$(this).attr('name')+']').html('<span class="mdi-hardware-keyboard-arrow-right"></span>');
+}else{
+	$(this).attr('value','down');
+	$('.open-content[name='+$(this).attr('name')+']').html('<span class="mdi-hardware-keyboard-arrow-down"></span>');
+}
+});
+{% endblock %}

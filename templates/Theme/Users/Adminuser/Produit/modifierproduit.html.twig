@@ -1,0 +1,178 @@
+{% extends "UsersAdminuserBundle::layoutadmin.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | Administration | Cameroun | {{ metier }}"/>
+{% endblock %}
+{% block title %}
+{{ parent() }} | Accueil Admin
+{% endblock %}
+
+{% block userblog_body %}
+
+<!--content-->
+		<div class="product">
+			<div class="container">
+				<div class="col-md-3 product-bottom">
+				{{ render(controller("UsersAdminuserBundle:Accueil:menuadmin")) }}
+				<!---->
+				</div>
+				<div class="col-md-9 animated wow fadeInRight variation-contenu" data-wow-delay=".5s" value="0">
+					<div class="mens-toolbar" style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+							<h2 style="margin: 5px 2px 5px 0px;">Liste des images associées aux produits {{ produit.nom }}.</h2>	
+					</div>
+				<h4>
+				{% set id = 0 %}
+				{% for infos in app.session.flashbag.get('supprime_image') %}
+				{% if loop.last %}
+				<strong style="color: red;"><span class="fa fa-warning"></span> Êtes vous certain de vouloir supprimer l'image du produit {{ infos|lower }} </strong>
+				<form action="{{ path('users_adminuser_supprimer_image_produit',{'id': id }) }}" method="post">
+				<input type="submit" value="Supprimer" style="background: red;"/>
+				{{ form_rest(formsupp) }}
+				</form>
+
+				{% else %}
+				{% set id = infos %}
+				{% endif %}
+				{% endfor %}
+				<span style="color: red;">
+				{% for infos in app.session.flashbag.get('informationsupp') %}
+				{% if loop.first %}
+				{{ infos|raw }}
+				{% endif %}
+				{% endfor %}
+				</span>
+				</h4>
+
+				<div class="mid-popular">
+						{% for img in produit.imgproduits %}
+							<div class="col-sm-4 item-grid item-gr  simpleCart_shelfItem">
+								<div class="grid-pro">
+									<div  class=" grid-product " >
+										<figure>		
+											<a href="">
+												<div class="grid-img">
+												   <img src="{{ asset(img.getWebpath) }}" class="img-responsive" alt="" style="height: 180px;"/>
+												</div>
+												<div class="grid-img">
+												   <img src="{{ asset(img.getWebpath) }}" class="img-responsive" alt="" style="height: 180px;"/>
+												</div>			
+											</a>		
+										</figure>	
+									</div>
+									<div class="women">
+										<h6><a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ img.produit.nom }}</a></h6>
+										<h6>{{ img.produit.description[:30] }}</h6>
+										<h6><span style="text-decoration: line-through;">{{ img.produit.ancienPrixProduit }} {{ devise }}</span> /{{ img.produit.newprise }} {{ devise }}</h6>
+										<a href="{{ path('users_adminuser_supprimer_image_produit',{'id': img.id }) }}" data-text="Supprimer" class="but-hover1 item_add">Supprimer</a>
+									</div>
+								</div>
+							</div>
+						{% endfor %}	
+						<div class="clearfix"></div>
+				</div>
+				
+				<div class="mens-toolbar" style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+					<h2 style="margin: 5px 2px 5px 0px;">Ajouter une nouvelle image du produit  {{ produit.nom }}</h2>	
+				</div>
+				<div>
+				<form action="{{ path('users_adminuser_miseajour_produit', {'id': produit.id }) }}" method="post" {{ form_enctype(formpro) }}>
+    			  <div class="col-sm-6">
+				     <span style="color:red;">{{ form_errors(formpro) }}</span>
+					 <span style="color:red;">{{ form_errors(formpro.nom) }}</span>
+					 <div class="login-mail">
+					 {{ form_widget(formpro.nom) }}
+				     </div>
+					 <span style="color:red;">{{ form_errors(formpro.description) }}</span>
+					 <div class="login-mail">
+					 {{ form_widget(formpro.description) }}
+				     </div>
+					 <span style="color:red;">{{ form_errors(formpro.newprise) }}</span>
+					 <div class="login-mail">
+					 {{ form_widget(formpro.newprise) }}
+				     </div>
+					 <span>{{ form_label(formpro.imgpro,'Ajouter une image pour le produit') }}</span>
+				     <div style="margin-top: 10px;">{{ form_widget(formpro.imgpro) }}</div>
+		    	  </div>
+		    	  <div class="col-sm-6">	
+					 <span style="color:red;">{{ form_errors(formpro.prixlivraison) }}</span>
+					 <div class="login-mail">
+					 {{ form_widget(formpro.prixlivraison, {'attr':{'placeholder': 'Coût de livraison à '~ ville }}) }}
+				     </div>
+					 
+					 <span style="color:red;">{{ form_errors(formpro.souscategorie) }}</span>
+					 <div class="login-mail">
+					 {{ form_widget(formpro.souscategorie, {'attr':{'style': 'border: 1px solid #fff; width: 100%;'}}) }}
+				     </div>
+					 
+					 <span style="color:red;">{{ form_errors(formpro.contenu) }}</span>
+					 <div class="login-mail">
+					 {{ form_widget(formpro.contenu, {'attr': {'style':'border: 1px solid white; width: 100%;'}}) }}
+				     </div>
+				  <div class="login-do animated wow fadeInRight" data-wow-delay=".5s" style="margin-top: 15px;">
+				  <label class="hvr-sweep-to-top login-sub">
+					<input type="submit" value="Enregistrer"/>
+				  </label>
+		          </div>
+		          </div>
+		         <div class="clear"></div>
+				 {{ form_rest(formpro) }}
+		        </form>
+			   
+				</div>
+				<div class="clearfix"></div>
+				<div class="mens-toolbar" style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+					<h2 style="margin: 5px 2px 5px 0px;">Ajouter le coût de livraison du produit <span style="color: green;">{{ produit.nom }}</span> dans vos différentes villes.</h2>	
+				</div>
+				<div>
+				<form action="{{ path('users_adminuser_add_cout_livraison', {'id': produit.id }) }}" method="post" {{ form_enctype(formlivraison) }}>
+				<div class="col-sm-6">
+				     <span style="color:red;">{{ form_errors(formlivraison) }}</span>
+					 <span style="color:red;">{{ form_errors(formlivraison.montant) }}</span>
+					 <div class="login-mail" style="margin-top: 15px;">
+					 {{ form_widget(formlivraison.montant) }}
+				     </div>
+				</div>
+		    	  <div class="col-sm-6">	
+				  <span style="color:red;">{{ form_errors(formlivraison.ville) }}</span>
+				  <div class="login-mail" style="margin-top: 15px;">
+				  {{ form_widget(formlivraison.ville, {'attr': {'style': 'width: 100%; border: 1px solid #fff;'}}) }}
+				  </div>
+				  <div class="login-do animated wow fadeInRight" data-wow-delay=".5s" style="margin-top: 15px;">
+				  <label class="hvr-sweep-to-top login-sub">
+					<input type="submit" value="Enregistrer"/>
+				  </label>
+		          </div>
+		          </div>
+		         <div class="clear"></div>
+				 {{ form_rest(formlivraison) }}
+				</form>	
+				</div>
+				<div class="clearfix"></div>
+				<div class="mens-toolbar" style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; padding-bottom: 10px;">
+					<h2 style="margin: 5px 2px 5px 0px;">Liste des villes dans lesquelles le produit {{ produit.nom }} peut être livré</h2>	
+				</div>
+				  <table style="width: 100%; margin-bottom: 15px;">
+				  <tr style="background: #F7F7F7; border: 1px solid #ddd;"><td>Nom de la ville</td><td>Nom du produit</td><td>Coût de livraison</td><td>Action</td></tr>
+				  {% for coutlivrer in produit.coutlivraisons %}
+				  <tr style="border: 1px solid #ddd;">
+				  <td>{{ coutlivrer.ville.nom }}</td>
+				  <td>{{ coutlivrer.produit.nom }}</td>
+				  <td>
+					   <form action="{{ path('users_adminuser_modif_coutlivraison_produit', {'id': coutlivrer.id }) }}" method="post" style="display: inline;">
+					   <input name="coutlivraison" type="text" value="{{ coutlivrer.montant }}">
+					   </form>
+				  </td>
+				  <td><a href="{{ path('users_adminuser_delete_coutlivraison', {'id': coutlivrer.id }) }}">Supp</a></td>
+				  </tr>
+				  {% endfor %}
+				  </table>
+				</div>
+			<div class="clearfix"></div></div>
+		</div>	
+{% endblock %}
+
+{% block javascripttemplate %}
+$('.active').removeClass('active');
+{% endblock %}

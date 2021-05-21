@@ -1,0 +1,23 @@
+<!-- sidebar-content  -->
+<div class="sidebar-footer"  style="z-index: 100!important;">
+  {% set nbnotif = liste_notification|length %}
+  <a href="{% if app.user != null %}{{ path('users_user_notifications_user', {'id': app.user.id }) }}{% else %}{{ path('login') }}{% endif %}">
+	<i class="fa fa-bell"></i>
+	{% if nbnotif > 0 %}
+		<span class="badge badge-pill badge-danger notification">{{ nbnotif }}</span>
+	{% endif %}
+  </a>
+  {% set nbmess = liste_message|length %}
+  <a href="{% if app.user != null %}{{ path('produit_service_liste_message_user', {'id': app.user.id }) }}{% else %}{{ path('login') }}{% endif %}">
+	<i class="fa fa-envelope"></i>
+	{% if nbmess > 0 %}
+	<span class="badge badge-pill badge-danger notification">{{ nbmess }}</span>
+	{% endif %}
+  </a>
+  <a href="{% if app.user != null %}{{ path('users_user_modifier_profil', {'id': app.user.id}) }}{% else %}{{ path('login') }}{% endif %}">
+	<i class="fa fa-cog"></i>
+  </a>
+  <a href="{% if app.user != null %}{{ path('logout') }}{% else %}{{ path('login') }}{% endif %}">
+	<i class="fa fa-power-off"></i>
+  </a>
+</div>

@@ -1,0 +1,65 @@
+<div class="modal fade" id="test-newsletter" style="margin-top: 100px;">
+<div class="modal-dialog modal-md">
+<div class="modal-content" style="border-radius: 0px;">
+<div class="modal-header" style="border-bottom: 2px solid #2980b9; background: #eb5425; color: #fff;">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title"><img src="{{ asset('template/images/logombg.jpg') }}" alt="logo" style="width: 60px; height: 50px;"> {{ site }}</br><span style="font-size: 15px;"> Abonnez-vous pour suivre l'évolution de vos équipes favoris..</span></h4>
+</div>
+<div class="modal-body">
+	<section class="subs" style="padding: 15px 0px;">
+		<form action="{{ path('users_user_create_newsletter_account') }}" method="post" {{ form_enctype(form) }} style="margin-bottom: 0px;">
+			<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="form-group1">
+					{{ form_widget(form.nom,{'attr': {'class':'form-control nameuser','placeholder':'Entrer votre nom'}}) }}
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="form-group1">
+					{{ form_widget(form.email,{'attr': {'class':'form-control useremail','placeholder':'Entrer votre adresse e-mail'}}) }}
+				</div>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="form-group2" style="margin-top: 15px;">
+					<button class="btn btn-outline btn-lg" type="submit">S'inscrire</button>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			{{ form_rest(form) }}
+		</form>	
+</section>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var afficher = false;
+$('body.homepage').bind('mouseleave.dragged',function(e) {
+    var ev = e || window.event;
+    if(ev.relatedTarget){
+        if(ev.relatedTarget == $('html').get(0) && afficher == false){
+            $('#test-newsletter').modal('show');
+			afficher = true;
+			$.post('{{ path('general_template_stop_alert_newsletter') }}', function(data) {
+			if(data == 1)
+			{
+			
+			}
+			});
+        }
+    } else {
+    // IE
+        if(!ev.toElement && afficher == false){
+            $('#test-newsletter').modal('show');
+			afficher = true;
+			$.post('{{ path('general_template_stop_alert_newsletter') }}', function(data) {
+			if(data == 1)
+			{
+			
+			}
+			});
+        } else if(ev.toElement.tagName == "HTML"){
+            alert('Nous n\'arrivons pas à vous notifiez des informations importantes sur les services qui vous intéressent !!!');
+        }
+    }
+});
+</script>

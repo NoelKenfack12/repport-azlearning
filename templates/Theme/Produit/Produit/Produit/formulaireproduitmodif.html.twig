@@ -1,0 +1,148 @@
+<div>
+ <span style="color:red;">{{ form_errors(formpro) }}</span>
+ <span style="color:red;">{{ form_errors(formpro.nom) }}</span>
+</div>
+<div class="keywords titreprod">
+	<span class="glyphicon glyphicon-list-alt"></span>
+	{{ form_widget(formpro.nom) }}
+</div>
+<div>
+<div><span style="color:red;">{{ form_errors(formpro.description) }}</span></div>
+<div class="keywords" style="margin-top: 15px;">
+	<span class="fa fa-align-left" aria-hidden="true"></span>
+	{{ form_widget(formpro.description) }}
+</div>
+</div>
+<div class="reservation-grids">
+	<div class="reservation-grid-left">
+		<div><span style="color:red;">{{ form_errors(formpro.newprise) }}</span></div>
+		<div class="keywords prixprod">
+			<span class="fa fa-flag"></span>
+			{{ form_widget(formpro.newprise) }}
+		</div>
+	</div>
+	<div class="reservation-grid-right">
+		<div class="keywords typeprod" id="pop-relation-part"  data-toggle="popover" data-content="..." title="<div style='color: red; font-size: 16px;'>Type d'annonce.<div>" data-html="true">
+			<span class="fa fa-columns"></span>
+			<select type="" name="typeann" value="" id="type_produit_post" style="padding-left: 30px;">
+			 <option value="0">Type d'annonce</option>
+			 <option value="1">Produit en vente</option>
+			 <option value="2">Produit en location</option>
+			</select>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+</div>
+<div style="text-align: center;">
+<img src="{{ asset('mcs/images/img-rotate.gif') }}" alt="" style="display: none; width: 20px; height: 20px;" class="update-type-produit"/>
+<div class="keywords liste-vente" style="margin-top: 15px; display: none;">
+	<div class="keywords categorieprod" id="pop-relation-cat-vente"  data-toggle="popover" data-content="..." title="<div style='color: red; font-size: 16px;'>Type de produit à vendre.<div>" data-html="true">
+		<span class="fa fa-columns"></span>
+		<select type="" name="catvente" value="" id="vente_select_item" style="padding-left: 30px;">
+		 <option value="0">Type de produit à vendre</option>
+		 {% for cat in cat_vente %}
+			{% for scat in cat.souscategories %}
+				<option value="{{ scat.id }}">{{ scat.nom }}</option>
+			{% endfor %}
+		 {% endfor %}
+		</select>
+	</div>
+</div>
+<div class="keywords liste-location" style="margin-top: 15px; display: none;">
+	<div class="keywords categorieprod" id="pop-relation-cat-location"  data-toggle="popover" data-content="..." title="<div style='color: red; font-size: 16px;'>Type de produit à louer.<div>" data-html="true">
+		<span class="fa fa-columns"></span>
+		<select type="0" name="catlocation" value="" id="location_select_item" style="padding-left: 30px;">
+		 <option value="">Type de produit à louer</option>
+		 {% for cat in cat_location %}
+			{% for scat in cat.souscategories %}
+				<option value="{{ scat.id }}">{{ scat.nom }}</option>
+			{% endfor %}
+		 {% endfor %}
+		</select>
+	</div>
+</div>
+</div>
+
+<div class="reservation-grids" style="margin-top: 15px;">
+	<div class="reservation-grid-left">
+		<div class="keywords quartierprod">
+			<span class="fa fa-map-marker"></span>
+			<input type="text" value="{{ produit.quartiertext }}" name="localisation"  id="departement_etab" placeholder="Entrez le quartier"/> 
+		</div>
+	</div>
+	<div class="reservation-grid-right">
+		<div class="keywords dureeprod" id="pop-relation-duree"  data-toggle="popover" data-content="..." title="<div style='color: red; font-size: 16px;'>Durée de validité.<div>" data-html="true">
+			<span class="fa fa-calendar"></span>
+			<select type="" name="duree" value="" id="duree" style="padding-left: 30px;">
+			 <option value="0">Durée de validité</option>
+			 <option value="14">2 Semaine</option>
+			 <option value="30">1 Mois</option>
+			 <option value="60">2 Mois</option>
+			 <option value="180">6 Mois</option>
+			 <option value="360">1 An</option>
+			 <option value="720">2 Ans</option>
+			</select>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+</div>
+
+<div>
+<div><span style="color:red;">{{ form_errors(formpro.username) }}</span></div>
+<div class="keywords username" style="margin-top: 15px;">
+	<span class="glyphicon glyphicon-list-alt"></span>
+	{{ form_widget(formpro.username) }}
+</div>
+</div>
+
+<div class="reservation-grids">
+	<div class="reservation-grid-left">
+		<div>
+		<div><span style="color:red;">{{ form_errors(formpro.tel) }}</span></div>
+		<div class="keywords tel" style="margin-top: 15px;">
+			<span class="fa fa-phone"></span>
+			{{ form_widget(formpro.tel) }}
+		</div>
+		</div>
+	</div>
+
+	<div class="reservation-grid-right">
+		<div>
+		<div><span style="color:red;">{{ form_errors(formpro.mail) }}</span></div>
+		<div class="keywords e-mail" style="margin-top: 15px;">
+			<span class="fa fa-envelope"></span>
+			{{ form_widget(formpro.mail) }}
+		</div>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+</div>
+
+<div style="margin-top: 15px;">
+<div class="keywords input-file" id="file-cover">
+<strong>
+<div>
+	<input type="file" id="imageproduit" name="imageproduit" class="form-control"/> <i class="fa fa-camera"></i> Importez entre 1 et 9 Images depuis votre appareil <i class="fa fa-hand-o-up"></i>
+</div>
+</strong>
+</div>
+</div>
+
+<div class="keywords contenu-image-upload pull-right" style="border: 1px dashed #999; padding: 3px 3px 3px 3px; width: 100%;">
+<div class="clearfix"></div>
+<div class="col-md-12" style="margin-bottom: 10px;">
+</div>
+{% for img in produit.imgproduits %}
+<div class="col-xs-12 col-sm-6 col-md-4 text-center item-image-{{ img.id }}"><div class="thumbnail" style="height: 100px; margin-bottom: 5px; border-radius: 0px;"><a href="#!" onclick="deleteItemImage({{ img.id }})" class="badge" style="position: absolute; top: -1px; right: 7px; cursor: pointer;z-index: 9999;" id="item-image-{{ img.id }}"><i class="fa fa-times"></i></a><img src="{{ asset(img.getwebpath) }}" alt="" style="margin-top: 0px; width: 100%; height: 100%;"/></div></div>
+{% endfor %}
+</div>
+
+<div>
+<input type="hidden" id="identifiantproduit" name="identifiantproduit" value="{{ produit.id }}"/>
+<input type="hidden" id="content_produit" name="content_produit" value="0"/>
+</div>
+
+<div class="keywords">
+	<input type="submit" value="Publier le produit" style="margin-top: 15px;">
+</div>
+{{ form_rest(formpro) }}

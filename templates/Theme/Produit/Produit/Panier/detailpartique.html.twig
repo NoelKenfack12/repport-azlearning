@@ -1,0 +1,205 @@
+<tr class="{% if ident % 3 == 1 %}success{% endif %} {% if ident % 3 == 2 %}danger{% endif %} {% if ident % 3 == 0 %}active{% endif %}">
+<td data-column="Enoncé"><a href="{% if accessressource == true %}#!{% else %}#!{% endif %}" {% if accessressource == false %}class="access-denied-pratique-{{ pratique.id }}"{% else %} target="_blank"{% endif %} title="téléchargez"><span class="fa fa-download"></span> TP N°{{ pratique.num }}</a></td>
+<td data-column="Composition">
+{% if panier.valide == true %}
+	{% if panier.user == app.user %}
+		{% if compospratique == null %}<a href="#!" class="add-copie-courant-pratique-{{ pratique.id }}"><span class="fa fa-cloud-upload"></span> Déposez votre copie ici</a>{% else %} <a href="{{ asset(compospratique.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ compospratique.alt[:20 ] }}</a><a href="#!" class="alter-copie-courant-pratique-{{ pratique.id }} pull-right"><span class="fa fa-edit"></span></a> {% endif %}
+	{% else %}
+		{% if compospratique != null %}
+		<a href="{{ asset(compospratique.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ compospratique.alt[:20 ] }}</a>
+		{% else %}
+		<a href="#!"><span class="fa fa-info-circle"></span> Aucune proposition de correction</a>
+		{% endif %}
+	{% endif %}
+{% else %}
+	{% if panier.user == app.user %}
+		<span class="fa fa-lock"></span> Accès Interdit
+	{% else %}
+		<a href="{{ asset(compospratique.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ compospratique.alt[:20 ] }}</a>
+	{% endif %}
+{% endif %}
+</td>
+<td data-column="Correction">
+{% if panier.valide == true %}
+	{% if compospratique != null and compospratique.note != 0 and  compospratique.lastvalidation != 0 %}
+		{% if noteminexo <= chapitre.getNotePratique(prodpan) %}
+			{% if pratique.correctionpratique != null and prodpan != null %} <a href="{{ path('produit_telecharg_correction_tp_chapter', {'id': pratique.id, 'prodpan': prodpan.id}) }}" target="_blank"><span class="fa fa-download"></span> Correction TP N°{{ pratique.num }}</a> {% else %}<a href="#!" title="Aucune correction publiée."><span class="fa fa-download"></span> Correction TP N°{{ pratique.num }}</a>{% endif %}
+		{% else %}
+			<span class="fa fa-lock"></span> Accès Interdit
+		{% endif %}
+	{% else %}
+			<span class="fa fa-lock"></span> Accès Interdit
+	{% endif %}
+{% else %}
+	{% if panier.user == app.user %}
+		<span class="fa fa-lock"></span> Accès Interdit
+	{% else %}
+		{% if pratique.correctionpratique != null and prodpan != null %} <a href="{{ path('produit_telecharg_correction_tp_chapter', {'id': pratique.id, 'prodpan': prodpan.id}) }}" target="_blank"><span class="fa fa-download"></span> Correction TP N°{{ pratique.num }}</a> {% else %}<a href="#!" title="Aucune correction publiée."><span class="fa fa-download"></span> Correction TP N°{{ pratique.num }}</a>{% endif %}
+	{% endif %}
+{% endif %}
+</td>
+<td data-column="Note/{{ bareme }}">
+	{% if compospratique == null %}
+		<div class="progress progress-striped active" style="margin-bottom: 0px;">
+			<div class="progress-bar progress-bar-warning" style="width: 0%;"></div>
+		</div>
+	{% else %}
+		{% if panier.user == app.user %}
+			<a href="#!"><span class="fa fa-file-text-o"></span> {% if compospratique.note != 0 and compospratique.lastvalidation != 0 %} {{ compospratique.note }} {% else %}Aucune{% endif %}</a>
+		{% else %}
+			<div>
+				<select type="" class="form-control update-note-pratique-{{ pratique.id }}" style="width: 100%; height: 30px; padding: 5px; border-radius: 0px;">
+				{% for i in range(1,bareme,0.5) %}
+					<option value="{{ i }}" {% if compospratique != null and compospratique.note == i %}selected{% endif %}>{{ i }}</option>
+				{% endfor %}
+				</select>
+			</div>
+		{% endif %}
+	{% endif %}
+</td>
+</tr>
+
+{% if prodpan != null %}
+<div class="modal fade" id="infos-action-new-copie-pratique" style="margin-top: 100px; z-index: 9999;">
+
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Ajoutez votre copie pour le tp
+	</h4>
+</div>
+
+<div class="modal-body" style="background: #fff; color: #333;">
+<div class="text-left">
+Chapitre <span class="fa fa-angle-right" style="font-size: 10px;"></span> {{ chapitre.name(50) }} <span class="fa fa-angle-right" style="font-size: 10px;"></span> TP N°{{ pratique.num }}
+</div>	
+<hr style="margin-bottom: 0px;"/>
+
+<div style="background: #ECF0F1; padding: 15px;">
+<form action="{{ path('users_user_ajout_copie_travaux_pratique', {'pratique': pratique.id,'prodpan': prodpan.id }) }}" method="post" {{ form_enctype(form) }}>
+<div>{{ form_label(form.file,'Importez votre copie depuis votre appareil') }}</div>
+<div class="form-group">
+{{ form_widget(form.file) }}
+</div>
+<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+{{ form_rest(form) }}
+</form>
+</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+{% endif %}
+
+{% if prodpan != null and formmodif != null and compospratique != null %}
+<div class="modal fade" id="infos-action-alter-copie-pratique" style="margin-top: 100px; z-index: 9999;">
+
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Modifiez votre copie
+	</h4>
+</div>
+
+<div class="modal-body" style="background: #fff; color: #333;">
+<div class="text-left">
+Chapitre <span class="fa fa-angle-right" style="font-size: 10px;"></span> {{ chapitre.name(50) }} <span class="fa fa-angle-right" style="font-size: 10px;"></span> TP N°{{ pratique.num }}
+</div>	
+<hr style="margin-bottom: 0px;"/>
+
+<div style="background: #ECF0F1; padding: 15px;">
+	<form action="{{ path('users_user_modification_copie_travaux_pratique_user', {'id': compospratique.id }) }}" method="post" {{ form_enctype(formmodif) }}>
+	<div>{{ form_label(formmodif.file,'Importez votre copie depuis votre appareil') }}</div>
+	<div class="form-group">
+	{{ form_widget(formmodif.file) }}
+	</div>
+	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+	{{ form_rest(formmodif) }}
+	</form>
+</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+{% endif %}
+
+
+<script type="text/javascript">
+$('.access-denied-pratique-{{ pratique.id }}').click(function(){
+	$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec !! Vous n\'avez pas le droit d\'accéder à cette ressource.');
+	$('#infos-action-effectuer').modal('show');
+});
+$('.add-copie-courant-pratique-{{ pratique.id }}').click(function(){
+	{% if (prechapter == null and prodpan != null) or (prechapter != null and prodpan != null and prechapter.getNotePratique(prodpan) >= noteminexo ) %}
+		$('#infos-action-new-copie-pratique').modal('show');
+	{% else %}
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous n\'avez pas obtenu la note réquise aux TPs da la notion précedente. Pour valider cette partie, <a href="#!">Essayez d\'abord de valider les TPs de la leçon précedente.</a>');
+		$('#infos-action-effectuer').modal('show');
+	{% endif %}
+});
+
+$('.alter-copie-courant-pratique-{{ pratique.id }}').click(function(){
+	{% if compospratique != null and compospratique.note != 0 and  compospratique.lastvalidation != 0 %}
+		{% if chapitre.getNotePratique(prodpan) < noteminexo %}
+			{% if waittime > 0 %}
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous devez attendre environ {{ waittime }}H Pour une nouvelle tentative.');
+				$('#infos-action-effectuer').modal('show');
+			{% else %}
+				$('#infos-action-alter-copie-pratique').modal('show');
+			{% endif %}
+		{% else %}
+			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous ne pouvez procéder à la modification de votre copie, car vous avez déjà obtenu une note valide.');
+			$('#infos-action-effectuer').modal('show');
+		{% endif %}
+	{% else %}
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous ne pouvez procéder à la modification de votre copie qu\'en cas d\'obtention d\'une notre inférieure à la note requise.');
+		$('#infos-action-effectuer').modal('show');
+	{% endif %}
+});
+
+$('.update-note-pratique-{{ pratique.id }}').on('change', function(){
+	{% if compospratique != null %}
+			if($('.variation-sub-contenu').attr('value') != 1)
+			{
+			  $('.variation-sub-contenu').attr('value',1);
+			  var hauteur = $('.variation-sub-contenu').height() + 2; 
+			  var largeur = $('.variation-sub-contenu').width() + 2;
+			  var padding = Math.round(hauteur/2 - 15);
+			  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+			  $.post('{{ path('users_user_modif_note_tp_courant_user', {'id': compospratique.id}) }}', { val: $(this).val() }, function(data) {
+			  $('.attente-resultat').hide();
+			  $('.variation-sub-contenu').attr('value',0);
+			  
+			  if(data == 1)
+			  {
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Mise à jour de la note effectuée avec succès !');
+				$('#infos-action-effectuer').modal('show');
+			  }else{
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Une erreur a été rencontrée lors de la mise à jour de la note !');
+				$('#infos-action-effectuer').modal('show');
+			  }
+			  
+			  });
+			}
+		{% else %}
+			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Aucune copie associée à cet éxercice !');
+			$('#infos-action-effectuer').modal('show');
+		{% endif %}
+});
+</script>

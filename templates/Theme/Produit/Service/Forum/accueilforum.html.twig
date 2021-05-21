@@ -1,0 +1,191 @@
+{% extends "Theme/Users/User/layouthome.html.twig" %}
+
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos, forum {{ site }}"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos,  forum {{ site }}" />
+
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - Forum {{ site }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block userblog_body %}
+
+{{ render(controller("App\\Controller\\Produit\\Service\\ServiceController:banniereforum")) }}
+
+<div class="container" style="margin-top: -15px;">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{% include "Theme/General/Template/Menu/contacts.html.twig" %}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+			<li class="breadcrumb-item"><a href="{{ path('users_user_acces_plateforme') }}"><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="{{ path('produit_service_forum_site') }}">Forum</a></li>
+		</ol>
+	</div>
+</div>
+</div>
+</div>
+	
+<div class="container" style="min-height: 700px;">
+	
+	<div class="row docs-overview" style="margin-bottom: 10px; margin-top: -15px;">
+		{% for scat in categorie_forum %}
+		<div class="col-md-12 text-left">
+			<h1 class="text-left" style="border-bottom: 1px solid #ddd;">{% if scat.src != null %}<img src=" {{ asset(scat.webpath) }}" alt="..." class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/> {% else %}<span class="mdi-communication-textsms" style="font-size: 35px;"></span>{% endif %} {{ scat.nom }}</h1>
+		</div>
+		
+			{% for service in scat.getServiceSouscategorie %}
+			<div class="col-md-6" style="margin-bottom: 15px; margin-top: 0px;">
+				<a href="{{ path('produit_service_ajouter_commentaire_article_user', {'id': service.id }) }}" class="card shadow-sm" style="display: block; text-decoration: none; border-radius: 7px 7px 0px 0px;">
+					<div class="card-body">
+						<h5 class="card-title mb-3">
+							<span class="theme-icon-holder card-icon-holder mr-2">
+								<img src="{% if service.imgservice != null %}{{ asset(service.imgservice.getwebpath) }}{% else %}{{ asset('template/images/sample-1.jpg') }}{% endif %}" alt="sample" title="{{ service.keyword }}" style="width: 80% ;"/>
+							</span><!--//card-icon-holder-->
+							<span class="card-title-text">{{ service.nom }}</span>
+						</h5>
+						<div class="card-text">
+							{{ service.description }}
+						</div>
+						
+						<span style="width: 40px; height: 40px; border-radius: 50%; background: #f4f4f4; padding: 12px 2px; text-align: center; display: inline-bloc; position: absolute; right: 4px; bottom: 3px;">{{ service.commentaireblogs|length }}</span>
+					</div><!--//card-body-->
+				</a>
+					
+				<div class="card small" style="border-radius: 0px 0px 7px 7px;">
+				  {% for lastpost in service.commentaireblogs|slice(0,1) %}
+					  <div class="card-action text-left hover-effet-user" style="padding: 5px 7px;">
+					  <a href="{{ path('produit_service_interventions_sujets_courant', {'id': lastpost.id }) }}" style="text-decoration: none; padding: 0px; margin: 0px; text-transform: capitalize; display: block; color: #333;">
+						<div><img class="img-thumbnail" src="{% if lastpost.user != null %}{% if lastpost.user.imgprofil != null %}{{ asset(lastpost.user.imgprofil.getWebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="padding: 2px; width: 20px; height:20px; margin-top: 0px;"/> <strong>{{ lastpost.user.name(30) }}</strong> <span class="fa fa-calendar"></span>   {{ lastpost.date|date('d') }} {{ lastpost.user.mois(lastpost.date|date('m')) }} {{ lastpost.date|date('Y') }} à {{ lastpost.date|date('H') }}:{{ lastpost.date|date('i') }} <span class="mdi-action-open-in-new pull-right"></span></div>
+						<div>{{ lastpost.titre[:50] }} </div>
+					  </a>
+					  </div>
+				  {% else %}
+					  <div class="card-action text-left hover-effet-user" style="padding: 5px 7px;">
+					  <a href="#!" style="text-decoration: none;  padding: 0px; margin: 0px; text-transform: capitalize; display: block; color: #333;">
+						<div><img class="img-thumbnail" src="{{ asset('template/images/logo.png') }}" alt="" style="width: 20px; height:20px; margin-top: 0px; padding: 2px;"/> <strong>{{ site }}</strong> <span class="fa fa-calendar"></span>  À l'instant <span class="mdi-action-open-in-new pull-right"></span></div>
+						<div>Aucun sujet pour ce thème</div>
+					  </a>
+					  </div>
+				  {% endfor %}
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+		<div class="col-md-12">
+			<div class="text-center" style="height: 600px; padding-top: 200px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+				<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.<br/>
+				<hr style="width: 100px; border-bottom: 1px solid red;"/>
+			</div>
+		</div>
+		{% endfor %}
+	</div><!-- /row -->
+<div class="row mt centered" style="margin-bottom: 10px; margin-top: 0px;">
+  <div class="col-lg-12" >
+  <div style="border-top: 1px dashed #999; text-align: left;"><a href="{{ path('produit_produit_accueil_boutique_produit') }}" style="padding: 0px; margin: 0px;"><span class="fa fa-list"></span> Tous les cours <span class="fa fa-arrow-circle-right"></span></a> <a href="{{ path('produit_service_visiter_notre_blog') }}" class="pull-right"><span class="fa fa-arrow-circle-left"></span> Formations <span class=" fa fa-bookmark-o"></span></a> </div>
+  </div>
+</div>
+</div><!-- /container -->
+	
+
+{% endblock %}
+
+
+{% block javascripttemplate %}
+
+{% endblock %} 
+
+
+
+{#
+
+{% extends "UsersUserBundle::layoutuser.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Administration, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos, forum {{ site }}"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos,  forum {{ site }}" />
+{% endblock %}
+{% block title %}
+{{ parent() }} | Forum {{ site }}
+{% endblock %}
+{% block userblog_body %}
+<hr style="margin-top: 45px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="container" style="color: #fff;">
+	Accueil <span class="mdi-av-play-arrow" style="font-size: 10px;"></span> Forum
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;"/>
+
+	<div class="container">
+		{{ render(controller("ProduitServiceBundle:Service:banniereforum")) }}
+		<div class="row mt centered" style="margin-bottom: 0px; margin-top: -25px;">
+			{% for scat in categorie_forum %}
+			<div class="col-lg-12 text-left" style="padding: 3px 7px;">
+				<h1 style="border-bottom: 1px solid #ddd;">{% if scat.src != null %}<img src=" {{ asset(scat.webpath) }}" alt="..." class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/> {% else %}<span class="mdi-communication-textsms" style="font-size: 35px;"></span>{% endif %} {{ scat.nom }}</h1>
+			</div>
+			
+				{% for service in scat.getServiceSouscategorie %}
+				<div class="col-md-6">
+				<div class="card small">
+				  <div class="card-image">
+					<img src="{% if service.imgservice != null %}{{ asset(service.imgservice.getwebpath) }}{% else %}{{ asset('template/images/sample-1.jpg') }}{% endif %}" alt="sample" title="{{ service.keyword }}"/>
+					<span class="card-title"><span class="mdi-av-hearing"></span> {{ service.nom }}</span>
+				  </div>
+				  <div class="card-content text-left" style="overflow: hidden; padding: 0px;">
+					<a href="{{ path('produit_service_ajouter_commentaire_article_user', {'id': service.id }) }}" style="display: block; padding: 5px 7px; height: 60%;" class="hover-effet"><p style="display: block;">{{ service.description }}</p></a>
+				  </div>
+				  {% for lastpost in service.commentaireblogs|slice(0,1) %}
+					  <div class="card-action text-left hover-effet-user" style="padding: 5px 7px;">
+					  <a href="{{ path('produit_service_interventions_sujets_courant', {'id': lastpost.id }) }}" style="padding: 0px; margin: 0px; text-transform: capitalize; display: block; color: #333;">
+						<div><img class="img-thumbnail" src="{% if lastpost.user != null %}{% if lastpost.user.imgprofil != null %}{{ asset(lastpost.user.imgprofil.getWebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="padding: 2px; width: 20px; height:20px; margin-top: 0px;"/> <strong>{{ lastpost.user.name(30) }}</strong> <span class="fa fa-calendar"></span>   {{ lastpost.date|date('d') }} {{ lastpost.user.mois(lastpost.date|date('m')) }} {{ lastpost.date|date('Y') }} à {{ lastpost.date|date('H') }}:{{ lastpost.date|date('i') }} <span class="mdi-action-open-in-new pull-right"></span></div>
+						<div>{{ lastpost.titre[:50] }} </div>
+					  </a>
+					  </div>
+				  {% else %}
+						<div class="card-action text-left hover-effet-user" style="padding: 5px 7px;">
+					  <a href="#!" style="padding: 0px; margin: 0px; text-transform: capitalize; display: block; color: #333;">
+						<div><img class="img-thumbnail" src="{{ asset('template/images/logo.png') }}" alt="" style="width: 20px; height:20px; margin-top: 0px; padding: 2px;"/> <strong>{{ site }}</strong> <span class="fa fa-calendar"></span>  À l'instant <span class="mdi-action-open-in-new pull-right"></span></div>
+						<div>Aucun sujet pour ce thème</div>
+					  </a>
+					  </div>
+				  {% endfor %}
+				</div>
+				</div>
+				{% endfor %}
+			{% endfor %}
+		</div><!-- /row -->
+	<div class="row mt centered" style="margin-bottom: 10px; margin-top: 0px;">
+	  <div class="col-lg-12"  style="padding: 3px 15px 3px 10px;">
+	  <div style="border-top: 1px dashed #999; text-align: left;"><a href="{{ path('produit_produit_accueil_boutique_produit') }}" style="padding: 0px; margin: 0px;"><span class="fa fa-list"></span> Tous les cours <span class="fa fa-arrow-circle-right"></span></a> <a href="{{ path('produit_service_visiter_notre_blog') }}" class="pull-right"><span class="fa fa-arrow-circle-left"></span> Formations <span class=" fa fa-bookmark-o"></span></a> </div>
+	  </div>
+	</div>
+	</div><!-- /container -->
+
+	<hr>
+{% endblock %}
+
+
+{% block javascripttemplate %}
+
+{% endblock %}
+
+#}

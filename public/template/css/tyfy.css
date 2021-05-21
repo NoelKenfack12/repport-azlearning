@@ -1,0 +1,57 @@
+h2.collapsable-processed,h3.collapsable-processed,h4.collapsable-processed,h5.collapsable-processed,h6.collapsable-processed{
+			background-color:transparent;border:2px #e2e2e2 solid;border-bottom:2px transparent solid;clear:both;cursor:pointer;padding:1.625rem 4.875rem .8125rem 1.625rem;position:relative;transition-duration:.5s;transition-property:padding-top
+		}
+		h2.collapsable-processed:before,h3.collapsable-processed:before,h4.collapsable-processed:before,h5.collapsable-processed:before,h6.collapsable-processed:before{
+			border-radius:50%;content:"î¨…";font-family:tyfyicons;font-size:1rem;font-style:normal;font-weight:normal;position:absolute;right:1.625rem;text-align:center;top:1.625rem;transition-duration:.5s;transition-property:background-color,color,top;transition-timing-function:ease-in-out;width:2.4375rem
+		}
+		h2.collapsable-processed.closed,h3.collapsable-processed.closed,h4.collapsable-processed.closed,h5.collapsable-processed.closed,h6.collapsable-processed.closed{
+		border-bottom:2px #e2e2e2 solid;padding-top:.8125rem
+		}
+		h2.collapsable-processed.closed:before,h3.collapsable-processed.closed:before,h4.collapsable-processed.closed:before,h5.collapsable-processed.closed:before,h6.collapsable-processed.closed:before{
+		content:"î¨";top:.8125rem
+		}
+		h2.collapsable-processed.transition,h3.collapsable-processed.transition,h4.collapsable-processed.transition,h5.collapsable-processed.transition,h6.collapsable-processed.transition{
+		padding-top:.8125rem
+		}
+		h2.collapsable-processed.transition:before,h3.collapsable-processed.transition:before,h4.collapsable-processed.transition:before,h5.collapsable-processed.transition:before,h6.collapsable-processed.transition:before{
+		top:.8125rem
+		}
+		h2.collapsable-processed.transition.closed,h3.collapsable-processed.transition.closed,h4.collapsable-processed.transition.closed,h5.collapsable-processed.transition.closed,h6.collapsable-processed.transition.closed{
+		border-bottom:2px transparent solid;padding-top:1.625rem
+		}
+		h2.collapsable-processed.transition.closed:before,h3.collapsable-processed.transition.closed:before,h4.collapsable-processed.transition.closed:before,h5.collapsable-processed.transition.closed:before,h6.collapsable-processed.transition.closed:before{
+		top:1.625rem
+		}
+		*+h2.collapsable-processed,*+h3.collapsable-processed,*+h4.collapsable-processed,*+h5.collapsable-processed,*+h6.collapsable-processed{
+		margin-top:1.625rem
+		}
+		h3.collapsable-processed:before{
+		width:2.4375rem}
+		h4.collapsable-processed:before{
+		width:1.625rem
+		}
+		h5.collapsable-processed:before{width:1.625rem}
+		.collapsable-processed:before{width:1.625rem}
+		h2.collapsable-processed:hover:before,h3.collapsable-processed:hover:before,h4.collapsable-processed:hover:before,h5.collapsable-processed:hover:before,h6.collapsable-processed:hover:before{background-color:#5fb31f;color:white}
+		.collapsables{box-sizing:border-box;border:2px #e2e2e2 solid;border-top:none !important;margin:0rem;overflow:hidden;padding:.8125rem 1.625rem 1.625rem 1.625rem}
+		.collapsables.closed{border:none;height:1px;padding-bottom:0;padding-top:0;position:absolute}
+		*+.tabs-container{margin-top:1.625rem}
+		.tabs-container+h2,.tabs-container+h3,.tabs-container+h4,.tabs-container+h5,.tabs_container+h6{margin-top:2.4375rem}
+		.tabs-container ul.tabs{-webkit-box-align:stretch;align-items:stretch;border-bottom:2px rgba(0,0,0,0.2) solid;display:none!important;margin:0;padding:0}
+		.tabs-container ul.tabs *+*{margin-top:0rem}@media (min-width: 40em){.tabs-container ul.tabs{display:-webkit-box!important;display:flex!important}}
+		.tabs-container ul.tabs li{background-color:rgba(0,0,0,0.05);border:2px rgba(0,0,0,0.2) solid;border-bottom:0;border-radius:.20312rem .20312rem 0 0;cursor:pointer;display:block!important;-webkit-box-flex:1;flex:1;font-family:"Zilla Slab","Georgia",serif;margin:0 0 -2px 0;padding:.8125rem 1.625rem;text-align:center;transition-duration:.25s;transition-property:background-color}
+		.tabs-container ul.tabs li:hover{background-color:rgba(0,0,0,0.1)}
+		.tabs-container ul.tabs li.open{background-color:transparent;border-bottom:2px rgba(255,255,255,0.7) solid;font-weight:600}
+		.tabs-container ul.tabs li+li{margin-left:.8125rem}
+		.tabs-container.tabs-processed .tab-label{background-color:transparent;border:2px rgba(0,0,0,0.2) solid;border-bottom:2px transparent solid;clear:both;cursor:pointer;font-size:1.728rem;line-height:2.4375rem;margin:0;padding:1.625rem 4.875rem .8125rem 1.625rem;position:relative;transition-duration:.5s;transition-property:padding-top}
+		.tabs-container.tabs-processed .tab-label:before{border-radius:50%;content:"î¨…";font-family:tyfyicons;font-size:1rem;font-style:normal;font-weight:normal;position:absolute;right:1.625rem;text-align:center;top:1.625rem;transition-duration:.5s;transition-property:background-color,color,top;transition-timing-function:ease-in-out;width:2.4375rem}
+		@media (min-width: 40em){.tabs-container.tabs-processed .tab-label{display:none!important}}
+		.tabs-container.tabs-processed .tab-label.collapsed{border-bottom:2px rgba(0,0,0,0.2) solid;padding-top:.8125rem}
+		.tabs-container.tabs-processed .tab-label.collapsed:before{content:"î¨";top:.8125rem}
+		.tabs-container.tabs-processed .tab-label.transition{border-bottom-color:transparent;padding-top:.8125rem}
+		.tabs-container.tabs-processed .tab-label.transition:before{top:.8125rem}.tabs-container.tabs-processed .tab-label.transition.collapsed{padding-top:1.625rem}
+		.tabs-container.tabs-processed .tab-label.transition.collapsed:before{top:1.625rem}.tabs-container.tabs-processed .tab-label:hover:before{background-color:#5fb31f;color:white}
+		.tabs-container.tabs-processed *+.tab-label{margin-top:1.625rem}.tabs-container.tabs-processed .tab-panel{border:2px rgba(0,0,0,0.2) solid;border-top:none;border-radius:0 0 0.25rem 0.25rem;margin-top:0rem;overflow:hidden;padding:.8125rem 1.625rem 1.625rem}
+		@media (min-width: 40em){.tabs-container.tabs-processed .tab-panel{display:none!important;padding-top:1.625rem}}
+		.tabs-container.tabs-processed .tab-panel.open{display:block!important}
+		@media (max-width: 39.996em){.tabs-container.tabs-processed .tab-panel.collapsed{border:none;height:1px;padding-bottom:0;padding-top:0;position:absolute}}

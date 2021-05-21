@@ -1,2 +1,25 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        site: AZ E-learning
+        metier: Produits et services Informatiques
+        devise: FCFA
+        ville: Yaounde
+        telephone: +237 676264027
+        facebook: MobileGames
+        twitter: #
+        google: #
+        linkedin: #
+        myaconect: #
+        slogan: Cours vidéos en ligne et à domicile
+        description: Cours vidéos en ligne et à domicile
+        localisation: BP 30020 YAOUNDE CAMEROUN, BYEMASSI-BAMBIS 
+        email: infos@azcorporation.com
+        mailregex: /[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}/i
+        number: /^[0-9][0-9]{6,10}$/
+        imagesite: "'gif','jpg','png','bmp','jpeg','GIF','JPG','PNG','BMP'"
+        videosite: "'mp4'"
+        siteweb: http://www.test.azcorporation.net
+        commentjouer: <div>Créer  <strong>gratuitement</strong>votre compte</div>
+        passwordregex: /^[a-z0-9]([a-zA-Z0-9][\$\(-_\.]?){6,150}$/i
+        websiteregex: /(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:.[A-Z0-9][A-Z0-9_-]*)+):?(d+)?\/?/i
