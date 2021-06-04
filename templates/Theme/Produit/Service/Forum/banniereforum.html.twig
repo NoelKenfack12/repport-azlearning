@@ -65,15 +65,18 @@
 	<div class="col-md-10 offset-md-1">
 		<h2 class="text-center" style="color: #fff;">{% if slideaccueil != null %}{{ slideaccueil.titre }}{% else %}Welcome to the Az E-learning forum{% endif %}</h2>
 
-		{{ form_start(formrecher, {'attr': {'style': 'margin-top: 15px; margin-bottom: 30px;','action': path('produit_service_recherche_forum') }}) }}					
-			 <div class="input-group" style="margin-bottom: 0px;">
-			 {{ form_widget(formrecher.donnee, {'attr': {'placeholder': 'Recherche dans forum'}}) }}
+		
+
+		<form method="post" action="{{ path('produit_service_recherche_forum') }}" style="margin-top: 15px; margin-bottom: 30px;">
+
+			<div class="input-group" style="margin-bottom: 0px;">
+			 <input type="text" name="donnee" id="" class="form-control" placeholder="Recherche dans forum">
 			 <span class="input-group-btn">
-			 <button class="btn btn-default" style="height: 43px; box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.18), 0 0px 0px 0 rgba(0, 0, 0, 0.15); border-radius: 0px 5px 5px 0px;"><span class="fa fa-search"></span></button>
+			 	<button class="btn btn-default" style="height: 43px; box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.18), 0 0px 0px 0 rgba(0, 0, 0, 0.15); border-radius: 0px 5px 5px 0px;"><span class="fa fa-search"></span></button>
 			 </span>
-			 {{ form_rest(formrecher) }}
 			 </div>
-		{{ form_end(formrecher) }}
+
+		</form> 
 
 	</div>
 	<div class="col-md-12" style="padding: 0px;">

@@ -125,7 +125,7 @@ class Produitpanier
         return $this->produit;
     }
 
-    public function setPanier(Panier $panier): ?Panier
+    public function setPanier(Panier $panier): self
     {
         $this->panier = $panier;
 		$panier->addProduitpanier($this);

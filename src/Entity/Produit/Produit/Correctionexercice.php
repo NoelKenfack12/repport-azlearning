@@ -6,12 +6,18 @@ use App\Validator\Validatorfile\Yourfile;
 use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Produit\CorrectionexerciceRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Correctionexercice
  *
  * @ORM\Table("correctionexercice")
  * @ORM\Entity(repositoryClass=CorrectionexerciceRepository::class)
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"correctionexercice:read"}},
+ *    denormalizationContext={"groups"={"correctionexercice:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Correctionexercice
@@ -22,6 +28,7 @@ class Correctionexercice
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"composquestionnaire:read"})
      */
     private $id;
 
@@ -248,7 +255,7 @@ class Correctionexercice
 	protected function getUploadRootDir()
 	{
 	// On retourne le chemin relatif vers l'image pour notre codePHP
-	return  __DIR__.'/../../../../web/'.$this->getUploadDir();
+	return  __DIR__.'/../../../../public/'.$this->getUploadDir();
 	}
 	
 	public function setFile(UploadedFile $file)

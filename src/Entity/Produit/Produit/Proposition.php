@@ -50,7 +50,7 @@ class Proposition
 	/**
        * @ORM\ManyToOne(targetEntity=Questionnaire::class, inversedBy="propositions")
        * @ORM\JoinColumn(nullable=false)
-        */
+    */
 	private $questionnaire;
 	
 	public function __construct()

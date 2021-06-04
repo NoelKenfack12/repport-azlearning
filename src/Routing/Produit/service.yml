@@ -46,8 +46,8 @@ produit_service_ajouter_commentaire_article_user:
     path: /sujets/forum/{id}/{page}/{addProduct}
     controller: App\Controller\Produit\Service\ServiceController::ajoutersujetforum
     defaults:
-        page: 0
-        addProduct: 1
+        page: 1
+        addProduct: 0
     requirements:
         id: \d+
         page: \d+

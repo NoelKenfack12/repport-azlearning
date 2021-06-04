@@ -8,12 +8,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Produit\ComposexerciceRepository;
 use App\Entity\Produit\Produit\Exercicepartie;
 use App\Entity\Produit\Produit\Produitpanier;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Composexercice
  *
  * @ORM\Table("composexercice")
  * @ORM\Entity(repositoryClass=ComposexerciceRepository::class)
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"composexercice:read"}},
+ *    denormalizationContext={"groups"={"composexercice:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
 */
 class Composexercice
@@ -24,6 +30,7 @@ class Composexercice
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"composexercice:read"})
      */
     private $id;
 	

@@ -2,18 +2,24 @@
 namespace App\Entity\Produit\Produit;
 
 use Doctrine\ORM\Mapping as ORM;
-use General\ServiceBundle\Servicetext\GeneralServicetext;
-use General\ValidatorBundle\Validatorfile\Yourfile;
+use App\Service\Servicetext\GeneralServicetext;
+use App\Validator\Validatorfile\Yourfile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Produit\CompospratiqueRepository;
 use App\Entity\Produit\Produit\Pratiquechapitre;
 use App\Entity\Produit\Produit\Produitpanier;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Compospratique
  *
  * @ORM\Table("compospratique")
  * @ORM\Entity(repositoryClass=CompospratiqueRepository::class)
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"compospratique:read"}},
+ *    denormalizationContext={"groups"={"compospratique:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Compospratique
@@ -24,6 +30,7 @@ class Compospratique
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"compospratique:read"})
      */
     private $id;
 
@@ -286,7 +293,7 @@ class Compospratique
 	protected function getUploadRootDir()
 	{
 	// On retourne le chemin relatif vers l'image pour notre codePHP
-	return  __DIR__.'/../../../../web/'.$this->getUploadDir();
+	return  __DIR__.'/../../../../public/'.$this->getUploadDir();
 	}
 	
 	public function setFile(UploadedFile $file)

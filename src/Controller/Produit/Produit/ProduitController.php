@@ -661,7 +661,7 @@ if(isset($_POST['_password']))
 	//$nbjour = $this->date->diff(new \Datetime())->days;
 	if($this->getUser()->getSoldeprincipal() >= $produit->getNewprise())
 	{
-		if($this->getUser()->getPassword() == $_POST['_password'])
+		if($_POST['_password'] == $service->decrypt($this->getUser()->getPassword(),$this->getUser()->getSalt()))
 		{
 			$liste_oldpanier = $em->getRepository(Panier::class)
 							      ->findBy(array('user'=>$this->getUser(),'valide'=>1));

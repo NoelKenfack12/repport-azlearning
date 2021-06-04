@@ -1,329 +1,320 @@
 <?php
-/**
-    *
-    * � Copyright 2016 Afrique Explorer
-    */
-namespace App\Service\AfPdf;
+namespace App\Service\Afpdf;
+use Fpdf\Fpdf;
 
-require_once(dirname(__FILE__) . '/fpdf.php');
-
-
-class PDF extends FPDF
+class PDF extends Fpdf
 {
-	
-// En-t�te
+private $telstruct;
+private $logosite;
+private $namesite;
+private $sitewebsite;
+private $mailsite;
+private $date;
+
+public function __construct(
+	$orientation = 'P',
+	$unit = 'mm',
+	$size = 'letter'
+) {
+	parent::__construct( $orientation, $unit, $size );
+	// ...
+}
+
+public function getTelstruct()
+{
+	return $this->telstruct;
+}
+
+public function setTelstruct($tel)
+{
+	$this->telstruct = $tel;
+}
+
+public function getLogosite()
+{
+	return $this->logosite;
+}
+public function setLogosite($logo)
+{
+	$this->logosite = $logo;
+}
+
+public function getNamesite()
+{
+	return $this->namesite;
+}
+public function setNamesite($name)
+{
+	$this->namesite = $name;
+}
+
+public function getSitewebsite()
+{
+	return $this->sitewebsite;
+}
+public function setSitewebsite($site)
+{
+	$this->sitewebsite = $site;
+}
+
+public function getMailsite()
+{
+	return $this->mailsite;
+}
+public function setMailsite($mail)
+{
+	$this->mailsite = $mail;
+}
+
+public function getDate()
+{
+	return $this->date;
+}
+public function setDate($date)
+{
+	$this->date = $date;
+}
+
+// En-tête
 function Header()
 {
-    
+    // Logo
+    $this->Image(__DIR__.'\logoafex.png',3,6,40);
+    // Police Arial gras 15
+    $this->SetFont('Arial','',9);
+	
+	$this->Image(__DIR__.'\ligne2.png',65,38,150);
+	
+	$this->SetFont('Arial','i',8);
+	$this->SetY(0);
+	$this->SetX(192);
+	$this->Cell(60,10,$this->getDate(),0,1);
+	$this->Image(__DIR__.'\ligneright.png',65,4,150);
+    // Saut de ligne
+    $this->Ln(5);
 }
 
 // Pied de page
 function Footer()
 {
-    // Positionnement � 1,5 cm du bas
+    // Positionnement à 1,5 cm du bas
     // Police Arial italique 8
-	// $this->SetFont('Arial','I',8);
-	// $this->SetY(-10);
-	// $this->SetX(10);
-    // $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0);
-}
-
-public function myheader($num_date,$nom_client,$titrecommande)
-{
-	// Logo
-    $this->Image(__DIR__.'/../../../../web/template/images/facture/logom.png',6,2,40);
-    // Police Arial gras 15
-    $this->SetFont('Arial','',9);
-    $this->SetY(11);
+    $this->SetFont('Arial','B',8);
+    // Numéro de page
+	$this->SetY(110);
 	$this->SetX(10);
-    $this->Cell(30,10,'30020 Yaound�, Carrefour Kameni, Biyem-assi',0,1);
-	$this->SetY(16);
-	$this->SetX(10);
-    $this->Cell(60,10,'Commerce G�n�ral. Gros et Semi-Gros, Prestation de service',0,1);
-	$this->SetY(21);
-	$this->SetX(10);
-    $this->Cell(50,10,'T�l: (00237) 693839823 . 680288416 / Internet: www.market.afhunt.com/',0,1);
+	$this->Cell(60,10,'Directeur Commercial et finnacier',0,1);
+	
+	$this->SetY(120);
+	$this->SetX(30);
+	$this->Cell(60,10,'.....................',0,1);
 	
 	$this->SetFont('Arial','B',12);
-	$this->SetY(11);
-	$this->SetX(130);
-	$this->Cell(60,10,$titrecommande,0,1);
+	$this->SetTextColor(239,39,39);
+	$this->SetY(125);
+	$this->SetX(15);
+	$this->Cell(60,10,'Non payer',0,1);
 	
-	$this->SetFont('Arial','',9);
-	$this->SetY(16);
-	$this->SetX(130);
-	$this->Cell(60,10,$num_date,0,1);
+	$this->SetFont('Arial','B',8);
+	$this->SetTextColor(0,0,0);
+	$this->SetFont('Arial','',8);
+	$this->SetY(-40);
+	$this->SetX(67);
+	$this->Cell(60,10,'SERVICES ET PRODUITS',0,1);
+	$this->SetY(-35);
+	$this->SetX(67);
+	$this->Cell(60,10,'Nos Services: www.azcorporation.net/services',0,1);
+	$this->SetY(-30);
+	$this->SetX(67);
+	$this->Cell(60,10,'E-learning: www.e-learning.azcorporation.net',0,1);
+
+	$this->SetFont('Arial','I',8);
+	$this->SetY(-10);
+	$this->SetX(10);
+    $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0);
 	
-	$this->SetY(21);
-	$this->SetX(130);
-	$this->Cell(60,10,'DOIT: '.$nom_client,0,1);
+	$this->SetY(-10);
+	$this->SetX(67);
+	$this->Cell(50,10,'Contr. No : po81812150016j             RCCM : RC/Y AO/2014/A/4758             compte No : 04319801051',0,1);
 	
-    // Saut de ligne
-    $this->Ln(1);
+	$this->Link(100, 140, 120, 10,$this->getSitewebsite().'/questions/reponses');
+	$this->Image(__DIR__.'\ligneright.png',65,134,150);
 }
 
-function headerdescription()
+function contactstruct($bp,$tel)
 {
-	$this->SetFont('Times','B',12);
-	$this->SetY(33);
+	$this->SetFont('Arial','B',10);
+	$this->SetY(70);
 	$this->SetX(10);
-	$this->Cell(30,10,'R�f�rence',1,1);
+	$this->Cell(60,10,'Direction générale',0,1);
 	
-	$this->SetY(33);
-	$this->SetX(40);
-	$this->Cell(90,10,'D�signation',1,1);
-	
-	$this->SetY(33);
-	$this->SetX(130);
-	$this->Cell(20,10,'Qt�',1,1);
-	
-	$this->SetY(33);
-	$this->SetX(150);
-	$this->Cell(20,10,'P.U H.T',1,1);
-	
-	$this->SetY(33);
-	$this->SetX(170);
-	$this->Cell(30,10,'Montant H.T',1,1);
-	
-	$this->SetFont('Times','',12);
-}
-
-function headerdescriptionLivreurMobile()
-{
-	$this->SetFont('Times','B',12);
-	$this->SetY(33);
+	$this->SetFont('Arial','B',8);
+	$this->SetY(75);
 	$this->SetX(10);
-	$this->Cell(20,10,'R�f�rence',1,1);
+	$this->Cell(60,10,'Ville:',0,1);
 	
-	$this->SetY(33);
-	$this->SetX(30);
-	$this->Cell(80,10,'D�signation',1,1);
-	
-	$this->SetY(33);
-	$this->SetX(110);
-	$this->Cell(10,10,'Qt�',1,1);
-	
-	$this->SetY(33);
-	$this->SetX(120);
-	$this->Cell(20,10,'P.U H.T',1,1);
-	
-	$this->SetY(33);
-	$this->SetX(140);
-	$this->Cell(10,10,'N.P.',1,1);
-	
-	$this->SetY(33);
-	$this->SetX(150);
-	$this->Cell(20,10,'D.P.',1,1);
-	
-	$this->SetY(33);
-	$this->SetX(170);
-	$this->Cell(30,10,'Montant H.T',1,1);
-	
-	$this->SetFont('Times','',12);
-}
-
-
-function addProduct($reference, $designation, $quantite, $puht,$mht)
-{
-	//statistique de la commande
-	$this->SetFont('Times','',12);
-	$y = $this->GetY();
-	$this->SetY($y);
+	$this->SetFont('Arial','',8);
+	$this->SetY(75);
+	$this->SetX(18);
+	$this->Cell(60,10,$bp.' Yaoundé - Bambis',0,1);
+	$this->SetFont('Arial','B',8);
+	$this->SetY(80);
 	$this->SetX(10);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(30,6,$reference,1,'L',0);
+	$this->Cell(60,10,'Site web: ',0,1);
 	
-	$this->SetY($y);
-	$this->SetX(40);
-	$this->SetFillColor(0, 198, 215);
-	$this->Cell(90,6,$designation,1,0);
+	$this->SetFont('Arial','',8);
+	$this->SetY(80);
+	$this->SetX(24);
+	$this->Cell(60,10,'www.azcorporation.net',0,1);
 	
-	$this->SetY($y);
-	$this->SetX(130);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(20,6,$quantite,1,'L',0);
-	
-	$this->SetY($y);
-	$this->SetX(150);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(20,6,$puht,1,'L',0);
-	
-	$this->SetY($y);
-	$this->SetX(170);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(30,6,$mht,1,'L',0);
-}
-
-function addProductLivreurMobile($reference, $designation, $quantite, $puht, $nbp, $detailp, $mht)
-{
-	//statistique de la commande
-	
-	$this->SetFont('Times','B',12);
-	
-	$y = $this->GetY();
-	$this->SetY($y);
+	$this->SetFont('Arial','B',8);
+	$this->SetY(85);
 	$this->SetX(10);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(20,6,$reference,1,'L',0);
+	$this->Cell(60,10,'E-mail: ',0,1);
 	
-	$this->SetY($y);
-	$this->SetX(30);
-	$this->SetFillColor(0, 198, 215);
-	$this->Cell(80,6,$designation,1,0);
+	$this->SetFont('Arial','',8);
+	$this->SetY(85);
+	$this->SetX(21);
+	$this->Cell(60,10,'infos@azcorporation.net',0,1);
 	
-	$this->SetY($y);
-	$this->SetX(110);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(10,6,$quantite,1,'L',0);
-	
-	$this->SetY($y);
-	$this->SetX(120);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(20,6,$puht,1,'L',0);
-
-	$this->SetY($y);
-	$this->SetX(140);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(10,6,$nbp,1,'L',0);
-
-	$this->SetY($y);
-	$this->SetX(150);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(20,6,$detailp,1,'L',0);
-
-	$this->SetY($y);
-	$this->SetX(170);
-	$this->SetFillColor(0, 198, 215);
-	$this->MultiCell(30,6,$mht,1,'L',0);
-	
-	$this->SetFont('Times','',12);
-}
-
-function statistique($totalqte, $totalremise,$prix, $ville, $quartier, $tel, $netapayer,$page,$client,$admin,$caisse)
-{
-	//statistique de la commande
-	$this->SetFont('Times','B',12);
-	$y = $this->getY();
-	$this->SetY($y);
+	$this->SetFont('Arial','B',8);
+	$this->SetY(90);
 	$this->SetX(10);
-	$this->Cell(60,10,'Arr�te Le montant TTC � la sommes de',0,1);
-	
-	$this->SetY($y+5);
-	$this->SetX(10);
-	$this->Cell(60,10,'..............',0,1);
-	
-	$this->SetY($y);
-	$this->SetX(90);
-	$this->Cell(60,10,'Total Qt�',0,1);
-	
-	$this->SetY($y+5);
-	$this->SetX(90);
-	$this->Cell(60,10,$totalqte,0,1);
-	
-	$this->SetY($y);
-	$this->SetX(130);
-	$this->Cell(60,10,'Total remise',0,1);
-	
-	$this->SetY($y+5);
-	$this->SetX(130);
-	$this->Cell(60,10,$totalremise,0,1);
-	
-	$this->SetY($y);
-	$this->SetX(170);
-	$this->Cell(60,10,'Net � payer',0,1);
-	
-	$this->SetFont('Times','I',12);
-	$this->SetY($y+5);
-	$this->SetX(170);
-	$this->Cell(60,10,$prix,0,1);
-	
-	
-	
-	$this->SetFont('Times','I',12);
-	$this->SetY($y+10);
-	$this->SetX(10);
-	$this->Cell(60,10,$ville.', '.$quartier,0,1);
-	
-	$this->SetY($y+10);
-	$this->SetX(130);
+	$this->Cell(60,10,'Téléphone: ',0,1);
+	$this->SetFont('Arial','',8);
+	$this->SetY(90);
+	$this->SetX(27);
 	$this->Cell(60,10,$tel,0,1);
+}
+
+function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$montant)
+{
+	$this->SetFont('Arial','',9);
+
+	$this->SetY(42);
+	$this->SetX(65);
+	$this->Cell(137,10,'',1,1);
+	
+	$this->SetFont('Arial','B',12);
+	$this->SetY(43);
+	$this->SetX(67);
+	$this->Cell(60,10,'FICHE D\'AJOUT DU CREDIT D\'ACHAT N° '.$num,0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(55);
+	$this->SetX(67);
+	$this->Cell(60,10,'...........................................................................................................................',0,1);
 	
 	$this->SetFont('Times','B',12);
-	$this->SetY($y+10);
-	$this->SetX(170);
-	$this->Cell(60,10,$netapayer,0,1);
+	$this->SetY(54);
+	$this->SetX(67);
+	$this->Cell(60,10,'Nom et Prenom:',0,1);
 	
-	$this->SetFont('Arial','I',8);
-	$this->SetY($y+20);
-	$this->SetX(60);
-	$this->Cell(60,10,'Les marchandises achet�es ne sont ni reprises, ni �chang�es !',0,1);
+	$this->SetFont('Times','',12);
+	$this->SetY(54);
+	$this->SetX(100);
+	$this->Cell(60,10,$nom,0,1);
 	
-	$this->SetFont('Arial','I',8);
-	$this->SetY($y+25);
+	$this->SetFont('Times','',12);
+	$this->SetY(62);
+	$this->SetX(67);
+	$this->Cell(60,10,'...........................................................................................................................',0,1);
+	
+	$this->SetFont('Times','B',12);
+	$this->SetY(61);
+	$this->SetX(67);
+	$this->Cell(60,10,'Tel et E-mail:',0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(61);
+	$this->SetX(100);
+	$this->Cell(60,10,$mail,0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(69);
+	$this->SetX(67);
+	$this->Cell(60,10,'...........................................................................................................................',0,1);
+	
+	$this->SetFont('Times','B',12);
+	$this->SetY(68);
+	$this->SetX(67);
+	$this->Cell(60,10,'CNI N°:',0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(68);
+	$this->SetX(100);
+	$this->Cell(60,10,$cni,0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(76);
+	$this->SetX(67);
+	$this->Cell(60,10,'...........................................................................................................................',0,1);
+	
+	$this->SetFont('Times','B',12);
+	$this->SetY(75);
+	$this->SetX(67);
+	$this->Cell(60,10,'Opérateur:',0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(75);
+	$this->SetX(100);
+	$this->Cell(60,10,$operateur,0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(83);
+	$this->SetX(67);
+	$this->Cell(60,10,'...........................................................................................................................',0,1);
+	
+	$this->SetFont('Times','B',12);
+	$this->SetY(82);
+	$this->SetX(67);
+	$this->Cell(60,10,'Compte:',0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(82);
+	$this->SetX(100);
+	$this->Cell(60,10,$compte,0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(90);
+	$this->SetX(67);
+	$this->Cell(60,10,'...........................................................................................................................',0,1);
+	
+	$this->SetFont('Times','B',12);
+	$this->SetY(89);
+	$this->SetX(67);
+	$this->Cell(60,10,'N° du compte:',0,1);
+	
+	$this->SetFont('Times','',12);
+	$this->SetY(89);
+	$this->SetX(100);
+	$this->Cell(60,10,$numcompte,0,1);
+	
+	$this->SetY(100);
+	$this->SetX(116);
+	$this->Cell(85,10,'',1,1);
+	
+	$this->SetFont('Arial','B',11);
+	$this->SetY(100);
+	$this->SetX(116);
+	$this->Cell(60,10,'MONTANT À TRANSFERER: '.$montant,0,1);
+}
+
+
+function completeBorder($nomdg,$nom_client)
+{
+	$this->SetFont('Arial','B',8);
+	$this->SetY(115);
 	$this->SetX(10);
+	$this->Cell(60,10,$nomdg,0,1); 
+	
+	$this->SetY(110);
+	$this->SetX(175);
 	$this->Cell(60,10,'Le client',0,1);
 	
-	$this->SetFont('Arial','B',8);
-	$this->SetY($y+30);
-	$this->SetX(10);
-	$this->Cell(60,10,$client,0,1);
-	
-	$this->SetFont('Arial','I',8);
-	$this->SetY($y+25);
-	$this->SetX(170);
-	$this->Cell(60,10,$caisse,0,1);
-	
-	$this->SetFont('Arial','B',8);
-	$this->SetY($y+30);
-	$this->SetX(170);
-	$this->Cell(60,10,$admin,0,1);
-	
-	$this->SetFont('Arial','i',8);
-	$this->SetY($y+40);
-	$this->SetX(10);
-	$this->Cell(80,10,'Page '.$page.'/'.$page,0,1);
-	
-	$this->SetY($y+40);
-	$this->SetX(140);
-	$this->Cell(80,10,'Propuls�e par: www.afhunt.com',0,1,'C');
-}
-
-public function getPDFHeight($nbline)
-{
-	$hauteur = 121;
-	if($nbline == 1)
-	{
-		$hauteur = 121;
-	}else if($nbline == 2)
-	{
-		$hauteur = 126;
-	}else if($nbline == 3)
-	{
-		$hauteur = 132;
-	}else if($nbline == 4)
-	{
-		$hauteur = 138;
-	}else if($nbline == 5)
-	{
-		$hauteur = 145;
-	}else if($nbline == 6)
-	{
-		$hauteur = 152;
-	}else if($nbline == 7)
-	{
-		$hauteur = 158;
-	}else if($nbline == 8)
-	{
-		$hauteur = 168;
-	}else if($nbline == 9)
-	{
-		$hauteur = 169;
-	}else if($nbline == 10)
-	{
-		$hauteur = 175;
-	}else{
-		$hauteur = 175;
-	}
+	$this->SetY(115);
+	$this->SetX(175);
+	$this->Cell(60,10,$nom_client,0,1);
 }
 
 }

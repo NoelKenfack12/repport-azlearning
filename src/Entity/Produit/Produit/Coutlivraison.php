@@ -7,13 +7,18 @@ use App\Repository\Produit\Produit\CoutlivraisonRepository;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Service\Ville;
 use App\Entity\Produit\Produit\Produit;
-
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Coutlivraison
  *
  * @ORM\Table("coutlivraison")
  * @ORM\Entity(repositoryClass=CoutlivraisonRepository::class)
+*  @ApiResource(
+ *    normalizationContext={"groups"={"coutlivraison:read"}},
+ *    denormalizationContext={"groups"={"coutlivraison:write"}}
+ * )
  */
 class Coutlivraison
 {
@@ -23,6 +28,7 @@ class Coutlivraison
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"coutlivraison:read"})
      */
     private $id;
 

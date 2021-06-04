@@ -6,12 +6,18 @@ use App\Validator\Validatorfile\Yourfile;
 use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Produit\CorrectionpratiqueRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Correctionpratique
  *
  * @ORM\Table("correctionpratique")
  * @ORM\Entity(repositoryClass=CorrectionpratiqueRepository::class)
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"correctionpratique:read"}},
+ *    denormalizationContext={"groups"={"correctionpratique:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Correctionpratique
@@ -22,6 +28,7 @@ class Correctionpratique
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"correctionpratique:read"})
      */
     private $id;
 

@@ -28,6 +28,7 @@ use App\Entity\Produit\Produit\Categorie;
 use App\Entity\Produit\Produit\Souscategorie;
 use App\Entity\Produit\Produit\Chapitrecours;
 use App\Entity\Produit\Service\Ville;
+use App\Entity\Produit\Produit\Partiecours;
 
 class PanierController extends AbstractController
 {

@@ -8,12 +8,18 @@ use App\Entity\Users\User\User;
 use App\Entity\Produit\Produit\Produit;
 use App\Entity\Produit\Produit\Chapitrecours;
 use App\Entity\Produit\Produit\Produitpanier;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Animationproduit
  *
  * @ORM\Table("animationproduit")
  * @ORM\Entity(repositoryClass=AnimationproduitRepository::class)
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"animationproduit:read"}},
+ *    denormalizationContext={"groups"={"animationproduit:write"}}
+ * )
  **@ORM\HasLifecycleCallbacks
  */
 class Animationproduit
@@ -24,6 +30,7 @@ class Animationproduit
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"animationproduit:read"})
      */
     private $id;
 

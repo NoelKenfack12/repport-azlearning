@@ -45,7 +45,7 @@ class Quartier
     private $date;
 	
 	/**
-       * @ORM\ManyToOne(targetEntity=User:class)
+       * @ORM\ManyToOne(targetEntity=User::class)
        * @ORM\JoinColumn(nullable=true)
     */
 	private $user;

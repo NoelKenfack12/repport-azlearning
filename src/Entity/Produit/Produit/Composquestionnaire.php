@@ -5,13 +5,19 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Produit\Produit\ComposquestionnaireRepository;
 use App\Entity\Produit\Produit\Questionnaire;
 use App\Entity\Produit\Produit\Produitpanier;
-use App\Entity\Produit\Produitty\Proposition;
+use App\Entity\Produit\Produit\Proposition;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Composquestionnaire
  *
  * @ORM\Table("composquestionnaire")
  * @ORM\Entity(repositoryClass=ComposquestionnaireRepository::class)
+ * *  @ApiResource(
+ *    normalizationContext={"groups"={"composquestionnaire:read"}},
+ *    denormalizationContext={"groups"={"composquestionnaire:write"}}
+ * )
  */
 class Composquestionnaire
 {
@@ -21,6 +27,7 @@ class Composquestionnaire
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"composquestionnaire:read"})
      */
     private $id;
 

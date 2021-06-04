@@ -8,12 +8,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Validator\Validatortext\Taillemin;
 use App\ValidatorB\Validatortext\Taillemax;
 use App\Repository\Produit\Produit\ImgproduitRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Imgproduit
  *
  * @ORM\Table("imgproduit")
  * @ORM\Entity(repositoryClass=ImgproduitRepository::class)
+  *  @ApiResource(
+ *    normalizationContext={"groups"={"imgproduit:read"}},
+ *    denormalizationContext={"groups"={"imgproduit:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Imgproduit
@@ -24,6 +30,7 @@ class Imgproduit
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Groups({"imgproduit:read"})
      */
     private $id;
 

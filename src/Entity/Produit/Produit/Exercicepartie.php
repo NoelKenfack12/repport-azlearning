@@ -11,12 +11,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\Produit\Produit\ExercicepartieRepository;
 use App\Entity\Produit\Produit\Chapitrecours;
 use App\Entity\Produit\Produit\Correctionexercice;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Exercicepartie
  *
  * @ORM\Table("exercicepartie")
  * @ORM\Entity(repositoryClass=ExercicepartieRepository::class)
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"exercicepartie:read"}},
+ *    denormalizationContext={"groups"={"exercicepartie:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Exercicepartie
@@ -27,6 +33,7 @@ class Exercicepartie
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"exercicepartie:read"})
      */
     private $id;
 

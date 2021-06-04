@@ -656,22 +656,22 @@ public function ajoutersujetforum(Service $nosservice, $page, $addProduct, Reque
 	$comment = new Commentaireblog();
     $form = $this->createForm(CommentaireblogType::class, $comment);
 	if ($request->getMethod() == 'POST'){
-	$form->handleRequest($request);
+		$form->handleRequest($request);
 
-	$comment->setService($nosservice);
-    if ($form->isValid() and $this->getUser() != null){
-		$comment->setUser($this->getUser());
-		$em->persist($comment);
-		$em->flush();
-		$this->get('session')->getFlashBag()->add('information','Enregistrement effectué avec succès');
-	}else{
-		if($this->getUser() == null)
-		{
-			$this->get('session')->getFlashBag()->add('information','Une erreur ! vous n\'êtes pas connectez !');
+		$comment->setService($nosservice);
+		if ($form->isValid() and $this->getUser() != null){
+			$comment->setUser($this->getUser());
+			$em->persist($comment);
+			$em->flush();
+			$this->get('session')->getFlashBag()->add('information','Enregistrement effectué avec succès');
 		}else{
-			$this->get('session')->getFlashBag()->add('information','Une erreur a été rencontrée !');
+			if($this->getUser() == null)
+			{
+				$this->get('session')->getFlashBag()->add('information','Une erreur ! vous n\'êtes pas connectez !');
+			}else{
+				$this->get('session')->getFlashBag()->add('information','Une erreur a été rencontrée !');
+			}
 		}
-	}
 	}
 	$sujet_forum = $em->getRepository(Commentaireblog::class)
 	                  ->findSujetForum($nosservice->getId(),$page,10);
@@ -687,7 +687,7 @@ public function ajoutersujetforum(Service $nosservice, $page, $addProduct, Reque
 	}
 }
 
-public function interventionsujet(Commentaireblog $comment, $page)
+public function interventionsujet(Commentaireblog $comment, $page, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
 	$intervention = new Intervention();
@@ -736,37 +736,20 @@ public function banniereforum(GeneralServicetext $service)
 	               ->findSlideAnnonce();
 	$slideaccueil = $service->selectEntity($allslide);
 	
-	$recherche = new Recherche();
-	$formBuilder = $this->createFormBuilder($recherche);
-	$formBuilder
-              ->add('donnee',TextType::class,array('attr'=>array('class'=>'form-control','placeholder'=>'Recherchez dans le forum','style'=>'height: 43px;')));
-	$formrecher = $formBuilder->getForm();
-	
 	$categorie_forum = $em->getRepository(Service::class)
 	                      ->findAllThemeForum();
 						  
 	
 	return $this->render('Theme/Produit/Service/Forum/banniereforum.html.twig', 
-	array('slideaccueil'=>$slideaccueil,'categorie_forum'=>$categorie_forum,
-	'formrecher'=>$formrecher->createView()));
+	array('slideaccueil'=>$slideaccueil,'categorie_forum'=>$categorie_forum));
 }
 
 public function rechercheforum($donnee, $page, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
-	$recherche = new Recherche();
-	$formBuilder = $this->createFormBuilder($recherche);
-	$formBuilder
-              ->add('donnee', 'text',array('attr'=>array('class'=>'form-control police2','placeholder'=>'Retrouver un produit','type'=>'search')));
-	$formrecher = $formBuilder->getForm();
 
-	if ($request->getMethod() == 'POST'){
-		$formrecher->handleRequest($request);
-	}else{
-		$recherche->setDonnee($donnee);
-	}
 	$liste_sujet = $em->getRepository(Commentaireblog::class)
-						->searchSujetForum($recherche->getDonnee(), $page, 10);
+						->searchSujetForum($_POST["donnee"], $page, 10);
 	return $this->render('Theme/Produit/Service/Forum/rechercheforum.html.twig', 
 	array('liste_sujet'=>$liste_sujet,'nombrepage' => ceil(count($liste_sujet)/10),'recherche'=>$recherche,'page'=>$page));
 }

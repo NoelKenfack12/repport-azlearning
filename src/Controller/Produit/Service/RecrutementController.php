@@ -13,7 +13,8 @@ use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\Request;
 use General\Service\AfMail\Afmail;
 use General\Service\AfMail\fileAttachment;
-use General\Service\AfPdf\PDF;
+
+use App\Service\Afpdf\PDF;
 use App\Entity\Produit\Produit\Categorie;
 use App\Entity\Produit\Service\Infoentreprise;
 
@@ -224,7 +225,7 @@ public function supprimerdossier(Recrutement $recrut, Request $request)
 	return $this->redirect($this->generateUrl('users_adminuser_liste_dossier_recrutement'));
 }
 
-public function validerdossier(Recrutement $recrut, Request $request)
+public function validerdossier(Recrutement $recrut, Request $request, GeneralServicetext $service)
 {
 	$em = $this->getDoctrine()->getManager();
 	$formsupp = $this->createFormBuilder()->getForm(); 
@@ -254,7 +255,7 @@ public function validerdossier(Recrutement $recrut, Request $request)
 				$recrut->getUser()->name(40), //Nom du destinataire
 				$recrut->getUser()->getUsername(), //Email Destinataire
 				'Votre compte a été crédité avec succès.', //Objet de l'email
-				$this->getUser()->name(30).' vient de s\'inscrire au cours '.$produit->getTitre().' sur '.$sitename, //Grand Titre de l'email
+				$this->getUser()->name(30).' vient de déposer un montant de '.$recrut->getMontantransfert().' FCFA sur votre compte '.$sitename, //Grand Titre de l'email
 				'Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commande sur '.$sitename,  //Contenu de l'email
 				 ''  //Lien à suivre
 			);

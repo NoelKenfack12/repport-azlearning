@@ -1,5 +1,5 @@
 
-{% extends "UsersUserBundle::layouthome.html.twig" %}
+{% extends "Theme/Users/User/layouthome.html.twig" %}
 
 {% block meta %}
 
@@ -127,7 +127,7 @@
 
 <div class="container">
 	{% if user.formateur == true %}
-		{{ render(controller("UsersUserBundle:User:banniereuser", {'user': user.id })) }}
+		{{ render(controller("App\\Controller\\Users\\User\\UserController:banniereuser", {'user': user.id })) }}
 	{% endif %}
 	
 	<div class="row" style="margin-top: 15px;margin-bottom: 15px;">
@@ -137,10 +137,10 @@
                 
 				
 				<ul class="accordion">
-				  {% for message in liste_message %}
+				  {% for message in liste_message|filter(message => message.user!= null)  %}
 				  <li class="accordion-list__item">
 					<div class="accordion-item false">
-					  <div class="accordion-item__line">
+					  <div class="accordion-item__line">message.user
 						<h3 class="accordion-item__title">
 							<img src="{% if message.user.imgprofil != null %}{{ asset(message.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" style="margin-top: -7px; width: 30px; height: 30px; border-radius: 50%;">
 							{{ message.user.name(30) }}

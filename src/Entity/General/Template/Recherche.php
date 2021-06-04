@@ -2,7 +2,7 @@
 
 namespace App\Entity\General\Template;
 
-use App\General\Validator\Validatortext\Taillemin;
+use App\Validator\Validatortext\Taillemin;
 
 class Recherche
 {

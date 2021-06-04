@@ -12,6 +12,8 @@ use App\Repository\Produit\Produit\CategorieRepository;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Produit\Souscategorie;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Categorie
@@ -19,6 +21,10 @@ use Doctrine\Common\Collections\Collection;
  * @ORM\Table("categorie")
  * @ORM\Entity(repositoryClass=CategorieRepository::class)
  * @UniqueEntity(fields="nom", message="Cette catégorie existe déjà.")
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"categorie:read"}},
+ *    denormalizationContext={"groups"={"categorie:write"}}
+ * )
  **@ORM\HasLifecycleCallbacks
 */
 
@@ -30,6 +36,7 @@ class Categorie
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"categorie:read"})
      */
     private $id;
 
@@ -39,6 +46,7 @@ class Categorie
      * @ORM\Column(name="nom", type="string", length=255,unique=true)
      *@Taillemin(valeur=3, message="Au moins 3 caractères")
      *@Taillemax(valeur=100, message="Au plus 100 caractès")
+     * @Groups({"categorie:read", "categorie:write"})
      */
     private $nom;
 	
@@ -48,6 +56,7 @@ class Categorie
      * @ORM\Column(name="description", type="text", nullable=true)
      *@Taillemin(valeur=3, message="Au moins 3 caractères")
      *@Taillemax(valeur=600, message="Au plus 600 caractès")
+     * @Groups({"categorie:read", "categorie:write"})
      */
     private $description;
 

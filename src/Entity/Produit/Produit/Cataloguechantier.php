@@ -11,6 +11,8 @@ use App\Entity\Users\User\User;
 
 use App\Validator\Validatorfile\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Cataloguechantier
@@ -18,6 +20,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Table("cataloguechantier")
  * @ORM\Entity(repositoryClass=CataloguechantierRepository::class)
  * @UniqueEntity(fields="nom", message="Cette catégorie existe déjà.")
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"cataloguechantier:read"}},
+ *    denormalizationContext={"groups"={"cataloguechantier:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
  
@@ -29,6 +35,7 @@ class Cataloguechantier
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"cataloguechantier:read"})
      */
     private $id;
 
@@ -38,6 +45,7 @@ class Cataloguechantier
      * @ORM\Column(name="nom", type="string", length=255,unique=true)
      *@Taillemin(valeur=3, message="Au moins 3 caractères")
      *@Taillemax(valeur=70, message="Au plus 70 caractès")
+     * @Groups({"cataloguechantier:read", "cataloguechantier:write"})
      */
     private $nom;
 	

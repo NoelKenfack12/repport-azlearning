@@ -17,12 +17,19 @@ use App\Entity\Produit\Produit\Animationproduit;
 use App\Entity\Produit\Produit\Composexercice;
 use App\Entity\Produit\Produit\Compospratique;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Produit\Produit\Souscategorie;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Chapitrecours
  *
  * @ORM\Table("chapitrecours")
  * @ORM\Entity(repositoryClass=ChapitrecoursRepository::class)
+ *  @ApiResource(
+ *    normalizationContext={"groups"={"chapitrecours:read"}},
+ *    denormalizationContext={"groups"={"chapitrecours:write"}}
+ * )
  */
 class Chapitrecours
 {
@@ -32,6 +39,7 @@ class Chapitrecours
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"chapitrecours:read"})
     */
     private $id;
 
@@ -39,7 +47,8 @@ class Chapitrecours
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
-     *@Taillemax(valeur=20000, message="Au plus 20000 caractès")
+     * @Taillemax(valeur=20000, message="Au plus 20000 caractès")
+     * @Groups({"chapitrecours:read", "chapitrecours:write"})
     */
     private $titre;
 
