@@ -10,12 +10,18 @@ use App\Validator\Validatortext\Taillemin;
 use App\Validator\Validatortext\Taillemax;
 use App\Repository\Users\User\ImgprofilRepository;
 use App\Entity\Users\User\User;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Imgprofil
  *
  * @ORM\Table("imgprofil")
  * @ORM\Entity(repositoryClass=ImgprofilRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"imgprofil:read"}},
+ *    denormalizationContext={"groups"={"imgprofil:write"}}
+ * )
  * @ORM\HasLifecycleCallbacks
  */
 class Imgprofil
@@ -25,6 +31,7 @@ class Imgprofil
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+	 * @Groups({"imgprofil:read"})
      */
     private $id;
 

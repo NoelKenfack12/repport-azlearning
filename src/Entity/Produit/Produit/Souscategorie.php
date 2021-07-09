@@ -15,6 +15,8 @@ use App\Entity\Produit\Produit\Categorie;
 use App\Entity\Produit\Produit\Produit;
 use App\Entity\Produit\Service\Service;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -22,6 +24,10 @@ use Doctrine\Common\Collections\Collection;
  *
  * @ORM\Table("souscategorie")
  * @ORM\Entity(repositoryClass=SouscategorieRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"souscategorie:read"}},
+ *    denormalizationContext={"groups"={"souscategorie:write"}}
+ * )
  **@ORM\HasLifecycleCallbacks
 */
  
@@ -33,6 +39,7 @@ class Souscategorie
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"souscategorie:read"})
      */
     private $id;
 
@@ -40,8 +47,9 @@ class Souscategorie
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
-     *@Taillemin(valeur=3, message="Au moins 3 caractères")
-     *@Taillemax(valeur=100, message="Au plus 100 caractès")
+     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemax(valeur=100, message="Au plus 100 caractès")
+     * @Groups({"souscategorie:read", "souscategorie:write"})
      */
     private $nom;
 	
@@ -49,7 +57,8 @@ class Souscategorie
      * @var text
      *
      * @ORM\Column(name="contenu", type="text", nullable=true)
-     *@Taillemax(valeur=600, message="Au plus 600 caractès")
+     * @Taillemax(valeur=600, message="Au plus 600 caractès")
+     * @Groups({"souscategorie:read", "souscategorie:write"})
      */
     private $contenu;
 

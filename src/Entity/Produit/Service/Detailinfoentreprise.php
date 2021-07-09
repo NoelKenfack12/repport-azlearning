@@ -8,6 +8,8 @@ use App\Validator\Validatortext\Taillemax;
 use App\Repository\Produit\Service\DetailinfoentrepriseRepository;
 use App\Entity\Produit\Service\Infoentreprise;
 use App\Entity\Users\User\User;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -15,6 +17,10 @@ use App\Entity\Users\User\User;
  *
  * @ORM\Table("detailinfoentreprise")
  * @ORM\Entity(repositoryClass=DetailinfoentrepriseRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"detailinfoentreprise:read"}},
+ *    denormalizationContext={"groups"={"detailinfoentreprise:write"}}
+ * )
  */
 class Detailinfoentreprise
 {
@@ -24,6 +30,7 @@ class Detailinfoentreprise
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"detailinfoentreprise:read"})
      */
     private $id;
 
@@ -31,7 +38,8 @@ class Detailinfoentreprise
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255,nullable=true)
-       *@Taillemax(valeur=300, message="Au plus 300 caractès")
+     * @Taillemax(valeur=300, message="Au plus 300 caractès")
+     * @Groups({"detailinfoentreprise:read", "detailinfoentreprise:write"})
      */
     private $titre;
 

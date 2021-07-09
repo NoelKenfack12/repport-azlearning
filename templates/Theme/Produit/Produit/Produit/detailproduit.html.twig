@@ -1,4 +1,4 @@
-{% set currentposition = 'presentation' %}
+
 {% extends "Theme/Users/User/layouthome.html.twig" %}
 
 {% block meta %}
@@ -551,287 +551,231 @@ body {
 	background: #092759;
 }
 .item-link-tabs.active a{
-	color: #fff!important;
+	color: #092759!important;
 }
 </style>
 
-<div class="page-wrapper chiller-theme toggled">
-  
-  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-    <i class="fa fa-bars"></i>
-  </a>
-  
-  <nav id="sidebar" class="sidebar-wrapper">
-	<div class="detail-courant-product" style="display: none; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); height: 80px; background: #333; color: #fff; padding: 15px 0px; width: 100%; position: relative; z-index: 1;">
-		<div class="inner-detail-product" style="margin-left: 360px; margin-right: 380px;">
-			<h2 style="margin-top: -15px; margin-bottom: 0px;">
-				<div style="width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block;">{{ produit.titre }}</div>
-				<div class="text-right" style="width: 38%; display: inline-block; padding-top: 15px;" >
-				<span>
-				   <span class="btn-video-article">
-					   <a href="#!" class="like-current-product" style="font-size: 14px; color: #fff;" title="Ajouter une mention j'aime" value="{{ produit.id }}"><span class="fa fa-thumbs-up"></span></a>
-					   <a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nblike }}</a>
-				   </span>
-				   <span class="btn-video-article">
-					   <a href="#!"  class="save-current-product" style="font-size: 14px; color: #fff;" title="Enregistrer la vidéo" value="{{ produit.id }}"><span class="fa fa-bookmark"></span></a>
-					   <a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nbenregistrer }}</a>
-				   </span>
-				   
-				   <span class="btn-video-article">
-					   <a href="#!{# { path('produit_produit_download_video_cours', {'id': produit.id }) } #}"style="font-size: 14px; color: #fff;" title="Télécharger la vidéo"><span class="fa fa-download"></span></a>
-					   <a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.videoproduit.nbtele }}</a>
-				   </span>
-				   
-				   <span class="btn-video-article">
-					   <a href="#!" target="_blank" style="font-size: 14px; color: #fff;" title="Partager la vidéo"><span class="fa fa-share-alt"></span></a>
-					   <a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nbpartage }}</a>
-				   </span>
-				</span>
-				</div>
-			</h2>
-			<div>Présentation générale</div>
-		</div>
-	</div>
-	
-    <div class="sidebar-content" style="position: relative; margin-top: -80px;z-index: 2;">
-		  
-		  <div class="sidebar-brand">
-			<a href="#" style="margin-top: 15px;">
-				Contenu du cours
-				<br/>
-				<span style="text-transform: capitalize; z-index: 8px;">
-				Suivez ce cours à votre rythme
-				</span>
-			</a>
-			<div id="close-sidebar">
-			  <i class="fa fa-times"></i>
-			</div>
-		  </div>
-	  
-	    {% if produit.user != null %}
-		  <div class="sidebar-header" style="margin-top: 15px;">
-			<div class="user-pic">
-			  <img class="img-responsive img-rounded" 
-			    src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}"
-				alt="{{ produit.user.name(30) }}"/>
-			</div>
-			<div class="user-info" style="padding-top: 15px;">
-			  <span class="user-name"> {{ produit.user.nom }}
-				<strong>{{ produit.user.prenom }}</strong>
-			  </span>
-			  <span class="user-role">Formateur {{ site }}</span>
-			</div>
-		  </div>
-		{% else %}
-			<div class="sidebar-header" style="margin-top: 15px;">
-			
-				<div class="user-pic">
-				  <img class="img-responsive img-rounded" src="{{ asset('template/images/co.png') }}" alt="Formateur {{ site }}"/>
-				</div>
-				
-				<div class="user-info" style="padding-top: 15px;">
-				  <span class="user-name"> Anonyme </span>
-				  <span class="user-role">Formateur {{ site }}</span>
-				</div>
-				
-		    </div>
-		{% endif %}
 
-      <div class="sidebar-menu">
-        <ul>
-          <li class="header-menu">
-            <span>General</span>
-          </li>
-          
-		  <li class="sidebar-dropdown active">
-			<a href="#!" class="item-selected">
-				À propos de ce cours </br>
-				<span>{{ produit.getDureeCours }}</span>
-			</a>
+<section style="background: #092759; height: 250px; padding-top: 20px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7" style="color: #fff;">
+				<h2 class="">{{ produit.titre }}</h2>
+				<div>{{ produit.description|raw }}</div>
+			</div>
+
+			<div class="col-md-5">
+				<div class="img-thumbnail" style="min-height: 300px; padding: 7px;">
 				
-            <div class="sidebar-submenu" style="display: block;">
-              <ul>
-                <li>
-                  <a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="sub-item-left-sidebar active-item-cours">
-					<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
-						<span class="fa fa-circle-thin"></span>
-					</span>
+					<div class="variation-contenu-ressource" style="height: 300px;">
+						<div class="loader-wrap">
+							<div class="loader">
+								<div class="box-1 box"></div>
+								<div class="box-2 box"></div>
+								<div class="box-3 box"></div>
+								<div class="box-4 box"></div>
+								<div class="box-5 box"></div>
+							</div>
+						</div>
+					</div>
 					
-					Présentation générale<br/>
-					<span>{% if produit.dureeminute != null and produit.dureeseconde != null %} {{ produit.dureeminute }} min {{ produit.dureeseconde }} s{% else %}1 min 30 s{% endif %}</span>
-				  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-		  
-		  {% if app.user == produit.user or is_granted('ROLE_GESTION') %}
-			<li class="header-menu text-left">
-			<a href="{{ path('produit_produit_modification_produit_controller', {'id': produit.id }) }}"><span class=" fa fa-pencil"></span> Modifier le cours</a>
-			</li>
-		  {% endif %}
+					<script type="text/javascript">
+					$(document).ready(function(){
+						$.ajax({
+						url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'cours', 'id': produit.id, 'mess': mess }) }}',
+						type : 'POST',
+						dataType : 'html',
+						success : function(code_html, statut){ // success est toujours en place, bien sûr !
+							$('.variation-contenu-ressource').replaceWith(code_html);
+						},
+
+						error : function(resultat, statut, erreur){
+							alert("Echec");
+						}
+
+						});
+					});
+				</script>
 					
-		  
-		  {% for partie in liste_part %}
-
-		  	{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 0, 'codeadmin': codeadmin })) }}
-
-		  {% endfor %}
-		  
-		  {% if app.user == produit.user or is_granted('ROLE_GESTION') %}
-			<li class="header-menu text-left" style="margin-bottom: 150px;">
-				<a href="#!" class="add-new-part" style="text-align: left!important;"><em class="fa fa-plus"></em> Ajoutez une nouvelle partie</a>
-			</li>
-		  {% endif %}
-        </ul>
-      </div>
-      <!-- sidebar-menu  -->
-    </div>
-
-	{{ render(controller("App\\Controller\\General\\Template\\MenuController:parametreuser")) }}
-  </nav>
-  
-  <!-- sidebar-wrapper  -->
-  <main class="page-content" id="id" style="margin-bottom: 30px!important;">
-  
-	<div class="open-menu-mobile">
-		<h2>
-			<span style="float: right;">
-			   <span class="btn-video-article">
-				   <a href="#!" class="like-current-product" style="font-size: 14px; color: #fff;" title="Ajouter une mention j'aime" value="{{ produit.id }}"><span class="fa fa-thumbs-up"></span></a>
-				   <a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nblike }}</a>
-			   </span>
-			   <span class="btn-video-article">
-				   <a href="#!"  class="save-current-product" style="font-size: 14px; color: #fff;" title="Enregistrer la vidéo" value="{{ produit.id }}"><span class="fa fa-bookmark"></span></a>
-				   <a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nbenregistrer }}</a>
-			   </span>
-			   
-			   <span class="btn-video-article">
-				   <a href="#!{# { path('produit_produit_download_video_cours', {'id': produit.id }) } #}"style="font-size: 14px; color: #fff;" title="Télécharger la vidéo"><span class="fa fa-download"></span></a>
-				   <a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.videoproduit.nbtele }}</a>
-			   </span>
-			   
-			   <span class="btn-video-article">
-				   <a href="#!" target="_blank" style="font-size: 14px; color: #fff;" title="Partager la vidéo"><span class="fa fa-share-alt"></span></a>
-				   <a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nbpartage }}</a>
-			   </span>
-			</span>
-			{{ produit.titre }}
-		</h2>
-		<div>Présentation générale</div>
-	</div>
-	
-	
-    <div class="container-fluid">
-
-    <div class="row">
-
-		<div class="col-md-12 variation-contenu-ressource">
-			<div class="loader-wrap">
-				<div class="loader">
-					<div class="box-1 box"></div>
-					<div class="box-2 box"></div>
-					<div class="box-3 box"></div>
-					<div class="box-4 box"></div>
-					<div class="box-5 box"></div>
 				</div>
 			</div>
 		</div>
-		
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$.ajax({
-				   url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'cours', 'id': produit.id, 'mess': mess }) }}',
-				   type : 'POST',
-				   dataType : 'html',
-				   success : function(code_html, statut){ // success est toujours en place, bien sûr !
-					   $('.variation-contenu-ressource').replaceWith(code_html);
-				   },
+	</div>
+</section>
 
-				   error : function(resultat, statut, erreur){
-					 alert("Echec");
-				   }
-
-				});
-			});
-		</script>
-
-		<div class="col-md-12">
-			<div style="margin-top: 20px; margin-bottom: 20px;">
-			  <input id="tab-1" class="input-tabs" type="radio" name="tabs" checked=""/>
-			  <label for="tab-1" class="label-tab">Description</label>
-				
-			  <input id="tab-2" class="input-tabs" type="radio" name="tabs"/>
-			  <label for="tab-2" class="label-tab">Fichiers sources</label>
-				
-			  <input id="tab-3" class="input-tabs" type="radio" name="tabs"/>
-			  <label for="tab-3" class="label-tab">Posez questions ?</label>
-				
-			  <input id="tab-4" class="input-tabs" type="radio" name="tabs"/>
-			  <label for="tab-4" class="label-tab">Exercices</label>
-			  
-			  <input id="tab-5" class="input-tabs" type="radio" name="tabs"/>
-			  <label for="tab-5" class="label-tab">QCM</label>
-				
-			  <div class="section-tabs" id="content1">
-			  
+<section style="margin-top: 15px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7">
 				<div class="alert alert-success text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;"><span class="fa fa-info-circle"></span> Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu par l'état. <a href="#!" class="btn btn-primary souscription-cours-online"> Inscrivez-vous maintenant <span class="fa fa-angle-double-right"></span> </a> <span class="fa fa-check pull-right"></span></div>
-				<div class="row">
-					<div class="col-md-8">
-						<div class="panel-text">
-							<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> {{ produit.titre }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
-							<div class="content-panel-1">{{ produit.description|raw }}</div>
-						</div>
-						
-						<div class="panel-text" style="margin-top: 15px;">
-						<div style="border-bottom: 1px solid #ddd;" class="text-info"><strong><span class="mdi-action-question-answer"></span> Objectifs de ce cours <a href="#!" class="open-content pull-right" value="down" name="2"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
-							<div class="content-panel-2">{{ produit.objectif|raw }}</div>
-						</div>
-						
-						<div class="panel-text" style="margin-top: 15px;">
-						<div style="border-bottom: 1px solid #ddd;" class="text-warning"><strong><span class="mdi-action-announcement"></span> Pré-requis <a href="#!" class="open-content pull-right" value="down" name="3"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
-							<div class="content-panel-3">{{ produit.prerequis|raw }}</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="list-group">
-						  
-						  {% for oderproduct in cours_formation|slice(0,4) %}
-						  <a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}" class="list-group-item list-group-item-action flex-column align-items-start {% if oderproduct.produit == produit %}active{% endif %}">
-							<div class="d-flex w-100 justify-content-between">
-							  <h5 class="mb-1">{{ oderproduct.produit.titre }}</h5>
-							</div>
-							<img src="{% if oderproduct.produit.imgproduit != null %}{{ asset(oderproduct.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/annonce.png') }}{% endif %}" style="width: 40px; height: 40px; float: left; margin-right: 5px;"/>
-							<p class="mb-1">Durée Totale: {{ oderproduct.produit.getDureeCours }}</p>
-							<small>{{ oderproduct.produit.souscategorie.nom }}</small>
-						  </a>
-						  {% else %}
-						  <a href="#!" class="list-group-item list-group-item-action flex-column align-items-start">
-							<div class="d-flex w-100 justify-content-between">
-							  <h5 class="mb-1">Aucun Cours</h5>
-							  <small class="text-muted">3 days ago</small>
-							</div>
-							<p class="mb-1">La liste des cours associés à cette formation est vide.</p>
-							<small class="text-muted">{{ site }}</small>
-						  </a>
-						  {% endfor %}
-						  
-						</div>
-						<div class="text-primary" style="font-size: 15px;">
-							<span class="fa fa-angle-right"> </span> Formation spécial confinement
-						</div>
-						<div style="font-size: 12px; color: #CCC; margin-top: 15px;">
-							<span class="fa fa-info-circle"></span> Ce cours fait aussi partir de 5 autres formations.
-						</div>
-					</div>
+			
+				<div class="panel-text">
+					<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> {{ produit.titre }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+					<div class="content-panel-1">{{ produit.description|raw }}</div>
 				</div>
-			  </div>
 				
-			  <div class="section-tabs" id="content2">
+				<div class="panel-text" style="margin-top: 15px;">
+					<div style="border-bottom: 1px solid #ddd;" class="text-info"><strong><span class="mdi-action-question-answer"></span> Objectifs de ce cours <a href="#!" class="open-content pull-right" value="down" name="2"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+					<div class="content-panel-2">{{ produit.objectif|raw }}</div>
+				</div>
 				
-				<div style="margin-top: 10px;"><h2>Support du cours</h2></div><hr/>
+				<div class="panel-text" style="margin-top: 15px;">
+					<div style="border-bottom: 1px solid #ddd;" class="text-warning"><strong><span class="mdi-action-announcement"></span> Pré-requis <a href="#!" class="open-content pull-right" value="down" name="3"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+					<div class="content-panel-3">{{ produit.prerequis|raw }}</div>
+				</div>
+
+
+				<h2 style="margin-top: 15px;">Programme</h2>
+				{% for partie in liste_part %}
+
+					{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 2, 'codeadmin': codeadmin })) }}
+
+				{% endfor %}
 				
+				{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+					<a href="#!" class="btn btn-info  add-new-part" style="text-align: left!important;"><em class="fa fa-plus"></em> Ajoutez une nouvelle partie</a>
+				{% endif %}
+
+			</div>
+
+			<div class="col-md-5"> 
 				
+				<div class="card" style="margin-top: 100px; padding: 25px;">
+					<h2 class="text-left">
+						À propos de ce cours
+
+						{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+							<a href="{{ path('produit_produit_modification_produit_controller', {'id': produit.id }) }}" style="float: right; font-size: 15px;;"><span class="fa fa-pencil"></span> Modifier</a>
+						{% endif %}
+					</h2>
+
+					<div>
+						<span class="badge badge-info">Durée Moyenne de formation: <span>{{ produit.getDureeCours }}</span></span>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							Nombre de partie <span class="badge badge-default">15</span>
+						</li>
+						<li class="list-group-item">
+							Nombre de TP <span class="badge badge-default">{{ pratiquechapitres|length }}</span>
+						</li>
+						<li class="list-group-item">
+							Supports de cours <span class="badge badge-default">{{ supportchapitres|length }}</span>
+						</li>
+						<li class="list-group-item">
+							Exercices <span class="badge badge-default">{{ exerciceparties|length  }}</span>
+						</li>
+						<li class="list-group-item">
+							QCM <span class="badge badge-default">15</span>
+						</li>
+					</ul>
+
+					<div>
+						<strong>Prix officiel pour accéder à toutes les ressources du cours:</strong> <span class="badge badge-secondary">{{ produit.newprise }} {{ devise }}</span>
+					</div>
+					<div style="padding: 10px 0px;">
+						<h2>
+							<a href="#!" class="btn btn-primary souscription-cours-online" value="1">Souscrire à cette formation</a></li>
+						</h2>
+					</div>
+				</div>	
+
+				<div  class="card" style="padding: 25px; margin-top: 10px; ">
+
+					{% if produit.user != null %}
+					<div class="sidebar-header" style="margin-top: 15px;">
+						<div class="user-pic">
+						<img class="img-responsive img-rounded" 
+							src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}"
+							alt="{{ produit.user.name(30) }}" style="width: 50px;
+							float: left;
+							margin-right: 5px;
+							border-radius: 10px;"/>
+						</div>
+						<div class="user-info" style="padding-top: 15px;">
+						<span class="user-name"> {{ produit.user.nom }}
+							<strong>{{ produit.user.prenom }}</strong>
+						</span>
+						<span class="user-role">Formateur {{ site }}</span>
+						</div>
+					</div>
+					{% else %}
+						<div class="sidebar-header" style="margin-top: 15px;">
+						
+							<div class="user-pic">
+							<img class="img-responsive img-rounded" src="{{ asset('template/images/co.png') }}" alt="Formateur {{ site }}" style="width: 50px;
+							float: left;
+							margin-right: 5px;
+							border-radius: 10px;"/>
+							</div>
+							
+							<div class="user-info" style="padding-top: 15px;">
+							<span class="user-name"> Anonyme </span>
+							<span class="user-role">Formateur {{ site }}</span>
+							</div>
+							
+						</div>
+					{% endif %}
+					
+				</div>
+
+				<h2 style="margin-top: 15px;">Dans le même parcours</h2>
+				<div class="list-group">
+					{% set formation = null %}  
+					{% for oderproduct in cours_formation|slice(0,4) %}
+					<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}" class="list-group-item list-group-item-action flex-column align-items-start {% if oderproduct.produit == produit %}active{% endif %}">
+					  <div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">{{ oderproduct.produit.titre }}</h5>
+					  </div>
+					  <img src="{% if oderproduct.produit.imgproduit != null %}{{ asset(oderproduct.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/annonce.png') }}{% endif %}" style="width: 40px; height: 40px; float: left; margin-right: 5px;"/>
+					  <p class="mb-1">Durée Totale: {{ oderproduct.produit.getDureeCours }}</p>
+					  <small>{{ oderproduct.produit.souscategorie.nom }}</small>
+					</a>
+					{% if loop.first %}
+						{% set formation = oderproduct %}  
+					{% endif %}
+					{% else %}
+					<a href="#!" class="list-group-item list-group-item-action flex-column align-items-start">
+					  <div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Aucun Cours</h5>
+						<small class="text-muted">3 days ago</small>
+					  </div>
+					  <p class="mb-1">La liste des cours associés à cette formation est vide.</p>
+					  <small class="text-muted">{{ site }}</small>
+					</a>
+					{% endfor %}
+					
+				</div>
+				  <div class="text-primary" style="font-size: 15px;">
+					  <span class="fa fa-angle-right"> </span> {% if formation != null %}{{ formation.service.nom }}{% else %}Formation non spécifiée{% endif %}
+				  </div>
+				  <div style="font-size: 12px; color: #CCC; margin-top: 15px;">
+					  <span class="fa fa-info-circle"></span> Ce cours fait aussi partir de 5 autres formations.
+				  </div>
+
+				  <h2 style="margin-top: 15px;">Statistiques</h2>
+
+				  <div class="row">
+					
+					<div class="col-md-3">
+						<a href="" class="btn btn-info"> <span class="like-current-product" style="font-size: 14px; color: #fff;" title="Ajouter une mention j'aime" value="{{ produit.id }}"><span class="fa fa-thumbs-up"></span> {{ produit.nblike }}</span></a>
+					</div>
+					
+					<div class="col-md-3">
+						<a href="" class="btn btn-info"> <span class="save-current-product" style="font-size: 14px; color: #fff;" title="Enregistrer la vidéo" value="{{ produit.id }}"><span class="fa fa-bookmark"></span> {{ produit.nbenregistrer }}</span></a>
+					</div>
+
+					<div class="col-md-3">
+						<a href="{# { path('produit_produit_download_video_cours', {'id': produit.id }) } #}" class="btn btn-info"> <span style="font-size: 14px; color: #fff;" title="Télécharger la vidéo"><span class="fa fa-download"></span> {{ produit.videoproduit.nbtele }}</span></a>
+					</div>
+
+					<div class="col-md-3">
+						<a href="" class="btn btn-info"> <span style="font-size: 14px; color: #fff;" title="Partager la vidéo"><span class="fa fa-share-alt"></span> {{ produit.nbpartage }}</span></a>
+
+					</div>
+				  </div>
+
+				  <h2>Support du cours</h2>
 				<div class="list-group">
 					{% for support in supportchapitres %}
 					  <div class="list-group-item">
@@ -846,9 +790,9 @@ body {
 							{% else %}
 								<li><a href="#!" class="souscription-cours-online"><span class="fa fa-arrow-circle-o-down"></span> Télchargez le support</a></li>
 							{% endif %}
-							{# % if app.user == produit.user %}
-							<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un support</a></li>
-							{% endif % #}
+							{% if app.user == produit.user %}
+							<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': support.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un support</a></li>
+							{% endif %}
 						</ul>
 					  </div>
 					{% else %}	  
@@ -858,8 +802,8 @@ body {
 					{% endfor %}	  
 				</div>
 				
-				<div style="margin-top: 10px;"><h2>Travaux pratiques</h2></div><hr/>
-				<ul class="list-group">
+				<h2>Travaux pratiques</h2>
+				<div class="list-group">
 				    {% for pratique in pratiquechapitres %}
 					  <div class="list-group-item">
 						<a href="{{ path('produit_produit_presentation_chapter', {'id': pratique.chapitrecours.id }) }}">{{ pratique.chapitrecours.titre }}</a> 
@@ -883,9 +827,9 @@ body {
 							{% endif %}
 							
 							<li class="divider"></li>
-							{# % if app.user == produit.user %}
-							<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un Tp</a></li>
-							{% endif % #}
+							{% if app.user == produit.user %}
+							<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': pratique.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un Tp</a></li>
+							{% endif %}
 						</ul>
 					  </div>
 					{% else %}	  
@@ -893,73 +837,10 @@ body {
 							<strong>Aucune donnée pour cette section</strong>
 						</div>
 					{% endfor %}
-				</ul>
-			  </div>
-				
-			  <div class="section-tabs" id="content3">
-				<div class="row">
-				<div class="col-md-12">
+				</div>
 
-                <!--- \\\\\\\Post-->
-                <div class="card gedf-card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">
-                                    Vous avez une question ?
-								</a>
-                            </li>
-                            <li class="nav-item">
-								<a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="true">
-                                    Mes messages
-								</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body" style="border: none;">
-                        <div class="tab-content" id="myTabContent" style="border: none; padding: 0px;">
-                            <div class="tab-pane active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                                <div class="form-group">
-                                    <textarea class="form-control open-panel-chat-message" id="message" rows="1" placeholder="Demandez de l'aide à {{ produit.user.name(30) }}" style="border: 2px dashed  #092759; cursor: pointer; font-size: 18px;"></textarea>
-                                </div>
-                            </div>
-							
-							<div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
-                                <div class="form-group">
-                                    Liste des messages
-								</div>
-								
-								<div class="list-group">
-								  {% for message in messages_cours %}
-								  <a href="{% if message.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': message.produit.id, 'mess': message.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': message.chapitrecours.id, 'mess': message.id }) }}{% endif %}" class="list-group-item list-group-item-action flex-column align-items-start">
-									<div class="d-flex w-100 justify-content-between">
-									  <h5 class="mb-1">{{ message.titre }}</h5>
-									  <small>{{ message.getDuree }}</small>
-									</div>
-									<p class="mb-1">{{ message.contenu|raw }} </p>
-									<small>Cliquez pour consulter | <span class="badge badge-primary badge-pill">{{ message.interventions|length }}</span> Intervantion(s)</small>
-								  </a>
-								  {% else %}
-									<div class="col-md-12">
-										<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
-											<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
-											<hr style="width: 100px; border-bottom: 1px solid red;">
-										</div>
-									</div>
-								  {% endfor %}
-								</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Post /////-->
-                </div>
-                </div>
-			  </div>
-				
-			  <div class="section-tabs" id="content4">
-				<div style="margin-top: 10px;"><h2>Exercices</h2></div><hr/>
-				<ul class="list-group">
+				<h2>Exercices</h2>
+				<div class="list-group">
 				    {% for exercice in exerciceparties %}
 					  <div class="list-group-item">
 						
@@ -984,9 +865,9 @@ body {
 							{% endif %}
 							
 							<li class="divider"></li>
-							{# % if app.user == produit.user %}
-								<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un Exercice</a></li>
-							{% endif % #}
+							{% if app.user == produit.user %}
+								<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': exercice.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un Exercice</a></li>
+							{% endif %}
 						</ul>
 					  </div>
 					{% else %}	  
@@ -994,37 +875,91 @@ body {
 							<strong>Aucune donnée pour cette section</strong>
 						</div>
 					{% endfor %}
-				</ul>
-			  </div> 
-			  <div class="section-tabs" id="content5">
-				<div style="margin-top: 10px;"><h2>Auto-évaluation des compétences</h2></div><hr/>
-				
-					<div class="list-group">
-						{% for partie in liste_part %}
-							{% for chapitre in partie.getAllChapitre %}
-							<a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id }) }}" class="list-group-item list-group-item-action">
-								{{ produit.titre }} <span class="fa fa-angle-right"> </span> {{ chapitre.titre }} <span class="fa fa-angle-right"> </span> x QCM
-							</a> 
-							{% endfor %}
+				</div>
+				{#
+				<h2>Auto-évaluation des compétences</h2>
+				<div class="list-group">
+					{% for partie in liste_part %}
+						{% for chapitre in partie.getAllChapitre %}
+						<a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id }) }}" class="list-group-item list-group-item-action">
+							{{ produit.titre }} <span class="fa fa-angle-right"> </span> {{ chapitre.titre }} <span class="fa fa-angle-right"> </span> x QCM
+						</a> 
 						{% endfor %}
-					</div>
-				
-			  </div> 
-			</div>
-			<hr/>
-		</div>
-    </div>
-    </div>
+					{% endfor %}
+				</div>#}
 
-  </main>
-  <!-- page-content" -->
-</div>
+			</div>
+		</div>
+	</div>
+</section>
 
 {% for partie in liste_part %}
 	{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie"
 	, {'partie': partie.id, 'number': loop.index, 'addform': 1, 'codeadmin': codeadmin })) }}
-
 {% endfor %}
+
+<section style="margin-bottom: 20px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+			<!--- \\\\\\\Post-->
+			<div class="card gedf-card">
+				<div class="card-header">
+					<ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">
+								Vous avez une question ?
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="true">
+								Mes messages
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="card-body" style="border: none;">
+					<div class="tab-content" id="myTabContent" style="border: none; padding: 0px;">
+						<div class="tab-pane active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+							<div class="form-group">
+								<textarea class="form-control open-panel-chat-message" id="message" rows="1" placeholder="Demandez de l'aide à {{ produit.user.name(30) }}" style="border: 2px dashed  #092759; cursor: pointer; font-size: 18px;"></textarea>
+							</div>
+						</div>
+						
+						<div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+							<div class="form-group">
+								Liste des messages
+							</div>
+							
+							<div class="list-group">
+							  {% for message in messages_cours %}
+							  <a href="{% if message.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': message.produit.id, 'mess': message.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': message.chapitrecours.id, 'mess': message.id }) }}{% endif %}" class="list-group-item list-group-item-action flex-column align-items-start">
+								<div class="d-flex w-100 justify-content-between">
+								  <h5 class="mb-1">{{ message.titre }}</h5>
+								  <small>{{ message.getDuree }}</small>
+								</div>
+								<p class="mb-1">{{ message.contenu|raw }} </p>
+								<small>Cliquez pour consulter | <span class="badge badge-primary badge-pill">{{ message.interventions|length }}</span> Intervantion(s)</small>
+							  </a>
+							  {% else %}
+								<div class="col-md-12">
+									<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+										<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+										<hr style="width: 100px; border-bottom: 1px solid red;">
+									</div>
+								</div>
+							  {% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Post /////-->
+			</div>
+		</div>
+	</div>
+</section>
 
 		
 <div class="modal fade" id="infos-action-new-part" style="margin-top: 100px;">

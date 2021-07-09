@@ -7,11 +7,18 @@ use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Produit\VideochapitreRepository;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Videochapitre
  *
  * @ORM\Table("videochapitre")
  * @ORM\Entity(repositoryClass=VideochapitreRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"videochapitre:read"}},
+ *    denormalizationContext={"groups"={"videochapitre:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Videochapitre
@@ -22,6 +29,7 @@ class Videochapitre
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"videochapitre:read"})
      */
     private $id;
 

@@ -6,12 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Produit\Service\Commentaireblog;
 use App\Entity\Users\User\User;
 use App\Repository\Users\User\NotificationRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Notification
  *
  * @ORM\Table("notification")
  * @ORM\Entity(repositoryClass=NotificationRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"notification:read"}},
+ *    denormalizationContext={"groups"={"notification:write"}}
+ * )
 */
 
 class Notification
@@ -22,6 +28,7 @@ class Notification
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"notification:read"})
      */
     private $id;
 
@@ -29,6 +36,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
+     * @Groups({"notification:read", "notification:write"})
      */
     private $titre;
 

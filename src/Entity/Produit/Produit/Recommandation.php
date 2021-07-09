@@ -5,12 +5,18 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Produit\Produit\RecommandationRepository;
 use App\Entity\Produit\Produit\Produit;
 use App\Entity\Produit\Produit\Cataloguechantier;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Recommandation
  *
  * @ORM\Table("recommandation")
  * @ORM\Entity(repositoryClass=RecommandationRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"recommandation:read"}},
+ *    denormalizationContext={"groups"={"recommandation:write"}}
+ * )
  */
 class Recommandation
 {
@@ -20,6 +26,7 @@ class Recommandation
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"recommandation:read"})
      */
     private $id;
 

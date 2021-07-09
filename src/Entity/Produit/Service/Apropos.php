@@ -12,11 +12,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Service\AproposRepository;
 use App\Entity\Users\User\User;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Apropos
  *
  * @ORM\Table("apropos")
  * @ORM\Entity(repositoryClass=AproposRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"apropos:read"}},
+ *    denormalizationContext={"groups"={"apropos:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
  
@@ -28,6 +35,7 @@ class Apropos
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"apropos:read"})
      */
     private $id;
 

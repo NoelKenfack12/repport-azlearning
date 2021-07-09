@@ -10,13 +10,19 @@ use App\Validator\Validatortext\Taillemin;
 use App\Validator\Validatortext\Taillemax;
 use App\Repository\Users\User\BackgroundslideRepository;
 use App\Entity\Users\User\User;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Backgroundslide
  *
  * @ORM\Table("backgroundslide")
  * @ORM\Entity(repositoryClass=BackgroundslideRepository::class)
-  ** @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *    normalizationContext={"groups"={"backgroundslide:read"}},
+ *    denormalizationContext={"groups"={"backgroundslide:write"}}
+ * )
+ * @ORM\HasLifecycleCallbacks
  */
 class Backgroundslide
 {
@@ -26,6 +32,7 @@ class Backgroundslide
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Groups({"backgroundslide:read"})
      */
     private $id;
 

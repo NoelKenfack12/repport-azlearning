@@ -19,12 +19,15 @@
 
 {{ parent() }}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{{ asset('template/js/owl.carousel.min.js') }}"></script>
 <style>
 	.owl-carousel .owl-item .single-staff-item img{
 		width: 100%;
 		height: 350px;
 		border-radius: 50%;
+	}
+	.custom-partners .owl-item {
+		max-height: 120px!important;
 	}
 	.staff-meta {
 		font-size: 12px;
@@ -125,8 +128,7 @@
 					  
 					  <div class="col-md-6">
 						{% if slide.produit != null %}
-							{% set lastsecvice = slide.produit.getLastFormationCours %}
-							<a href="{% if lastsecvice != null %}{{ path('produit_service_assistance_entreprise', {'id': lastsecvice.id }) }}{% else %}{{ path('produit_produit_detail_produit_market', {'id': slide.produit.id }) }}{% endif %}" style="display: block; height: 220px; text-align: right; position: sticky;">	
+							<a href="{{ path('produit_produit_detail_produit_market', {'id': slide.produit.id }) }}" style="display: block; height: 220px; text-align: right; position: sticky;">	
 								<img src="{% if slide.src != null %}{{ asset(slide.getwebpath) }}{% else %}{{ asset('template/images/user-bg.jpg') }}{% endif %}" alt="" style="height: 100%;"/>
 							</a>
 						{% else %}
@@ -229,98 +231,41 @@
 	background: #333!important;
 	border: 1px sold red;
 }
+button.owl-next, button.owl-prev{
+	display: inline-block;
+}
+button.owl-next, button{
+	border: none;
+}
+.input-tabs:checked + .label-tab {
+    border-left: none;
+	border-right: none;
+	color: #fff;
+	border-bottom: 2px solid #fff;
+}
 </style>
 
 
-<section class="logo-partner" style="background: #f4f4f4; border-top: 1px solid #ddd; max-height: 120px; margin-top: 0px;">
+<section class="logo-partner" style="background: #f4f4f4; border-top: 3px solid #092759; max-height: 120px; margin-top: 0px;">
 <div class="container">
-<div class="cover-wrapper">
-	<div id="client-logos" class="owl-carousel text-center">
-		<div class="item" >
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire1.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire2.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire3.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire4.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire5.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire6.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire7.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire8.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire9.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire10.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire11.png') }}" alt=""/>
-			</div>
-		</div>
-		<div class="item">
-			<div class="client-inners">
-			  <img src="{{ asset('template/images/partner/Logo_partenaire12.png') }}" alt=""/>
-			</div>
+
+	<div class="row" >
+		<div class="col-md-12" style="margin: 15px 0px;">
+			<span class="float-right">
+				{% if app.user != null %}
+				<a href="{{ path('users_user_user_accueil', {'id': app.user.id }) }}" class="btn btn-primary">Tableau de bord</a>
+				{% else %}
+				<a href="{{ path('users_user_inscription_user') }}" class="btn btn-primary">Inscription</a>
+				<a href="{{ path('users_user_connexion_user') }}" class="btn btn-primary">Connexion</a>
+				{% endif %}
+			</span>
+			<h3>Boostez vos compétences pour un emploi décent</h3>
+			<span style="background: #739ee6; color: #fff;">Accédez à 1000+ cours vidéo avec assistance individuelle par un formateur expérimenté.</span>
 		</div>
 	</div>
-</div>
+
 </div>
 </section>
-
-
-<script type="text/javascript">
-$('#client-logos').owlCarousel({
-	loop:true,
-	margin:15,
-	nav:true,
-	responsive:{
-		0:{
-			items:2
-		},
-		600:{
-			items:4
-		},
-		1000:{
-			items:6
-		}
-	},
-	navText: ["<img src='{{ asset('template/images/av8a49a4f81c3318dc69d.png') }}'/>","<img src='{{ asset('template/images/avcc910c4ee5888b858fe.png') }}'/>"]
-});
-</script>
 
 <style>
 .card-view {
@@ -502,134 +447,232 @@ $('#client-logos').owlCarousel({
 		margin-top: -40px;
 	}
 }
+
 </style>
 
 
 <section class="theme-bg-light">
 	<div class="container">
-	<section class="text-center">
-	Ces structures qui font la fierté du groupe AZ Corporation : elles nous ont donné l'opportunité de nous exprimer…
-    </section>
-	<div style="margin-top: 20px;">
-
-	  <input id="tab-1" class="input-tabs" type="radio" name="tabs" checked/>
-	  <label for="tab-1" class="label-tab">Votre progression</label>
-		
-	  <input id="tab-2" class="input-tabs" type="radio" name="tabs"/>
-	  <label for="tab-2" class="label-tab">Vos enregistrements</label>
-		
-	  <input id="tab-3" class="input-tabs" type="radio" name="tabs"/>
-	  <label for="tab-3" class="label-tab">Recommandations</label>
-		
-      <div class="section-tabs" id="content1">
-		<div class="row" style="margin: 20px 0px; ">
-			{% for cours in liste_produit %} 
-			<div class="col-md-4 grid-margin grid-margin-md-0">
-			  <a  href="{{ path('produit_produit_detail_produit_market', {'id': cours.id }) }}" class="card progression-cours">
-				<div class="card-body">
-				  <div class="row">
-					<div class="col-4 col-sm-4 col-md-4">
-					<canvas id="canvaspie{{ cours.id }}" height="300"></canvas>
+		<h2 class="text-left">
+			Nos partenaires
+		</h2>
+		<div>Ces structures qui font la fierté du groupe AZ Corporation : elles nous ont donné l'opportunité de nous exprimer…</div>
+		<div class="custom-partners">
+			<div id="client-logos" class="owl-carousel text-center">
+				<div class="item" >
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire1.png') }}" alt=""/>
 					</div>
-					<div class="col-8 col-sm col-sm-8 col-md-8">
-					  <p class="font-weight-medium">{{ cours.name(50) }}</p>
-					  <p class="text-muted">{{ cours.souscategorie.nom }}</p>
-					  <p class="text-info mb-0 font-weight-medium">Suivre maintenant</p>
-					</div>
-				  </div>
 				</div>
-			  </a>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire2.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire3.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire4.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire5.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire6.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire7.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire8.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire9.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire10.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire11.png') }}" alt=""/>
+					</div>
+				</div>
+				<div class="item">
+					<div class="client-inners">
+					<img src="{{ asset('template/images/partner/Logo_partenaire12.png') }}" alt=""/>
+					</div>
+				</div>
 			</div>
-			{% endfor %}
 		</div>
-	  </div>
 
-	  <div class="section-tabs" id="content2">
-			<div class="row" style="margin: 20px 0px; ">
-				{% for animation in produit_enregistrer %}
-				{% if animation.produit.ancienPrixProduit > 0 %}
-					{% set taux =  (animation.produit.newprise - animation.produit.ancienPrixProduit)/animation.produit.ancienPrixProduit %}
-				{% else %}
-					{% set taux = 0 %}
-				{% endif %}
-				{% set taux = taux*100 %}
-				
-				<div class="col-md-4 grid-margin grid-margin-md-0">
-				  <a href="{{ path('produit_produit_detail_produit_market', {'id': animation.produit.id }) }}" class="card-view" title="{{ animation.produit.titre }}" style="display: block; text-decoration: none;">
-					<div class="r-layout">
-						<div class="r-img cm-sm">
-						  <img src="{% if animation.produit.imgproduit != null %}{{ asset(animation.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" alt="">
-						</div>
-						<div class="r-content">
-						  <div class="s-tag"></div>
-						  <h4 class="title">{{ animation.produit.name(30) }}..</h4>
-						  <p>
-							  {{ animation.produit.souscategorie.nom }}
-						  </p>
-						  
-						  <div class="taglist">
-							  <div class="tag" style="text-decoration: line-through">{{ animation.produit.lastprise }}{{ devise }}</div>
-							  <div class="tag">{{ animation.produit.newprise }}{{ devise }}</div>
-							  <div class="tag">NIRF</div>
-						  </div>
-						  
-						  <p>
-							Par {{ animation.produit.user.name(30) }}
-						  </p>
-						  <p class="color-text">
-							  {% if taux > 0 %}Augmentation de{% else %}Réduction de {% endif %}{{ taux|round }}% sur ce produit.
-						  </p>
-						</div>
-					</div>
-				</a>
-				</div>
-				{% endfor %}
-			</div>
-	  </div>
+		<script type="text/javascript">
+		$('#client-logos').owlCarousel({
+			loop:true,
+			margin:15,
+			nav:true,
+			responsive:{
+				0:{
+					items:2
+				},
+				600:{
+					items:4
+				},
+				1000:{
+					items:6
+				}
+			},
+			navText: ["<img src='{{ asset('template/images/av8a49a4f81c3318dc69d.png') }}'/>","<img src='{{ asset('template/images/avcc910c4ee5888b858fe.png') }}'/>"]
 		
-	  <div class="section-tabs" id="content3">
-			<div class="row" style="margin: 20px 0px;">
-			    {% for animation in liste_recommandation|slice(0,3) %}
-				{% if animation.produit.ancienPrixProduit > 0 %}
-					{% set taux =  (animation.produit.newprise - animation.produit.ancienPrixProduit)/animation.produit.ancienPrixProduit %}
-				{% else %}
-					{% set taux = 0 %}
-				{% endif %}
-				{% set taux = taux*100 %}
-				<div class="col-md-4 grid-margin grid-margin-md-0">
-				  <a href="{{ path('produit_produit_detail_produit_market', {'id': animation.produit.id }) }}"  class="card-view" style="display: block; text-decoration: none;">
-					<div class="r-layout">
-						<div class="r-img cm-sm">
-						  <img src="{% if animation.produit.imgproduit != null %}{{ asset(animation.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" alt="">
-						</div>
-						<div class="r-content">
-						  <div class="s-tag"></div>
-						  <h4 class="title">{{ animation.produit.name(30) }}</h4>
-						  <p>
-							  {{ animation.produit.souscategorie.nom }}
-						  </p>
-						  
-						  <div class="taglist">
-							  <div class="tag" style="text-decoration: line-through">{{ animation.produit.lastprise }}{{ devise }}</div>
-							  <div class="tag">{{ animation.produit.newprise }}{{ devise }}</div>
-							  <div class="tag">NIRF</div>
-						  </div>
-						  
-						  <p>
-							Par {{ animation.produit.user.name(30) }}
-						  </p>
-						  <p class="color-text">
-							  {% if taux > 0 %}Augmentation de{% else %}Réduction de {% endif %}{{ taux|round }}% sur ce produit.
-						  </p>
-						</div>
-					</div>
-				</a>
-				</div>
-				{% endfor %}
-				
-			</div>
-	  </div>
+		});
+		</script>
 	</div>
+
+
+	<div class="container">
+	
+		<div class="alert alert-info" style="background: #092759;">
+			<h2 class="text-left" style="color: #fff;">
+				Mon activité
+			</h2>
+
+			<div>
+			<input id="tab-1" class="input-tabs" type="radio" name="tabs" checked/>
+			<label for="tab-1" class="label-tab">Votre progression</label>
+				
+			<input id="tab-2" class="input-tabs" type="radio" name="tabs"/>
+			<label for="tab-2" class="label-tab">Vos enregistrements</label>
+				
+			<input id="tab-3" class="input-tabs" type="radio" name="tabs"/>
+			<label for="tab-3" class="label-tab">Recommandations</label>
+				
+			<div class="section-tabs" id="content1">
+				<div class="row" style="margin: 20px 0px; ">
+					{% for cours in liste_produit %} 
+					<div class="col-md-4 grid-margin grid-margin-md-0">
+					<a  href="{{ path('produit_produit_detail_produit_market', {'id': cours.id }) }}" class="card progression-cours">
+						<div class="card-body">
+						<div class="row">
+							<div class="col-4 col-sm-4 col-md-4">
+							<canvas id="canvaspie{{ cours.id }}" height="300"></canvas>
+							</div>
+							<div class="col-8 col-sm col-sm-8 col-md-8">
+							<p class="font-weight-medium">{{ cours.name(50) }}</p>
+							<p class="text-muted">{{ cours.souscategorie.nom }}</p>
+							<p class="text-info mb-0 font-weight-medium">Suivre maintenant</p>
+							</div>
+						</div>
+						</div>
+					</a>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="section-tabs" id="content2">
+					<div class="row" style="margin: 20px 0px; ">
+						{% for animation in produit_enregistrer %}
+						{% if animation.produit.ancienPrixProduit > 0 %}
+							{% set taux =  (animation.produit.newprise - animation.produit.ancienPrixProduit)/animation.produit.ancienPrixProduit %}
+						{% else %}
+							{% set taux = 0 %}
+						{% endif %}
+						{% set taux = taux*100 %}
+						
+						<div class="col-md-4 grid-margin grid-margin-md-0">
+						<a href="{{ path('produit_produit_detail_produit_market', {'id': animation.produit.id }) }}" class="card-view" title="{{ animation.produit.titre }}" style="display: block; text-decoration: none;">
+							<div class="r-layout">
+								<div class="r-img cm-sm">
+								<img src="{% if animation.produit.imgproduit != null %}{{ asset(animation.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" alt="">
+								</div>
+								<div class="r-content">
+								<div class="s-tag"></div>
+								<h4 class="title">{{ animation.produit.name(30) }}..</h4>
+								<p>
+									{{ animation.produit.souscategorie.nom }}
+								</p>
+								
+								<div class="taglist">
+									<div class="tag" style="text-decoration: line-through">{{ animation.produit.lastprise }}{{ devise }}</div>
+									<div class="tag">{{ animation.produit.newprise }}{{ devise }}</div>
+									<div class="tag">NIRF</div>
+								</div>
+								
+								<p>
+									Par {{ animation.produit.user.name(30) }}
+								</p>
+								<p class="color-text">
+									{% if taux > 0 %}Augmentation de{% else %}Réduction de {% endif %}{{ taux|round }}% sur ce produit.
+								</p>
+								</div>
+							</div>
+						</a>
+						</div>
+						{% endfor %}
+					</div>
+			</div>
+				
+			<div class="section-tabs" id="content3">
+					<div class="row" style="margin: 20px 0px;">
+						{% for animation in liste_recommandation|slice(0,3) %}
+						{% if animation.produit.ancienPrixProduit > 0 %}
+							{% set taux =  (animation.produit.newprise - animation.produit.ancienPrixProduit)/animation.produit.ancienPrixProduit %}
+						{% else %}
+							{% set taux = 0 %}
+						{% endif %}
+						{% set taux = taux*100 %}
+						<div class="col-md-4 grid-margin grid-margin-md-0">
+						<a href="{{ path('produit_produit_detail_produit_market', {'id': animation.produit.id }) }}"  class="card-view" style="display: block; text-decoration: none;">
+							<div class="r-layout">
+								<div class="r-img cm-sm">
+								<img src="{% if animation.produit.imgproduit != null %}{{ asset(animation.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" alt="">
+								</div>
+								<div class="r-content">
+								<div class="s-tag"></div>
+								<h4 class="title">{{ animation.produit.name(30) }}</h4>
+								<p>
+									{{ animation.produit.souscategorie.nom }}
+								</p>
+								
+								<div class="taglist">
+									<div class="tag" style="text-decoration: line-through">{{ animation.produit.lastprise }}{{ devise }}</div>
+									<div class="tag">{{ animation.produit.newprise }}{{ devise }}</div>
+									<div class="tag">NIRF</div>
+								</div>
+								
+								<p>
+									Par {{ animation.produit.user.name(30) }}
+								</p>
+								<p class="color-text">
+									{% if taux > 0 %}Augmentation de{% else %}Réduction de {% endif %}{{ taux|round }}% sur ce produit.
+								</p>
+								</div>
+							</div>
+						</a>
+						</div>
+						{% endfor %}
+						
+					</div>
+			</div>
+			</div>
+			
+		</div>
 
 	</div>
 </section>
@@ -649,7 +692,7 @@ $('#client-logos').owlCarousel({
 				<div class="owl-carousel staff-list" style="padding-top: 10px;">
 					{% for produit in produit_aime %}
 					<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="card-cours" style="display: block; text-decoration: none; margin-left: -1px;">
-					<div class="image-cours">
+					<div class="image-cours" >
 					  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="min-height: 350px;"/>
 					  <div class="pricing-formation"><strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span></div>
 					  <div style="height: 80px; background: #fff; position: absolute; z-index: 2; width: 100%; bottom: 0px; padding: 3px 7px;">

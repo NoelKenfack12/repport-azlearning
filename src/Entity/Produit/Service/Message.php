@@ -8,12 +8,19 @@ use App\Validator\Validatortext\Taillemin;
 use App\Validator\Validatortext\Taillemax;
 use App\Validator\Validatortext\Telephone;
 use App\Repository\Produit\Service\MessageRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use App\Entity\Users\User\User;
 
 /**
  * Message
  *
  * @ORM\Table("message")
  * @ORM\Entity(repositoryClass=MessageRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"message:read"}},
+ *    denormalizationContext={"groups"={"message:write"}}
+ * )
  */
  
 class Message
@@ -24,6 +31,7 @@ class Message
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"message:read"})
      */
     private $id;
 
@@ -31,8 +39,9 @@ class Message
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
-     *@Taillemin(valeur=3, message="Au moins 3 caractères")
-     *@Taillemax(valeur=150, message="Au plus 150 caractès")
+     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemax(valeur=150, message="Au plus 150 caractès")
+     * @Groups({"message:read", "message:write"})
      */
     private $titre;
 
@@ -84,7 +93,7 @@ class Message
     private $tel;
 	
 	/**
-      * @ORM\ManyToOne(targetEntity="Users\UserBundle\Entity\User")
+      * @ORM\ManyToOne(targetEntity=User::class)
       * @ORM\JoinColumn(nullable=true)
       */
     private $user;

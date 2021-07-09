@@ -16,12 +16,18 @@ use App\Repository\Users\User\UserRepository;
 use App\Entity\Produit\Service\Ville;
 use App\Entity\Users\User\Imgprofil;
 use App\Entity\Users\User\Imgcouverture;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * User
  *
  * @ORM\Table("user")
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"user:read"}},
+ *    denormalizationContext={"groups"={"user:write"}}
+ * )
  * @UniqueEntity(fields="username", message="Ce  mail existe déjà.")
  * @UniqueEntity(fields="tel", message="Ce  numéro existe déjà.")
  ** @ORM\HasLifecycleCallbacks
@@ -34,6 +40,7 @@ class User implements UserInterface
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"user:read"})
      */
     private $id;
 
@@ -41,8 +48,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
-     *@Taillemin(valeur=3, message="Au moins 3 caractères")
-     *@Taillemax(valeur=70, message="Au plus 70 caractès")
+     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemax(valeur=70, message="Au plus 70 caractès")
+     * @Groups({"user:read", "user:write"})
      */
     private $nom;
 	

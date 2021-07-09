@@ -6,12 +6,18 @@ use App\Validator\Validatortext\Taillemin;
 use App\Validator\Validatortext\Taillemax;
 use App\Repository\Produit\Produit\PropositionRepository;
 use App\Entity\Produit\Produit\Questionnaire;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Proposition
  *
  * @ORM\Table("proposition")
  * @ORM\Entity(repositoryClass=PropositionRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"proposition:read"}},
+ *    denormalizationContext={"groups"={"proposition:write"}}
+ * )
  */
 class Proposition
 {
@@ -21,6 +27,7 @@ class Proposition
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"proposition:read"})
      */
     private $id;
 
@@ -30,6 +37,7 @@ class Proposition
      * @ORM\Column(name="titre", type="text")
      *@Taillemin(valeur=3, message="Au moins 3 caractères")
      *@Taillemax(valeur=250, message="Au plus 250 caractès")
+     * @Groups({"proposition:read", "proposition:write"})
      */
     private $titre;
 

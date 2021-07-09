@@ -7,12 +7,18 @@ use App\Service\Servicetext\GeneralServicetext;
 use App\Validator\Validatorfile\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Service\ImgserviceRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Imgservice
  *
  * @ORM\Table("imgservice")
  * @ORM\Entity(repositoryClass=ImgserviceRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"imgservice:read"}},
+ *    denormalizationContext={"groups"={"imgservice:write"}}
+ * )
 ** @ORM\HasLifecycleCallbacks
  */
 class Imgservice
@@ -23,6 +29,7 @@ class Imgservice
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Groups({"imgservice:read"})
      */
     private $id;
 

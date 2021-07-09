@@ -64,18 +64,17 @@
 </div><!-- /container -->
 
 <script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
-
 <script src="{{ asset('template/js/tiny.min.js') }}"></script>
 
 {% endblock %}
 
 {% block javascripttemplate %}
-	tinymce.init({ selector:'#produit_produitbundle_produit_description', entity_encoding: "raw" });
-    tinymce.init({ selector:'#produit_produitbundle_produit_objectif', entity_encoding: "raw" });
-    tinymce.init({ selector:'#produit_produitbundle_produit_prerequis', entity_encoding: "raw" });
+	tinymce.init({ selector:'#produit_description', entity_encoding: "raw" });
+    tinymce.init({ selector:'#produit_objectif', entity_encoding: "raw" });
+    tinymce.init({ selector:'#produit_prerequis', entity_encoding: "raw" });
   
-	$('#produit_produitbundle_produit_imgproduit_file').removeAttr('required');
-	$('#produit_produitbundle_produit_videoproduit_file').removeAttr('required');
+	$('#produit_imgproduit_file').removeAttr('required');
+	$('#produit_videoproduit_file').removeAttr('required');
 	var maxchamp1 = 500000;
 	var minchamp1 = 2;
 	var maxchamp2 = 1000000;
@@ -87,13 +86,13 @@
 	
 	$("#form_post_new_product").on("submit", function(){
 	
-	var description = tinyMCE.get('produit_produitbundle_produit_description').getContent({format : 'raw'});
-	var objectif = tinyMCE.get('produit_produitbundle_produit_objectif').getContent({format : 'raw'});
-	var prerequis = tinyMCE.get('produit_produitbundle_produit_prerequis').getContent({format : 'raw'});
+	var description = tinyMCE.get('produit_description').getContent({format : 'raw'});
+	var objectif = tinyMCE.get('produit_objectif').getContent({format : 'raw'});
+	var prerequis = tinyMCE.get('produit_prerequis').getContent({format : 'raw'});
 
-	$('#produit_produitbundle_produit_description').val(description);
-	$('#produit_produitbundle_produit_objectif').val(objectif);
-	$('#produit_produitbundle_produit_prerequis').val(prerequis);
+	$('#produit_description').val(description);
+	$('#produit_objectif').val(objectif);
+	$('#produit_prerequis').val(prerequis);
 
 
 	if($('#produit_produitbundle_produit_titre').val().length < minchamp1 || $('#produit_produitbundle_produit_titre').val().length > maxchamp1){
@@ -111,14 +110,14 @@
 		return false;
 	}
 	
-	if(scriptVerifFile('produit_produitbundle_produit_imgproduit_file',extensionsImgValides,maximgsize) == false)
+	if(scriptVerifFile('produit_imgproduit_file',extensionsImgValides,maximgsize) == false)
 	{
 		$("div.champ3").addClass("has-error");
 		$("div.alertnotif3").show("slow").delay(6000).hide("slow");
 		$('.control-info-champ3').html('Image; Size: <'+Math.floor(maximgsize/1000)+'Ko');
 		return false;
 	}
-	if(scriptVerifFile('produit_produitbundle_produit_videoproduit_file',extensionsVideoValides,maxvideosize) == false)
+	if(scriptVerifFile('produit_videoproduit_file',extensionsVideoValides,maxvideosize) == false)
 	{
 		$("div.champ4").addClass("has-error");
 		$("div.alertnotif4").show("slow").delay(6000).hide("slow");

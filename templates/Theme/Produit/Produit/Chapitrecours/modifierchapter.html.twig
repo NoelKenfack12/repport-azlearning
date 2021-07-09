@@ -1,4 +1,4 @@
-{% extends "UsersUserBundle::layouthome.html.twig" %}
+{% extends "Theme/Users/User/layouthome.html.twig" %}
 {% block meta %}
 
 	{{ parent() }}
@@ -27,7 +27,7 @@
 			<i class="fa fa-caret-down"></i>
 		</button>
 		
-		{% include "GeneralTemplateBundle:Menu:contacts.html.twig" %}
+		{% include "Theme/General/Template/Menu/contacts.html.twig" %}
 		
 		<ol id="nav" class="breadcrumb collapse" style="background: #fff; border: none; margin-bottom: 0px;">
 			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
@@ -55,10 +55,10 @@
 	<div class="row">
 		<div class="col-md-12">
 		<div class="card-1" style="background: #fff; padding: 15px;margin: 15px 0px;">
-		<form id="form_post_new_chapter_product" action="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formchap) }}>
+		{{ form_start(formchap, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}) }}
 			{% set message = "Modification du chapitre "~chapitre.rang %}
-			{% include 'ProduitProduitBundle:Chapitrecours:formulairechapitre.html.twig' %}
-		</form>
+			{% include 'Theme/Produit/Produit/Chapitrecours/formulairechapitre.html.twig' %}
+		{{ form_end(formchap) }}
 		
 		<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 15px;">
 		  <li class="nav-item">
@@ -190,11 +190,11 @@
 					<div class="row">
 
 					{% for pratique in chapitre.pratiquechapitres %}
-						{{ render(controller("ProduitProduitBundle:Chapitrecours:formulairemodifpratique", {'id': pratique.id })) }}
+						{{ render(controller("App\\Controller\\Produit\\Produit\\ChapitrecoursController:formulairemodifpratique", {'id': pratique.id})) }}
 					{% endfor %}
 
 					{% for exercice in chapitre.exerciceparties %}
-						{{ render(controller("ProduitProduitBundle:Chapitrecours:formulairemodifexercice", {'id': exercice.id })) }}
+						{{ render(controller("App\\Controller\\Produit\\Produit\\ChapitrecoursController:formulairemodifexercice", {'id': exercice.id})) }}
 					{% endfor %}
 					
 					</div>
@@ -205,7 +205,7 @@
 		  <div class="tab-pane fade" id="qcm-chapitre" role="tabpanel" aria-labelledby="profile-tab">
 		  
 				<div class="variation-sub-contenu" value="0">
-					{{ render(controller("ProduitProduitBundle:Questionnaire:questionnairenotion", {'id': chapitre.id, 'src': 0})) }}
+					{{ render(controller("App\\Controller\\Produit\\Produit\\QuestionnaireController:questionnairenotion", {'id': chapitre.id, 'src': 0 })) }}
 					<div class="clearfix"></div>
 				</div>
 					
@@ -216,19 +216,21 @@
 							<a style="display: block;"><span class="mdi-action-speaker-notes" style="font-size: 15px;"></span> Construction du questionnaire pour cette notion.</a>
 						</h3>
 
-						<form id="submit-form-questionnaire" action="{{ path('produit_produit_user_nouvelle_question_chapter', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formquestion) }}>
+						{{ form_start(formquestion, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_user_nouvelle_question_chapter', {'id': chapitre.id }) }}) }}
 							<div class="form-group champ8">
 								{{ form_widget(formquestion.titre) }}
 							</div>
+
 							<div class="alert alertnotif8 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
-							<h4 style="margin-bottom: 0px;">Erreur </h4>
-							Taille invalide !!! <span class="label label-info pull-right control-info-champ8"></span>
+								<h4 style="margin-bottom: 0px;">Erreur </h4>
+								Taille invalide !!! <span class="label label-info pull-right control-info-champ8"></span>
 							</div>
+							
 							<div class="keywords">
 								<button class="btn btn-primary pull-right" style="border-radius: 0px;">Ajoutez la question <span class="glyphicon glyphicon-send"></span></button>
 							</div>
-							{{ form_rest(formquestion) }}
-						</form>
+						{{ form_end(formquestion) }}
+						
 						</div>
 					</div>
 				</div>
@@ -312,7 +314,7 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 
 <div class="modal-body" style="background: #fff; color: #333;">
 <div style="background: #ECF0F1; padding: 15px;">
-	<form action="{{ path('produit_produit_ajout_nouveau_support_chapter', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formsupport) }}>
+	{{ form_start(formsupport, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_ajout_nouveau_support_chapter', {'id': chapitre.id }) }}) }}
 	<div>{{ form_label(formsupport.num,'Ajoutez le numéro du support') }}</div>
 	<div class="form-group">
 	{{ form_widget(formsupport.num) }}
@@ -322,14 +324,13 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 	</div>
 	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
 
-	{{ form_rest(formsupport) }}
-	</form>
+	{{ form_end(formsupport) }}
 </div>
 </div>
 
 <div class="modal-footer" style="display: block!important; text-align: right;">
 <span class="pull-left">&copy; {{ site }}</span>
-{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
 </div>
 
 </div>
@@ -351,7 +352,7 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 
 <div class="modal-body" style="background: #fff; color: #333;">
 	<div style="background: #ECF0F1; padding: 15px;">
-	<form action="{{ path('produit_produit_ajout_new_travaux_pratique', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formpratique) }}>
+	{{ form_start(formpratique, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_ajout_new_travaux_pratique', {'id': chapitre.id }) }}) }}
 	<div>{{ form_label(formpratique.file,'Importez l\'énnoncé du TP depuis votre appareil') }}</div>
 	<div class="form-group">
 	{{ form_widget(formpratique.file) }}
@@ -368,14 +369,14 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 
 	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
 
-	{{ form_rest(formpratique) }}
+	{{ form_end(formpratique) }}
 	</form>
 	</div>
 </div>
 
 <div class="modal-footer" style="display: block!important; text-align: right;">
 <span class="pull-left">&copy; {{ site }}</span>
-{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
 </div>
 
 </div>
@@ -395,7 +396,7 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 
 <div class="modal-body" style="background: #fff; color: #333;">
 	<div style="background: #ECF0F1; padding: 15px;">
-	<form action="{{ path('produit_produit_ajout_new_exercice', {'id': chapitre.id }) }}" method="post" {{ form_enctype(formexercice) }}>
+	{{ form_start(formexercice, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_ajout_new_exercice', {'id': chapitre.id }) }}) }}
 	<div>{{ form_label(formexercice.file,'Importez l\'énnoncé de l\'éxercice depuis votre appareil') }}</div>
 	<div class="form-group">
 	{{ form_widget(formexercice.file) }}
@@ -412,14 +413,14 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 
 	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
 
-	{{ form_rest(formexercice) }}
+	{{ form_end(formexercice) }}
 	</form>
 	</div>
 </div>
 
 <div class="modal-footer" style="display: block!important; text-align: right;">
 <span class="pull-left">&copy; {{ site }}</span>
-{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
 </div>
 
 </div>

@@ -6,12 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Users\User\SujetepingleRepository;
 use App\entity\Users\User\User;
 use App\entity\Produit\Service\Commentaireblog;
-
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Sujetepingle
  *
  * @ORM\Table("sujetepingle")
  * @ORM\Entity(repositoryClass=SujetepingleRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"sujetepingle:read"}},
+ *    denormalizationContext={"groups"={"sujetepingle:write"}}
+ * )
  */
 class Sujetepingle
 {
@@ -21,6 +26,7 @@ class Sujetepingle
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"sujetepingle:read"})
      */
     private $id;
 

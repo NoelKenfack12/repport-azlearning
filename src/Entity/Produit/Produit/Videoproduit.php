@@ -6,12 +6,18 @@ use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Produit\VideoproduitRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Videoproduit
  *
  * @ORM\Table("videoproduit")
  * @ORM\Entity(repositoryClass=VideoproduitRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"videoproduit:read"}},
+ *    denormalizationContext={"groups"={"videoproduit:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Videoproduit
@@ -22,6 +28,7 @@ class Videoproduit
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"videoproduit:read"})
      */
     private $id;
 

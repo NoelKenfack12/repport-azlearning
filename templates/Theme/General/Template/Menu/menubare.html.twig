@@ -353,12 +353,21 @@
           </div>
         </div>
       </nav>
-      <nav class="bottom-navbar">
+
+	  <style>
+	  .bottom-navbar .nav-link-items{
+		  color: #fff!important;
+	  }
+	  .bottom-navbar .nav-link-items i{
+		  color: #fff!important;
+	  }
+	  </style>
+      <nav class="bottom-navbar" style="background: #092759;">
         <div class="container">
           <ul class="nav page-navigation" style="justify-content: flex-start!important;">
 		  
             <li class="nav-item">
-              <a class="nav-link" href="{{ path('users_user_acces_plateforme') }}">
+              <a class="nav-link nav-link-items" href="{{ path('users_user_acces_plateforme') }}">
                 <i class="mdi mdi-home menu-icon"></i>
                 <span class="menu-title">Accueil</span>
               </a>
@@ -366,7 +375,7 @@
 			
             <li class="nav-item mega-menu">
               
-			  <a href="#" class="nav-link">
+			  <a href="#" class="nav-link nav-link-items">
                 <i class="mdi mdi-play-protected-content menu-icon"></i>
                 <span class="menu-title">Catalogue</span>
                 <i class="menu-arrow"></i>
@@ -416,7 +425,7 @@
             </li>
 			
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="#" class="nav-link nav-link-items">
                 <i class="mdi mdi-bullseye-arrow menu-icon"></i>
                 <span class="menu-title">Campagnes</span>
                 <i class="menu-arrow"></i>
@@ -432,21 +441,21 @@
             </li>
 
             <li class="nav-item">
-              <a href="{{ path('produit_service_forum_site') }}" class="nav-link">
+              <a href="{{ path('produit_service_forum_site') }}" class="nav-link nav-link-items">
                 <i class="mdi mdi-account-search menu-icon"></i>
                 <span class="menu-title">Forum</span>
 			  </a>
             </li>
 			
 			<li class="nav-item nav-item-formateurs">
-              <a href="{{ path('produit_service_toute_actualite_entreprise') }}" class="nav-link">
+              <a href="{{ path('produit_service_toute_actualite_entreprise') }}" class="nav-link nav-link-items">
                 <i class="mdi mdi-account-supervisor menu-icon"></i>
                 <span class="menu-title">Formateurs AZ</span>
 			  </a>
             </li>
 			
 			<li class="nav-item nav-item-aide">
-              <a href="#" class="nav-link">
+              <a href="#" class="nav-link nav-link-items">
                 <i class="mdi mdi-information-outline menu-icon"></i>
                 <span class="menu-title">Aide</span>
                 <i class="menu-arrow"></i></a>
@@ -509,6 +518,247 @@
     });
 	
     </script>
+{% elseif(position ==  'presentation') %}
+
+<div class="horizontal-menu" style="position: relative!important;">
+      <nav class="navbar top-navbar col-lg-12 col-12 p-0">
+        <div class="nav-top flex-grow-1">
+          <div class="main-container d-flex flex-row h-100 align-items-center" style="padding: 0px;">
+            
+			<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+              <a class="navbar-brand brand-logo" href="{{ path('users_user_acces_plateforme') }}"><img src="{{ asset('template/images/AZ_logo_e-learning.png') }}" alt="logo" style="height: 50px;"/></a>
+              <a class="navbar-brand brand-logo-mini" href="{{ path('users_user_acces_plateforme') }}"><img src="{{ asset('template/images/logo.png') }}" alt="logo"/></a>
+            </div>
+			
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end flex-grow-1">
+              <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown">
+                  {% set nb_notification = liste_notification|length %}
+				  <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                    <i class="mdi mdi-bell-outline mx-0"></i>
+					{% if nb_notification > 0 %}
+                    <span class="count" style="height: 15px; width: 15px; font-size: 9px; color: #fff;">{{ nb_notification }}</span>
+					{% endif %}
+                  </a>
+				  
+                  <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                    <a class="dropdown-item">
+                      <p class="mb-0 font-weight-normal float-left">Mes notifications</p>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    {% for notification in liste_notification %}
+						{% if notification.commentaireblog == null %}
+						<a href="{% if app.user != null %}{{ path('users_user_notifications_user', {'id': app.user.id }) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{% if notification.user.imgprofil != null %}{{ asset(notification.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="profile-pic" style="margin-top: -7px;">
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium"> {{ notification.user.name(30) }}
+							  <span class="float-right font-weight-light" style="font-size: 9px;">{{ notification.getDuree }}</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  {{ notification.titre }}
+							</p>
+						  </div>
+						</a>
+						{% else %}
+						<a href="{% if notification.commentaireblog.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': notification.commentaireblog.produit.id, 'mess': notification.commentaireblog.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': notification.commentaireblog.chapitrecours.id, 'mess': notification.commentaireblog.id }) }}{% endif %}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{% if notification.user.imgprofil != null %}{{ asset(notification.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="profile-pic" style="margin-top: -7px;">
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium"> {{ notification.user.name(30) }}
+							  <span class="float-right font-weight-light" style="font-size: 9px;">{{ notification.getDuree }}</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  {{ notification.titre }}
+							</p>
+						  </div>
+						</a>
+						{% endif %}
+					{% else %}
+						{% if app.user == null %}
+						
+							<a href="{{ path('login') }}" class="dropdown-item preview-item">
+							  <div class="preview-thumbnail">
+								  <img src="{{ asset('template/images/co.png') }}" alt="image" class="profile-pic"/>
+							  </div>
+							  <div class="preview-item-content flex-grow">
+								<h6 class="preview-subject ellipsis font-weight-medium">Anonyme
+								  <span class="float-right font-weight-light small-text">À l'instant</span>
+								</h6>
+								<p class="font-weight-light small-text">
+								  Veuillez vous connecter à votre compte
+								</p>
+							  </div>
+							</a>
+						
+						{% else %}
+						<a href="{{ path('login') }}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{{ asset('template/images/env.png') }}" alt="image" class="profile-pic"/>
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium">Aucune Notification
+							  <span class="float-right font-weight-light small-text">À l'instant</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  Pas de nouveau messages
+							</p>
+						  </div>
+						</a>
+						{% endif %}
+					{% endfor %}
+					<div class="dropdown-divider"></div>
+					<a href="{% if app.user != null %}{{ path('users_user_notifications_user', {'id': app.user.id }) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item">
+					  <i class="mdi mdi-chevron-right-circle-outline text-primary"></i>
+					  Liste complète
+					</a>
+
+                  </div>
+                </li>
+				
+                <li class="nav-item dropdown">
+                  <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                    <i class="mdi mdi-email-outline mx-0"></i>
+					{% set nb_message = liste_message|length %}
+                    {% if nb_message > 0 %}
+                    <span class="count" style="height: 15px; width: 15px; font-size: 9px; color: #fff;">{{ nb_message }}</span>
+					{% endif %}
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+                    <div class="dropdown-item">
+                      <p class="mb-0 font-weight-normal float-left">Mes Messages</p>
+                    </div>
+					
+                    <div class="dropdown-divider"></div>
+                    {% for message in liste_message %}
+						
+						<a href="{% if message.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': message.produit.id, 'mess': message.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': message.chapitrecours.id, 'mess': message.id }) }}{% endif %}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{% if message.user != null and message.user.imgprofil != null %}{{ asset(message.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="profile-pic" style="margin-top: -7px;"/>
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium"> {% if message.user != null %}{{ message.user.name(30) }}{% else %}Anonyme{% endif %}
+							  <span class="float-right font-weight-light" style="font-size: 9px;">{{ message.getDuree }}</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  {{ message.contenu }}
+							</p>
+						  </div>
+						</a>
+						
+					{% else %}
+						{% if app.user == null %}
+						<a href="{{ path('login') }}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{{ asset('template/images/co.png') }}" alt="image" class="profile-pic"/>
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium">Anonyme
+							  <span class="float-right font-weight-light small-text">À l'instant</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  Veuillez vous connecter à votre compte
+							</p>
+						  </div>
+						</a>
+						{% else %}
+						<a href="{{ path('login') }}" class="dropdown-item preview-item">
+						  <div class="preview-thumbnail">
+							  <img src="{{ asset('template/images/env.png') }}" alt="image" class="profile-pic"/>
+						  </div>
+						  <div class="preview-item-content flex-grow">
+							<h6 class="preview-subject ellipsis font-weight-medium">Aucun Message
+							  <span class="float-right font-weight-light small-text">À l'instant</span>
+							</h6>
+							<p class="font-weight-light small-text">
+							  Pas de nouveau messages
+							</p>
+						  </div>
+						</a>
+						{% endif %}
+					{% endfor %}
+					<div class="dropdown-divider"></div>
+					<a href="{% if app.user != null %}{{ path('produit_service_liste_message_user', {'id': app.user.id}) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item">
+					  <i class="mdi mdi-chevron-right-circle-outline text-primary"></i>
+					  Liste complète
+					</a>
+
+                  </div>
+                </li>
+				
+                <li class="nav-item nav-profile dropdown">
+                  <a class="nav-link dropdown-toggle" href="#!" data-toggle="dropdown" id="profileDropdown">
+                    <img src="{% if app.user != null and app.user.imgprofil != null %}{{ asset(app.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="profile" style="margin-top: -7px;"/>
+                  </a>
+				  
+                  <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                    
+					{% if app.user != null %}
+						<a href="{{ path('users_user_user_accueil', {'id': app.user.id}) }}" class="dropdown-item">
+						  <i class="mdi mdi-account text-primary"></i>
+						  {{ app.user.name(25) }}
+						</a>
+						
+						<div class="dropdown-divider"></div>
+						
+						<a href="{{ path('users_user_modifier_profil', {'id': app.user.id}) }}" class="dropdown-item">
+						  <i class="mdi mdi-settings text-primary"></i>
+						  Paramètres
+						</a>
+						
+
+						<a href="{{ path('produit_service_yourcv_recrutement') }}" class="dropdown-item">
+						  <i class="mdi mdi-basket-fill text-primary"></i>
+						  Créditer mon solde
+						</a>
+						
+						{% if app.user.formateur == true and is_granted('ROLE_FORMATEUR') %}
+							<a href="{{ path('produit_produit_ajouter_nouveau_produit') }}" class="dropdown-item">
+								<i class="fa fa-plus text-primary"></i>
+								Ajoutez un cours
+							</a>
+							
+							<a href="{{ path('users_user_accueil_commande_user', {'id': app.user.id}) }}" class="dropdown-item">
+								<i class="fa fa-eye text-primary"></i>
+								Formations à suivre
+							</a>
+						{% endif %}
+						<div class="dropdown-divider"></div>
+						<a href="{{ path('logout') }}" class="dropdown-item">
+						  <i class="mdi mdi-logout text-primary"></i>
+						  Déconnexion
+						</a>
+					{% else %}
+						<a href="{{ path('login') }}" class="dropdown-item">
+						  <i class="mdi mdi-settings text-primary"></i>
+						  Connexion
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="{{ path('users_user_inscription_user') }}" class="dropdown-item">
+						  <i class="mdi mdi-logout text-primary"></i>
+						  Inscription
+						</a>
+					{% endif %}
+					
+                  </div>
+                </li>
+				
+                <li class="nav-item nav-settings d-none d-lg-block">
+                  <a class="nav-link" href="#">
+                    <i class="mdi mdi-apps"></i>
+                  </a>
+                </li>
+              </ul>
+              <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
+                <span class="mdi mdi-menu"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+</div>
 {% else %}
 <!-- Fixed navbar -->
 <div class="navbar navbar-default navbar-fixed-top" style="box-shadow: 0 15px 15px -1px #f2f2f2 inset; background: #fff;">

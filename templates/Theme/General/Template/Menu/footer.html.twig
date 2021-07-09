@@ -281,11 +281,13 @@ footer hr {
 
 {% elseif (position == 'presentation') %}
 
-<footer class="footer">
-  <div class="w-100 clearfix">
-	<div class="row">
+
+<footer style="border: 1px solid #ddd; position: absolute; bottom: 0px; background: #f4f4f4;">
+<div class="clearfix"></div>
+<div class="footer-container" style="background: transparent;">
+    <div class="row">
 		<div class="col-sm-6">
-			<p class="text-left">
+			<p class="text-left" style="color: #333;">
 			Copyright © 2020 <a href="http://azcorporation.net/" target="_blank">AZ Corporation</a>. All rights reserved.  {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('users_adminuser_accueil_administration') }}"> Administration</a> {% endif %}
 			</p>
 		</div>
@@ -293,8 +295,7 @@ footer hr {
 			<p><a href="">Confidentialité</a> | <a href="">Conditions générales d'utilisation</a></p>
 		</div>
 	</div>
-  </div>
-</footer> 
+</div></footer>
 
 {% else %}
 	<nav id="footer" style="position: absolute; z-index: 5; width: 100%; padding-top: 0px;">

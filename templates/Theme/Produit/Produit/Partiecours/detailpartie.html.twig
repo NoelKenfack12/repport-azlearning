@@ -1,85 +1,58 @@
 {% if addform == 0 %}
 
-<li class="sidebar-dropdown {% if partie.id == idpartie %}active{% endif %}">
-<a href="#!" class="item-selected">
-	{{ partie.name(30) }} </br>
-	<span>{{ partie.getDureePartie }}</span>
-</a>
-	
-<div class="sidebar-submenu" style="{% if partie.id == idpartie %}display: block;{% endif %}">
-  <ul>
-	{% for chapitre in partie.getRessources %}
-	<li>
-	  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %} sub-item-left-sidebar item-chapter-cours item-chapter-cour-{{ chapitre.id }}">
-		<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
-			<span class="fa fa-circle-thin"></span>
-		</span>
-		
-		{{ chapitre.titre }}<br/>
-		<span>{% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
-	  </a>
-	</li>
-	{% endfor %}
-	
-	{% for chapitre in partie.getChapitres %}
-	<li>
-	  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %} sub-item-left-sidebar item-chapter-cours item-chapter-cour-{{ chapitre.id }}">
-		<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
-			<span class="fa fa-circle-thin"></span>
-		</span>
-		
-		{{ chapitre.titre }}<br/>
-		<span>{% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
-	  </a>
-	</li>
-	{% endfor %}
-	
-	{% for chapitre in partie.getConclusion %}
-	
-	<li>
-	  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %} sub-item-left-sidebar item-chapter-cours item-chapter-cour-{{ chapitre.id }}">
-		<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
-			<span class="fa fa-circle-thin"></span>
-		</span>
-		
-		{{ chapitre.titre }}<br/>
-		<span>{% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
-	  </a>
-	</li>
-	{% endfor %}
-	{% if partie.getRessources|length + partie.getChapitres|length + partie.getConclusion|length ==0 %}
-		<li>
-		  <a href="#!" class="sub-item-left-sidebar">
-			<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
-				<span class="fa fa-circle-thin"></span>
-			</span>
-			
-			Aucune leçon ! <br/>
-			<span>00 min 00 s</span>
-		  </a>
-		</li>
-	{% endif %}
-  </ul>
+<div class="accordion__item {% if partie.id == idpartie %}is-open{% endif %}">
+	<div class="accordion__title" style="{% if partie.id == idpartie %}color: #1d61d8;{% endif %}">
+	   <span><span class="badge badge-info"><span class="fa fa-clock-o"></span> {{ partie.getDureePartie }}</span> {{ partie.name(80) }}</span>
+	</div>
+	<div class="accordion__body" style="{% if partie.id == idpartie %}height: auto;{% endif %}">
+	  <div class="accordion__content">
+		  <div class="list-group">
+			{% for chapitre in partie.getRessources %}
+			  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="list-group-item list-group-item-action item-chapter-cour-{{ chapitre.id }}" style="border: none; {% if chapitre.id == idchapitre %}color: #1d61d8; font-weight: bold;{% endif %}">
+				  <span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+				  {{ chapitre.titre }}
+				  <span class="badge badge-info float-right"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			  </a>
+			  {% endfor %}
+			  {% for chapitre in partie.getChapitres %}
+			  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="list-group-item list-group-item-action item-chapter-cour-{{ chapitre.id }}" style="border: none; {% if chapitre.id == idchapitre %}color: #1d61d8; font-weight: bold;{% endif %}">
+				  <span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+				  {{ chapitre.titre }}
+				  <span class="badge badge-info float-right"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			  </a>
+			  {% endfor %}
+			  {% for chapitre in partie.getConclusion %}
+			  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="list-group-item list-group-item-action item-chapter-cour-{{ chapitre.id }}" style="border: none; {% if chapitre.id == idchapitre %}color: #1d61d8; font-weight: bold;{% endif %}">
+				  <span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+				  {{ chapitre.titre }}
+				  <span class="badge badge-info float-right"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			  </a>
+			  {% endfor %}
+			  {% if partie.getRessources|length + partie.getChapitres|length + partie.getConclusion|length ==0 %}
+			  <a href="#!" class="list-group-item list-group-item-action" style="border: none;">
+				  <span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+				  Aucune leçon ! <br/>
+				  <span class="float-right">00 min 00 s</span>
+			  </a>
+			  {% endif %}	  
+		  </div>
+
+		  <div>
+			<strong>Mise à jour de la partie</strong>
+			{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+				<div style="display: block; width: 100%;">
+					<a href="{{ path('produit_produit_add_new_chapter', {'id': partie.id }) }}" class="btn " style="width: 30%; border: 1px solid #092759;" title="Ajouter une leçon"><em class="fa fa-plus"></em> </a>
+					<a href="#!" class="btn modifier-partiecours-{{ partie.id }}" style="width: 30%; border: 1px solid #092759;" title="Modifier cette partie"><em class="fa fa-edit"></em> </a>
+					<a href="{{ path('produit_produit_supprimer_partie_cours', {'id': partie.id}) }}" class="btn " style="width: 30%; border: 1px solid #092759;" title="Supprimer cette partie"><span class="fa fa-times"></span> </a>
+				</div>
+			{% endif %}
+		  </div>
+	  </div>
+	</div>
 </div>
-</li>
 
 
-<li class="sidebar-dropdown">
-<a href="#!" class="item-selected">
-	Mise à jour de la partie.
-</a>
-	
-<div class="sidebar-submenu">
-{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
-	<a href="{{ path('produit_produit_add_new_chapter', {'id': partie.id }) }}" class="btn btn-block" style="width: 30%;" title="Ajouter une leçon"><em class="fa fa-plus"></em> </a>
-	<a href="#!" class="btn btn-block modifier-partiecours-{{ partie.id }}" style="width: 30%;" title="Modifier cette partie"><em class="fa fa-edit"></em> </a>
-	<a href="{{ path('produit_produit_supprimer_partie_cours', {'id': partie.id}) }}" class="btn btn-block" style="width: 30%;" title="Supprimer cette partie"><span class="fa fa-times"></span> </a>
-{% endif %}
-</div>
-</li>
-
-{% else %}
-
+{% elseif addform == 1 %}
 
 <div class="modal fade" id="infos-action-modifpartie-{{ partie.id }}" style="margin-top: 100px;">
 <div class="modal-dialog modal-md" style="border-radius: 10px;">
@@ -124,24 +97,56 @@ maxchamp1 = 70;
 minchamp1 = 3;
 
 $('.modifier-partiecours-{{ partie.id }}').click(function(){
-	$('#infos-action-modifpartie-{{ partie.id }}').modal('show');
+	$('#infos-action-modifpartie-{{ partie.id }}').appendTo("body").modal('show');
 });
+
 $("#modif_new_part_course_{{ partie.id }}").on("submit", function(){
-if($('.titre_partie_course_modif_{{ partie.id }}').val().length < minchamp1 || $('.titre_partie_course_modif_{{ partie.id }}').val().length > maxchamp1){
-$("div.champ2{{ partie.id }}").addClass("has-error");
-$("div.alertnotif2{{ partie.id }}").show("slow").delay(6000).hide("slow");
-$('.control-info-champ2{{ partie.id }}').html($('.titre_partie_course_modif_{{ partie.id }}').val().length+'/'+maxchamp1);
-$('.titre_partie_course_modif_{{ partie.id }}').focus();
-return false;
-}
-if(!is_int($('.number_partie_course_modif_{{ partie.id }}').val()) || $('.number_partie_course_modif_{{ partie.id }}').val() < 0){
-$("div.champ3{{ partie.id }}").addClass("has-error");
-$("div.alertnotif3{{ partie.id }}").show("slow").delay(6000).hide("slow");
-$('.control-info-champ3{{ partie.id }}').html('Not Int');
-$('.number_partie_course_modif_{{ partie.id }}').focus();
-return false;
-}
+	if($('.titre_partie_course_modif_{{ partie.id }}').val().length < minchamp1 || $('.titre_partie_course_modif_{{ partie.id }}').val().length > maxchamp1){
+		$("div.champ2{{ partie.id }}").addClass("has-error");
+		$("div.alertnotif2{{ partie.id }}").show("slow").delay(6000).hide("slow");
+		$('.control-info-champ2{{ partie.id }}').html($('.titre_partie_course_modif_{{ partie.id }}').val().length+'/'+maxchamp1);
+		$('.titre_partie_course_modif_{{ partie.id }}').focus();
+		return false;
+	}
+	if(!is_int($('.number_partie_course_modif_{{ partie.id }}').val()) || $('.number_partie_course_modif_{{ partie.id }}').val() < 0){
+		$("div.champ3{{ partie.id }}").addClass("has-error");
+		$("div.alertnotif3{{ partie.id }}").show("slow").delay(6000).hide("slow");
+		$('.control-info-champ3{{ partie.id }}').html('Not Int');
+		$('.number_partie_course_modif_{{ partie.id }}').focus();
+		return false;
+	}
 });
 
 </script>
+
+{% else %}
+
+<section class="accordion-audience">
+	<input type="checkbox" name="accordion-audience" id="handle{{ partie.id }}" {% if number <= 2 %}checked=""{% endif %}>
+	<h2 class="handle">
+		<label for="handle{{ partie.id }}">{{ partie.titre }}
+		<span class="float-right label-rappel label-r3 "><span class="fa fa-clock-o"></span> {{ partie.getDureePartie }}</span>
+		</label>
+	</h2>
+	<div class="content">
+		<div class="list-group">
+		{% for chapitre in partie.getChapitres %}
+			<a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %}  item-chapter-cours item-chapter-cour-{{ chapitre.id }} list-group-item list-group-item-action" style="color: #333;">
+				<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span> {{ chapitre.titre }}
+				<span class="float-right"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			</a>
+		{% endfor %}
+
+		{% for chapitre in partie.getConclusion %}
+			<a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %} item-chapter-cours item-chapter-cour-{{ chapitre.id }} list-group-item list-group-item-action" style="color: #333;">
+				<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span> {{ chapitre.titre }}
+				<span class="float-right"><span class="fa fa-clock-o"></span>  {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			</a>
+		{% endfor %}
+		</div>
+	</div>
+</section>
+
+
+
 {% endif %}

@@ -10,12 +10,18 @@ use App\Validator\Validatortext\Taillemax;
 
 use App\Repository\Produit\Produit\SupportchapitreRepository;
 use App\Entity\Produit\Produit\Chapitrecours;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Supportchapitre
  *
  * @ORM\Table("supportchapitre")
  * @ORM\Entity(repositoryClass=SupportchapitreRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"supportchapitre:read"}},
+ *    denormalizationContext={"groups"={"supportchapitre:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
  
@@ -27,6 +33,7 @@ class Supportchapitre
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"supportchapitre:read"})
      */
     private $id;
 

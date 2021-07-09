@@ -42,7 +42,7 @@ public function __construct(ParameterBagInterface $params, Singleemail $servicem
 	$this->params = $params;
 	$this->_servicemail = $servicemail;
 }
-public function inscriptionuser()
+public function inscriptionuser(GeneralServicetext $service, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
 	// Si le visiteur est déjà identifié, on le redirige vers l'accueil
@@ -80,7 +80,7 @@ public function inscriptionuser()
 				
 			$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
 			// On passe le token crée au service security context afin que l'utilisateur soit authentifié
-			$this->get('security.context')->setToken($token);
+			$this->get('security.token_storage')->setToken($token);
 			$this->get('session')->set('_security_users', serialize($token));
 			
 			return $this->redirect($this->generateUrl('users_user_user_accueil',array('id'=>$user->getId())));

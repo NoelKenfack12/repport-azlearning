@@ -6,12 +6,18 @@ use App\Service\Servicetext\GeneralServicetext;
 use App\Validator\Validatorfile\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Service\ImgevenementRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Imgevenement
  *
  * @ORM\Table("imgevenement")
  * @ORM\Entity(repositoryClass=ImgevenementRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"imgevenement:read"}},
+ *    denormalizationContext={"groups"={"imgevenement:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 
@@ -23,6 +29,7 @@ class Imgevenement
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Groups({"imgevenement:read"})
      */
     private $id;
 

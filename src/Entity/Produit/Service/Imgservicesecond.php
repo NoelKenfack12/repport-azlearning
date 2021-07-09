@@ -6,12 +6,18 @@ use App\Service\Servicetext\GeneralServicetext;
 use App\Validator\Validatorfile\Filmnolimit;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Service\ImgservicesecondRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Imgservicesecond
  *
  * @ORM\Table("imgservicesecond")
  * @ORM\Entity(repositoryClass=ImgservicesecondRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"imgservicesecond:read"}},
+ *    denormalizationContext={"groups"={"imgservicesecond:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Imgservicesecond
@@ -22,6 +28,7 @@ class Imgservicesecond
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"imgservicesecond:read"})
      */
     private $id;
 

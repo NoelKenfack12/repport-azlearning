@@ -1,4 +1,4 @@
-{% set currentposition = 'presentation' %}
+
 {% extends "Theme/Users/User/layouthome.html.twig" %}
 
 {% block meta %}
@@ -535,233 +535,64 @@ body {
 }
 </style>
 
-
-<div class="page-wrapper chiller-theme toggled">
-  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#!">
-    <i class="fa fa-bars"></i>
-  </a>
-  <nav id="sidebar" class="sidebar-wrapper">
-	<div class="detail-courant-product" style="display: none; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); height: 80px; background: #333; color: #fff; padding: 15px 0px; width: 100%; position: relative; z-index: 1;">
-		<div class="inner-detail-product" style="margin-left: 360px; margin-right: 380px;">
-			
-			<h2>
-			{{ service.nom }}
-				<span style="float: right;">
-
-				   <span class="btn-video-article">
-					   <a href="#!" class="like-current-product" style="font-size: 14px; color: #fff;" title="Ajouter une mention j'aime" value="{{ service.id }}"><span class="fa fa-thumbs-up"></span></a>
-					   <a href="#!"  style="font-size: 14px; color: #fff;">1</a>
-				   </span>
-
-				   <span class="btn-video-article">
-					   <a href="#!"  class="save-current-product" style="font-size: 14px; color: #fff;" title="Enregistrer la vidéo" value="{{ service.id }}"><span class="fa fa-bookmark"></span></a>
-					   <a href="#!"  style="font-size: 14px; color: #fff;">1</a>
-				   </span>
-				   
-				   <span class="btn-video-article">
-					   <a href="{{ path('produit_service_download_video_formation', {'id': service.id }) }}" target="_blank" style="font-size: 14px; color: #fff;" title="Télécharger la vidéo"><span class="fa fa-download"></span></a>
-					   <a href="#!"  style="font-size: 14px; color: #fff;">{{ service.imgservicesecond.nbtele }}</a>
-				   </span>
-				   
-				   <span class="btn-video-article">
-					   <a href="#!" target="_blank" style="font-size: 14px; color: #fff;" title="Partager la vidéo"><span class="fa fa-share-alt"></span></a>
-					   <a href="#!"  style="font-size: 14px; color: #fff;">12</a>
-				   </span>
-				</span>
-			</h2>
-			<div>Présentation générale</div>
-		</div>
-	</div>
-	
-    <div class="sidebar-content" style="position: relative; margin-top: -80px;z-index: 2;">
-      <div class="sidebar-brand">
-        <a href="#" style="margin-top: 15px;">
-			Contenu du cours
-			<br/>
-			<span style="text-transform: capitalize; z-index: 8px;">
-			Suivez ce cours à votre rythme
-			</span>
-		</a>
-        <div id="close-sidebar">
-          <i class="fa fa-times"></i>
-        </div>
-      </div>
-	  
-	    {% if service.user != null %}
-		  <div class="sidebar-header" style="margin-top: 15px;">
-			<div class="user-pic">
-			  <img class="img-responsive img-rounded" 
-			    src="{% if service.user.imgprofil != null %}{{ asset(service.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}"
-				alt="{{ service.user.name(30) }}"/>
+<section style="background: #092759; height: 250px; padding-top: 20px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7" style="color: #fff;">
+				<h2 class="">{{ service.nom }}</h2>
+				<div>{{ service.description|raw }}</div>
 			</div>
-			<div class="user-info">
-			  <span class="user-name"> {{ service.user.nom }}
-				<strong>{{ service.user.prenom }}</strong>
-			  </span>
-			  <span class="user-role">Formateur {{ site }}</span>
-			</div>
-		  </div>
-		{% else %}
-			<div class="sidebar-header" style="margin-top: 15px;">
-			
-			<div class="user-pic">
-			  <img class="img-responsive img-rounded" src="{{ asset('template/images/co.png') }}" alt="Formateur {{ site }}"/>
-			</div>
-			
-			<div class="user-info">
-			  <span class="user-name"> Anonyme </span>
-			  
-			  <span class="user-role">Formateur {{ site }}</span>
-			</div>
-			
-		    </div>
-		{% endif %}
 
-      <div class="sidebar-menu">
-        <ul>
-          <li class="header-menu">
-            <span>General</span>
-          </li>
-          
-		  <li class="sidebar-dropdown active">
-			<a href="#!" class="item-selected">
-				À propos de ce cours </br>
-				<span>1 min 15 s</span>
-			</a>
+			<div class="col-md-5">
+				<div class="img-thumbnail" style="min-height: 300px; padding: 7px;">
 				
-            <div class="sidebar-submenu" style="display: block;">
-              <ul>
-                <li>
-                  <a href="#!" class="sub-item-left-sidebar active-item-cours">
-					<span style="white-space: nowrap; display: inline; float: left; height: 60px; margin-right: 7px; padding-top: 10px;">
-						<span class="fa fa-circle-thin"></span>
-					</span>
+					<div class="variation-contenu-ressource" style="height: 300px;">
+						<div class="loader-wrap">
+							<div class="loader">
+								<div class="box-1 box"></div>
+								<div class="box-2 box"></div>
+								<div class="box-3 box"></div>
+								<div class="box-4 box"></div>
+								<div class="box-5 box"></div>
+							</div>
+						</div>
+					</div>
 					
-					Présentation générale<br/>
-					<span>1 min 15 s</span>
-				  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-
-        </ul>
-		
-		<div style="background: rgba(255,255,255,0.1); border-radius: 7px; padding: 10px 10px 30px 10px; margin: 10px;"> 
-			<ul style="padding: 0px;">
-				<li><a href="#!" style="font-size: 17px;">Formation: du {{ service.datebegin|slice(0, 2) }} {{ service.user.mois(service.datebegin|slice(4, 2)) }} au {{ service.datefin|slice(0, 2) }} {{ service.user.mois(service.datefin|slice(4, 2)) }} {{ service.datebegin|slice(6, 4) }}</a></li>
-			</ul>
-			
-			<ul style="padding: 0px;">
-				<li><a href="#!" style="font-size: 17px;">{{ service.pubinline }}</a></li>
-			</ul>
-			
-			<ul style="padding: 0px;">
-				<li><a href="#!" style="font-size: 17px;">Coût de la formation: <span class="badge badge-secondary">{{ service.nprix }} {{ devise }}</span></a></li>
-			</ul>
-			
-			<div style="padding: 10px 20px;">
-				<a href="#!" class="btn btn-primary souscription-cours-offline" value="1">Souscrire à cette formation</a></li>
-			</div>
-		</div>
-		
-      </div>
-      <!-- sidebar-menu  -->
-    </div>
-	{{ render(controller("App\\Controller\\General\\Template\\MenuController:parametreuser")) }}
-  </nav>
-
-  <!-- sidebar-wrapper  -->
-  <main class="page-content">
-	<div class="open-menu-mobile">
-		<h2>
-			<span style="float: right;">
-			   <span class="btn-video-article">
-				   <a href="#!" class="like-current-product" style="font-size: 14px; color: #fff;" title="Ajouter une mention j'aime" value="{{ service.id }}"><span class="fa fa-thumbs-up"></span></a>
-				   <a href="#!"  style="font-size: 14px; color: #fff;">1</a>
-			   </span>
-			   <span class="btn-video-article">
-				   <a href="#!"  class="save-current-product" style="font-size: 14px; color: #fff;" title="Enregistrer la vidéo" value="{{ service.id }}"><span class="fa fa-bookmark"></span></a>
-				   <a href="#!"  style="font-size: 14px; color: #fff;">1</a>
-			   </span>
-			   
-			   <span class="btn-video-article">
-				   <a href="{{ path('produit_service_download_video_formation', {'id': service.id }) }}" target="_blank" style="font-size: 14px; color: #fff;" title="Télécharger la vidéo"><span class="fa fa-download"></span></a>
-				   <a href="#!"  style="font-size: 14px; color: #fff;">{{ service.imgservicesecond.nbtele }}</a>
-			   </span>
-			   
-			   <span class="btn-video-article">
-				   <a href="#!" target="_blank" style="font-size: 14px; color: #fff;" title="Partager la vidéo"><span class="fa fa-share-alt"></span></a>
-				   <a href="#!"  style="font-size: 14px; color: #fff;">12</a>
-			   </span>
-			</span>
-			{{ service.nom }}
-		</h2>
-		<div>Présentation générale</div>
-	</div>
-	
-    <div class="container-fluid">
-
-    <div class="row">
-	
-		<div class="col-md-12 variation-contenu-ressource">
-			<div class="loader-wrap">
-				<div class="loader">
-					<div class="box-1 box"></div>
-					<div class="box-2 box"></div>
-					<div class="box-3 box"></div>
-					<div class="box-4 box"></div>
-					<div class="box-5 box"></div>
-				</div>
-			</div>
-		</div>
-		<script type="text/javascript">
-			$(document).ready(function(){
-			
-				$.ajax({
-				   url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'formation', 'id': service.id }) }}',
-				   type : 'POST',
-				   dataType : 'html',
-				   success : function(code_html, statut){ // success est toujours en place, bien sûr !
-					   $('.variation-contenu-ressource').replaceWith(code_html);
-				   },
-
-				   error : function(resultat, statut, erreur){
-					 alert("Echec");
-				   }
-
-				});
-			});
-		</script>
-
-		<div class="col-md-12">
-		
-			<div style="margin-top: 20px;">
-			  <input id="tab-1" class="input-tabs" type="radio" name="tabs" checked=""/>
-			  <label for="tab-1" class="label-tab">Description</label>
-				
-			  <input id="tab-2" class="input-tabs" type="radio" name="tabs"/>
-			  <label for="tab-2" class="label-tab">Cours de formation</label>
-				
-			  <input id="tab-3" class="input-tabs" type="radio" name="tabs"/>
-			  <label for="tab-3" class="label-tab">Enseignant(e)s</label>
-				
-			  <input id="tab-4" class="input-tabs" type="radio" name="tabs"/>
-			  <label for="tab-4" class="label-tab">Formation au centrer</label>
-			  
-			  <input id="tab-5" class="input-tabs" type="radio" name="tabs"/>
-			  <label for="tab-5" class="label-tab">FAQ</label>
-				
-			  <div class="section-tabs" id="content1">
-				
-				<div class="alert alert-success text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;"><span class="fa fa-info-circle"></span> Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu par l'état. <a href="#!" class="btn btn-primary souscription-cours-offline" value="1"> Inscrivez-vous maintenant <span class="fa fa-angle-double-right"></span> </a> <span class="fa fa-check pull-right"></span></div>
-				
-				
-				<div class="panel-text">
-					<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> {{ service.nom }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
-					<div class="content-panel-1">{{ service.description|raw }}</div>
-				</div>
+					<script type="text/javascript">
+						$(document).ready(function(){
 						
+							$.ajax({
+							   url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'formation', 'id': service.id }) }}',
+							   type : 'POST',
+							   dataType : 'html',
+							   success : function(code_html, statut){ // success est toujours en place, bien sûr !
+								   $('.variation-contenu-ressource').replaceWith(code_html);
+							   },
+			
+							   error : function(resultat, statut, erreur){
+								 alert("Echec");
+							   }
+			
+							});
+						});
+					</script>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section style="margin-top: 15px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7">
+
+				<div class="alert alert-success text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;">
+					<span class="fa fa-info-circle"></span> Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu par l'état. 
+					<a href="#!" class="btn btn-primary souscription-cours-offline" value="1"> Inscrivez-vous maintenant <span class="fa fa-angle-double-right"></span> </a> 
+					<span class="fa fa-check pull-right"></span>
+				</div>
 				
 				<div class="row">
 					<div class="col-sm-12">
@@ -771,28 +602,28 @@ body {
 					</div>
 					</div>
 					
-					<div class="col-md-3">
+					<div class="col-md-6">
 					  <a href="#!" class="cardop-item"> 
 					  <span class="icon feature_box_col_one"><img src="{{ asset('template/images/video-image2.png') }}" style="width: 50px; height: 60px; margin-top: -10px;"/></span>
 						<h6>Cours Vidéos <span class="badge badge-secondary">{{ nbvideo }}</span></h6>
 						<p>Commandes clients</p>
 					  </a>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-6">
 					  <a href="#!" class="cardop-item"> 
 					  <span class="icon feature_box_col_one"><img src="{{ asset('template/images/support1.png') }}" style="width: 50px; height: 60px; margin-top: -10px;"/></span>
 						<h6>Supports de cours <span class="badge badge-secondary">{{ nbsupport }}</span></h6>
 						<p>Commandes clients</p>
 					  </a>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-6">
 					  <a href="#!" class="cardop-item"> 
 					  <span class="icon feature_box_col_one"><img src="{{ asset('template/images/tpratique3.png') }}" style="width: 50px; height: 60px; margin-top: -10px;"/></span>
 						<h6>Travaux pratiques <span class="badge badge-secondary">{{ nbpratique }}</span></h6>
 						<p>Commandes clients</p>
 					  </a>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-6">
 					  <a href="#!" class="cardop-item"> 
 					  <span class="icon feature_box_col_one"><img src="{{ asset('template/images/tpratique3.png') }}" style="width: 50px; height: 60px; margin-top: -10px;"/></span>
 						<h6>Exercices corrigés <span class="badge badge-secondary">{{ nbexercice }}</span></h6>
@@ -800,181 +631,182 @@ body {
 					  </a>
 					</div>
 				</div>
-			  </div>
-				
-			  <div class="section-tabs" id="content2">
+
+
 				<div class="row containerprod"> 
-				<div class="col-sm-12">
-				<div class="panel-text">
-					<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> Cette formation comporte les cours suivants:  <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
-					<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
-				</div>
-				</div>
-				
-				
-				{% for produit in service.produits %}
-					<div class="col-md-12">
-						<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="product">
-							<div class="img-container">
-							  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="background: #fff;">
-							</div>
-							<div class="product-info">
-							  <div class="product-content">
-								<h1 class="text-left">{{ produit.titre }} <span class="fa fa-share"></span></h1>
-								<p>{{ produit.description|raw }}</p>
-							  </div>
-							</div>
-						</a>
-				    </div>
-				{% else %}
-				<div class="col-md-12">
-					<div style="height: 500px; padding-top: 200px; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15); background: #fff;" class="text-center">
-						<div><span class="fa fa-frown-o"></span> Aucune donnée disponible pour cette section</div>
-						<hr style="display: inline-block; width: 40px; border: 1px solid red;">
-					  </div>
-				</div>
-				{% endfor %}
-				</div>
-			  </div>
-				
-			  <div class="section-tabs" id="content3">
-				<div class="row">
-				<div class="col-sm-12">
-				<div class="panel-text">
-					<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> Liste des enseignants formation {{ service.nom }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
-					<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
-				</div>
-				</div>
-				
-				{% set listeformateur = [] %}
-				{% for produit in service.produits %}
-					{% if produit.user.id not in listeformateur %}
-					<div class="col-md-4 col-xs-6 teamitem">
-						<div class="teamitem-inner">
-						<div class="img-team-outer text-center"><img src="{% if produit.user.imgprofil != null %} {{ asset(produit.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" class="img-responsive img-team" height="600" width="600" /></div>
-						<p class="team-name">{{ produit.user.name(20) }}</p>
-						<p class="teamname-title">{% if produit.user.poste != null %}{{ produit.user.poste }}{% else %}Formateur AZ{% endif %}</p>
-						<p class="team-wichmagazine">Tester &amp; manager</p>
-						<hr />
-						<p class="team-contactdata">
-						<a href="{{ path('users_user_user_accueil', {'id': produit.user.id }) }}" class="btn btn-primary profil-user" style="float: right;">Voir le profil</a>
-						<i class="icon-phone"></i> 0 28 51 / 18 00 - 21<br /> <i class="icon-print"></i> 0 28 31 / 13 00 - 20<br /> <i class="icon-mail"></i>you@yourmail.com
-						
-						</p>
+					<div class="col-sm-12">
+						<div class="panel-text">
+							<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> Cette formation comporte les cours suivants:  <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+							<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
 						</div>
 					</div>
-					{% set listeformateur = listeformateur|merge([produit.user.id]) %}
-					{% endif %}
-				{% endfor %}
-				
-				</div>
-				
-				
-				<p style="margin: 0px;">
-					{#
-					<a href="{{ path('users_user_user_accueil', {'id': produit.user.id }) }}" title="{{ produit.user.name(20) }}"><img src="{% if produit.user.imgprofil != null %} {{ asset(produit.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" alt="{{ produit.user.name(20) }}" class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/></a>
-					#}
-				</p>
-				
-			  </div>
-				
-			  <div class="section-tabs" id="content4">
-				<div class="row">
-				  <div class="col-sm-12">
-					<div class="panel-text">
-						<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong>{{ service.nom }} au centre</strong></div>
-						<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
-					</div>
-				  </div>
-				</div>
-				
-				<div class="row gallery cf">
-					{% for image in liste_diapo|slice(0,6) %}
-					  <div class="col-md-3">
-						  <div class="div-content">
-							<img  alt="{{ image.titre }}" src="{% if image.imginfoentreprise != null %} {{ asset(image.imginfoentreprise.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" style="width: 100%;"/>
+					
+					
+					{% for produit in service.produits %}
+						<div class="col-md-12">
+							<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="product" style="text-decoration: none;">
+								<div class="img-container">
+								  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="background: #fff;">
+								</div>
+								<div class="product-info">
+								  <div class="product-content">
+									<h1 class="text-left" style="margin: 0px;">{{ produit.titre }} <span class="fa fa-share"></span></h1>
+									<p>{{ produit.description|raw }}</p>
+								  </div>
+								</div>
+							</a>
+						</div>
+					{% else %}
+					<div class="col-md-12">
+						<div style="height: 500px; padding-top: 200px; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15); background: #fff;" class="text-center">
+							<div><span class="fa fa-frown-o"></span> Aucune donnée disponible pour cette section</div>
+							<hr style="display: inline-block; width: 40px; border: 1px solid red;">
 						  </div>
-					  </div>
-				  {% endfor %}
-
-				</div>
-
-				<div class="row">
-				  <div class="col-sm-12">
-					<p style="margin-top: 15px;margin-bottom: 15px;">
-						
-						<a href="{{ path('produit_service_gallery_struct') }}" class="btn btn-primary" style="float: right;"><span class="mdi-image-loupe" style="font-size: 15px;"></span> Plus d'images <span class="badge">{{ liste_diapo|length }}</span> <span class=" fa fa-angle-double-right"></span></a>
-						<h3>Pour obtenir plus d'images du centre cliquez sur le lien ci-contre</h3>
-					</p>
-				  </div>
-				 </div>
-
-				
-				<div class="row"  style="margin-top: 30px;">
-				  <div class="col-sm-12">
-					<div class="panel-text">
-						<div class="content-panel-1">
-						
-						{{ service.puboffline }}
-						<div style="margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid #ddd;  padding: 0px 0px 7px 0px;">Suivre une formation au centre</div>
-						<a href="" class="btn btn-primary" target="_blank">Visitez notre plateforme dédiée</a>
-						</div>
 					</div>
-				  </div>
+					{% endfor %}
 				</div>
-				
-			    </div> 
-			  
-			  <div class="section-tabs" id="content5">
-				<div class="alert alert-success text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;"><span class="fa fa-info-circle"></span> Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu par l'état. <a href="#!" class="btn btn-primary souscription-cours-offline" value="1"> Inscrivez-vous maintenant <span class="fa fa-angle-double-right"></span> </a> <span class="fa fa-check pull-right"></span></div>
-				
-				
-				<div class="row">
-				  <div class="col-sm-12">
-					<div class="panel-text">
-						<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong>Foire aux questions</strong></div>
-						<div class="content-panel-1">Ici nous apportons des réponses aux questions que vous pouvez vous posées actuellement.</div>
-					</div>
-				  </div>
-				</div>
-				
-				<div class="row">
-					<div class="col-md-12">
-						{% for faq in service.evenements %}
-						<div class="accordion-faq">
-						  <h4 class="accordion__title">
-							{{ faq.nom }}
-							<i class="accordion__icon">
-							  <div class="line-01"></div>
-							  <div class="line-02"></div>
-							</i>
-						  </h4><!-- end .accordion__title -->
-						  <div class="accordion__content">
-							<p>{{ faq.description }}</p>
-						  </div><!-- end .accordion__content -->
-						</div><!-- end .accordion 01 -->
-						{% else %}
-							<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
-								<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
-								<hr style="width: 100px; border-bottom: 1px solid red;">
-							</div>
-						{% endfor %}
-						
-					</div>
-				</div>
-				
-			  </div>
+
 			</div>
 
+			<div class="col-md-5">
+				<div class="card" style="margin-top: 100px; padding: 25px;">
+					<h2 class="text-left">
+						À propos de l'offre de formation
+					</h2>
 
+					<div>
+						<span class="badge badge-info">Formation: du {{ service.datebegin|slice(0, 2) }} {{ service.user.mois(service.datebegin|slice(4, 2)) }} au {{ service.datefin|slice(0, 2) }} {{ service.user.mois(service.datefin|slice(4, 2)) }} {{ service.datebegin|slice(6, 4) }}</span>
+					</div>
+					
+					<div>
+						{{ service.pubinline }}
+					</div>
+					
+					<div>
+						<strong>Coût de la formation:</strong> <span class="badge badge-secondary">{{ service.nprix }} {{ devise }}</span>
+					</div>
+					
+					<div style="padding: 10px 20px;">
+						<h2>
+							<a href="#!" class="btn btn-primary souscription-cours-offline" value="1">Souscrire à cette formation</a></li>
+						</h2>
+					</div>
+				</div>
+
+				<h2 style="margin-top: 15px;">Liste des enseignant(e)s</h2>
+
+				<div class="list-group">
+
+					{% set listeformateur = [] %}
+					{% for produit in service.produits %}
+						{% if produit.user.id not in listeformateur %}
+						<a href="{{ path('users_user_user_accueil', {'id': produit.user.id }) }}" class="list-group-item list-group-item-action flex-column align-items-start ">
+							<div class="d-flex w-100 justify-content-between">
+							  <h5 class="mb-1 text-left">
+								<img src="{% if produit.user.imgprofil != null %} {{ asset(produit.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" class="img-circle" height="40" width="40" style="float: left; margin-right: 3px;"/>
+								  {{ produit.user.name(20) }}
+							  </h5>
+							  <small>il Y'a 3 mins</small>
+							</div>
+							<p class="mb-1">{% if produit.user.message != null %}{{ produit.user.message|raw }}{% else %}Mon message à mes étudiant(e)s{% endif %}</p>
+							<small>{% if produit.user.poste != null %}{{ produit.user.poste }}{% else %}Formateur AZ{% endif %}</small>
+						</a>
+
+						{% set listeformateur = listeformateur|merge([produit.user.id]) %}
+						{% endif %}
+					{% endfor %}
+				  </div>
+
+				  <h2 style="margin-top: 15px;">Statistiques</h2>
+				  <div>
+					<span class="btn-video-article">
+						<a href="#!" class="like-current-product" style="font-size: 14px; color: #333;" title="Ajouter une mention j'aime" value="{{ service.id }}"><span class="fa fa-thumbs-up"></span></a>
+						<a href="#!"  style="font-size: 14px; color: #fff;">1</a>
+					</span>
+ 
+					<span class="btn-video-article">
+						<a href="#!"  class="save-current-product" style="font-size: 14px; color: #333;" title="Enregistrer la vidéo" value="{{ service.id }}"><span class="fa fa-bookmark"></span></a>
+						<a href="#!"  style="font-size: 14px; color: #fff;">1</a>
+					</span>
+					
+					<span class="btn-video-article">
+						<a href="{{ path('produit_service_download_video_formation', {'id': service.id }) }}" target="_blank" style="font-size: 14px; color: #333;" title="Télécharger la vidéo"><span class="fa fa-download"></span></a>
+						<a href="#!"  style="font-size: 14px; color: #fff;">{{ service.imgservicesecond.nbtele }}</a>
+					</span>
+					
+					<span class="btn-video-article">
+						<a href="#!" target="_blank" style="font-size: 14px; color: #333;" title="Partager la vidéo"><span class="fa fa-share-alt"></span></a>
+						<a href="#!"  style="font-size: 14px; color: #fff;">12</a>
+					</span>
+				  </div>
+
+				  <div class="row">
+					<div class="col-sm-12">
+					  <div class="panel-text">
+						  <div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong>{{ service.nom }} au centre</strong></div>
+						  <div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
+					  </div>
+					</div>
+				  </div>
+				  
+				  <div class="row gallery cf">
+					  {% for image in liste_diapo|slice(0,6) %}
+						<div class="col-md-3">
+							<div class="div-content">
+							  <img  alt="{{ image.titre }}" src="{% if image.imginfoentreprise != null %} {{ asset(image.imginfoentreprise.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" style="width: 100%;"/>
+							</div>
+						</div>
+					  {% endfor %}
+				  </div>
+  
+				  <div class="row">
+					<div class="col-sm-12">
+					  <p style="margin-top: 15px;margin-bottom: 15px;">
+						  
+						  <a href="{{ path('produit_service_gallery_struct') }}" class="btn btn-primary" style="float: right;"><span class="mdi-image-loupe" style="font-size: 15px;"></span> Plus d'images <span class="badge">{{ liste_diapo|length }}</span> <span class=" fa fa-angle-double-right"></span></a>
+						  <h3>Pour obtenir plus d'images du centre cliquez sur le lien ci-contre</h3>
+					  </p>
+					</div>
+				   </div>
+
+				   <div class="row">
+					<div class="col-sm-12">
+					  <div class="panel-text">
+						  <div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong>Foire aux questions</strong></div>
+						  <div class="content-panel-1">Ici nous apportons des réponses aux questions que vous pouvez vous posées actuellement.</div>
+					  </div>
+					</div>
+				  </div>
+				  
+				  <div class="row">
+					  <div class="col-md-12">
+						  {% for faq in service.evenements %}
+						  <div class="accordion-faq">
+							<h4 class="accordion__title">
+							  {{ faq.nom }}
+							  <i class="accordion__icon">
+								<div class="line-01"></div>
+								<div class="line-02"></div>
+							  </i>
+							</h4><!-- end .accordion__title -->
+							<div class="accordion__content">
+							  <p>{{ faq.description }}</p>
+							</div><!-- end .accordion__content -->
+						  </div><!-- end .accordion 01 -->
+						  {% else %}
+							  <div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+								  <span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+								  <hr style="width: 100px; border-bottom: 1px solid red;">
+							  </div>
+						  {% endfor %}
+						  
+					  </div>
+				  </div>
+			</div>
 		</div>
+	</div>
+</section>
 
-    </div>
-    </div>
-
-  </main>
-  <!-- page-content" -->
-</div>
 
 <div class="modal fade" id="modal-inscription-formation" style="margin-top: 100px;">
 <div class="modal-dialog modal-md" style="border-radius: 10px;">

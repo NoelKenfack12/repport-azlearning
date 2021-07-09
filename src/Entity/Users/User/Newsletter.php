@@ -8,12 +8,18 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Validator\Validatortext\Taillemin;
 use App\Validator\Validatortext\Taillemax;
 use App\Repository\Users\User\NewsletterRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * newsletter
  *
  * @ORM\Table("newsletter")
  * @ORM\Entity(repositoryClass=NewsletterRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"newsletter:read"}},
+ *    denormalizationContext={"groups"={"newsletter:write"}}
+ * )
   * @UniqueEntity(fields="email", message="Cette adresse existe déjà.")
  */
 class Newsletter
@@ -24,6 +30,7 @@ class Newsletter
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"newsletter:read"})
      */
     private $id;
 

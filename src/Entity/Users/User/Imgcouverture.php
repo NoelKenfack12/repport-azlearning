@@ -10,13 +10,19 @@ use App\Validator\Validatortext\Taillemin;
 use App\Validator\Validatortext\Taillemax;
 use App\Repository\Users\User\ImgcouvertureRepository;
 use App\Entity\Users\User\User;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Imgcouverture
  *
  * @ORM\Table("imgcouverture")
  * @ORM\Entity(repositoryClass=ImgcouvertureRepository::class)
-  ** @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *    normalizationContext={"groups"={"imgcouverture:read"}},
+ *    denormalizationContext={"groups"={"imgcouverture:write"}}
+ * )
+ ** @ORM\HasLifecycleCallbacks
  */
 class Imgcouverture
 {
@@ -26,6 +32,7 @@ class Imgcouverture
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"imgcouverture:read"})
      */
     private $id;
 

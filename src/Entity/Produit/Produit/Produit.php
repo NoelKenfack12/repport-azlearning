@@ -21,12 +21,18 @@ use App\Entity\Produit\Service\Service;
 use App\Entity\Produit\Service\Produitformation;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Produit\Produit\Chapitrecours;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Produit
  *
  * @ORM\Table("produit")
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"produit:read"}},
+ *    denormalizationContext={"groups"={"produit:write"}}
+ * )
  **@ORM\HasLifecycleCallbacks
  */
 class Produit
@@ -37,6 +43,7 @@ class Produit
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"produit:read"})
      */
     private $id;
 

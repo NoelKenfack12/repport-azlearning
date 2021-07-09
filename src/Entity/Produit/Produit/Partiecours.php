@@ -8,12 +8,18 @@ use App\Validator\Validatortext\Taillemax;
 use App\Repository\Produit\Produit\PartiecoursRepository;
 use App\Entity\Produit\Produit\Produit;
 use App\Entity\Produit\Produit\Chapitrecours;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Partiecours
  *
  * @ORM\Table("partiecours")
  * @ORM\Entity(repositoryClass=PartiecoursRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"partiecours:read"}},
+ *    denormalizationContext={"groups"={"partiecours:write"}}
+ * )
 */
 class Partiecours
 {
@@ -23,6 +29,7 @@ class Partiecours
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"partiecours:read"})
      */
     private $id;
 
@@ -30,8 +37,9 @@ class Partiecours
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
-    *@Taillemin(valeur=3, message="Au moins 3 caractères")
-     *@Taillemax(valeur=70, message="Au plus 70 caractès")
+     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemax(valeur=70, message="Au plus 70 caractès")
+     * @Groups({"partiecours:read", "partiecours:write"})
      */
     private $titre;
 
@@ -39,6 +47,7 @@ class Partiecours
      * @var integer
      *
      * @ORM\Column(name="rang", type="integer")
+     * @Groups({"partiecours:read", "partiecours:write"})
      */
     private $rang;
 	

@@ -1,5 +1,4 @@
-
-{% extends "UsersUserBundle::layoutlogin.html.twig" %}
+{% extends "Theme/Users/User/layoutlogin.html.twig" %}
 
 {% block meta %}
 	{{ parent() }}
@@ -22,8 +21,7 @@
 	
 	</div>
 	<div class="wrap-login100" style="position: relative; z-index: 100;">
-		<form action="{{ path('users_user_inscription_user') }}" method="post" {{ form_enctype(form) }} class="login-form login100-form validate-form p-l-55 p-r-55 p-t-178">
-			
+			{{ form_start(form, {'attr': {'id': 'form_post_new_product','action': path('users_user_inscription_user'), 'class': 'login-form login100-form validate-form p-l-55 p-r-55 p-t-178'  }}) }}
 			<div class="login100-form-title" style="margin-bottom: 150px;">
 				<div class="text-center"><strong>C'est beaucoup mieux avec un compte !</strong></div>
                 <div class="text-center" style="padding-top: 10px; text-align: center; display: block; font-size: 12px;">Veuillez remplir les champs ci-dessous </div>
@@ -96,12 +94,12 @@
 					Se connecter
 				</a>
 			</div>
-			{{ form_rest(form) }}
+			{{ form_end(form) }}
 		</form>
 	</div>
 </div>
 
-{% include 'GeneralTemplateBundle:Menu:menubottom.html.twig' %}
+{% include 'Theme/General/Template/Menu/menubottom.html.twig' %}
 {% endblock %}
 
 {% block javascripttemplate %}

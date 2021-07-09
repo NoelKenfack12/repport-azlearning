@@ -13,12 +13,18 @@ use App\Entity\Users\User\User;
 use App\Entity\Produit\Service\Imginfoentreprise;
 use App\Entity\Produit\Service\Detailinfoentreprise;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Infoentreprise
  *
  * @ORM\Table("infoentreprise")
  * @ORM\Entity(repositoryClass=InfoentrepriseRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"infoentreprise:read"}},
+ *    denormalizationContext={"groups"={"infoentreprise:write"}}
+ * )
  */
 class Infoentreprise
 {
@@ -28,6 +34,7 @@ class Infoentreprise
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"infoentreprise:read"})
      */
     private $id;
 
@@ -35,7 +42,8 @@ class Infoentreprise
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255,nullable=true)
-     *@Taillemax(valeur=300, message="Au plus 300 caractès")
+     * @Taillemax(valeur=300, message="Au plus 300 caractès")
+     * @Groups({"infoentreprise:read", "infoentreprise:write"})
      */
     private $titre;
 	

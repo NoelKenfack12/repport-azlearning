@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
@@ -60,6 +61,8 @@
 	
   <link href="https://fonts.googleapis.com/css2?family=Vollkorn&display=swap" rel="stylesheet"/>
 <style>
+
+
 a {
 	color: #092759;
 	text-decoration: none;
@@ -415,7 +418,7 @@ top: 14px;
 	transform: translate(-50%,-50%);
 	width: 100%;
 	height: 400px;
-	background: #000;
+	background: #092759;
 }
 .owl-item{
 	height: 475px!important;
@@ -428,6 +431,8 @@ top: 14px;
 
 .card-cours .image-cours img {
 	width: 100%;
+	height: auto!important;
+	min-height: 100px!important;
 	transition: .5s;
 }
 .card-cours:hover .image-cours img {
@@ -560,8 +565,8 @@ top: 14px;
 
 .loader-wrap{
   background: #333 url("data:image/gif;base64,R0lGODlhQABAAJEAABoaGhMTEyoqKh8fHyH5BAAAAAAALAAAAABAAEAAAAL/VBCGmtfrmIwU2ofZQGAf33HgKJafGZ5qyl6TW2XxK8PQSuJozvL+DqAJZ0Rb7agB6pY9ZZMJMg6lRWTVAHX+stzm1EoNgzHbp7mMdoq/7Ku7m4Zrge21236Jn+dyJn5cB0jRt0eotxGYeCeIcMhXCMnzpzhJZPjomEXJyPmVGYn5WDnaOQh6ieq1uMka8/kaukLaWpkKe0lbSnp72iupC9xqG+tbknu8yKssGrzqDDMcDYo8m0y8TFitLSiNvUfdLOY9jrINPtR9HXr+zEmeLhsu3wZfLMdu7qpeX5bvL8Nv37d2+Ma8swfpX0EsCA/+WEiwikOBvyDmCxjQ4jwHCxPrKYxIBWNDIAUAADs=");
-	height: 400px;
-	margin-left: -60px; margin-right: -60px; width: 104%;
+	height: 100%;
+	width: 100%;
 	position: relative;
 }
 .loader{
@@ -1447,12 +1452,10 @@ a.article-Button {
 .pricing-formation{
 	position: absolute; right: 0px; top: 0px; background:  #092759; color: #fff; padding: 5px; border-radius: 0px 0px 0px 15px;
 }
+
 .pricing-formation span{
 	text-decoration: line-through; color: #ddd;
 }
-
-
-
 
 
 table { 
@@ -1692,6 +1695,126 @@ display: block;
   background: #f5f5f5!important; color: #333; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
+
+
+
+/*
+ CSS for the main Accordion
+*/
+.accordion-audience > input[type="checkbox"] {
+  position: absolute;
+  left: -100vw;
+}
+
+.accordion-audience .content {
+  overflow-y: hidden;
+  height: 0;
+  transition: height 0.3s ease;
+}
+
+.accordion-audience > input[type="checkbox"]:checked ~ .content {
+  height: auto;
+  overflow: visible;
+}
+
+.accordion-audience label {
+  display: block;
+}
+
+.accordion-audience {
+  margin-bottom: 5px;
+}
+
+.accordion-audience > input[type="checkbox"]:checked ~ .content {
+  padding: 15px;
+  border: 1px solid #e8e8e8;
+  border-top: 0;
+  background: #fff;
+}
+
+.accordion-audience .handle {
+  margin: 0;
+  font-size: 1.125em;
+  line-height: 1.2em;
+  font-family: OpenSans-SemiBold;
+}
+
+.accordion-audience label {
+  color: #333;
+  cursor: pointer;
+  font-weight: normal;
+  padding: 15px;
+  background: #fff;
+  box-shadow: 0px 1px 10px 2px #D6D9E4;
+  border: 1px solid #fff!important;
+  font-family: 'Muli-Regular';
+}
+
+.accordion-audience label:hover,
+.accordion-audience label:focus {
+  background: #f8f8f8;
+  border: 1px solid #0165D2!important;
+}
+
+.accordion-audience .handle label:before {
+  font-family: 'fontawesome';
+  content: "\f054";
+  display: inline-block;
+  margin-right: 10px;
+  font-size: .58em;
+  line-height: 1.556em;
+  vertical-align: middle;
+}
+
+.accordion-audience > input[type="checkbox"]:checked ~ .handle label:before {
+  content: "\f078";
+}
+
+.accordion-audience {
+  max-width: 65em;
+}
+.accordion-audience p:last-child {
+  margin-bottom: 0;
+}
+
+.label-rappel{
+  font-family: Muli-Bold;
+  font-size: 10px;
+  line-height: 11px;
+  background-color: #FFFFFF;
+  background-repeat: repeat;
+  background-position: left top;
+  border-radius: 10px; display: inline-block; padding: 3px 7px;
+}
+.label-r1{
+  color: #03A5AD;
+  border: 2px solid  #03A5AD;
+}
+.label-r2{
+  color: #5C4E8E;
+  border: 2px solid #5C4E8E;
+}
+.label-r3{
+  color: #DC3545;
+  border: 2px solid #DC3545;
+}
+.label-r4{
+  color: #069869;
+  border: 2px solid #069869;
+}
+.label-r5{
+  color:#FFC000;
+  border: 2px solid #FFC000;
+}
+.label-r6{
+  color: #0165D2;
+  border: 2px solid #0165D2;
+}
+.label-r7{
+  color: #B2B2B2;
+  border: 2px solid  #B2B2B2;
+}
+
 </style>
 </head>
 
@@ -1789,10 +1912,9 @@ display: block;
 		</div>
 
 		<div class="modal-footer" style="display: block!important; text-align: right;">
-		<span class="pull-left">&copy; {{ site }}</span>
+			<span class="pull-left">&copy; {{ site }}</span>
 			{% include 'Theme/General/Template/Menu/social.html.twig' %}
 		</div>
-
 	</div>
 	</div>
 	</div>
@@ -1811,9 +1933,7 @@ display: block;
 	  </div>
 	</aside>
 
-
 	<!-- //here ends scrolling icon -->
-
 	{# { render(controller("GeneralTemplateBundle:Menu:testinscriptionnewsletter")) } #}
 	{% block srcjavascript %}
 

@@ -11,12 +11,18 @@ use App\Repository\Produit\Service\VilleRepository;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Produit\Coutlivraison;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Ville
  *
  * @ORM\Table("ville")
  * @ORM\Entity(repositoryClass=VilleRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"ville:read"}},
+ *    denormalizationContext={"groups"={"ville:write"}}
+ * )
  * @UniqueEntity(fields="nom", message="Cette  ville existe déjà.")
  */
 class Ville
@@ -27,6 +33,7 @@ class Ville
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"ville:read"})
      */
     private $id;
 
@@ -34,8 +41,9 @@ class Ville
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255,unique=true)
-      *@Taillemin(valeur=3, message="Au moins 3 caractères")
-     *@Taillemax(valeur=50, message="Au plus 50 caractès")
+     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemax(valeur=50, message="Au plus 50 caractès")
+     * @Groups({"ville:read", "ville:write"})
      */
     private $nom;
 

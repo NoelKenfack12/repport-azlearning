@@ -94,7 +94,7 @@ public function addnewchapter(Partiecours $partie, GeneralServicetext $service, 
 	}
 	}
 	$produit = $partie->getProduit();
-	$liste_part = $em->getRepository('ProduitProduitBundle:Partiecours')
+	$liste_part = $em->getRepository(Partiecours::class)
 	                      ->findBy(array('produit'=>$produit), array('rang'=>'asc'));
 	foreach($liste_part as $part)
 	{
@@ -412,9 +412,9 @@ public function modifierchapter(Chapitrecours $chapitre, GeneralServicetext $ser
 		
 		//envoie d'email
 		return $this->redirect($this->generateUrl('produit_produit_presentation_chapter', array('id'=>$chapitre->getId())));
-	}else{
-		$this->get('session')->getFlashBag()->add('information','Une erreur a été rencontrée !!!');
-	}
+		}else{
+			$this->get('session')->getFlashBag()->add('information','Une erreur a été rencontrée !!!');
+		}
 	}
 	$produit = $partie->getProduit();
 	$liste_part = $em->getRepository(Partiecours::class)

@@ -8,12 +8,19 @@ use App\Validator\Validatorfile\Yourfile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Service\YourcvRepository;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Yourcv
  *
  * @ORM\Table("yourcv")
  * @ORM\Entity(repositoryClass=YourcvRepository::class)
-  ** @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *    normalizationContext={"groups"={"yourcv:read"}},
+ *    denormalizationContext={"groups"={"yourcv:write"}}
+ * )
+ * @ORM\HasLifecycleCallbacks
  */
 class Yourcv
 {
@@ -23,6 +30,7 @@ class Yourcv
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Groups({"yourcv:read"})
      */
     private $id;
 

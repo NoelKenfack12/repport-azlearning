@@ -10,7 +10,7 @@ use App\Entity\Produit\Produit\Proposition;
 use App\Entity\Produit\Produit\Chapitrecours;
 use App\Entity\Produit\Produit\Produitpanier;
 use App\Entity\Produit\Produit\Composquestionnaire;
-use App\Entity\Produit\Produit\QuestionnaireType;
+use App\Form\Produit\Produit\QuestionnaireType;
 use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -24,7 +24,7 @@ public function __construct(ParameterBagInterface $params)
 	$this->params = $params;
 }
 
-public function nouvellequestionAction(Chapitrecours $chapitre, GeneralServicetext $service, Request $request)
+public function nouvellequestion(Chapitrecours $chapitre, GeneralServicetext $service, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
 	if(!isset($_POST['ident']))

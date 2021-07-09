@@ -113,7 +113,7 @@ public function modifierproduit(Produit $produit, GeneralServicetext $service, R
 	$em = $this->getDoctrine()->getManager();
 	$formpro = $this->createForm(ProduitType::class, $produit); 
 		
-	if(($produit->getUser() != null and $produit->getUser() == $this->getUser()) or $this->get('security.context')->isGranted('ROLE_GESTION'))
+	if(($produit->getUser() != null and $produit->getUser() == $this->getUser()) or $this->isGranted('ROLE_GESTION'))
 	{
 		if ($request->getMethod() == 'POST'){
 		$formpro->handleRequest($request);

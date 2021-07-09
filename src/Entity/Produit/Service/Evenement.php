@@ -11,6 +11,8 @@ use App\Repository\Produit\Service\EvenementRepository;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Service\Service;
 use App\Entity\Produit\Service\Imgevenement;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -18,6 +20,10 @@ use App\Entity\Produit\Service\Imgevenement;
  *
  * @ORM\Table("evenement")
  * @ORM\Entity(repositoryClass=EvenementRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"evenement:read"}},
+ *    denormalizationContext={"groups"={"evenement:write"}}
+ * )
  */
 class Evenement
 {
@@ -27,6 +33,7 @@ class Evenement
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"evenement:read"})
      */
     private $id;
 
@@ -34,8 +41,9 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
-     *@Taillemin(valeur=3, message="Au moins 3 caractères")
-     *@Taillemax(valeur=200, message="Au plus 200 caractès")
+     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemax(valeur=200, message="Au plus 200 caractès")
+     * @Groups({"evenement:read", "evenement:write"})
      */
     private $nom;
 
@@ -180,7 +188,7 @@ class Evenement
         return $this->date;
     }
 
-    public function setUser(User $user): seft
+    public function setUser(User $user): self
     {
         $this->user = $user;
 

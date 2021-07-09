@@ -201,11 +201,25 @@
 			<div class="clearfix"></div>
 		</div>
 	</div>
+
+	{% if panier_payer|length  == 0 %}
+	<div class="col-md-12">
+		<div class="alert alert-info" style="background: #092759; margin-top: 15px;">
+
+			<a href="{{ path('produit_produit_accueil_boutique_produit') }}" class="btn btn-secondary float-right">C'est parti <span class="fa fa-angle-right"></span> </a>
+			<h2 class="text-left" style="color: #fff;">
+				Boostez vos compétences pour un emploi décent
+			</h2>
+			<span style="background: #739ee6; color: #fff;">Accédez à 1000+ cours vidéo avec assistance individuelle par un formateur expérimenté.</span>
+
+		</div>
+	</div>
+	{% endif %}
 		
 	<div class="clearfix"></div>
-	<div class="col-md-12 text-left" style="margin-top: 25px;">
+	<div class="col-md-12 text-left" style="margin-top: 15px;">
 		<div style="background: #fff; padding: 10px;">
-			<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Formations suivies par {{ user.name(30) }}</h4>
+			<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Formations suivie par {{ user.name(30) }}</h4>
 			<table>
 			  <thead>
 				<tr style="background: red!impoartant;">

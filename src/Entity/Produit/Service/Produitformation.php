@@ -5,12 +5,18 @@ use App\Repository\Produit\Service\ProduitformationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Produit\Service\Service;
 use App\Entity\Produit\Produit\Produit;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Produitformation
  *
  * @ORM\Table("produitformation")
  * @ORM\Entity(repositoryClass=ProduitformationRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"produitformation:read"}},
+ *    denormalizationContext={"groups"={"produitformation:write"}}
+ * )
  */
 
 class Produitformation
@@ -21,6 +27,7 @@ class Produitformation
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"produitformation:read"})
      */
     private $id;
 

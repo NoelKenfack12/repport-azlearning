@@ -4,12 +4,18 @@ namespace App\Entity\Produit\Service;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Produit\Service\CurentwebsiteRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Curentwebsite
  *
  * @ORM\Table("curentwebsite")
  * @ORM\Entity(repositoryClass=CurentwebsiteRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"curentwebsite:read"}},
+ *    denormalizationContext={"groups"={"curentwebsite:write"}}
+ * )
  */
 class Curentwebsite
 {
@@ -19,6 +25,7 @@ class Curentwebsite
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"curentwebsite:read"})
      */
     private $id;
 
@@ -26,6 +33,7 @@ class Curentwebsite
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     * @Groups({"curentwebsite:read", "curentwebsite:write"})
      */
     private $nom;
 

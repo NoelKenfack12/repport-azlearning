@@ -10,12 +10,18 @@ use App\Repository\Produit\Produit\QuestionnaireRepository;
 use App\Entity\Produit\Produit\Chapitrecours;
 use App\Entity\Produit\Produit\Proposition;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Questionnaire
  *
  * @ORM\Table("questionnaire")
  * @ORM\Entity(repositoryClass=QuestionnaireRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"questionnaire:read"}},
+ *    denormalizationContext={"groups"={"questionnaire:write"}}
+ * )
 */
 class Questionnaire
 {
@@ -25,6 +31,7 @@ class Questionnaire
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"proposition:read"})
      */
     private $id;
 
@@ -32,8 +39,9 @@ class Questionnaire
      * @var string
      *
      * @ORM\Column(name="titre", type="text")
-     *@Taillemin(valeur=3, message="Au moins 3 caractères")
-     *@Taillemax(valeur=250, message="Au plus 250 caractès")
+     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemax(valeur=250, message="Au plus 250 caractès")
+     * @Groups({"proposition:read", "questionnaire:write"})
      */
     private $titre;
 

@@ -7,12 +7,18 @@ use App\Validator\Validatortext\Taillemin;
 use App\Validator\Validatortext\Taillemax;
 use App\repository\Produit\Service\MessemailRepository;
 use App\Entity\Users\User\User;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Messemail
  *
  * @ORM\Table("messemail")
  * @ORM\Entity(repositoryClass=MessemailRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"messemail:read"}},
+ *    denormalizationContext={"groups"={"messemail:write"}}
+ * )
 */
  
 class Messemail
@@ -23,6 +29,7 @@ class Messemail
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"messemail:read"})
      */
     private $id;
 

@@ -1,4 +1,4 @@
-{% extends "UsersUserBundle::layouthome.html.twig" %}
+{% extends "Theme/Users/User/layouthome.html.twig" %}
 
 {% block meta %}
 
@@ -29,7 +29,7 @@
 			<i class="fa fa-caret-down"></i>
 		</button>
 		
-		{% include "GeneralTemplateBundle:Menu:contacts.html.twig" %}
+		{% include "Theme/General/Template/Menu/contacts.html.twig" %}
 		
 		<ol id="nav" class="breadcrumb collapse" style="background: #fff; border: none; margin-bottom: 0px;">
 			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
@@ -46,10 +46,11 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="card-1" style="background: #fff; padding: 15px;margin: 15px 0px;">
-				<form id="form_post_new_chapter_product" action="{{ path('produit_produit_add_new_chapter', {'id': partie.id }) }}" method="post" {{ form_enctype(formchap) }}>
+			
+				{{ form_start(formchap, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_add_new_chapter', {'id': partie.id }) }}) }}
 					{% set message = "Ajoutez un nouveau chapitre de la partie "~partie.rang %}
-					{% include 'ProduitProduitBundle:Chapitrecours:formulairechapitre.html.twig' %}
-				</form>
+					{% include 'Theme/Produit/Produit/Chapitrecours/formulairechapitre.html.twig' %}
+				{{ form_end(formchap) }}
 			</div>
 		</div>
 	</div><!-- /row -->
@@ -76,23 +77,23 @@
 
 <div class="modal-body" style="background: #fff; color: #333;">
 <div style="background: #ECF0F1; padding: 15px;">
-<form id="add_new_part_course" action="{{ path('produit_produit_add_new_partie_cours', {'id': produit.id}) }}" method="post" {{ form_enctype(form) }}>
-<div class="form-group champ10">
-{{ form_widget(form.titre, {'attr': {'class': 'titre_partie_course_add form-control'}}) }}
-</div>
-<div class="alert alertnotif10 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
-<h4 style="margin-bottom: 0px;">Erreur </h4>
-Taille invalide !!! <span class="label label-info pull-right control-info-champ10"></span>
-</div>
-<div class="form-group champ11">
-{{ form_widget(form.rang, {'attr': {'class': 'number_partie_course_add form-control'}}) }}
-</div>
-<div class="alert alertnotif11 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
-<h4 style="margin-bottom: 0px;">Erreur </h4>
-Entier positif !!! <span class="label label-info pull-right control-info-champ11"></span>
-</div>
+{{ form_start(form, {'attr': {'id': 'add_new_part_course','action': path('produit_produit_add_new_partie_cours', {'id': produit.id}) }}) }}
+	<div class="form-group champ10">
+		{{ form_widget(form.titre, {'attr': {'class': 'titre_partie_course_add form-control'}}) }}
+	</div>
+	<div class="alert alertnotif10 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+		<h4 style="margin-bottom: 0px;">Erreur </h4>
+		Taille invalide !!! <span class="label label-info pull-right control-info-champ10"></span>
+	</div>
+	<div class="form-group champ11">
+		{{ form_widget(form.rang, {'attr': {'class': 'number_partie_course_add form-control'}}) }}
+	</div>
+	<div class="alert alertnotif11 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+		<h4 style="margin-bottom: 0px;">Erreur </h4>
+		Entier positif !!! <span class="label label-info pull-right control-info-champ11"></span>
+	</div>
 <button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
-{{ form_rest(form) }}
+{{ form_end(form) }}
 </form>
 </div>
 </div>
@@ -100,7 +101,7 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 <hr style="margin-bottom: 15px;"/>
 <div class="modal-footer" style="text-align: right; padding: 7px; background: #222222; color: #fff;">
 <span class="pull-left">&copy; {{ site }}</span>
-{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
 </div>
 
 </div>

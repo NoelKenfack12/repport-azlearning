@@ -11,12 +11,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\Produit\Produit\PratiquechapitreRepository;
 use App\Entity\Produit\Produit\Chapitrecours;
 use App\Entity\Produit\Produit\Correctionpratique;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Pratiquechapitre
  *
  * @ORM\Table("pratiquechapitre")
  * @ORM\Entity(repositoryClass=PratiquechapitreRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"pratiquechapitre:read"}},
+ *    denormalizationContext={"groups"={"pratiquechapitre:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
 */
 class Pratiquechapitre
@@ -27,6 +33,7 @@ class Pratiquechapitre
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"pratiquechapitre:read"})
      */
     private $id;
 

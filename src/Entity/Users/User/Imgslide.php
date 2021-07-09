@@ -13,12 +13,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\Users\User\ImgslideRepository;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Produit\Produit;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Imgslide
  *
  * @ORM\Table("imgslide")
  * @ORM\Entity(repositoryClass=ImgslideRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"imgslide:read"}},
+ *    denormalizationContext={"groups"={"imgslide:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Imgslide
@@ -29,6 +35,7 @@ class Imgslide
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"imgslide:read"})
      */
     private $id;
 

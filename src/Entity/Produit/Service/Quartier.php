@@ -9,12 +9,18 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\Produit\Service\QuartierRepository;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Service\Ville;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Quartier
  *
  * @ORM\Table("quartier")
  * @ORM\Entity(repositoryClass=QuartierRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"quartier:read"}},
+ *    denormalizationContext={"groups"={"quartier:write"}}
+ * )
  */
  
 class Quartier
@@ -25,6 +31,7 @@ class Quartier
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"quartier:read"})
      */
     private $id;
 
@@ -32,8 +39,9 @@ class Quartier
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
-      *@Taillemin(valeur=3, message="Au moins 3 caractères")
-     *@Taillemax(valeur=50, message="Au plus 50 caractès")
+     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemax(valeur=50, message="Au plus 50 caractès")
+     * @Groups({"quartier:read", "quartier:write"})
      */
     private $nom;
 

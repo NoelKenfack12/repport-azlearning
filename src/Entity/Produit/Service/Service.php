@@ -19,11 +19,18 @@ use App\Entity\Produit\Service\Produitformation;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Produit\Produit\Chapitrecours;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Service
  *
  * @ORM\Table("service")
  * @ORM\Entity(repositoryClass=ServiceRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"service:read"}},
+ *    denormalizationContext={"groups"={"service:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Service
@@ -34,6 +41,7 @@ class Service
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"service:read"})
      */
     private $id;
 
@@ -41,7 +49,8 @@ class Service
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
-     *@Taillemax(valeur=60000, message="Au plus 60000 caractès")
+     * @Taillemax(valeur=60000, message="Au plus 60000 caractès")
+     * @Groups({"service:read", "service:write"})
      */
     private $nom;
 	

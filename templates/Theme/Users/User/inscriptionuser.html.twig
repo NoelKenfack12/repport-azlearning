@@ -26,7 +26,7 @@
 			<h2 class="text-center"><span>Mon Compte Mobile Games</span></h2>
 				<h3><span>Créez Un Nouveau Compte</span></h3>
 				<div class="reservation">
-				<form class="form-submit-inscription" action="{{ path('users_user_inscription_user') }}" method="post" {{ form_enctype(form) }}>
+				{{ form_start(form, {'attr': {'id': 'form_post_new_product','action': path('users_user_inscription_user')  }}) }}
 					<div><span style="color:red;">{{ form_errors(form) }}</span>
 					 <span style="color:red;">{{ form_errors(form.nom) }}</span>
 					 </div>
@@ -135,8 +135,7 @@
 					<div class="keywords">
 						<input type="submit" value="S'inscrire" style="margin-top: 15px;">
 					</div>
-					{{ form_rest(form) }}
-				</form>
+					{{ form_end(form) }}
 				</div>
 				<h4 style="margin-top: 20px;">Vous avez déjà un compte ? <a href="{{ path('login') }}"><i class="fa fa-sign-in"></i> Connexion</a></h4>
 			</div>

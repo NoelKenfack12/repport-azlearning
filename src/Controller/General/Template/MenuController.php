@@ -49,7 +49,7 @@ public function menubare(GeneralServicetext $service, $position='accueil')
 		{
 			$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
 			// On passe le token crée au service security context afin que l'utilisateur soit authentifié
-			$this->get('security.context')->setToken($token);
+			$this->get('security.token_storage')->setToken($token);
 			$this->get('session')->set('_security_users', serialize($token));
 		}
 	}

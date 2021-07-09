@@ -15,12 +15,18 @@ use App\Validator\Validatortext\Telephone;
 use App\Repository\Produit\Service\RecrutementRepository;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Service\Yourcv;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Recrutement
  *
  * @ORM\Table("recrutement")
  * @ORM\Entity(repositoryClass=RecrutementRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"recrutement:read"}},
+ *    denormalizationContext={"groups"={"recrutement:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Recrutement
@@ -31,6 +37,7 @@ class Recrutement
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"recrutement:read"})
      */
     private $id;
 

@@ -6,12 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Produit\Produit\ProduitpanierRepository;
 use App\Entity\Produit\Produit\Produit;
 use App\Entity\Produit\Produit\Panier;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Produitpanier
  *
  * @ORM\Table("produitpanier")
  * @ORM\Entity(repositoryClass=ProduitpanierRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"produitpanier:read"}},
+ *    denormalizationContext={"groups"={"produitpanier:write"}}
+ * )
  */
 class Produitpanier
 {
@@ -21,6 +27,7 @@ class Produitpanier
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"produit:read"})
      */
     private $id;
 

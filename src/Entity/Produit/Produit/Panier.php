@@ -10,13 +10,18 @@ use App\Entity\Produit\Produit\Produitpanier;
 use App\Entity\Produit\Service\Service;
 use App\Entity\Produit\Produit\Chapitrecours;
 use Doctrine\Common\Collections\Collection;
-
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Panier
  *
  * @ORM\Table("panier")
  * @ORM\Entity(repositoryClass=PanierRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"panier:read"}},
+ *    denormalizationContext={"groups"={"panier:write"}}
+ * )
  */
  
 class Panier
@@ -27,6 +32,7 @@ class Panier
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"panier:read"})
      */
     private $id;
 

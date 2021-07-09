@@ -6,12 +6,18 @@ use App\Service\Servicetext\GeneralServicetext;
 use App\Validator\Validatorfile\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\Produit\Service\ImginfoentrepriseRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Imginfoentreprise
  *
  * @ORM\Table("imginfoentreprise")
  * @ORM\Entity(repositoryClass=ImginfoentrepriseRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"imginfoentreprise:read"}},
+ *    denormalizationContext={"groups"={"imginfoentreprise:write"}}
+ * )
   ** @ORM\HasLifecycleCallbacks
  */
 class Imginfoentreprise
@@ -22,6 +28,7 @@ class Imginfoentreprise
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Groups({"imginfoentreprise:read"})
      */
     private $id;
 

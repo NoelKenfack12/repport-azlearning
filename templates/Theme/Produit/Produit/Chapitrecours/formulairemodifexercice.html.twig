@@ -11,14 +11,15 @@
 
 <div class="modal-body" style="background: #fff; color: #333;">
 	<div style="background: #ECF0F1; padding: 15px;">
-	<form action="{{ path('produit_produit_modif_exercice_chapter_current', {'id': exercice.id }) }}" method="post" {{ form_enctype(formexercice1) }}>
+	{{ form_start(formexercice1, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_modif_exercice_chapter_current', {'id': exercice.id }) }}) }}
 	<div>{{ form_label(formexercice1.file,'Importez l\'énnoncé de l\'éxercice depuis votre appareil') }}</div>
+	
 	<div class="form-group">
-	{{ form_widget(formexercice1.file) }}
+		{{ form_widget(formexercice1.file) }}
 	</div>
 	<div>{{ form_label(formexercice1.num,'Ajoutez le numéro de l\'éxercice') }}</div>
 	<div class="form-group">
-	{{ form_widget(formexercice1.num) }}
+		{{ form_widget(formexercice1.num) }}
 	</div>
 
 	<div>{{ form_label(formexercice1.correctionexercice,'Importez la correction de l\'éxercice depuis votre appareil') }}</div>
@@ -28,14 +29,14 @@
 
 	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
 
-	{{ form_rest(formexercice1) }}
+	{{ form_end(formexercice1) }}
 	</form>
 	</div>
 </div>
 
 <div class="modal-footer" style="display: block!important; text-align: right;">
 <span class="pull-left">&copy; {{ site }}</span>
-{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+	{% include 'Theme/General/Template/Menu/social.html.twig' %}
 </div>
 
 </div>

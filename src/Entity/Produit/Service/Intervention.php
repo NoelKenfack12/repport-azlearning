@@ -7,12 +7,18 @@ use App\Validator\Validatortext\Taillemax;
 use App\Repository\Produit\Service\InterventionRepository;
 use App\Entity\Produit\Service\Commentaireblog;
 use App\Entity\Users\User\User;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Intervention
  *
  * @ORM\Table("intervention")
  * @ORM\Entity(repositoryClass=InterventionRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"intervention:read"}},
+ *    denormalizationContext={"groups"={"intervention:write"}}
+ * )
  ** @ORM\HasLifecycleCallbacks
 */
  
@@ -24,6 +30,7 @@ class Intervention
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"intervention:read"})
      */
     private $id;
 

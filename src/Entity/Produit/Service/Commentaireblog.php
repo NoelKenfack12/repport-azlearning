@@ -14,12 +14,18 @@ use App\Entity\Produit\Produit\Chapitrecours;
 use App\Entity\Produit\Service\Service;
 use App\Entity\Produit\Service\Intervention;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Commentaireblog
  *
  * @ORM\Table("commentaireblog")
  * @ORM\Entity(repositoryClass=CommentaireblogRepository::class)
+ * @ApiResource(
+ *    normalizationContext={"groups"={"commentaireblog:read"}},
+ *    denormalizationContext={"groups"={"commentaireblog:write"}}
+ * )
  */
 class Commentaireblog
 {
@@ -29,6 +35,7 @@ class Commentaireblog
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"commentaireblog:read"})
      */
     private $id;
 
@@ -37,6 +44,7 @@ class Commentaireblog
      *
      * @ORM\Column(name="titre", type="string", length=255,nullable=true)
      *@Taillemax(valeur=150, message="Au plus 100 caractès")
+     * @Groups({"commentaireblog:read", "commentaireblog:write"})
      */
     private $titre;
 
