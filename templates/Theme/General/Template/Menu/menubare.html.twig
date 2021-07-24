@@ -112,6 +112,66 @@
 			color: #333;
 		  }
 		}
+
+		.icon-search-container {
+			display: inline-block;
+			border: 1px solid transparent;
+			border-radius: 8px;
+			height: 40px;
+			width: 100px;
+			position: relative;
+			transition: width 0.2s ease-in-out;
+			backface-visibility: hidden;
+			float: right;
+			background: #4f5867;
+			margin-left: 40px;
+		}
+
+		.icon-search-container.active {
+			width: 700px;
+		}
+
+		.icon-search-container.active .fa-times-circle {
+			opacity: 1;
+		}
+		.icon-search-container.active .search-input {
+			width: 200px;
+		}
+		.icon-search-container .fa-search-btn {
+			color: #2980b9;
+			font-size: 20px;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			cursor: pointer;
+			padding: 7px; background: #739ee6; color: #fff; border-radius: 8px 0px 0px 8px;
+			border: 2px solid transparent;
+		}
+		.icon-search-container .fa-times-circle {
+			opacity: 0;
+			color: #d9d9d9;
+			font-size: 20px;
+			position: absolute;
+			top: 8px;
+			right: 12px;
+			transition: opacity 0.2s ease-out;
+			cursor: pointer;
+		}
+		.icon-search-container .search-input {
+			position: absolute;
+			cursor: default;
+			left: 45px;
+			top: 2px;
+			width: 0;
+			padding: 5px;
+			color: #fff;
+			border: none;
+			outline: none;
+			font-size: 18px;
+			line-height: 20px;
+			background-color: rgba(255, 255, 255, 0);
+			transition: width 0.2s ease-out;
+		}
 	</style>
 
 	<!-- partial:partials/_horizontal-navbar.html -->
@@ -124,6 +184,19 @@
               <a class="navbar-brand brand-logo" href="{{ path('users_user_acces_plateforme') }}"><img src="{{ asset('template/images/AZ_logo_e-learning.png') }}" alt="logo" style="height: 50px;"/></a>
               <a class="navbar-brand brand-logo-mini" href="{{ path('users_user_acces_plateforme') }}"><img src="{{ asset('template/images/logo.png') }}" alt="logo"/></a>
             </div>
+
+			<!-- <div class="search zone-etab-rechercher" style="display: inline-block; margin-bottom: 20px; padding-left: 30px;" value="0" name="">
+				<form class="form-recherche-product" action="#!" method="post" style="display: inline;">
+					<input type="text" class="search-form form-products-plateforme" autocomplete= "off" placeholder="Lancez la recherche" style="color: #333; margin-top: 15px;"/>
+					<i class="fa fa-search recherche-products" style="color: green; z-index: 1000; position: absolute; margin-top: 3px; margin-left: 5px;"></i>
+				</form>
+		   </div> -->
+
+		   <form class="icon-search-container form-recherche-product zone-etab-rechercher" value="0" name="" data-ic-class="search-trigger" method="post" action="#!">
+			<button class="fa fa-search fa-search-btn recherche-products"></button>
+			<input type="text" class="search-input form-products-plateforme" data-ic-class="search-input" placeholder="Rechercher"/>
+			<span class="fa fa-times-circle" data-ic-class="search-clear"></span>
+		   </form>
 			
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end flex-grow-1">
               <ul class="navbar-nav navbar-nav-right">
@@ -355,12 +428,12 @@
       </nav>
 
 	  <style>
-	  .bottom-navbar .nav-link-items{
-		  color: #fff!important;
-	  }
-	  .bottom-navbar .nav-link-items i{
-		  color: #fff!important;
-	  }
+		.bottom-navbar .nav-link-items{
+			color: #fff!important;
+		}
+		.bottom-navbar .nav-link-items i{
+			color: #fff!important;
+		}
 	  </style>
       <nav class="bottom-navbar" style="background: #092759;">
         <div class="container">
@@ -516,6 +589,97 @@
 	  $("ul.tabs li").removeClass("active");
 	  $("ul.tabs li[rel^='"+d_activeTab+"']").addClass("active");
     });
+
+	
+	/**
+  	---------------- Search form,Js
+  **/
+
+  var $searchTrigger = $('[data-ic-class="search-trigger"]'),
+  $searchInput = $('[data-ic-class="search-input"]'),
+  $searchClear = $('[data-ic-class="search-clear"]');
+
+  $searchTrigger.click(function(){
+
+  var $this = $('[data-ic-class="search-trigger"]');
+  $this.addClass('active');
+  $searchInput.focus();
+
+  });
+
+  $searchInput.blur(function(){
+
+  if($searchInput.val().length > 0){
+
+    return false;
+
+  } else {
+
+    $searchTrigger.removeClass('active');
+
+  }
+
+  });
+
+  $searchClear.click(function(){
+    $searchInput.val('');
+  });
+
+  $searchInput.focus(function(){
+    $searchTrigger.addClass('active');
+  });
+
+  /*
+  End Search Form Js
+  */
+
+function rechercheetab()
+{
+	if($('.form-products-plateforme').val().length >= 2)// on vérifier si l'utilisateur a entré plus de 5 caractères
+	{
+		var libre = $('.zone-etab-rechercher').attr('value'); // on initialise la variable libre
+		var donnee = $('.form-products-plateforme').val();  //on récupère la donnée
+		if (libre == 0 && donnee != $('.zone-etab-rechercher').attr('name')){ // on vérifier si la requête précedente est rétournée et que la recherche ne corespnd pas à la dernière effectuée
+		$('.zone-etab-rechercher').attr('value',1); // on bloque d'autres recherches
+		$('.zone-etab-rechercher').attr('name',donnee); // on enregistre la recherche effectuer.
+		$('.recherche-products').removeClass('fa-search');
+		$('.recherche-products').html('<img src="{{ asset('template/images/attente.gif') }}" alt="" style="width: 15px; height: 15px; margin-top: 0px;"/>'); //attente du résultat
+		
+			$.get('{{ path('produit_produit_recherche_new_produit', {'position': 'home'}) }}', { donnee: $('.form-products-plateforme').val() }, function(data){
+				$('.recherche-products').html('');
+				$('.recherche-products').addClass('fa-search');
+				$('.content-recherche-products-market').html(data);
+				$('.content-manage-market').hide();
+				$('.content-recherche-products-market').show();
+				$('.content-manage-market').css('margin-top','0px');
+				$('.content-manage-market').css('padding-top','0px');
+				$('.zone-etab-rechercher').attr('value',0);
+				setTimeout(function() { rechercheetab(); }, 100);  // on relance la fonction après 200 ms.
+			});
+		}else{
+			setTimeout(function() { rechercheetab(); }, 100);
+		}
+	}else{
+		setTimeout(function() { rechercheetab(); }, 100);
+	}
+}
+
+
+$(".form-products-plateforme").focus(function(){
+rechercheetab(); 
+});
+
+$('.form-recherche-product').on('submit', function(){
+    if($('.form-products-plateforme').val().length < 2)// on vérifier si l'utilisateur a entré plus de 5 caractères
+	{
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Rentrez au moins 2 caractères !');
+		$('#infos-action-effectuer').modal('show');
+	}else{
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Patientez ! Auto-recherche en cours !');
+		$('#infos-action-effectuer').modal('show');
+	}
+	return false;
+});
 	
     </script>
 {% elseif(position ==  'presentation') %}

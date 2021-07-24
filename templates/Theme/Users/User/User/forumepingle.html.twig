@@ -1,5 +1,5 @@
 
-{% extends "UsersUserBundle::layouthome.html.twig" %}
+{% extends "Theme/Users/User/layouthome.html.twig" %}
 
 {% block meta %}
 
@@ -19,9 +19,7 @@
 
 {% block userblog_body %}
 
-{{ render(controller("ProduitServiceBundle:Service:banniereforum")) }}
-
-
+{{ render(controller("App\\Controller\\Produit\\Service\\ServiceController:banniereforum")) }}
 <div class="container" style="margin-top: -15px;">	
 <div class="row">	
 <div class="col-md-12 text-left">

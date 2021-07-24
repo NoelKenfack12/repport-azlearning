@@ -79,10 +79,10 @@ public function login(GeneralServicetext $service, Request $request)
 					}
 				}else{
 					$error_login = '<span style="color: red;">Echec: Mot de passe ou Email invalide.</span>';
-					$last_username = $_POST['username'];
+					$last_username = $_POST['_username'];
 				}
 			}else{
-				$last_username = $_POST['username'];
+				$last_username = $_POST['_username'];
 			}
 		}
 	}

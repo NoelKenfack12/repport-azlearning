@@ -105,8 +105,10 @@ produit_produit_elever_produit_commande:
     requirements:
         id: \d+
 produit_produit_recherche_new_produit:
-    path: /recherche/new/produit
+    path: /recherche/new/produit/{position}
     controller: App\Controller\Produit\Produit\ProduitController::rechercheproduit
+    defaults:
+        position: 'admin'
 produit_produit_valider_payement_ticket:
     path: /valider/payement/ticket/user/{id}
     controller: App\Controller\Produit\Produit\PanierController::validationpayement

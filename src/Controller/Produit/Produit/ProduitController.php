@@ -1164,7 +1164,7 @@ public function supprimerproduit(Produit $produit, GeneralServicetext $service, 
 	return $this->redirect($this->generateUrl('users_adminuser_prod_invalide_courant_souscategorie',array('id'=>$produit->getSouscategorie()->getId())));
 }
 
-public function rechercheproduit()
+public function rechercheproduit($position)
 {
 	if(isset($_GET['donnee']))
 	{
@@ -1176,7 +1176,7 @@ public function rechercheproduit()
 	$liste_produit = $em->getRepository(Produit::class)
 						->findProduit($donnee);
 	return $this->render('Theme/Produit/Produit/Produit/recherche.html.twig', 
-	array('liste_produit'=>$liste_produit, 'donnee'=>$donnee));
+	array('liste_produit'=>$liste_produit, 'donnee'=>$donnee,'position'=>$position));
 }
 
 public function addcoutlivraison(Produit $produit, GeneralServicetext $service, Request $request)

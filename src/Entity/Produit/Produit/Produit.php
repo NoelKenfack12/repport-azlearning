@@ -23,6 +23,8 @@ use Doctrine\Common\Collections\Collection;
 use App\Entity\Produit\Produit\Chapitrecours;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Produit
@@ -284,7 +286,7 @@ class Produit
 	
 	private $em;
 	
-	public function __construct(GeneralServicetext $service)
+	public function __construct(GeneralServicetext $service, EntityManagerInterface $em = null)
 	{
 		$this->servicetext = $service;
 		$this->timestamp = time();
@@ -311,6 +313,7 @@ class Produit
 		$this->coutlivraisons = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userlikes = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->produitformations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->em = $em;
 	}
 
 	public function setEm($em)
@@ -322,6 +325,14 @@ class Produit
 	{
 		return $this->em;
 	}
+
+    public function postLoad(LifecycleEventArgs $args)
+     {
+         $entity = $args->getEntity();
+         if(method_exists($entity, 'setEm')) {
+             $entity->setEm($this->em);
+         }
+     }
 	
 	public function priseLivraison($ville)
 	{

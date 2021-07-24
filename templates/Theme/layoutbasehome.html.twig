@@ -1815,6 +1815,127 @@ display: block;
   border: 2px solid  #B2B2B2;
 }
 
+.search{
+	
+}
+.search i {
+  color: #fff;
+}
+
+input.search-form{
+  background: #f2f2f2;
+  border: 0 none;
+  width: 120px;
+  padding: 0 10px;
+  color: #333;
+  -webkit-transition: all 400ms;
+  -moz-transition: all 400ms;
+  -ms-transition: all 400ms;
+  -o-transition: all 400ms;
+  transition: all 400ms;
+  border: 1px solid #ddd;
+  position: fixed;
+  z-index: 50;
+  padding-left: 30px;
+  border-radius: 10px;
+  top: 5px;
+}
+
+input.search-form::-webkit-input-placeholder{
+  color: #ddd;
+}
+
+input.search-form:hover::-webkit-input-placeholder {
+  color: #ddd;
+}
+
+input.search-form:hover {
+  width: 500px;
+  border-radius: 10px;
+}
+
+.rating-row ul{list-style:none;display:flex; padding:0 ; margin:0;}
+.rating-row ul li{color:#092759;font-size:20px;margin:0px 3px;}
+
+/*Debut style formation*/
+
+ul {
+    list-style: none;
+}
+.card-format {
+    max-width: 100%;
+    padding: 25px;
+    background: #FFF;
+    border-radius: 15px;
+	position: sticky;
+	border: 2px solid #fff;
+	margin-bottom: 15px;
+}
+.card-format:hover{
+	border: 2px solid #092759;
+}
+.card-format h3 {
+    float: left;
+}
+.card-format .btn {
+    cursor: pointer;
+    float: right;
+    padding: 5px 15px;
+    background: transparent;
+    border: 2px solid #F1F1F1;
+    border-radius: 5px;
+    color: grey;
+    transition: all .3s;
+}
+.card-format .btn:hover {
+    border-color: #03c2d9;
+    background: #03c2d9;
+    color: #FFF;
+}
+.card-format .list {
+    clear: both;
+    margin-top: 60px;
+}
+.card-format .list .item-format {
+    cursor: pointer;
+    border: 1px solid #DDD;
+    padding: 18px 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    transition: all .3s;
+}
+.card-format .list .item-format:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+}
+.card-format .list .item-format:nth-of-type(1) { border-left: 3px solid #f85e99; }
+.card-format .list .item-format:nth-of-type(2) { border-left: 3px solid #d788ff; }
+.card-format .list .item-format:nth-of-type(3) { border-left: 3px solid #ffa378; }
+.card-format .list .item-format h4 {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+.card-format .list .item-format span {
+    font-weight: bold;
+    font-size: 14px;
+    color: #AAA;
+}
+
+.card-img-top {
+  height: 180px;
+  width: auto;
+  text-align: center;
+}
+
+.card-top-text {
+	color: white;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 1.5em;
+  position: absolute;
+  top:0;
+  padding: 40px;
+}
+
+/*fin style formation  */
 </style>
 </head>
 
@@ -1824,11 +1945,15 @@ display: block;
 	, {'position': 'home' })) }}
 
 
-	  <div class="container-fluid page-body-wrapper variation-contenu content-manage-market" value="0">
+	  <div class="container-fluid page-body-wrapper">
 		  <div class="main-panel" style="background: #f7f7f7;">
-		  {% block body %}
+		  
+		  <div class="content-manage-market variation-contenu" value="0">
+			{% block body %}
 				
-		  {% endblock %}
+			{% endblock %}
+		  </div>
+		  
 
 		  
 		  <div class="content-recherche-products-market" style="display: none;">
@@ -2076,7 +2201,7 @@ display: block;
 			console.log(element);
 			console.clear();
 			//document.querySelector('#devtool-status').innerHTML = checkStatus;
-		}, 1000); 
+		}, 1000);
 		
 		{% if app.user == null %}
 			openArticleOverlay();

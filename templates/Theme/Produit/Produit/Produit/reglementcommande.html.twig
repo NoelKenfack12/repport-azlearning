@@ -1,13 +1,16 @@
 {% extends "UsersUserBundle::layoutuser.html.twig" %}
+
 {% block meta %}
-{{ parent() }}
-<meta name="keywords" content="{{ site }}, Business, Innovation,Boutique,e-commerce, bonnes affaires au Cameroun, actualité immobilière, immobilier, location, vente, annonces immobilière, appartements, duplex, villas, studios, terrains, chambres,consils immobilier, terrain à vendre Cameroun, maisons à louer au cameroun, appartements à louer au cameroun"/>
-<meta name="author" content="Noel Kenfack"/>
-<meta name="description" content="{{ site }}, Conditions d'utilisations des services - {{ metier }}" />
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Boutique,e-commerce, bonnes affaires au Cameroun, actualité immobilière, immobilier, location, vente, annonces immobilière, appartements, duplex, villas, studios, terrains, chambres,consils immobilier, terrain à vendre Cameroun, maisons à louer au cameroun, appartements à louer au cameroun"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }}, Conditions d'utilisations des services - {{ metier }}" />
 {% endblock %}
+
 {% block title %}
-{{ parent() }} | {{ site }}, Conditions d'utilisations des services - {{ metier }}
+	{{ parent() }} | {{ site }}, Conditions d'utilisations des services - {{ metier }}
 {% endblock %}
+
 {% block userblog_body %}
 
 <!-- welcome section -->

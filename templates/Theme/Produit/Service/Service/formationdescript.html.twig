@@ -1,0 +1,54 @@
+
+    <div class="card-format" style="width: 100%; overflow: hidden;">
+        <img class="card-img-top" src="http://test.azcorporation.net/bundles/produit/service/images/imgservice/7.wallpaper-az.jpg">
+        <p class="card-top-text">
+                {{ formation.nom }}
+
+            <span style="font-size: 12px; background: rgba(0,0,0,0.6); display: inline-block; margin-top: 5px; padding: 15px; line-height: 15px;">
+                <span>{{ formation.pubinline[:150] }}..</span><br/>
+                    <span><strong>Formation: du</strong>  {{ formation.datebegin|slice(0, 2) }} {{ formation.user.mois(formation.datebegin|slice(4, 2)) }} au {{ formation.datefin|slice(0, 2) }} {{ formation.user.mois(formation.datefin|slice(4, 2)) }} {{ formation.datebegin|slice(6, 4) }}</span>
+            </span>
+        </p>
+
+        <div style="margin-top: 15px;">
+            <h3>
+                <i class="fa fa-bookmark"></i>
+                {{ formation.produitformations|length }} Cours
+            </h3>
+            <a href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" class="badge badge-success" style="float: right; background: #092759; color: #fff;">
+                Tout afficher <i class="fa fa-angle-right"></i>
+            </a>
+        </div>				
+        <ul class="list" style="margin-bottom: 50px;">
+            {% for course in formation.produits|slice(0,2) %}
+            <li class="item-format">
+                <a href="{{ path('produit_produit_detail_produit_market', {'id': course.id }) }}" style="display: block; text-decoration: none;">
+                    <h4>{{ course.titre }}</h4>
+                    <span>
+                        <i class="fa fa-clock-o"> {{ course.getDureeCours }}  </i>
+                    </span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div style="box-shadow:0px 0px 70px #888888; padding: 7px; position: absolute;left: 0px;  bottom: 0px; width: 100%;">
+            <div class="row">
+                <div class="col-md-6">
+                    <strong style="font-size: 18px; color: #7a818d;">Montant</strong> <br>
+                    <strong>{{ formation.nprix }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ formation.aprix }} {{ devise|raw }}</span>
+                </div>
+                <div class="col-md-6">
+                    <div class="rating-row" style="float: right;">
+                    <ul>    
+                        <li class=""><i class="fa fa-star"></i></li>
+                        <li class=""><i class="fa fa-star"></i></li>
+                        <li class=""><i class="fa fa-star"></i></li>
+                        <li class=""><i class="fa fa-star-o"></i></li>
+                        <li class=""><i class="fa fa-star-o"></i></li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

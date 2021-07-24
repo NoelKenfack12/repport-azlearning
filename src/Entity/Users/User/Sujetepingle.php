@@ -4,8 +4,8 @@ namespace App\Entity\Users\User;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Users\User\SujetepingleRepository;
-use App\entity\Users\User\User;
-use App\entity\Produit\Service\Commentaireblog;
+use App\Entity\Users\User\User;
+use App\Entity\Produit\Service\Commentaireblog;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 /**

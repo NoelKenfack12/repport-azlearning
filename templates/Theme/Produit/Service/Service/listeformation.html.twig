@@ -1,27 +1,8 @@
 
  <div class="row">
 	{% for formation in liste_formation %}
-	<div class="col-md-6">
-		<div class="lp">
-			<section class="lp__header text-center" style="padding: 7px;">
-				<h1>{{ formation.nom }}</h1>
-			</section>
-			
-			<section class="lp__grid">
-			  <a href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" style="display: block; text-decoration: none; background: url('{% if formation.imgservice != null and formation.imgservice.src != null %}{{ asset(formation.imgservice.getwebpath) }}{% else %}{{ asset('template/images/present.jpg') }}{% endif %}') no-repeat center center;background-size: cover" class="lp__gridItem lp__gridItem__image">
-			  
-				
-			  </a>
-				<div class="lp__gridItem lp__gridItem__text" style="position: sticky;">
-				  <div class="pricing-formation"><strong>{{ formation.nprix }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ formation.aprix }} {{ devise|raw }}</span></div>
-				  <p class="lp__gridItemText-sm" style="font-size: 15px; margin-bottom: 20px; margin-top: 30px;"><span class="fa fa-video-camera"></span> {{ formation.getNbvideos }} vidéos</p>
-				  <h2 class="lp__gridItemText-lg">Formation en ligne</h2>
-				  <p class="lp__gridItemText-md" style="height: 150px;">{{ formation.pubinline[:150] }}..</p>
-				  <p class="lp__gridItemText-sm lp__gridItemText-sm-bw"><strong>Formation: du</strong>  {{ formation.datebegin|slice(0, 2) }} {{ formation.user.mois(formation.datebegin|slice(4, 2)) }} au {{ formation.datefin|slice(0, 2) }} {{ formation.user.mois(formation.datefin|slice(4, 2)) }} {{ formation.datebegin|slice(6, 4) }}</p>
-				</div>
-			</section>
-			<a href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" class="btn btn-primary" style="position: relative; left: 15px; bottom: 15px;">En savoir plus</a>
-		</div>
+	<div class="col-md-6"> 
+		{% include 'Theme/Produit/Service/Service/formationdescript.html.twig' %}
 	</div>
 	{% else %}
 		<div class="col-md-12">
