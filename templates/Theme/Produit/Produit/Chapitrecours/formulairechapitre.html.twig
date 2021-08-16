@@ -8,23 +8,34 @@
 <div class="panel-body"> 
 	<fieldset>
 	<legend>Type</legend>
-	<div class="col-md-4">
-	  <label class="radio">
-		<input type="radio" data-toggle="radio"  name="radios1" id="" value="chapitre" style="cursor: pointer!important;" data-radiocheck-toggle="radio" checked=""/> 
-		Nouveau Chapitre
-	  </label>
-	 </div>
-	 <div class="col-md-4">
-	  <label class="radio">
-		<input type="radio" data-toggle="radio" name="radios1" id="" value="ressource" style="cursor: pointer!important;" data-radiocheck-toggle="radio"/> 
-		Ressources nécessaires
-	  </label>
-	 </div>
-	 <div class="col-md-4">
-	  <label class="radio">
-		<input type="radio" data-toggle="radio"  name="radios1" id="" value="conclusion" style="cursor: pointer!important;" data-radiocheck-toggle="radio"/> 
-		Conclusion partie
-	  </label>
+	
+	 <div class="row" style="margin: 0px;">
+		<div class="col-md-4">
+
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault1" value="chapitre">
+				<label class="form-check-label" for="flexRadioDefault1">
+					Nouveau Chapitre
+				</label>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+
+		  <div class="form-check">
+			<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault12" value="ressource">
+			<label class="form-check-label" for="flexRadioDefault12">
+				Ressources nécessaires
+			</label>
+		  </div>
+		 </div>
+		 <div class="col-md-4">
+		  <div class="form-check">
+			<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault13" value="conclusion">
+			<label class="form-check-label" for="flexRadioDefault13">
+				Conclusion partie
+			</label>
+		  </div>
+		 </div>
 	 </div>
 	 </fieldset>
 	 <span style="color:red;">{{ form_errors(formchap) }}</span>

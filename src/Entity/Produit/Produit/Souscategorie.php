@@ -368,7 +368,7 @@ class Souscategorie
         return $this->user;
     }
 
-    public function addProduit(Produit $produits): ?Produit
+    public function addProduit(Produit $produits): ?Souscategorie
     {
         $this->produits[] = $produits;
 

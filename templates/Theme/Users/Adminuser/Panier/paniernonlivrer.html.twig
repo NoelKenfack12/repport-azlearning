@@ -1,33 +1,39 @@
 
-{% extends "UsersAdminuserBundle::layoutadmin.html.twig" %}
+{% extends "Theme/Users/Adminuser/layoutadmin.html.twig" %}
 {% block meta %}
-{{ parent() }}
-<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
-<meta name="author" content="Noel Kenfack"/>
-<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
 {% endblock %}
 {% block title %}
-{{ parent() }} | Accueil Admin
+	{{ parent() }} | Accueil Admin
 {% endblock %}
 
 {% block userblog_body %}
-<!-- welcome section -->
-<section class="welcome" style="padding-top: 50px; padding-bottom: 20px; margin-top: 100px; border-bottom: 1px solid #ddd;">
-<h3 style="padding: 0px 25px; color: #fff;"><span class="fa fa-stop"></span> Administration <span class="fa fa-angle-double-right"></span> {{ app.user.name(25) }}</h3>
-</section>
-<!-- /welcome section -->
-<!--content-->
-		<div class="product" style="margin-top: 15px; margin-bottom: 300px;">
-			<div class="container" style="padding: 0px;">
-			<div class="col-lg-12 animecourant-panel">
-			</div>
+<hr style="margin-top: 45px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+
+</div>
+
+<div style="background: #BDC3C7;">
+	<div class="container" style="color: #fff;">
+		Accueil <span class="mdi-av-play-arrow" style="font-size: 10px;"></span>  Administration
+	</div>	
+</div>	
+
+<hr style="margin-bottom: 0px;"/>
+<div class="product" style="padding-top: 20px; margin-bottom: 20px;">
+	<div class="container" style="padding: 0px;">
+		<div class="col-lg-12 animecourant-panel">
+		</div>
 				<div class="col-md-4 product-bottom">
-				{{ render(controller("UsersAdminuserBundle:Accueil:menuadmin")) }}
+				{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
 				<!---->
 				</div>
-				<div class="col-md-8 panel panel-widget">
-				<div style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px;">
-					<h2 style="margin: 5px;">Liste des dossiers ouvert et non validés.</h2>	
+				<div class="col-md-8 panel panel-widget" style="padding: 0px;">
+				<div class="header-card" style="margin-bottom: 7px;">
+					<h2 style="margin: 5px; color: #fff; font-size: 14px;">Liste des commandes soumit</h2>	
 				</div>
 				<h4>
 				{% set id = '' %}
@@ -35,10 +41,10 @@
 				{% if loop.last %}
 				<div class="alert alert-warning">
 				<strong style="color: red;"><span class="fa fa-warning"></span> Êtes vous certain de vouloir supprimer la commande N°: {{ infos|lower }} </strong>
-				<form action="{{ path('users_adminuser_supp_panier_produit_user',{'id': id }) }}" method="post">
-				<input type="submit" value="Supprimer" style="background: red;"/>
-				{{ form_rest(formsupp) }}
-				</form>
+					<form action="{{ path('users_adminuser_supp_panier_produit_user',{'id': id }) }}" method="post">
+						<input type="submit" value="Supprimer" style="background: red;"/>
+						{{ form_rest(formsupp) }}
+					</form>
 				</div>
 				{% else %}
 				{% set id = infos %}
@@ -50,10 +56,10 @@
 				{% for infos in app.session.flashbag.get('valide_prod') %}
 				{% if loop.last %}
 				<div class="alert alert-warning">
-				<strong style="color: red;"><span class="fa fa-warning"></span> Êtes vous certain de vouloir valider la commande N°: {{ infos|lower }} </strong>
-				<form action="{{ path('users_adminuser_livraison_panier_commander',{'id': idp }) }}" method="post">
-				<input type="submit" value="Supprimer" style="background: red;"/>
-				</form>
+					<strong style="color: red;"><span class="fa fa-warning"></span> Êtes vous certain de vouloir valider la commande N°: {{ infos|lower }} </strong>
+					<form action="{{ path('users_adminuser_livraison_panier_commander',{'id': idp }) }}" method="post">
+					<input type="submit" value="Supprimer" style="background: red;"/>
+					</form>
 				</div>
 				{% else %}
 				{% set idp = infos %}
@@ -65,55 +71,108 @@
 					<div class="alert alert-warning">{{ infos }}</div>
 				{% endif %}
 				{% endfor %}
-					<div class="mid-popular">
-						{% for panier in liste_panier %}
-						
-							{% for propan in panier.produitpaniers|slice(0,1) %}
-							{% set produit = propan.produit %}
-								<div class=" col-md-6 filtr-item baner-top" data-category="1, 5" data-sort="Busy streets" style="margin-bottom: 15px;">
-								<a href="{% if produit.getImagealeatoire != null %}{{ asset(produit.getImagealeatoire.getwebpath) }}{% else %}{{ asset('mcs/images/portfolio-img3.jpg') }}{% endif %}" class="b-link-stripe b-animate-go  swipebox" alt="{{ produit.nom }} - {{ produit.description }}" title="{% if produit.quartier != null %}{{ produit.quartier.nom }}{% else %}{{ produit.quartiertext }}{% endif %} - {{ produit.nom }} # {{ produit.newprise }} {{ devise }}">
-									<div class="gal-spin-effect vertical">
-										<img src="{% if produit.getImagealeatoire != null %}{{ asset(produit.getImagealeatoire.getwebpath) }}{% else %}{{ asset('mcs/images/portfolio-img3.jpg') }}{% endif %}" alt="{{ produit.nom }} - {{ produit.description }}" style="height: 150px;"/>
-										<div class="gal-text-box">
-											<div class="info-gal-con">
-												<h4>{{ produit.nom }} # {{ produit.newprise }} {{ devise }}</h4>
-												<span class="divider"></span>
-												<p>{{ produit.description }}</p>
-												<span class="divider"></span>
-											</div>
-										</div>
-									</div>
-								</a>
-								<div class="panel panel-widget text-left">
-								<h3><span class="fa fa-map-marker"></span> {% if produit.quartier != null %}{{ produit.quartier.nom }}{% else %}{{ produit.quartiertext }}{% endif %}</h3>
-								<div><a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id}) }}">{{ produit.nom }}</a>							
-								</div>
-								
-								<div style="margin-top: 20px;"><a href="{{ path('produit_produit_telecherger_panier', {'id': panier.id }) }}" target="_blank"><strong>Infos Clients N°: </strong> {{ panier.numFacture }}</a></div>
-								<div><strong>Nom:</strong> {{ panier.nomuser }}</div>
-								<div><strong>Tel:</strong> {{ panier.tel }}</div>
-								<div><a href="mailto:{{ panier.email }}"><strong>Email:</strong> {{ panier.email }}</a></div>
-								<div style="margin-top: 15px;">							
-								<a href="{{ path('users_adminuser_livraison_panier_commander',{'id': panier.id}) }}" class="btn btn-warning pull-right" style="margin-top: -10px;"><span class="fa fa-check"></span> Valider</a>
-								<a href="{{ path('users_adminuser_supp_panier_produit_user',{'id': panier.id}) }}" class="btn btn-danger pull-left" style="margin-top: -10px;"><span class="fa fa-times"></span> Supprimer</a>
-								<div class="clearfix"></div>
-								</div>
-								</div>
-							</div>
-						{% endfor %}
 
-						{% else %}
-						<div class="alert alert-warning"> Aucune commande passé récemment</div>
+				<div class="row row-gutter-42" style="margin: 30px 0px 0px 0px;">
+
+            <div class="col-md-12">
+              <section class="section-card">
+				{% for panier in liste_panier %}
+                <details>
+                  <summary>
+                    <div>
+                      <span style="background-color: #f2dcbb; margin-right: 25px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+                          <rect width="256" height="256" fill="none"></rect>
+                          <path d="M192,120h27.05573a8,8,0,0,0,7.15542-4.42229l18.40439-36.80878a8,8,0,0,0-3.18631-10.52366L192,40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                          <path d="M64,120H36.94427a8,8,0,0,1-7.15542-4.42229L11.38446,78.76893a8,8,0,0,1,3.18631-10.52366L64,40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                          <path d="M160,40a32,32,0,0,1-64,0H64V208a8,8,0,0,0,8,8H184a8,8,0,0,0,8-8V40Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
+                        </svg>
+                      </span>
+                      <h3>
+                        <strong>Commandes N°: {{ panier.numFacture }}</strong>
+                        <small>du {{ panier.date|date('d') }}-{{ panier.date|date('m') }}-{{ panier.date|date('Y') }}</small>
+                      </h3>
+                      <span>{{ panier.montantttc }} {{ devise }}</span>
+                    </div>
+                  </summary>
+                  <div style="background: #fff;;">
+                    <dl>
+                      <div>
+                        <dt>Time</dt>
+                        <dd>4.27pm</dd>
+                      </div>
+              
+                      <div>
+                        <dt>Card used</dt>
+                        <dd>•••• 6890</dd>
+                      </div>
+              
+                      <div>
+                        <dt>Reference ID</dt>
+                        <dd>3125-568911</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </details>
+				
+				{% else %}
+					<div class="alert alert-warning"> Aucune commande passé récemment</div>
+				{% endfor %}
+				
+
+              </section>
+            </div>
+
+          </div>
+
+		  <div class="col-md-12">
+
+			<div class="pagination-table light-theme simple-pagination" style="margin-top: 15px;">
+				
+
+					{% if nombrepage > 0  %}
+
+					{% if page > 1 and page <= nombrepage %}
+					{% set pagepre = page - 1 %}
+					{% else %}
+					{% set pagepre = nombrepage %}
+					{% endif %}
+
+					{% if page < nombrepage %}
+					{% set pagesuiv = page + 1 %}
+					{% else %}
+					{% set pagesuiv =  1 %}
+					{% endif %}
+
+					<ul>
+						<li>
+							<a href="{{ path('users_adminuser_liste_panier_non_livrer', {'page': pagepre }) }}" >
+							 <span class="current prev"> << Précédent</span>
+							</a>
+						</li>
+						{% for p in 1..nombrepage %}
+							<li class="{% if p == page %}active{% endif %}"><a href="{{ path('users_adminuser_liste_panier_non_livrer', {'page': p }) }}" class="{% if p == page %}current{% endif %}">{{ p }}</a></li>
 						{% endfor %}
-						<div class="clearfix"></div>
-					</div>
+						<li>
+						    <a href="{{ path('users_adminuser_liste_panier_non_livrer', {'page': pagesuiv }) }}">
+							 <span class="page-link next">Suivant >></span>
+						   </a>
+					    </li>
+					</ul>
+					
+					{% endif %}
+				
+			</div>
+
+		  </div>
+
 				
 				</div>
 			<div class="clearfix"></div>
-			</div>
-			</div>
+		</div>
+	</div>
 
-<script src="{{ asset('mcs/js/onvisible.js') }}" type="text/javascript"></script>
+<script src="{{ asset('template/js/onvisible.js') }}" type="text/javascript"></script>
 <!-- /js files -->
 
 <script>

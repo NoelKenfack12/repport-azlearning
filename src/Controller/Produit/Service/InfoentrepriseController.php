@@ -6,7 +6,7 @@ namespace App\Controller\Produit\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Produit\Service\Infoentreprise;
-use App\Entity\Produit\Service\InfoentrepriseType;
+use App\Form\Produit\Service\InfoentrepriseType;
 use App\Entity\Produit\Service\Detailinfoentreprise;
 use App\Form\Produit\Service\DetailinfoentrepriseType;
 
@@ -98,7 +98,7 @@ public function modifierinfoentreprise(Infoentreprise $info, $page, GeneralServi
 
 	if($request->getMethod() == 'POST')
 	{
-		$form->bind($request);
+		$form->handleRequest($request);
 		$info->setUser($this->getUser());
 		
 		if(isset($_POST['type']))

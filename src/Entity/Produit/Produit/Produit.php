@@ -1185,4 +1185,11 @@ class Produit
 								->findOneBy(array('produit'=>$this), array('date'=>'desc'),1);
 		return $formation;
 	}
+
+    public function getAllPartiesCours($nbre = 6)
+	{
+		$formation = $this->em->getRepository(Partiecours::class)
+							  ->findBy(array('produit'=>$this), array('date'=>'desc'), $nbre);
+		return $formation;
+	}
 }

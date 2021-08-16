@@ -630,6 +630,7 @@ button.owl-next, button{
 				
 			<div class="section-tabs" id="content3">
 					<div class="row" style="margin: 20px 0px;">
+
 						{% for animation in liste_recommandation|slice(0,3) %}
 						{% if animation.produit.ancienPrixProduit > 0 %}
 							{% set taux =  (animation.produit.newprise - animation.produit.ancienPrixProduit)/animation.produit.ancienPrixProduit %}
@@ -691,31 +692,9 @@ button.owl-next, button{
 			<div class="col-md-12">
 				<div class="owl-carousel staff-list" style="padding-top: 10px;">
 					{% for produit in produit_aime %}
-					<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="card-cours" style="display: block; text-decoration: none; margin-left: -1px;">
-					<div class="image-cours" >
-					  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="min-height: 350px;"/>
-					  <div class="pricing-formation"><strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span></div>
-					  <div style="height: 80px; background: #fff; position: absolute; z-index: 2; width: 100%; bottom: 0px; padding: 3px 7px;">
-						<h2 style="font-size: 18px; margin-top: 15px;"><strong>{{ produit.name(40) }}</strong> <span class="fa fa-bookmark pull-right"></span></h2>
-						<span>{{ produit.souscategorie.nom }}</span>
-					  </div>
+					<div class="card-cours"  style="background: transparent;">
+						{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
 					</div>
-					<div class="details">
-					  <div class="center text-left">
-						<div style="text-align: left!important;">
-							
-								<img src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="height: 30px; width: 30px; float: left; margin-right: 7px; border-radius: 7px;"/>
-								<strong style="display: block;">{{ produit.user.name(25) }}</strong>
-								<div style="display: block;">Formateur </div>
-							
-						</div>
-						<p>{{ produit.description|raw }}</p>
-						<ul>
-						  
-						</ul>
-					  </div>
-					</div>
-					</a>
 					{% endfor %}
 				</div>
 			</div>
@@ -730,23 +709,22 @@ button.owl-next, button{
 			  margin:30,
 			  loop:true,
 			  nav:true,
-			  responsive:{
+			  responsive: {
 				0:{
-					items:1,
+					items: 1,
 					nav:true
 				},
 				600:{
-					items:2,
+					items: 3,
 					nav:false
 				},
 				1000:{
-					items:3,
+					items: 4,
 					nav:true,
 					loop:false
 				}
 			  },
 			  navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
-			  
 		  });
 		});
         </script>
@@ -762,44 +740,28 @@ button.owl-next, button{
 		</div>
             
 		<div class="row">
+
 			<div class="col-md-12">
 				<div class="owl-carousel staff-list" id="owl-carousel" style="padding-top: 10px;">
+
 					{% for produit in produit_visite %}
-					<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="card-cours" style="display: block; text-decoration: none; border: none;">
-					<div class="image-cours">
-					  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="min-height: 350px;"/>
-					  <div class="pricing-formation"><strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span>{{ produit.ancienPrixProduit }} {{ devise|raw }}</span></div>
-					  <div style="height: 80px; background: #fff; position: absolute; z-index: 2; width: 100%; bottom: 0px; padding: 3px 7px;">
-						<h2 style="font-size: 18px; margin-top: 15px;"><strong>{{ produit.name(40) }}</strong> <span class="fa fa-bookmark pull-right"></span></h2>
-						<span>{{ produit.souscategorie.nom }}</span>
-					  </div>
-					</div>
-					<div class="details">
-					  <div class="center text-left">
-						<div style="text-align: left!important;">
-							
-								<img src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="height: 30px; width: 30px; float: left; margin-right: 7px; border-radius: 7px;"/>
-								<strong style="display: block;">{{ produit.user.name(25) }}</strong>
-								<div style="display: block;">Formateur </div>
-							
+						<div class="card-cours" style="background: transparent;">
+							{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
 						</div>
-						<p>{{ produit.description|raw }}</p>
-						<ul>
-						  
-						</ul>
-					  </div>
-					</div>
-					</a>
 					{% endfor %}
+
 				</div>
 			</div>
 		</div>
     
 		
         <script type="text/javascript">
+
+		
+	
 		$(document).ready(function(){
 		  $("#owl-carousel").owlCarousel({
-			  items:4,
+			  items: 4,
 			  autoplay:false,
 			  margin:30,
 			  loop:true,
@@ -810,11 +772,11 @@ button.owl-next, button{
 					nav:true
 				},
 				600:{
-					items:2,
+					items: 3,
 					nav:false
 				},
 				1000:{
-					items:3,
+					items: 4,
 					nav:true,
 					loop:false
 				}

@@ -17,7 +17,7 @@ public function validate($file, Constraint $constraint)
         $extensionfile = 'mp4';
     }else{
         $extensionfile = $file->getClientOriginalExtension();
-        $size = $file->getClientSize();
+        $size = $file->getSize();
     }
 
     if($constraint->taillemax < $size || !in_array($extensionfile, $extension)) 

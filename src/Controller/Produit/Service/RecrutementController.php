@@ -20,6 +20,7 @@ use App\Entity\Produit\Service\Infoentreprise;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Email\Singleemail;
+use App\Entity\Users\User\User;
 
 class RecrutementController extends AbstractController
 {
@@ -354,5 +355,68 @@ public function souscriptionprogramme(GeneralServicetext $service, Request $requ
 
     return $this->render('Theme/Produit/Service/Recrutement/souscriptionprogramme.html.twig',
 	array('form'=>$form->createView(), 'article_about'=>$article_about));
+}
+
+public function consultationoperations($id, GeneralServicetext $service, Request $request)
+{
+	$em = $this->getDoctrine()->getManager();
+	if(isset($_GET['id']))
+	{
+		$id = $_GET['id'];
+	}else{
+		$id = $id;
+	}
+	$liste_banque = $this->getArrayBanque();
+	$user = $em->getRepository(User::class)
+			   ->find($id);
+	if($user != null)
+	{
+		$recrutement = new Recrutement($service);
+		$form = $this->createForm(RecrutementType::class, $recrutement);
+		if ($request->getMethod() == 'POST'){
+			$form->handleRequest($request);
+
+			$banquecheck = null;
+			foreach($liste_banque as $banque)
+			{
+				if($banque[0] == $_POST['moyentransfert'])
+				{
+					$banquecheck = $banque;
+					break;
+				}
+			}
+
+			if ($form->isValid() and $_POST['moyentransfert'] != '' and $_POST['montantransfert'] != ''  and $_POST['pays'] != '' and $banquecheck != null and count($banquecheck) > 2){
+				
+				$recrutement->setUser($user);
+
+				$recrutement->setMoyentransfert($banquecheck[1]);
+				$recrutement->setMontantransfert($_POST['montantransfert']);
+				$recrutement->setPays($_POST['pays']);
+				
+				$em->persist($recrutement);
+				$em->flush();
+				$this->get('session')->getFlashBag()->add('information','FICHE DE DEMANDE D\'AJOUT DES FONDS A ETE CREEE AVEC SUCCES.');
+				
+				$recrutement->setValide(true);
+				$user->setSoldeprincipal($user->getSoldeprincipal() + $recrutement->getMontantransfert());
+
+				$em->flush();
+				$this->get('session')->getFlashBag()->add('information','Modification effectuée avec succès');
+			}else{
+				$this->get('session')->getFlashBag()->add('information','Une ereur a été rencontrée!');
+			}
+			return $this->redirect($this->generateUrl('users_adminuser_liste_all_user'));
+
+		}
+
+		$liste_categorie = $em->getRepository(Categorie::class)
+	                          ->findAll();
+		return $this->render('Theme/Users/Adminuser/Recrutement/consultationoperations.html.twig',
+		array('form'=>$form->createView(),'user'=>$user, 'liste_banque'=>$liste_banque,'liste_categorie'=>$liste_categorie));
+	}else{
+		echo 'Echec ! Une erreur a été rencontrée.';
+		exit;
+	}
 }
 }

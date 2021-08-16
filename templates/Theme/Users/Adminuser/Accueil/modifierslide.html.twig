@@ -35,12 +35,12 @@
 		{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
 		<!---->
 		</div>
-		<div class="col-md-8 panel panel-widget">
-		<div style="background: #ddd;  margin: -1px -16px 7px -16px;">
+		<div class="col-md-8 panel panel-widget" style="padding: 0px;">
+		<div class="header-card">
 			<div style="padding: 7px; color: #fff;">Modification du {% if slide.acceuil == true %}slide{% else %}fond{% endif %} {{ slide.titre }}.</div>	
 		</div>
 				
-		<div style="border: 1px solid #ddd; padding-bottom: 7px;">
+		<div style="border: 1px solid #ddd; padding: 7px 0px; margin-top: 7px;">
 		{% for infos in app.session.flashbag.get('imgslide') %}
 		{% if loop.first %}
 		<div class="alert alert-warning alert-dismissable" style="margin: 3px;">

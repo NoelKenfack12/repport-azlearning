@@ -831,8 +831,10 @@ public function ajouterpanier(Chapitrecours $chapitre, GeneralServicetext $servi
 		
 		if($this->getUser()->getSoldeprincipal() >= $montant)
 		{
-			if($this->getUser()->getPassword() == $_POST['_password'])
+			
+			if($_POST['_password'] == $service->decrypt($this->getUser()->getPassword(),$this->getUser()->getSalt()))
 			{
+				
 				$liste_oldpanier = $em->getRepository(Panier::class)
 									  ->findBy(array('user'=>$this->getUser(),'valide'=>1));
 				$souscription = true;
@@ -884,6 +886,7 @@ public function ajouterpanier(Chapitrecours $chapitre, GeneralServicetext $servi
 						$panier = new Panier();
 						$panier->setUser($this->getUser());
 						$panier->setChapitrecours($chapitre);
+						$panier->setMontantttc($montant);
 						$em->persist($panier);
 						
 						$produitpanier = new Produitpanier();
@@ -939,7 +942,7 @@ public function ajouterpanier(Chapitrecours $chapitre, GeneralServicetext $servi
 					}else{
 						$lastpanier->setDate(new \Datetime());
 						$lastpanier->setValide(true);
-						
+						$lastpanier->setMontantttc($montant);
 						//envoie d'email
 						$siteweb = $this->params->get('siteweb');
 						$sitename = $this->params->get('sitename');

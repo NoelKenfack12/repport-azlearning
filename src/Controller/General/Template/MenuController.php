@@ -54,7 +54,6 @@ public function menubare(GeneralServicetext $service, $position='accueil')
 		}
 	}
 
-
 	if($this->getUser() != null and $actualiseformation != 100)
 	{
 		$liste_oldpanier = $em->getRepository(Panier::class)

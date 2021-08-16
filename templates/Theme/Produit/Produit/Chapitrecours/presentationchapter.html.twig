@@ -267,11 +267,15 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 		<div class="col-md-4">
 			<div class="toutleblock">
 				<div style="height: 700px; overflow-y: auto;">
-				
+					{% if prodpan == null %}
+						{% set idprodpan = 0 %}
+					{% else %}
+						{% set idprodpan = prodpan.id %}
+					{% endif %}
 					<div class="accordion">
 						
 						{% for partie in liste_part %}
-							{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 0, 'codeadmin': codeadmin,'idpartie': chapitre.partiecours.id, 'idchapitre': chapitre.id })) }}
+							{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 0, 'codeadmin': codeadmin,'idpartie': chapitre.partiecours.id, 'idchapitre': chapitre.id, 'idprodpan': idprodpan })) }}
 						{% endfor %}
 					  
 					</div>
@@ -316,11 +320,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 					</div>
 				</div>
 			</div>
-			{% if prodpan == null %}
-				{% set idprodpan = 0 %}
-			{% else %}
-				{% set idprodpan = prodpan.id %}
-			{% endif %}
+			
 			<script type="text/javascript">
 				$(document).ready(function(){
 					$.ajax({

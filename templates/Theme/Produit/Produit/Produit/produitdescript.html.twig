@@ -1,80 +1,103 @@
-
-<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="card-cours" style="display: block; text-decoration: none; margin-left: -1px;">
-
-<div class="image-cours">
-  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="min-height: 350px;"/>
-  <div class="pricing-formation"><strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span></div>
-  <div style="height: 80px; background: #fff; position: absolute; z-index: 2; width: 100%; bottom: 0px; padding: 3px 7px;">
-	<h2 style="font-size: 18px; margin-top: 15px;"><strong>{{ produit.name(40) }}</strong> <span class="fa fa-bookmark pull-right"></span></h2>
-	<span>{{ produit.souscategorie.nom }}</span>
-	
-  </div>
-</div>
-
-<div class="details">
-  <div class="center text-left" style="width: 100%;">
-	<div style="text-align: left!important;">
-		
-		<img src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="height: 30px; width: 30px; float: left; margin-right: 7px; border-radius: 7px;"/>
-		<strong style="display: block;">{{ produit.user.name(25) }}</strong>
-		<div style="display: block;">Formateur </div>
-		
+<div class="card profile-card-5 popop-{{ produit.id }}" data-popover-content="#unique-id-{{ produit.id }}" data-toggle="popover" data-placement="right">
+	<div class="card-img-block">
+		<img class="card-img-top" src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" alt="Card image cap">
 	</div>
-	<p>{{ produit.description|raw }}</p>
-	<ul>
-	  
-	</ul>
-  </div>
-</div>
+	<div class="card-body pt-0">
+	<h5 class="card-title">{{ produit.name(40) }}</h5>
 
-</a>
-
-{#
-<div class="photoday card">
-	<div class="card-image waves-effect waves-block waves-light">
-	<img src="{% if produit.imgproduit != null %} {{ asset(produit.imgproduit.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}" class="img-responsive activator" alt="" style="height: 200px;"/>
+	<div style="width: 100%; font-size: 9px;">
+		<div style="color: #6a6f73;">{{ produit.user.name(25) }} | {% if produit.user.diplome != null %} {{ produit.user.diplome }}{% else %}Formateur Az{% endif %}</div>
 	</div>
-	<div class="photo-text">
-		<p style="margin: 0px; padding: 0px;"><a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ produit.name(35) }}</a> </p>
-		<p style="margin: 0px; padding: 0px;"><a href="{{ path('users_user_user_accueil', {'id': produit.user.id }) }}" style="cursor: pointer; color: #333;"><img src="{% if produit.user.imgprofil != null %}{{ asset(produit.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="{{ produit.user.name(30) }}" class="img-thumbnail" style="width: 20px; height:20px; border-radius: 10px; margin-top: -5px;"/> {{ produit.user.name(30) }} </a></p>
+
+	<div class="text-left">
+		<strong>4,7</strong>
+		<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+			<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+			<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+		</div>
 	</div>
 	
-	<div class="photo1">
-		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px; margin-left: -2px;">
-			<p style="margin: 0px;"><a href="#!" title="Ont Suivit ce cours"><i class="mdi-action-visibility"></i> {{ produit.nblike }}</a></p>
+	<p class="card-text">
+		<strong style="font-size: 18px; color: #7a818d;">Montant</strong> <br>
+		<strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span>
+	</p>
+	<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="btn btn-primary">Suivre</a>
+	</div>
+
+	<div id="unique-id-{{ produit.id }}" style="display:none;">
+	<div class="popover-body">
+		<!--button type="button" class="popover-close close">
+		<i class="fa fa-times"></i>
+		</button -->
+		<h5 class="card-title">
+			<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ produit.name(40) }}</a>
+		</h5>
+		<div>
+		{{ produit.description|raw }}
 		</div>
-		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px;">
-			<p style="margin: 0px;"><a href="#!" title="Ont obtenu leur certificat"><i class="mdi-action-wallet-membership"></i> {{ produit.nbcertificat }} </a></p>
+
+		<div>
+			<strong>Sommaire</strong>
+			<ul class="custom green">
+				{% for partie in produit.getAllPartiesCours %}
+					<li> {{ partie.titre }} </li>
+				{% endfor %}
+			</ul>
 		</div>
 		
-		<div class="col-md-4 phot-grid" style="padding-bottom: 3px; padding-top: 3px; margin-bottom: -20px; border:none;">
-			{% if produit.user != app.user %}
-			<p style="margin: 0px;">
-			
-			<div class="btn-group dropup" style="margin-bottom: -20px; margin-top: -10px;">
-			<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;" title=""><i class="mdi-communication-message"></i> 5</a>
-				<ul class="dropdown-menu pull-right text-left" style="margin-top: 0px; border-radius: 0px; padding-top: 0px;">
-					<li style="background: #428bca; padding: 5px; color: #fff; margin: 0px;"><a href="#!" style="color: #fff;"><span class="mdi-communication-message" style="font-size: 15px;"></span> Formats disponibles</a></li>
-					<li class="divider" style="margin-top: 0px;"></li>
-					<li><a href="#!"><span class="mdi-av-my-library-books" style="font-size: 15px;"></span> Présentation du cours</a></li>
-					<li><a href="#!"><span class="mdi-notification-voice-chat" style="font-size: 15px;"></span> Format vidéo</a></li>
-					<li><a href="#!"><span class="mdi-hardware-phone-android" style="font-size: 15px;"></span> Format E-book</a></li>
-					<li><a href="#!"><span class="mdi-action-assignment-turned-in" style="font-size: 15px;"></span> Exercice et TP</a></li>
-					<li><a href="#!"><span class="mdi-action-wallet-membership" style="font-size: 15px;"></span> Certificat de formation</a></li>
-				</ul>
-			</div>
-			</p> <!-- Type  des contenu disponible -->
-			{% else %}
-				<p style="margin: 0px;">
-					<a href="{{ path('produit_produit_modification_produit_controller', {'id': produit.id }) }}"><i class="mdi-content-create"></i> Modifier </a>
-				</p>
-			{% endif %}
+		<div>
+			<strong>Ressource</strong>
+
+			<ul class="list-group list-group-flush">
+			<li class="list-group-item">
+				Nombre de partie <span class="badge badge-default">15</span>
+			</li>
+			<li class="list-group-item">
+				Nombre de TP <span class="badge badge-default">0</span>
+			</li>
+			<li class="list-group-item">
+				Supports de cours <span class="badge badge-default">0</span>
+			</li>
+			<li class="list-group-item">
+				Exercices <span class="badge badge-default">0</span>
+			</li>
+			<li class="list-group-item">
+				QCM <span class="badge badge-default">15</span>
+			</li>
+		</ul>
+		<div style="margin-top: 15px;">
+			<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="btn btn-primary btn-block">
+				En savoir plus
+				<span class="fa fa-angle-right"></span>
+			</a>
 		</div>
-		<div class="clearfix"></div>
+		</div>
 	</div>
-	<div class="card-reveal">
-		<span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> <a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ produit.name(50) }} <span class=" fa fa-angle-double-right"></span></a></span>
-		<p>{{ produit.objectif[:150]|raw }} </p>
 	</div>
 </div>
-#}
+
+<script type="text/javascript">
+$("[data-toggle=popover]").popover({
+	html : true,
+	trigger: "manuel",
+	placement: 'auto',
+	animation: false,
+	content: function() {
+		var content = $(this).attr("data-popover-content");
+		return $(content).children(".popover-body").html();
+	}
+}).on("mouseenter", function(){
+	var _this = this;
+	$(this).popover("show");
+	$(".popover").on("mouseleave", function() {
+	$(_this).popover('hide');
+	});
+}).on("mouseleave", function(){
+	var _this = this;
+	setTimeout(function() {
+	if (!$(".popover:hover").length) {
+		$(_this).popover("hide");
+	}
+	}, 100);
+});
+</script>

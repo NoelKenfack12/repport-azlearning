@@ -32,7 +32,7 @@ public function ajoutville(GeneralServicetext $service, Request $request)
 	}
 	$liste_ville = $em->getRepository(Ville::class)
 	                    ->findAll();
-	return $this->render('Theme/Users/Adminuser/Service:ville.html.twig',
+	return $this->render('Theme/Users/Adminuser/Service/ville.html.twig',
 	array('form'=>$form->createView(),'liste_ville'=>$liste_ville,'formsupp'=>$formsupp->createView()));
 }
 

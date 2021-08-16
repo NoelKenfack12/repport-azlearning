@@ -683,8 +683,7 @@ if(isset($_POST['_password']))
 				}
 			}
 			
-			
-			if($souscription == true)
+			if($souscription == true and ($this->getUser()->getSoldeprincipal() > $produit->getNewprise()))
 			{
 				$this->getUser()->setSoldeprincipal($this->getUser()->getSoldeprincipal() - $produit->getNewprise());
 				
@@ -713,6 +712,7 @@ if(isset($_POST['_password']))
 				{
 					$panier = new Panier();
 					$panier->setUser($this->getUser());
+					$panier->setMontantttc($produit->getNewprise());
 					$em->persist($panier);
 					$produitpanier = new Produitpanier();
 					$produitpanier->setPanier($panier);
@@ -768,7 +768,7 @@ if(isset($_POST['_password']))
 				}else{
 					$lastpanier->setDate(new \Datetime());
 					$lastpanier->setValide(true);
-					
+					$lastpanier->setMontantttc($produit->getNewprise());
 					// envoie d'email
 					$siteweb = $this->params->get('siteweb');
 					$sitename = $this->params->get('sitename');
@@ -816,7 +816,7 @@ if(isset($_POST['_password']))
 				$this->get('session')->getFlashBag()->add('information','Inscription au cours effectuée avec succès !');
 				$em->flush();
 			}else{
-				$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous êtes déjà inscrit à une formation contennant ce cours.');
+				$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous êtes déjà inscrit à une formation contennant ce cours ou vous n\'avez pas assez de fond');
 			}
 				 
 		}else{
@@ -1175,6 +1175,7 @@ public function rechercheproduit($position)
 	$em = $this->getDoctrine()->getManager();
 	$liste_produit = $em->getRepository(Produit::class)
 						->findProduit($donnee);
+	
 	return $this->render('Theme/Produit/Produit/Produit/recherche.html.twig', 
 	array('liste_produit'=>$liste_produit, 'donnee'=>$donnee,'position'=>$position));
 }

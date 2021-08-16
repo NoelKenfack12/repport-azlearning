@@ -4,11 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    nbcategorie: 10
-    nbsouscategorie: 7
-    nbslide: 7
-    nbproduitsouscat: 10
-    nbimgparproduit: 5
+    nbcategorie: 30
+    nbsouscategorie: 30
+    nbslide: 15
+    nbproduitsouscat: 50
+    nbimgparproduit: 10
     siteweb: http://www.test.azcorporation.net
     conditionuserlink: http://www.test.azcorporation.net/condition/
     url_single_email: http://sendapi.afhunt.com/email/singleemail

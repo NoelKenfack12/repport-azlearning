@@ -127,10 +127,12 @@ users_adminuser_validation_dupayement:
     requirements:
         id: \d+
 users_adminuser_liste_panier_non_livrer:
-    path: /liste/des/paniers/non/livrer
+    path: /liste/des/paniers/non/livrer/{page}
     controller: App\Controller\Produit\Produit\PanierController::paniernonlivrer
+    defaults:
+        page: 1
     requirements:
-        id: \d+
+        page: \d+
 users_adminuser_contenu_panier_user:
     path: /contenu/admin/panier/user/{id}
     controller: App\Controller\Produit\Produit\PanierController::contenupanier
@@ -337,13 +339,13 @@ users_adminuser_supprimer_img_service_courant:
         id: \d+
 users_adminuser_message_email_new_letter:
     path: /message/email/news/letter
-    controller: App\Controller\Produit\Service\Messemail::messageemail
+    controller: App\Controller\Produit\Service\MessemailController::messageemail
 users_adminuser_send_message_email_identified_user:
     path: /send/message/email/identified/user
-    controller: App\Controller\Produit\Service\Messemail::messageidentifieduser
+    controller: App\Controller\Produit\Service\MessemailController::messageidentifieduser
 users_adminuser_suppression_mess_email_user:
     path: /suppression/mess/email/user/{id}
-    controller: App\Controller\Produit\Service\Messemail::supprimermessemail
+    controller: App\Controller\Produit\Service\MessemailController::supprimermessemail
     requirements:
         id: \d+
 users_adminuser_supp_panier_produit_user:
@@ -355,10 +357,11 @@ users_adminuser_liste_all_user:
     path: /liste/all/user
     controller: App\Controller\Users\User\UserController::listealluser
 users_adminuser_searching_courant_liste:
-    path: /searching/courant/liste/{page}
+    path: /searching/courant/liste/{page}/{searchitem}
     controller: App\Controller\Users\User\UserController::searchinguser
     defaults:
         page: 1
+        searchitem: ''
     requirements:
         page: \d+
 users_adminuser_update_rang_produit_formation:
@@ -393,6 +396,13 @@ users_adminuser_metier_update_rocommandation_apprenant:
 users_adminuser_assossiation_metier_cours:
     path: /assossiation/metier/cours/{id}
     controller: App\Controller\Produit\Produit\CataloguechantierController::assossiationmetier
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_consultation_operations_etudiant:
+    path: /consultation/operations/etudiant/{id}
+    controller: App\Controller\Produit\Service\RecrutementController::consultationoperations
     defaults:
         id: 0
     requirements:

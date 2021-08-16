@@ -1,12 +1,13 @@
-{% extends "UsersAdminuserBundle::layoutadmin.html.twig" %}
+{% extends "Theme/Users/Adminuser/layoutadmin.html.twig" %}
 {% block meta %}
-{{ parent() }}
-<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
-<meta name="author" content="Noel Kenfack"/>
-<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
 {% endblock %}
+
 {% block title %}
-{{ parent() }} | Accueil Admin
+	{{ parent() }} | Accueil Admin
 {% endblock %}
 
 {% block userblog_body %}
@@ -26,11 +27,11 @@
 			<div class="col-lg-12 animecourant-panel">
 			</div>
 				<div class="col-md-4 product-bottom">
-				{{ render(controller("UsersAdminuserBundle:Accueil:menuadmin")) }}
+				{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
 				<!---->
 				</div>
-				<div class="col-md-8 panel panel-widget">
-					<div style="background: #ddd;  margin: -1px -16px 7px -16px;">
+				<div class="col-md-8 panel panel-widget" style="padding: 0px;">
+				<div class="header-card" style="margin-bottom: 7px;">
 						<div style="padding: 7px; color: #fff;">Slides Acueil, Valeurs ajoutés aux formations</div>	
 					</div>
 					{% set id = '' %}
@@ -90,7 +91,7 @@
 					<h2 style="margin: 5px;">Ajouter de nouvelles informations</h2>	
 				</div>
 					
-    		    <form class="form_info_about_struct" action="{{ path('users_adminusers_add_new_service') }}" method="post" {{ form_enctype(form) }}>
+				{{ form_start(form, {'attr': {'class': 'form_info_about_struct','action': path('users_adminusers_add_new_service') }}) }}
     			  <div class="col-sm-6">
 				     <span style="color:red;">{{ form_errors(form) }}</span>
 					 <span style="color:red;">{{ form_errors(form.titre) }}</span>
@@ -140,8 +141,8 @@
 				     </div>
 		          </div>
 		         <div class="clear"></div>
-				 {{ form_rest(form) }}
-		        </form>
+				 {{ form_end(form) }}
+
 				<div class="clearfix"></div>
 				</div>
 

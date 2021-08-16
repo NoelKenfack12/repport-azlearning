@@ -118,14 +118,14 @@ public function validationpayement(User $user, GeneralServicetext $service)
 	return $this->redirect($this->generateUrl('produit_produit_liste_produit_souscategorie'));
 }
 
-public function paniernonlivrer()
+public function paniernonlivrer($page)
 {
 	$em = $this->getDoctrine()->getManager();
 	$liste_panier = $em->getRepository(Panier::class)
-				       ->findBy(array('payer'=>1,'livrer'=>0),array('date'=>'desc'));
+					   ->listepanierinvalide($page, 10);
 	$formsupp = $this->createFormBuilder()->getForm();
 	return $this->render('Theme/Users/Adminuser/Panier/paniernonlivrer.html.twig',
-	array('liste_panier'=>$liste_panier,'formsupp'=>$formsupp->createView()));
+	array('liste_panier'=>$liste_panier,'formsupp'=>$formsupp->createView(), 'nombrepage' => ceil(count($liste_panier)/10),'page'=>$page));
 }
 
 public function contenupanier(Panier $panier)
@@ -568,5 +568,4 @@ public function supprimerpanier(Panier $panier, Request $request)
 		}
 	return $this->redirect($this->generateUrl('users_adminuser_liste_panier_non_livrer'));
 }
-
 }

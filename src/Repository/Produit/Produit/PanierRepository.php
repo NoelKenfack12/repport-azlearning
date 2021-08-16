@@ -2,6 +2,7 @@
 namespace App\Repository\Produit\Produit;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * PanierRepository
@@ -137,5 +138,25 @@ public function getPanierCinqGagnant($id)
 	              ->orderBy('p.nbticket','DESC')
                   ->getQuery();
 	return $query->getResult();
+}
+
+public function listepanierinvalide($page, $nombreParPage)
+{
+	if($page < 1){
+		throw new \InvalidArgumentException('Page inexistant');
+		}
+		$query = $this->createQueryBuilder('p')
+					  ->leftJoin('p.user', 'u')
+					  ->addSelect('u')
+					  ->where('p.valide = 1')
+					  ->andWhere('p.livrer = 0')
+					  ->orderBy('p.date','DESC')
+					  ->getQuery();
+		// On définit l'établissemnt à partir duquel commencer la liste
+		$query->setFirstResult(($page-1) * $nombreParPage)
+		// Ainsi que le nombre d'établissement à afficher
+			  ->setMaxResults($nombreParPage);
+		// Enfin, on retourne l'objet Paginator correspondant à la requête construite
+	return new Paginator($query);
 }
 }

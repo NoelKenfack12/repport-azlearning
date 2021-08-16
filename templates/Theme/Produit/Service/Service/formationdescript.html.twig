@@ -1,6 +1,6 @@
 
     <div class="card-format" style="width: 100%; overflow: hidden;">
-        <img class="card-img-top" src="http://test.azcorporation.net/bundles/produit/service/images/imgservice/7.wallpaper-az.jpg">
+        <img class="card-img-top" src="{% if formation.imgservice != null and formation.imgservice.src != null %}{{ asset(formation.imgservice.getwebpath) }}{% else %}{{ asset('template/images/present.jpg') }}{% endif %}">
         <p class="card-top-text">
                 {{ formation.nom }}
 

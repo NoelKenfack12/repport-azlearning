@@ -341,26 +341,39 @@
 <div class="col-md-12">
 	<div class="site">
   <div class="profile-card">
-    <div class="pc-project pc-project-1">
-      <div class="pc-project-link" style="background-image: url('{{ asset('template/images/word.jpg') }}');"></div>
+    {% set nbprod = liste_produit|length %}
+	{% set compt = 1 %}
+	{% for produit in liste_produit %}
+	<div class="pc-project pc-project-{{ compt }}">
+      <div class="pc-project-link" style="background-image: url('{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/word.jpg') }}{% endif %}');"></div>
       <div class="pc-project-overlay">
-        <a href="" class="pc-project-overlay-link">
+        <a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="pc-project-overlay-link">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.409 6.94">
             <path id="eye" d="M5.205,68.048a1.157,1.157,0,1,0,0-2.313c-.018,0-.034,0-.052.005a.858.858,0,0,1-1.1,1.1c0,.018-.005.034-.005.052A1.157,1.157,0,0,0,5.205,68.048Zm5.142-.842A5.8,5.8,0,0,0,5.205,64,5.8,5.8,0,0,0,.063,67.206a.585.585,0,0,0,0,.528A5.8,5.8,0,0,0,5.205,70.94a5.8,5.8,0,0,0,5.142-3.206.585.585,0,0,0,0-.528ZM5.205,64.578a2.313,2.313,0,1,1-2.313,2.313A2.313,2.313,0,0,1,5.205,64.578Zm0,5.783A5.209,5.209,0,0,1,.579,67.47a5.327,5.327,0,0,1,2.345-2.337A2.887,2.887,0,1,0,8.1,66.891a2.865,2.865,0,0,0-.61-1.759A5.327,5.327,0,0,1,9.832,67.47,5.209,5.209,0,0,1,5.205,70.361Z" transform="translate(-0.001 -64)" fill="#231a3b"/>
           </svg>
         </a>
       </div>
     </div>
-    <div class="pc-project pc-project-2">
-      <div class="pc-project-link" style="background-image: url('{{ asset('template/images/powerpoint.jpg') }}');"></div>
-      <div class="pc-project-overlay">
-        <a href="" class="pc-project-overlay-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.409 6.94">
-            <path id="eye" d="M5.205,68.048a1.157,1.157,0,1,0,0-2.313c-.018,0-.034,0-.052.005a.858.858,0,0,1-1.1,1.1c0,.018-.005.034-.005.052A1.157,1.157,0,0,0,5.205,68.048Zm5.142-.842A5.8,5.8,0,0,0,5.205,64,5.8,5.8,0,0,0,.063,67.206a.585.585,0,0,0,0,.528A5.8,5.8,0,0,0,5.205,70.94a5.8,5.8,0,0,0,5.142-3.206.585.585,0,0,0,0-.528ZM5.205,64.578a2.313,2.313,0,1,1-2.313,2.313A2.313,2.313,0,0,1,5.205,64.578Zm0,5.783A5.209,5.209,0,0,1,.579,67.47a5.327,5.327,0,0,1,2.345-2.337A2.887,2.887,0,1,0,8.1,66.891a2.865,2.865,0,0,0-.61-1.759A5.327,5.327,0,0,1,9.832,67.47,5.209,5.209,0,0,1,5.205,70.361Z" transform="translate(-0.001 -64)" fill="#231a3b"/>
-          </svg>
-        </a>
-      </div>
-    </div>
+	{% set compt = compt + 1 %}
+	{% endfor %}
+
+	{% set reste = 4 - nbprod %}
+	{% if reste > 0 %}
+		{% for article in article_galerie|slice(reste) %}
+		<div class="pc-project pc-project-{{ compt }}">
+		<div class="pc-project-link" style="background-image: url('{% if article.imgservice != null and article.imgservice.src != null %}{{ asset(article.imgservice.getwebpath) }}{% else %}{{ asset('template/images/present.jpg') }}{% endif %}');"></div>
+		<div class="pc-project-overlay">
+			<a href="{{ path('produit_service_gallery_struct') }}" class="pc-project-overlay-link">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.409 6.94">
+					<path id="eye" d="M5.205,68.048a1.157,1.157,0,1,0,0-2.313c-.018,0-.034,0-.052.005a.858.858,0,0,1-1.1,1.1c0,.018-.005.034-.005.052A1.157,1.157,0,0,0,5.205,68.048Zm5.142-.842A5.8,5.8,0,0,0,5.205,64,5.8,5.8,0,0,0,.063,67.206a.585.585,0,0,0,0,.528A5.8,5.8,0,0,0,5.205,70.94a5.8,5.8,0,0,0,5.142-3.206.585.585,0,0,0,0-.528ZM5.205,64.578a2.313,2.313,0,1,1-2.313,2.313A2.313,2.313,0,0,1,5.205,64.578Zm0,5.783A5.209,5.209,0,0,1,.579,67.47a5.327,5.327,0,0,1,2.345-2.337A2.887,2.887,0,1,0,8.1,66.891a2.865,2.865,0,0,0-.61-1.759A5.327,5.327,0,0,1,9.832,67.47,5.209,5.209,0,0,1,5.205,70.361Z" transform="translate(-0.001 -64)" fill="#231a3b"/>
+				</svg>
+			</a>
+		</div>
+		</div>
+		{% endfor %}
+		{% set compt = compt + 1 %}
+	{% endif %}
+
     <div class="pc-project pc-project-3">
       <div class="pc-project-link" style="background-image: url('{{ asset('template/images/excel.jpg') }}');"></div>
       <div class="pc-project-overlay">
@@ -384,7 +397,7 @@
     <div class="pc-user" >
       <div class="pc-user-image">
         <a href="{{ path('users_user_user_accueil', {'id': user.id}) }}">
-          <img src="{% if user.imgprofil != null %}{{ asset(user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="{{ user.name(20) }}" style="height: 250px;"/>
+          <img src="{% if user.imgprofil != null %}{{ asset(user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="{{ user.name(20) }}" style="height: 200px; max-width: 200px;"/>
         </a>
       </div>
       <div class="pc-user-info">
@@ -395,22 +408,21 @@
         <div class="pc-user-location">
           {% if user.message != null %}{{ user.message|raw }}{% else %}Mon message à mes étudiant(e)s{% endif %}
         </div>
-		
-		<ul class="pc-social icon-effect icon-effect-1a" style="position: absolute; bottom: -10px;">
-		  <li><a href="#" class="icons"><i class="fa fa-facebook"></i></a></li>
-		  <li><a href="#" class="icons"><i class="fa fa-twitter"></i></a></li>
-		  <li><a href="#" class="icons"><i class="fa fa-linkedin"></i></a></li>
-		  <li><a href="#" class="icons"><i class="fa fa-youtube"></i></a></li>
-		</ul>  
-
+	
       </div>
     </div>
     <div class="pc-user-buttons">
-	  {% if app.user == user %}
-		<a href="{{ path('users_user_accueil_commande_user', {'id': app.user.id }) }}" class="pc-btn" style="width: 200px; bottom: 30px; position: absolute; right: 25px;">Formations à suivre</a>
-	  {% else %}
-		<a href="#" class="pc-btn" style="width: 200px; bottom: 30px; position: absolute; right: 25px;">Envoyer un message</a>
-	  {% endif %}
+		<ul class="pc-social icon-effect icon-effect-1a" style="position: absolute; top: 210px; right: 25px;">
+			<li><a href="#" class="icons"><i class="fa fa-facebook"></i></a></li>
+			<li><a href="#" class="icons"><i class="fa fa-twitter"></i></a></li>
+			<li><a href="#" class="icons"><i class="fa fa-linkedin"></i></a></li>
+			<li><a href="#" class="icons"><i class="fa fa-youtube"></i></a></li>
+		</ul>  
+		{% if app.user == user %}
+			<a href="{{ path('users_user_accueil_commande_user', {'id': app.user.id }) }}" class="pc-btn" style="width: 200px; bottom: 30px; position: absolute; right: 25px;">Suivre mes apprenants </a>
+		{% else %}
+			<a href="#" class="pc-btn" style="width: 200px; bottom: 30px; position: absolute; right: 25px;">Envoyer un message</a>
+		{% endif %}
     </div>
   </div>
 </div>

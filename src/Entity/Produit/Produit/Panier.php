@@ -121,18 +121,24 @@ class Panier
      * @ORM\JoinColumn(nullable=true)
     */
 	private $chapitrecours;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $montantttc;
 	
 	public function __construct()
-	{
-		$this->produitpaniers = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->date = new \Datetime();
-		$this->payer = true;
-		$this->livrer = false;
-		$this->valide = true;
-		$this->livraisonpayer = false;
-		$this->coastlivraison = 0;
-		$this->messadmin = false;
-	}
+    {
+        $this->produitpaniers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->date = new \Datetime();
+        $this->payer = true;
+        $this->livrer = false;
+        $this->valide = true;
+        $this->livraisonpayer = false;
+        $this->coastlivraison = 0;
+        $this->messadmin = false;
+        $this->montantttc = 0;
+    }
 	
     /**
      * Get id
@@ -326,35 +332,35 @@ class Panier
     }
 	
 	public function numFacture()
-	{
-		$datetransform = new DateTimeToArrayTransformer();
-		$dt = $datetransform->transform($this->getDate());
-		return ''.$dt['day'].''.$this->getId().''.$dt['month'].''.$dt['year'];
-	}
+         	{
+         		$datetransform = new DateTimeToArrayTransformer();
+         		$dt = $datetransform->transform($this->getDate());
+         		return ''.$dt['day'].''.$this->getId().''.$dt['month'].''.$dt['year'];
+         	}
 	
 	public function dateFacture()
-	{
-		$datetransform = new DateTimeToArrayTransformer();
-		$dt = $datetransform->transform($this->getDate());
-		return $dt['day'].'-'.$dt['month'].'-'.$dt['year'];
-	}
+         	{
+         		$datetransform = new DateTimeToArrayTransformer();
+         		$dt = $datetransform->transform($this->getDate());
+         		return $dt['day'].'-'.$dt['month'].'-'.$dt['year'];
+         	}
 	
 	public function getUploadDir()
-	{
-	// On retourne le chemin relatif vers l'image pour un navigateur
-	return 'bundles/produit/produit/facture/panier';
-	}
+         	{
+         	// On retourne le chemin relatif vers l'image pour un navigateur
+         	return 'bundles/produit/produit/facture/panier';
+         	}
 	
 	public function getUploadRootDir()
-	{
-	// On retourne le chemin relatif vers l'image pour notre codePHP
-	return  __DIR__.'/../../../../public/'.$this->getUploadDir();
-	}
+         	{
+         	// On retourne le chemin relatif vers l'image pour notre codePHP
+         	return  __DIR__.'/../../../../public/'.$this->getUploadDir();
+         	}
 	
 	public function getWebPath()
-	{
-	return $this->getUploadDir().'/'.$this->numFacture().'.pdf';
-	}
+         	{
+         	return $this->getUploadDir().'/'.$this->numFacture().'.pdf';
+         	}
 
     /**
      * Set messadmin
@@ -425,5 +431,17 @@ class Panier
     public function getChapitrecours(): ?Chapitrecours
     {
         return $this->chapitrecours;
+    }
+
+    public function getMontantttc(): ?int
+    {
+        return $this->montantttc;
+    }
+
+    public function setMontantttc(?int $montantttc): self
+    {
+        $this->montantttc = $montantttc;
+
+        return $this;
     }
 }

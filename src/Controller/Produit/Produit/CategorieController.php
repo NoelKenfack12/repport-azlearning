@@ -399,7 +399,7 @@ public function addproduitaccueil(Produit $produit, GeneralServicetext $service,
 	return $this->redirect($this->generateUrl('users_adminuser_liste_produit_souscategorie',array('id'=>$produit->getSouscategorie()->getId())));
 }
 
-public function publierproduitadminAction(Produit $produit, $guide, GeneralServicetext $service, Request $request)
+public function publierproduitadmin(Produit $produit, $guide, GeneralServicetext $service, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
 

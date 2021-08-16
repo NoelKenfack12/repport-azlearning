@@ -31,6 +31,7 @@ use App\Entity\Produit\Service\Commentaireblog;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Email\Singleemail;
 use App\Entity\Produit\Service\Ville;
+use App\Entity\Produit\Service\Infoentreprise;
 
 class UserController extends AbstractController
 {
@@ -42,6 +43,7 @@ public function __construct(ParameterBagInterface $params, Singleemail $servicem
 	$this->params = $params;
 	$this->_servicemail = $servicemail;
 }
+
 public function inscriptionuser(GeneralServicetext $service, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
@@ -58,6 +60,15 @@ public function inscriptionuser(GeneralServicetext $service, Request $request)
 
 		
 		if($form->isValid()){
+			
+			//sécurisation du mot de passe utilisateur
+			$passuser = $user->getPassword();
+			
+			$salt = substr(crypt($passuser,''), 0, 16);
+			$user->setSalt($salt);
+			$newpassword = $service->encrypt($passuser,$salt);
+			$user->setPassword($newpassword);
+			
 			$em->persist($user);
 			$em->flush();
 			
@@ -87,7 +98,6 @@ public function inscriptionuser(GeneralServicetext $service, Request $request)
 		}
 		$this->get('session')->getFlashBag()->add('inscription','Une erreur a été rencontrée !!!');
 	}
-	
 	
 	return $this->render('Theme/Users/User/User/inscriptionuser.html.twig',
 	array('form'=>$form->createview()));
@@ -178,7 +188,7 @@ public function forumepingle(User $user)
 		return $this->render('Theme/Users/User/User/forumepingle.html.twig',
 		array('user'=>$user, 'liste_epingle'=>$liste_epingle));
 	}else{
-	return $this->redirect($this->generateUrl('users_user_acces_plateforme'));
+		return $this->redirect($this->generateUrl('users_user_acces_plateforme'));
 	}
 }
 
@@ -368,15 +378,21 @@ public function updateprofil(User $user, GeneralServicetext $service, Request $r
 	return $this->redirect($this->generateUrl('users_user_modifier_profil', array('id'=>$user->getId())));
 }
 
-public function banniereuser(User $user)
+public function banniereuser(User $user, GeneralServicetext $service)
 {
 	$em = $this->getDoctrine()->getManager();
 	$liste_produit = $em->getRepository(Produit::class)
-					        ->findBy(array('user'=>$user,'valide'=>true));
+					    ->findBy(array('user'=>$user,'valide'=>true));
 	$liste_panier = $em->getRepository(Panier::class)
-					   ->getPanierProduitUser($user->getId());						
+					   ->getPanierProduitUser($user->getId());
+	$shot_list = $service->selectEntities($liste_produit, 4);
+	
+	$article_galerie = $em->getRepository(Infoentreprise::class)
+                       ->findBy(array('type'=>'article-galerie'), array('rang'=>'desc'));
+	$article_galerie = $service->selectEntities($article_galerie, 4);
+
 	return $this->render('Theme/Users/User/User/banniereuser.html.twig',
-	array('user'=>$user,'liste_produit'=>$liste_produit,'liste_panier'=>$liste_panier));
+	array('user'=>$user,'liste_produit'=>$shot_list,'liste_panier'=>$liste_panier, 'article_galerie'=>$article_galerie));
 }
 
 public function ajouteradmin(Request $request)
@@ -493,7 +509,7 @@ public function accueilcommandeuser(User $user, GeneralServicetext $service)
 			foreach($panier->getProduitpaniers() as $propan)
 			{
 				$liste_chap = $em->getRepository(Chapitrecours::class)
-									->listechapitrecours($propan->getProduit()->getId());
+								->listechapitrecours($propan->getProduit()->getId());
 				foreach($liste_chap as $chap)
 				{
 					$chap->setEm($em);
@@ -501,11 +517,12 @@ public function accueilcommandeuser(User $user, GeneralServicetext $service)
 				$propan->getProduit()->setEm($em);
 			}
 		}
+
 		$notemin = $this->params->get('notemin');
 		return $this->render('Theme/Users/User/User/accueilcommandeuser.html.twig',
 		array('user'=>$user,'liste_panier'=>$liste_panier,'bareme'=>$service->getBareme(),'notemin'=>$notemin));
 	}else{
-	return $this->redirect($this->generateUrl('users_user_acces_plateforme'));
+		return $this->redirect($this->generateUrl('users_user_acces_plateforme'));
 	}
 }
 
@@ -556,10 +573,17 @@ public function soldergainuser(Souscategorie $scat, User $user, GeneralServicete
 
 public function listealluser()
 {
-	return $this->render('Theme/Users/Adminuser/User/listealluser.html.twig');
+	$searchitem = '';
+	if(isset($_POST['search']))
+	{
+		$searchitem = $_POST['search'];
+	}else{
+		$searchitem = '';
+	}
+	return $this->render('Theme/Users/Adminuser/User/listealluser.html.twig', array('searchitem'=>$searchitem));
 }
 
-public function searchinguser($page)
+public function searchinguser($page, $searchitem)
 {
 	if(isset($_GET['page']))
 	{
@@ -569,10 +593,17 @@ public function searchinguser($page)
 	}
 	
 	$em = $this->getDoctrine()->getManager();
-	$liste_user = $em->getRepository(User::class)
-						   ->myFindAll($page,6);
+	if($searchitem == '')
+	{
+		$liste_user = $em->getRepository(User::class)
+						 ->myFindAll($page,6);
+	}else{
+		$liste_user = $em->getRepository(User::class)
+						 ->myFindAllUser($page,6, $searchitem);
+	}
+	
 	return $this->render('Theme/Users/Adminuser/User/searchinguser.html.twig',
-	array('nombrepage' => ceil(count($liste_user)/6),'page'=>$page,'liste_user'=>$liste_user));
+	array('nombrepage' => ceil(count($liste_user)/6),'page'=>$page,'liste_user'=>$liste_user, 'searchitem'=>$searchitem));
 }
 
 public function authoverlay()

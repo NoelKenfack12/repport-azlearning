@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Users\UserBundle\Entity\User;
 use App\Entity\Produit\Produit\Partiecours;
 use App\Entity\Produit\Produit\Produit;
+use App\Entity\Produit\Produit\Produitpanier;
 use App\Form\Produit\Produit\PartiecoursType;
 use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,14 +39,18 @@ public function addpartiecours(Produit $produit, GeneralServicetext $service, Re
 	return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
 }
 
-public function detailpartie(Partiecours $partie, $number, $addform, $codeadmin = 0, $idpartie = 0, $idchapitre = 0)
+public function detailpartie(Partiecours $partie, $number, $addform, $codeadmin = 0, $idpartie = 0, $idchapitre = 0, $idprodpan = 0)
 {
 	$em = $this->getDoctrine()->getManager();
 	$formedit = $this->createForm(PartiecoursType::class, $partie); 
 	$partie->setEm($em);
+
+	$produitpanier = $em->getRepository(Produitpanier::class)
+	                        ->find($idprodpan);
+
 	return $this->render('Theme/Produit/Produit/Partiecours/detailpartie.html.twig', 
 	array('partie'=>$partie,'produit'=>$partie->getProduit(),'number'=>$number,'codeadmin'=>$codeadmin,'formedit'=>$formedit->createView(),
-	'addform'=>$addform, 'idpartie'=>$idpartie, 'idchapitre'=>$idchapitre));
+	'addform'=>$addform, 'idpartie'=>$idpartie, 'idchapitre'=>$idchapitre, 'produitpanier'=>$produitpanier));
 }
 
 public function modificationpartiecours(Partiecours $partie, GeneralServicetext $service, Request $request)

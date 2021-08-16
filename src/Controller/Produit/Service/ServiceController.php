@@ -945,6 +945,7 @@ public function addformationpanier(Service $service, GeneralServicetext $service
 					$panier = new Panier();
 					$panier->setUser($this->getUser());
 					$panier->setService($service);
+					$panier->setMontantttc($montant);
 					$em->persist($panier);
 					foreach($service->getProduits() as $produit)
 					{
@@ -1013,6 +1014,7 @@ public function addformationpanier(Service $service, GeneralServicetext $service
 						$this->getUser()->setSoldeprincipal($this->getUser()->getSoldeprincipal() - $montant);
 						$oldpanier->setDate(new \Datetime());
 						$oldpanier->setValide(true);
+						$oldpanier->setMontantttc($montant);
 						$em->flush();
 						
 						//envoie d'email
