@@ -78,20 +78,20 @@ Chapitre <span class="fa fa-angle-right" style="font-size: 10px;"></span> {{ cha
 <hr style="margin-bottom: 0px;"/>
 
 <div style="background: #ECF0F1; padding: 15px;">
-<form action="{{ path('users_user_ajout_copie_travaux_pratique', {'pratique': pratique.id,'prodpan': prodpan.id }) }}" method="post" {{ form_enctype(form) }}>
+{{ form_start(form, {'attr': {'class': 'form_submit_sujet_forum','action': path('users_user_ajout_copie_travaux_pratique', {'pratique': pratique.id,'prodpan': prodpan.id }) }}) }}
 <div>{{ form_label(form.file,'Importez votre copie depuis votre appareil') }}</div>
 <div class="form-group">
 {{ form_widget(form.file) }}
 </div>
 <button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
-{{ form_rest(form) }}
+{{ form_end(form) }}
 </form>
 </div>
 </div>
 
 <div class="modal-footer" style="display: block!important; text-align: right;">
 <span class="pull-left">&copy; {{ site }}</span>
-{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
 </div>
 
 </div>
@@ -118,20 +118,20 @@ Chapitre <span class="fa fa-angle-right" style="font-size: 10px;"></span> {{ cha
 <hr style="margin-bottom: 0px;"/>
 
 <div style="background: #ECF0F1; padding: 15px;">
-	<form action="{{ path('users_user_modification_copie_travaux_pratique_user', {'id': compospratique.id }) }}" method="post" {{ form_enctype(formmodif) }}>
+	{{ form_start(formmodif, {'attr': {'class': 'form_submit_sujet_forum','action': path('users_user_modification_copie_travaux_pratique_user', {'id': compospratique.id }) }}) }}
 	<div>{{ form_label(formmodif.file,'Importez votre copie depuis votre appareil') }}</div>
 	<div class="form-group">
 	{{ form_widget(formmodif.file) }}
 	</div>
 	<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
-	{{ form_rest(formmodif) }}
+	{{ form_end(formmodif) }}
 	</form>
 </div>
 </div>
 
 <div class="modal-footer" style="display: block!important; text-align: right;">
 <span class="pull-left">&copy; {{ site }}</span>
-{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
 </div>
 
 </div>
@@ -175,31 +175,31 @@ $('.alter-copie-courant-pratique-{{ pratique.id }}').click(function(){
 
 $('.update-note-pratique-{{ pratique.id }}').on('change', function(){
 	{% if compospratique != null %}
-			if($('.variation-sub-contenu').attr('value') != 1)
+		if($('.variation-sub-contenu').attr('value') != 1)
+		{
+			$('.variation-sub-contenu').attr('value',1);
+			var hauteur = $('.variation-sub-contenu').height() + 2; 
+			var largeur = $('.variation-sub-contenu').width() + 2;
+			var padding = Math.round(hauteur/2 - 15);
+			$('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
+			$.post('{{ path('users_user_modif_note_tp_courant_user', {'id': compospratique.id}) }}', { val: $(this).val() }, function(data) {
+			$('.attente-resultat').hide();
+			$('.variation-sub-contenu').attr('value',0);
+			
+			if(data == 1)
 			{
-			  $('.variation-sub-contenu').attr('value',1);
-			  var hauteur = $('.variation-sub-contenu').height() + 2; 
-			  var largeur = $('.variation-sub-contenu').width() + 2;
-			  var padding = Math.round(hauteur/2 - 15);
-			  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
-			  $.post('{{ path('users_user_modif_note_tp_courant_user', {'id': compospratique.id}) }}', { val: $(this).val() }, function(data) {
-			  $('.attente-resultat').hide();
-			  $('.variation-sub-contenu').attr('value',0);
-			  
-			  if(data == 1)
-			  {
-				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Mise à jour de la note effectuée avec succès !');
-				$('#infos-action-effectuer').modal('show');
-			  }else{
-				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Une erreur a été rencontrée lors de la mise à jour de la note !');
-				$('#infos-action-effectuer').modal('show');
-			  }
-			  
-			  });
-			}
-		{% else %}
-			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Aucune copie associée à cet éxercice !');
+			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Mise à jour de la note effectuée avec succès !');
 			$('#infos-action-effectuer').modal('show');
-		{% endif %}
+			}else{
+			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Une erreur a été rencontrée lors de la mise à jour de la note !');
+			$('#infos-action-effectuer').modal('show');
+			}
+			
+			});
+		}
+	{% else %}
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Aucune copie associée à cet éxercice !');
+		$('#infos-action-effectuer').modal('show');
+	{% endif %}
 });
 </script>

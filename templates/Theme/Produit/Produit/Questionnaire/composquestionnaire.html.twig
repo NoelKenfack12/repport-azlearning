@@ -4,23 +4,29 @@
 <div class="panel-heading">
 <h3 class="panel-title text-left">
 {{ loop.index }}. {{ question.titre }}
-<div class="btn-group pull-right" style="margin-top: 0px; padding: 0px;">
-<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; padding: 0px; margin: 0px;"><i class="fa fa-info-circle" style="padding: 0px; margin: 0px;"></i></a>
-	<ul class="dropdown-menu pull-right" style="margin-top: 0px; border-radius: 0px;">
-		<li><a href="#!"><span class="fa fa-list-alt"></span> Réponse unique</a></li>
-	</ul>
+
+<div class="dropdown-btn float-right" style="position: relative; margin: 0px 20px 0px 0px;">
+	<a href="javascript:void(0)">
+			Infos <span class=" fa fa-angle-down"></span>
+	</a>
+	<div class="dropdown__menu" style="margin-top: 10px;">
+
+		<a href="#!" class="dropdown__option" style="font-size: 13px;"><span class="fa fa-list-alt"></span> Réponse unique</a>
+
+	</div>
 </div>
+
 </h3>
 </div>
 <div class="panel-body text-left">
 	<div class="col-md-12">
 	   <div class="form-group">
 		  {% for proposition in question.propositions %}
-		  <label class="radio">
+		  <label class="radio" style="display: block; margin-bottom: 7px;">
 			<input type="radio" data-toggle="radio" class="elem-radio-check" proposition="{{ proposition.id }}" question="{{ question.id }}" propan="{% if prodpan != null %}{{ prodpan.id }}{% else %}0{% endif %}" name="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" id="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" value="option1" style="cursor: pointer!important;" data-radiocheck-toggle="radio" {% if proposition.id == question.element %}checked="" {% set submitsolution = 1 %}{% endif %}/>
 			{{ proposition.titre }}
 			{% if proposition.id == question.element %}
-			<a href="#!" class="pull-right"><span class="fa fa-check"></span></a>
+				<a href="#!" class="pull-right"><span class="fa fa-check"></span></a>
 			{% endif %}
 		  </label>
 		  {% endfor %}

@@ -212,6 +212,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="panel panel-default text-left" style="border-radius: 10px; background: #f4f4f4; padding: 10px; min-height: 180px; margin-top: 15px;">
+						
 						<h3 class="panel-title">
 							<a style="display: block;"><span class="mdi-action-speaker-notes" style="font-size: 15px;"></span> Construction du questionnaire pour cette notion.</a>
 						</h3>
@@ -234,10 +235,9 @@
 						</div>
 					</div>
 				</div>
-		
+
 		  </div>
 		</div>
-
 
 		</div>
 		</div>
@@ -302,10 +302,9 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 
 
 <div class="modal fade" id="infos-action-new-support-chapter" style="margin-top: 100px; z-index: 9999;">
-
 <div class="modal-dialog modal-md" style="border-radius: 10px;">
 <div class="modal-content text-left">
-<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+<div class="modal-header text-left" style="padding-top: 10px;">
 	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
 		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
 		<span class="fa fa-file-text-o"></span> Nouveau support - {{ chapitre.name(50) }}
@@ -342,14 +341,12 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 
 <div class="modal-dialog modal-md" style="border-radius: 10px;">
 <div class="modal-content text-left">
-<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+<div class="modal-header text-left" style=" padding-top: 10px;">
 	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
 		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
 		<span class="fa fa-file-text-o"></span> Nouveau TP- {{ chapitre.name(50) }}
 	</h4>
 </div>
-
-
 <div class="modal-body" style="background: #fff; color: #333;">
 	<div style="background: #ECF0F1; padding: 15px;">
 	{{ form_start(formpratique, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_ajout_new_travaux_pratique', {'id': chapitre.id }) }}) }}
@@ -387,7 +384,7 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 
 <div class="modal-dialog modal-md" style="border-radius: 10px;">
 <div class="modal-content text-left">
-<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+<div class="modal-header text-left" style="padding-top: 10px;">
 	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
 		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
 		<span class="fa fa-file-text-o"></span> Nouveau Exercice - {{ chapitre.name(50) }}
@@ -433,7 +430,7 @@ Entier positif !!! <span class="label label-info pull-right control-info-champ11
 {% endblock %}
 
 {% block javascripttemplate %}
-tinymce.init({ selector:'#produit_produitbundle_chapitrecours_contenu', entity_encoding: "raw" });
+tinymce.init({ selector:'#chapitrecours_contenu', entity_encoding: "raw" });
 
 $('.add-new-part').click(function(){
 	$('#infos-action-new-part').modal('show');

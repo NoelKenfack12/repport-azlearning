@@ -17,6 +17,7 @@ use App\Service\AfMail\fileAttachment;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Email\Singleemail;
 use App\Entity\Produit\Produit\Chapitrecours;
+use App\Service\Servicetext\GeneralServicetext;
 
 
 class CommentaireblogController extends AbstractController

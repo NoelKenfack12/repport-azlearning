@@ -665,10 +665,16 @@ border-radius: 10px;
 }
 textarea:focus,
 input[type="text"]:focus,
+input[type="number"]:focus,
 select:focus,
 .uneditable-input:focus {
-  border-color: #0033c4;
-  box-shadow: 0 0 0 0.2rem rgba(0, 51, 196, 0.2);
+  border-color: #0033c4!important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 51, 196, 0.2)!important;
+  
+}
+.form-control{
+	border-radius: 3px!important;
+    border: 1px solid #ddd!important;
 }
 .form-check .form-check-label{
 	margin-left: 0px!important;

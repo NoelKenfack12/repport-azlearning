@@ -536,7 +536,7 @@ public function supprimersupport(Supportchapitre $support)
 	return $this->redirect($this->generateUrl('produit_produit_user_modif_chapter', array('id'=>$chapitre->getId())));
 }
 
-public function ajoutnewtravauxpratique(Chapitrecours $chapitre)
+public function ajoutnewtravauxpratique(Chapitrecours $chapitre, GeneralServicetext $service, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
 	$pratique = new Pratiquechapitre();

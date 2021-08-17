@@ -266,7 +266,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 	<div class="row" style="margin-top: 7px;">
 		<div class="col-md-4">
 			<div class="toutleblock">
-				<div style="height: 700px; overflow-y: auto;">
+				<div style="height: 700px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px; padding: 7px;">
 					{% if prodpan == null %}
 						{% set idprodpan = 0 %}
 					{% else %}
@@ -421,18 +421,30 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 							<a href="{{ path('produit_produit_presentation_chapter', {'id': support.chapitrecours.id }) }}">{{ support.chapitrecours.titre }}</a> 
 							<span class="fa fa-angle-right"> </span>
 							Support Numéro: {{ support.num }}
-							<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-file-text-o"></span> Supports </a>
-							<ul class="dropdown-menu" style="width: 300px; float: right; margin-right: 50px; padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
-								<li class="divider"></li>
-								{% if prodpan != null %}
-									<li><a href="{{ path('produit_produit_telecharger_support_chapter', {'id': support.id}) }}" target="_blank"><span class="fa fa-arrow-circle-o-down"></span> Télchargez le support</a></li>
-								{% else %}
-									<li><a href="#!" class="souscription-cours-online"><span class="fa fa-arrow-circle-o-down"></span> Télchargez le support</a></li>
-								{% endif %}
-								{% if app.user == produit.user %}
-								<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un support</a></li>
-								{% endif %}
-							</ul>
+
+							<div class="dropdown-btn float-right" style="position: relative; margin: 0px 20px 0px 0px;">
+								<a href="javascript:void(0)">
+									 Supports <span class=" fa fa-angle-down"></span>
+								</a>
+					  
+								<div class="dropdown__menu" style="margin-top: 10px;">
+								  {% if prodpan != null %}
+									<a href="{{ path('produit_produit_telecharger_support_chapter', {'id': support.id}) }}" class="dropdown__option">
+										<span class="fa fa-arrow-circle-o-down"></span> Télchargez le support
+								    </a>
+									{% else %}
+									<a href="#!" class="dropdown__option souscription-cours-online">
+										<span class="fa fa-arrow-circle-o-down"></span> Télchargez le support
+									</a>
+								  {% endif %}
+								  
+								  {% if app.user == produit.user %}
+								  <a href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" class="dropdown__option">
+									<span class="fa fa-file-text-o"></span> Ajouter un support
+								  </a>
+								  {% endif %}
+								</div>
+							</div>
 						</div>
 						{% else %}	  
 							<div class="alert panel-text">
@@ -449,28 +461,51 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 							<a href="{{ path('produit_produit_presentation_chapter', {'id': pratique.chapitrecours.id }) }}">{{ pratique.chapitrecours.titre }}</a> 
 							<span class="fa fa-angle-right"> </span>
 							TP N°: {{ pratique.num }}
-							<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-file-text-o"></span> Supports </a>
-							<ul class="dropdown-menu" style="width: 300px; float: right; margin-right: 50px; padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
-								<li class="divider"></li>
-								{% if prodpan != null %}
-									<li><a href="{{ path('produit_produit_download_travaux_pratique', {'id': pratique.id }) }}" target="_blank"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a></li>
-									<li class="divider"></li>
-									{% if prodpan.produit != null %}
-									<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
-									{% else %}
-										{% if prodpan.panier.chapitrecours != null %}
-										<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
+
+							<div class="dropdown-btn float-right" style="position: relative; margin: 0px 20px 0px 0px;">
+								<a href="javascript:void(0)">
+									 Supports <span class=" fa fa-angle-down"></span>
+								</a>
+					  
+								<div class="dropdown__menu" style="margin-top: 10px;">
+
+									{% if prodpan != null %}
+										<a href="#!" target="_blank" class="dropdown__option"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a>
+										<li class="divider"></li>
+										{% if prodpan.produit != null %}
+										<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a>
+										{% else %}
+											{% if prodpan.panier.chapitrecours != null %}
+											<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a>
+											{% endif %}
 										{% endif %}
+									{% else %}
+										<a href="#!" class="souscription-cours-online dropdown__option"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a>
 									{% endif %}
-								{% else %}
-									<li><a href="#!" class="souscription-cours-online"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a></li>
-								{% endif %}
-								
-								<li class="divider"></li>
-								{% if app.user == produit.user %}
-									<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un Tp</a></li>
-								{% endif %}
-							</ul>
+									
+									<li class="divider"></li>
+									{% if app.user == produit.user %}
+										<a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" class="dropdown__option"><span class="fa fa-file-text-o"></span> Ajouter un Tp</a>
+									{% endif %}
+
+
+								  {% if prodpan != null %}
+									<a href="{{ path('produit_produit_download_travaux_pratique', {'id': pratique.id }) }}" class="dropdown__option">
+										<span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction
+								    </a>
+									{% else %}
+									<a href="#!" class="dropdown__option souscription-cours-online">
+										<span class="fa fa-arrow-circle-o-down"></span> Télchargez le support
+									</a>
+								  {% endif %}
+								  
+								  {% if app.user == produit.user %}
+								  <a href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" class="dropdown__option">
+									<span class="fa fa-file-text-o"></span> Ajouter un support
+								  </a>
+								  {% endif %}
+								</div>
+							</div>
 						</div>
 						{% else %}	  
 							<div class="alert panel-text">
@@ -551,28 +586,33 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 							<a href="{{ path('produit_produit_presentation_chapter', {'id': exercice.chapitrecours.id }) }}">{{ exercice.chapitrecours.titre }}</a> 
 							<span class="fa fa-angle-right"> </span>
 							Exervice N°: {{ exercice.num }}
-							<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-file-text-o"></span> Supports </a>
-							<ul class="dropdown-menu" style="width: 300px; float: right; margin-right: 50px; padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
-								<li class="divider"></li>
-								{% if prodpan != null %}
-									<li><a href="{{ path('produit_produit_telecharge_exercice', {'id': exercice.id }) }}" target="_blank"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a></li>
-									<li class="divider"></li>
+
+							<div class="dropdown-btn float-right" style="position: relative; margin: 0px 20px 0px 0px;">
+								<a href="javascript:void(0)">
+									 Supports <span class=" fa fa-angle-down"></span>
+								</a>
+					  
+								<div class="dropdown__menu" style="margin-top: 10px;">
+
+									{% if prodpan != null %}
+									<a href="{{ path('produit_produit_telecharge_exercice', {'id': exercice.id }) }}" target="_blank" class="dropdown__option"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a>
+									
 									{% if prodpan.produit != null %}
-									<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
+									<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a>
 									{% else %}
 										{% if prodpan.panier.chapitrecours != null %}
-										<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
+										<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a>
 										{% endif %}
 									{% endif %}
 								{% else %}
-									<li><a href="#!" class="souscription-cours-online"><span class="fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a></li>
+									<a href="#!" class="souscription-cours-online dropdown__option"><span class="fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a>
 								{% endif %}
 								
-								<li class="divider"></li>
 								{% if app.user == produit.user %}
-									<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un Exercice</a></li>
+									<a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" class="dropdown__option"><span class="fa fa-file-text-o"></span> Ajouter un Exercice</a>
 								{% endif %}
-							</ul>
+								</div>
+							</div>
 						</div>
 						{% else %}	  
 							<div class="alert panel-text">
@@ -590,8 +630,8 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 
 					<div style="margin-top: 10px;"><h2>QCM: Questionnaire à choix multiples</h2></div><hr/>
 					
-					<div class="variation-sub-contenu" value="0">
-						{# { render(controller("ProduitProduitBundle:Questionnaire:composquestionnaire", {'id': chapitre.id,'idpropan': idpropan, 'src': 0})) } #}
+					<div class="variation-sub-contenu" value="0" style="margin-bottom: 40px;">
+						{{ render(controller("App\\Controller\\Produit\\Produit\\QuestionnaireController:composquestionnaire", {'id': chapitre.id,'idpropan': idpropan, 'src': 0})) }}
 					</div>
 				</div> 
 				</div>
