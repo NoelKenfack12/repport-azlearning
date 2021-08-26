@@ -32,6 +32,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Email\Singleemail;
 use App\Entity\Produit\Service\Ville;
 use App\Entity\Produit\Service\Infoentreprise;
+use App\Entity\Produit\Service\Continent;
+use App\Entity\Produit\Service\Pays;
 
 class UserController extends AbstractController
 {
@@ -59,8 +61,14 @@ public function inscriptionuser(GeneralServicetext $service, Request $request)
 		$form->handleRequest($request);
 
 		
-		if($form->isValid()){
+		if($form->isValid() and isset($_POST['pays'])){
 			
+			$pays = $em->getRepository(Pays::class)
+				   	   ->find($_POST['pays']);
+			if($pays != null)
+			{
+				$user->setCountry($pays);
+			}
 			//sécurisation du mot de passe utilisateur
 			$passuser = $user->getPassword();
 			
@@ -99,8 +107,14 @@ public function inscriptionuser(GeneralServicetext $service, Request $request)
 		$this->get('session')->getFlashBag()->add('inscription','Une erreur a été rencontrée !!!');
 	}
 	
+	$liste_continent = $em->getRepository(Continent::class)
+				   		  ->findAll();
+	foreach($liste_continent as $continent)
+	{
+		$continent->setEm($em);
+	}
 	return $this->render('Theme/Users/User/User/inscriptionuser.html.twig',
-	array('form'=>$form->createview()));
+	array('form'=>$form->createview(), 'liste_continent'=>$liste_continent));
 }
 
 public function accueiluser(User $user, GeneralServicetext $service)

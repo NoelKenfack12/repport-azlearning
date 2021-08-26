@@ -1,26 +1,20 @@
 <?php
+
 namespace App\Entity\Produit\Service;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Service\Servicetext\GeneralServicetext;
 use App\Validator\Validatorfile\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use App\Repository\Produit\Service\ImginfoentrepriseRepository;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\Produit\Service\DrapeauRepository;
 /**
- * Imginfoentreprise
+ * Drapeau
  *
- * @ORM\Table("imginfoentreprise")
- * @ORM\Entity(repositoryClass=ImginfoentrepriseRepository::class)
- * @ApiResource(
- *    normalizationContext={"groups"={"imginfoentreprise:read"}},
- *    denormalizationContext={"groups"={"imginfoentreprise:write"}}
- * )
-  ** @ORM\HasLifecycleCallbacks
+ * @ORM\Table("drapeau")
+ * @ORM\Entity(repositoryClass=DrapeauRepository::class)
+ ** @ORM\HasLifecycleCallbacks
  */
-class Imginfoentreprise
+class Drapeau
 {
     /**
      * @var integer
@@ -28,21 +22,20 @@ class Imginfoentreprise
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-	 * @Groups({"imginfoentreprise:read"})
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="src", type="string", length=255)
+     * @ORM\Column(name="src", type="string", length=255,nullable=false)
      */
     private $src;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="alt", type="string", length=255)
+     * @ORM\Column(name="alt", type="string", length=255,nullable=false)
      */
     private $alt;
 	
@@ -55,14 +48,13 @@ class Imginfoentreprise
 	private $tempFilename;
 	
 	// variable du service de normalisation des noms de fichier
-	private $servicetext;
+	private $servicefile;
 	
 	public function __construct()
 	{
-	$this->src ="source";
-	$this->alt ="alternatif";
+		$this->src ="source";
+		$this->alt ="alternatif";
 	}
-
 
     /**
      * Get id
@@ -78,7 +70,7 @@ class Imginfoentreprise
      * Set src
      *
      * @param string $src
-     * @return Imginfoentreprise
+     * @return Drapeau
      */
     public function setSrc($src)
     {
@@ -101,7 +93,7 @@ class Imginfoentreprise
      * Set alt
      *
      * @param string $alt
-     * @return Imginfoentreprise
+     * @return Drapeau
      */
     public function setAlt($alt)
     {
@@ -119,8 +111,7 @@ class Imginfoentreprise
     {
         return $this->alt;
     }
-	
-	//permet la récupération du nom du fichier temporaire
+	//permet la r�cup�ration du nom du fichier temporaire
     public function getTempFilename()
     {
     return $this->tempFilename;
@@ -130,44 +121,41 @@ class Imginfoentreprise
 	{
 	$this->tempFilename=$temp;
 	}
-	// permet la récupération du nom du fiechier
+	// permet la r�cup�ration du nom du fiechier
 	public function getFile()
 	{
 	return $this->file;
 	}
-	
-	public function setServicetext( GeneralServicetext $service)
+	public function setServicefile( GeneralServicetext $service)
 	{
-	$this->servicetext = $service;
+	$this->servicefile = $service;
 	}
-	public function getServicetext()
+	public function getServicefile()
 	{
-	return $this->servicetext;
+	return $this->servicefile;
 	}
 	public function getUploadDir()
 	{
 	// On retourne le chemin relatif vers l'image pour un navigateur
-	return 'bundles/produit/service/images/imginfoentreprise';
+	return 'bundles/produit/service/images/drapeau';
 	}
 	protected function getUploadRootDir()
 	{
 	// On retourne le chemin relatif vers l'image pour notre codePHP
-	return  __DIR__.'/../../../../public/'.$this->getUploadDir();
+	return  __DIR__.'/../../../../web/'.$this->getUploadDir();
 	}
-	
 	public function setFile(UploadedFile $file)
 	{
 	$this->file = $file;
-	// On vérifie si on avait déjà un fichier pour cette entité
+	// On v�rifie si on avait d�j� un fichier pour cette entit�
 	if (null !== $this->src) {
 	// On sauvegarde l'extension du fichier pour le supprimer plus tard
 	$this->tempFilename = $this->src;
-	// On réinitialise les valeurs des attributs url et alt
+	// On r�initialise les valeurs des attributs url et alt
 	$this->src = null;
 	$this->alt = null;
 	}
 	}
-	
 	/**
 	* @ORM\PrePersist()
 	* @ORM\PreUpdate()
@@ -178,7 +166,7 @@ class Imginfoentreprise
 	return;
 	}
 	$text = $this->file->getClientOriginalName();
-	$this->src = $this->servicetext->normaliseText($text);
+	$this->src = $this->servicefile->normaliseText($text);
 	$this->alt = $this->src;
 	}
 	/**
@@ -206,17 +194,19 @@ class Imginfoentreprise
 	{
 	$this->tempFilename = $this->getUploadRootDir().'/'.$this->id.'.'.$this->src;
 	}
+ 
 	/**
 	* @ORM\PostRemove()
 	*/
 	public function postRemoveUpload()
 	{
-	// En PostRemove, on n'a pas accès à l'id, on utilise notre nom sauvegardé
+	// En PostRemove, on n'a pas acc�s � l'id, on utilise notre nom sauvegard�
 	if (file_exists($this->tempFilename)) {
 	// On supprime le fichier
 	unlink($this->tempFilename);
 	}
 	}
+
 	public function getWebPath()
 	{
 	return $this->getUploadDir().'/'.$this->getId().'.'.$this->getSrc();

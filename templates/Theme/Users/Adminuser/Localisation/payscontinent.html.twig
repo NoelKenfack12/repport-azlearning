@@ -1,0 +1,480 @@
+
+{% extends "Theme/Users/Adminuser/layoutadmin.html.twig" %}
+
+{% block meta %}
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} | Accueil Admin
+{% endblock %}
+
+{% block userblog_body %}
+
+<style>
+	.item-custom-slide-1, item-custom-slide-2{
+		display: none;
+	}
+</style>
+
+<hr style="margin-top: 45px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+
+</div>
+
+<div style="background: #BDC3C7;">
+	<div class="container" style="color: #fff;">
+		Accueil <span class="mdi-av-play-arrow" style="font-size: 10px;"></span>  Administration
+	</div>	
+</div>	
+
+<hr style="margin-bottom: 0px;"/>
+
+<!--content-->
+<div class="product" style="padding-top: 20px; margin-bottom: 20px;">
+	<div class="container" style="padding: 0px;">
+		<div class="col-lg-12 animecourant-panel">
+		</div>
+		<div class="col-md-4 product-bottom">
+		{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
+		<!---->
+		</div>
+
+		<div class="col-md-8 panel panel-widget" style="padding: 0px;">
+			<div class="header-card">
+				<div style="padding: 7px; color: #fff;">Liste complète des pays et des continents</div>	
+			</div>
+		
+
+			<section class="content" style="padding: 0px 7px;">
+      <div class="container-fluid">
+	  
+		{% for infos in app.session.flashbag.get('information') %}
+		{% if loop.first %}
+			{% include 'Theme/General/Template/Menu/flasinfos.html.twig' %}
+		{% endif %}
+		{% endfor %}
+
+		{% set id = '' %}
+		{% for infos in app.session.flashbag.get('supprime_continent') %}
+		{% if loop.last %}
+		<div style="background: #f2f2f2; padding: 5px; border-left: 4px solid #3565ae;">
+		<strong style="color: red;"><span class="fa fa-warning"></span> {{ 'Êtes vous certain de vouloir supprimer le continent'|trans }} {{ infos|trans|lower|raw }} </strong>
+		<form action="{{ path('users_adminuser_localisation_supprimer_continent',{'id': id }) }}" method="post" style="display: inline;">
+			<input type="submit" value="{{ 'Supprimer'|trans }}" style="background: red;"/>
+			{{ form_rest(formsupp) }}
+		</form>
+		</div>
+		{% else %}
+		{% set id = infos %}
+		{% endif %}
+		{% endfor %}
+
+		{% set id = '' %}
+		{% for infos in app.session.flashbag.get('pays_supp') %}
+		{% if loop.last %}
+		<div style="background: #f2f2f2; padding: 5px; border-left: 4px solid #3565ae;">
+		<strong style="color: red;"><span class="fa fa-warning"></span> {{ 'Êtes vous certain de vouloir supprimer le pays '|trans }} <i class="mdi-hardware-keyboard-arrow-right" style="font-size: 12px;"></i> {{ infos|trans|lower|raw }} </strong>
+		<form action="{{ path('users_adminuser_drop_country_user_local',{'id': id }) }}" method="post" style="display: inline;">
+			<input type="submit" value="{{ 'Supprimer'|trans }}" style="background: red;"/>
+			{{ form_rest(formsupp) }}
+		</form>
+		</div>
+		{% else %}
+		{% set id = infos %}
+		{% endif %}
+		{% endfor %}
+		
+		<div class="row" style="margin-top: 20px;">
+			{% for continent in liste_continent %}
+			<div class="col-md-4">
+			<div style="display:block;">
+			<div class="dropdown"  style="position: absolute; padding: 2px 10px; top: 7px; right: 7px;">
+				<div class="dropdown-btn">
+				  <a href="#!" aria-haspopup="true">
+					<i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+				  </a>  
+				  <div class="dropdown__menu">
+					<a class="dropdown__option open-modal-update-continent" value="{{ continent.id }}" href="#!"><span class="fa fa-edit"></span> Modifier</a>
+					<a class="dropdown__option" href="{{ path('users_adminuser_localisation_supprimer_continent', {'id': continent.id }) }}"><span class="fa fa-times"></span> Supprimer</a>
+				  </div>
+				</div>
+			</div>
+			</div>
+			<div class="card" style="overflow: visible;">
+			  <a href="#!" class="collection-item" style="padding: 5px;">
+				<div style="height: 150px;">
+				<div style="color: rgba(0, 0, 0, 0.87); font-size: 18px;"><strong><i class="mdi-image-adjust" style="font-size: 16px;" title="Plus prioritaire"></i> {{ continent.nom|trans }}</strong></div>
+				<div><img src="{% if continent.src != 'source' %}{{ asset(continent.getwebpath) }}{% else %}{{ asset('templateopme/images/user-bg-simple.jpg') }}{% endif %}" alt="" style="width: 100%; height: 120px;"></div>
+				</div>
+				<div style="background: #f2f2f2; height: 50px; border-top: 5px solid #3565ae;">
+				<div style="color: rgba(0, 0, 0, 0.87); margin-top: 10px; font-size: 10px;">{{ 'Citoyen'|trans }}: {{ continent.citoyen|trans }}, {{ 'Citoyenne'|trans }}: {{ continent.citoyenne|trans }}</div>
+				<div style="display:block; bottom: 20px; position: absolute; right: 0px;"><span class="badge" title="{{ 'Nombre de pays'|trans }}"><i class="mdi-action-settings-input-component" style="font-size: 14px;"></i>{{ continent.pays|length }}</span></div>
+				</div>
+			  </a>
+			</div>
+			</div>
+			{% endfor %}
+		</div>
+		
+		<h5 class="breadcrumbs-title">{{ 'Liste des pays'|trans }} <a href="#!" class="open-modal-pays btn btn-primary">Ajouter</a></h5>
+		<hr/>
+		<div class="row" style="margin-top: 20px;">
+		{% for pays in liste_pays %}
+		<div class="col-md-4">
+		<div style="display:block;">
+		<a class="dropdown-button waves-effect waves-light" href="#!" data-activates="dropdown-pays-{{ pays.id }}" style="float:right; margin-top: 15px;"><i class="mdi-hardware-keyboard-control"></i></a>
+		<div class="dropdown"  style="position: absolute; padding: 2px 10px; top: 7px; right: 7px;">
+			<div class="dropdown-btn">
+			  <a href="#!" aria-haspopup="true">
+				<i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+			  </a>  
+			  <div class="dropdown__menu">
+				<a class="dropdown__option open-modal-update-pays" value="{{ pays.id }}" href="#!"><span class="fa fa-edit"></span> Modifier</a>
+				<a class="dropdown__option" href="{{ path('users_adminuser_drop_country_user_local', {'id': pays.id }) }}"><span class="fa fa-times"></span> Supprimer</a>
+			  </div>
+			</div>
+		</div>
+		</div>
+		<div class="card" style="overflow: visible;">
+		  <a href="#!" class="collection-item" style="padding: 5px;">
+			<div style="height: 150px;">
+			<div style="color: rgba(0, 0, 0, 0.87); font-size: 18px;"><strong><i class="mdi-image-adjust" style="font-size: 16px;" title="Plus prioritaire"></i> {{ pays.nom|trans }}</strong></div>
+			<div><img src="{% if pays.drapeau != null %}{{ asset(pays.drapeau.getwebpath) }}{% else %}{{ asset('templateopme/images/user-bg-simple.jpg') }}{% endif %}" alt="" style="width: 100%; height: 120px;"></div>
+			</div>
+			<div style="background: #f2f2f2; height: 50px; border-top: 5px solid #3565ae;">
+			<div style="color: rgba(0, 0, 0, 0.87); margin-top: 10px; font-size: 12px;">{{ 'Citoyen'|trans }}: {{ pays.citoyen|trans }}, {{ 'Citoyenne'|trans }}: {{ pays.citoyenne|trans }}</div>
+			<div style="display:block; bottom: 20px; position: absolute; right: 0px;"><span class="badge" title="{{ 'Nombre d\'utilisateurs'|trans }}"><i class="mdi-action-settings-input-component" style="font-size: 14px;"></i>{{ pays.users|length }}</span></div>
+			</div>
+		  </a>
+		</div>
+		</div>
+		{% endfor %}
+		</div>
+
+		{% if nombrepage > 0 %}
+					
+		{% if page > 1 and page <= nombrepage %}
+		{% set pagepre = page - 1 %}
+		{% else %}
+			{% set pagepre = nombrepage %}
+		{% endif %}
+
+		{% if page < nombrepage %}
+			{% set pagesuiv = page + 1 %}
+		{% else %}
+			{% set pagesuiv =  1 %}
+		{% endif %}
+
+		{% if nombrepage < 5 %}
+			{% set debut = 1 %}
+			{% set fin = nombrepage %}
+		{% else %}
+			{% if page > 2 and page < (nombrepage - 2) %}
+				{% set debut = page - 2 %}
+				{% if page + 2 >= nombrepage %}
+					{% set fin = nombrepage %}
+				{% else %}
+					{% set fin = page + 2 %}
+				{% endif %}
+			{% else %}
+				{% if page <= 2 %}
+					{% if page == 1 %}
+						{% set debut = 1 %}
+						{% set fin = page + 3 %}
+					{% else %}
+						{% set debut = 1 %}
+						{% set fin = page + 2 %}
+					{% endif %}
+				{% else %}
+					{% set debut = page - 2 %}
+					{% if page + 2 >= nombrepage %}
+						{% set fin = nombrepage %}
+					{% else %}
+						{% set fin = page + 2 %}
+					{% endif %}
+				{% endif %}
+			{% endif %}
+			
+		{% endif %}
+
+		  <div class="row" style="margin: 15px  0px;">
+		   <div class="col-md-12">
+		   <div class="flex-container" style="background: #fafafa; ">
+			  <div class="paginate-ctn">
+				<a href="{{ path('users_adminuser_form_pays_continent', {'page': 1 }) }}" style="display: inline-block;" class="round-effect"> <span class="fa fa-fast-backward"></span> </a>
+				<a href="{{ path('users_adminuser_form_pays_continent', {'page': pagepre }) }}" style="display: inline-block;" class="round-effect"> <span class="fa fa-step-backward"></span> </a>
+				{% for p in debut..fin %}
+					<a href="{{ path('users_adminuser_form_pays_continent', {'page': p }) }}" style="display: inline-block;" class="round-effect {% if p == page %}activepage{% endif %}">{{ p }}</a>
+				{% endfor %}
+				<a href="{{ path('users_adminuser_form_pays_continent', {'page': pagesuiv }) }}" style="display: inline-block;" class="round-effect"> <span class="fa fa-step-forward"></span> </a>
+				<a href="{{ path('users_adminuser_form_pays_continent', {'page': nombrepage }) }}" style="display: inline-block;" class="round-effect"> <span class="fa fa-fast-forward"></span> </a>
+			 </div>
+		   </div>
+		   </div>
+		</div>
+		<div class="clearfix"></div>
+
+
+		{% else %}
+
+		<div class="row" style="margin: 15px  0px;">
+		   <div class="col-md-12">
+		   <div class="flex-container" style="background: #fafafa; ">
+			  <div class="paginate-ctn">
+				<a href="{{ path('users_adminuser_form_pays_continent', {'page': page }) }}" style="display: inline-block;" class="round-effect"> <span class="fa fa-fast-backward"></span> </a>
+				<a href="{{ path('users_adminuser_form_pays_continent', {'page': page }) }}" style="display: inline-block;" class="round-effect"> <span class="fa fa-step-backward"></span> </a>
+					<a href="{{ path('users_adminuser_form_pays_continent', {'page': 1 }) }}" style="display: inline-block;" class="round-effect activepage">1</a>
+				<a href="{{ path('users_adminuser_form_pays_continent', {'page': page }) }}" style="display: inline-block;" class="round-effect"> <span class="fa fa-step-forward"></span> </a>
+				<a href="{{ path('users_adminuser_form_pays_continent', {'page': page }) }}" style="display: inline-block;" class="round-effect"> <span class="fa fa-fast-forward"></span> </a>
+			</div>
+		   </div>
+		   </div>
+		</div>
+
+		<div class="clearfix"></div>
+		{% endif %}
+
+
+	  </div>
+	</section>
+
+
+	
+		</div>
+	</div class="clearfix"></div>
+</div>
+
+<div class="modal fade" data-backdrop="false"  id="modal2">
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content" style="border-radius: 10px; margin: 0px;">
+{{ render(controller("App\\Controller\\General\\Template\\MenuController:headermodal", {'title': 'Ajouter un continent'})) }}	
+<div class="modal-body">
+{{ form_start(form, {'attr': {'class': 'row', 'action': path('users_adminuser_form_pays_continent') }}) }}
+	  <div class="form-group col-md-12">
+		 {{ form_widget(form.nom) }}
+		 {{ form_label(form.nom, 'Nom du continent'|trans) }}
+		 <div style="color: red;">{{ form_errors(form.nom)|trans }}</div>
+	  </div>
+	  <div class="form-group col-md-12">
+		 {{ form_widget(form.citoyen) }}
+		 {{ form_label(form.citoyen, 'Nom des citoyens'|trans) }}
+		 <div style="color: red;">{{ form_errors(form.citoyen)|trans }}</div>
+	  </div>
+	  <div class="form-group col-md-12">
+		 {{ form_widget(form.citoyenne) }}
+		 {{ form_label(form.citoyenne, 'Nom des citoyennes'|trans) }}
+		 <div style="color: red;">{{ form_errors(form.citoyenne)|trans }}</div>
+	  </div>
+	  <div class="form-group col-md-12">
+		 {{ form_widget(form.siteweb) }}
+		 {{ form_label(form.siteweb, 'Ajouter un site web'|trans) }}
+		 <div style="color: red;">{{ form_errors(form.siteweb)|trans }}</div>
+	  </div>
+	  <div class="form-group col-md-12">
+			<span><i class="mdi-image-exposure"></i> {{ 'Image'|trans }}</span>
+			{{ form_widget(form.file) }}
+	  </div>
+	  <div class="form-group col-md-12" style="margin-top: 30px;">
+		 <button class="btn btn-primary" type="submit">{{ 'Envoyer'|trans }} <i class="fa fa-send"></i></button>
+	  </div>
+{{ form_end(form) }}
+</div>
+<div class="modal-footer color-top" style="text-align: right; border-top: 4px solid #37c0fb; display: block;">
+	{% include "Theme/General/Template/Menu/social.html.twig" %}
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" data-backdrop="false"  id="modal3">
+	<div class="modal-dialog modal-md" style="border-radius: 10px;">
+	<div class="modal-content" style="border-radius: 10px; margin: 0px;">
+	{{ render(controller("App\\Controller\\General\\Template\\MenuController:headermodal", {'title': 'Ajouter un pays'})) }}
+		
+	<div class="modal-body">
+	<h4 class="header2">Ajouter un noueau pays</h4>
+	{{ form_start(form2, {'attr': {'class': 'row', 'action': path('users_adminuser_adding_pays_localite_user') }}) }}
+		<div class="form-group col-md-12">
+			{{ form_widget(form2.nom) }}
+			{{ form_label(form2.nom, 'Nom du pays'|trans) }}
+			<div style="color: red;">{{ form_errors(form2.nom)|trans }}</div>
+		</div>
+		<div class="form-group col-md-12">
+			{{ form_widget(form2.citoyen) }}
+			{{ form_label(form2.citoyen, 'Nom des citoyens'|trans) }}
+			<div style="color: red;">{{ form_errors(form2.citoyen)|trans }}</div>
+		</div>
+		<div class="form-group col-md-12">
+			{{ form_widget(form2.citoyenne) }}
+			{{ form_label(form2.citoyenne, 'Nom des citoyennes'|trans) }}
+			<div style="color: red;">{{ form_errors(form2.citoyenne)|trans }}</div>
+		</div>
+		<div class="form-group col-md-12">
+			{{ form_widget(form2.code) }}
+			{{ form_label(form2.code, 'Code Téléphonique, ex: +237'|trans) }}
+			<div style="color: red;">{{ form_errors(form2.code)|trans }}</div>
+		</div>
+		<div class="form-group col-md-12">
+			{{ form_widget(form2.domaine) }}
+			{{ form_label(form2.domaine, 'Extension domaine, ex: cm'|trans) }}
+			<div style="color: red;">{{ form_errors(form2.domaine)|trans }}</div>
+		</div>
+		<div class="form-group col-md-12">
+			{{ form_widget(form2.continent) }}
+			{{ form_label(form2.continent, 'Nom du continent'|trans) }}
+			<div style="color: red;">{{ form_errors(form2.continent)|trans }}</div>
+		</div>
+		
+		<div class="form-group col-md-12">
+			{{ form_widget(form2.siteweb) }}
+			{{ form_label(form2.siteweb, 'Site web'|trans) }}
+			<div style="color: red;">{{ form_errors(form2.siteweb)|trans }}</div>
+		</div>
+
+		<div class="form-group col-md-12">
+				<span><i class="mdi-image-exposure"></i> {{ 'Drapeau'|trans }}</span>
+				{{ form_widget(form2.drapeau) }}
+		</div>
+		
+		<div class="form-group col-md-12">
+				<span><i class="mdi-image-exposure"></i> {{ 'Background'|trans }}</span>
+				{{ form_widget(form2.file) }}
+		</div>
+		<div class="form-group col-md-12" style="margin-top: 30px;">
+			<button class="btn btn-primary" type="submit">{{ 'Envoyer'|trans }} <i class="fa fa-send"></i></button>
+		</div>
+	{{ form_end(form2) }}
+	</div>
+	<div class="modal-footer color-top" style="text-align: right; border-top: 4px solid #37c0fb; display: block;">
+		{% include "Theme/General/Template/Menu/social.html.twig" %}
+	</div>
+	</div>
+	</div>
+</div>
+
+<div class="modal fade" data-backdrop="false"  id="modal-update-content">
+	<div class="modal-dialog modal-md" style="border-radius: 10px;">
+	<div class="modal-content" style="border-radius: 10px; margin: 0px;">
+	{{ render(controller("App\\Controller\\General\\Template\\MenuController:headermodal", {'title': 'Mise à jour du contenu'})) }}
+
+	<div class="modal-body">
+	<div class="row">
+		<div class="form-group col-md-12">
+			<div class="wait-chargement-content-module-article" style="text-align: center;">
+				Patientez un moment pendant le chargement de l'article</br>
+				<img src="{{ asset('template/images/loader1.gif') }}" alt="image" style="height: 40px; width: 40px;">
+			</div>
+
+			<div class="content-module-loading-article" style="display: none;">
+			
+			</div>
+		</div>
+	</div>
+	</div>
+	<div class="modal-footer color-top" style="text-align: right; border-top: 4px solid #37c0fb; display: block;">
+		{% include "Theme/General/Template/Menu/social.html.twig" %}
+	</div>
+	</div>
+	</div>
+</div>
+
+<script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+var bouge = 1;
+var dimension = 200;
+function activateelement()
+{
+var visibility = visibleElement('.animecourant-panel');
+
+if(visibility && bouge == 0){
+	bouge = 1;
+	$('.toutleblock').css('position','relative');
+	$('.toutleblock').css('bottom','0px');
+	$('.toutleblock').css('margin-bottom','0px');
+}
+}
+
+function stopelement()
+{
+var visibility = visibleElement('.stop-courant-panel');
+if(visibility && bouge == 1){
+	if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+	{
+	
+	}else{
+	bouge = 0;
+	$('.toutleblock').css('position','fixed');
+	$('.toutleblock').css('width',dimension+'px');
+	$('.toutleblock').css('bottom','7px');
+	$('.toutleblock').css('margin-bottom','165px');
+	}
+}
+}
+
+var idStopelement = 0;
+var idActivateelement = 0;
+function controlScroll()
+{
+	var largeur = ($(window).width());
+	dimension = $('.toutleblock').width();
+	if (largeur >= 768)
+	{
+	   /*
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+		
+		$('.toutleblock').css('position','fixed');
+		$('.toutleblock').css('width',dimension+'px'); 
+		}else{ 
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+		} */
+		idStopelement = window.setInterval(function() { stopelement(); }, 100);
+		idActivateelement = window.setInterval(function() { activateelement(); }, 100);
+	}
+}
+controlScroll();
+</script>
+{% endblock %}
+
+{% block javascripttemplate %}
+
+$('.open-modal-update-continent').click(function(){
+	var id = $(this).attr('value');
+	$('.wait-chargement-content-module-article').show();
+	$('.content-module-loading-article').hide();
+	$('#modal-update-content').modal('show');
+	$.get('{{ path('users_adminuser_update_content_continent12') }}',{ id: id }, function(data){
+		$('.wait-chargement-content-module-article').hide();
+		$('.content-module-loading-article').show();
+		$('.content-module-loading-article').html(data);
+	});
+});	
+
+$('.open-modal-update-pays').click(function(){
+	var id = $(this).attr('value');
+	$('.wait-chargement-content-module-article').show();
+	$('.content-module-loading-article').hide();
+	$('#modal-update-content').modal('show');
+	$.get('{{ path('users_adminuser_modif_pays_localisation_user') }}',{ id: id }, function(data){
+		$('.wait-chargement-content-module-article').hide();
+		$('.content-module-loading-article').show();
+		$('.content-module-loading-article').html(data);
+	});
+});	
+
+$('.open-modal-continent').click(function(){
+	$('#modal2').modal('show');
+});
+$('.open-modal-pays').click(function(){
+	$('#modal3').modal('show');
+});
+
+{% endblock %}
+
+

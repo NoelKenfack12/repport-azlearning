@@ -46,7 +46,6 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="card-1" style="background: #fff; padding: 15px;margin: 15px 0px;">
-			
 				{{ form_start(formchap, {'attr': {'id': 'form_post_new_chapter_product','action': path('produit_produit_add_new_chapter', {'id': partie.id }) }}) }}
 					{% set message = "Ajoutez un nouveau chapitre de la partie "~partie.rang %}
 					{% include 'Theme/Produit/Produit/Chapitrecours/formulairechapitre.html.twig' %}

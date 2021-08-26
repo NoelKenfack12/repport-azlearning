@@ -42,7 +42,10 @@
 		<div class="col-md-12 text-left">
 		<div style="background: #fff; padding: 10px;">
 			<div>
-				<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Liste des formations à suivre par {{ user.name(30) }}.</h4>
+				<h3 style="text-align: left; border-bottom: 1px solid #f2dede;">
+					<a href="{{ path('users_user_liste_souscription_cours') }}" class="btn btn-primary float-right">Toutes les souscriptions</a>
+					<span class="fa fa-comments" style="font-size: 18px;"></span> Liste des formations à suivre par <a href="">{{ user.name(30) }}.</a>
+				</h3>
 			</div>
 			
 			<table>

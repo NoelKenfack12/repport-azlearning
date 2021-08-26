@@ -32,7 +32,7 @@
 	
 	<link rel="stylesheet" href="{{ asset('template/assets/css/font-awesome.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('templatehome/css/style.css') }}"/>
-	<script src="{{ asset('template/js/jquery-1.11.2.min.js') }}"></script>
+	<script src="{{ asset('template/js/jquery.min.js') }}"></script>
 	<script src="{{ asset('template/js/lottieflow.min.js') }}" type="text/javascript"></script>
 
 
@@ -2085,6 +2085,7 @@ ul {
 	width: 110px;
 	margin: 0 auto;
 }
+
 .star-ratings-sprite-rating {
 	background: url("{{ asset('template/images/star-rating-sprite.png') }}") repeat-x;
 	background-position: 0 100%;
@@ -2092,6 +2093,7 @@ ul {
 	height: 21px;
 	display: block;
 }
+
 em {
 	font-style: italic;
 }
@@ -2114,6 +2116,128 @@ ul.custom.green li:before {
 ul.custom.purple li:before {
   color: rebeccapurple;
 }
+
+
+
+/* responsive Search, Pagine & Filter Table */
+
+.dataTables_filter {
+  float: right;
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: #ccffff;
+}
+
+@media only screen and (min-width: 768px) {
+  .tablefilter {
+    width: 100% !important;
+	margin: 15px 0px;
+  }
+}
+
+thead {
+  background: #f4f4f4;
+  border-radius: 10px 10px 0px 0px!important;
+}
+tfoot {
+  background: #f4f4f4;
+  border-radius: 0px 10px!important;
+}
+tr{
+	border: 1px solid rgba(0,0,0,0.1)!important;
+}
+.table td:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.highlight {
+  background: #ffff99;
+}
+
+@media only screen and (max-width: 767px) {
+  /* Force table to not be like tables anymore */
+  .tablefilter,
+  .tablefilter thead,
+  .tablefilter tbody,
+  .tablefilter th,
+  .tablefilter td,
+  .tablefilter tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .tablefilter thead tr,
+  .tablefilter tfoot tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .tablefilter td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50% !important;
+  }
+
+  .tablefilter td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  .tablefilter td:nth-child(1) {
+    background: #ccc;
+    height: 100%;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+  }
+}
+
+.dt-bootstrap .row{
+	width: 100%!important;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.dataTables_paginate ul li{
+	display: inline!important;
+}
+
+.pagination{display:inline-block;padding-left:0;margin:20px 0;border-radius:4px}.pagination>li{display:inline}.pagination>li>a,.pagination>li>span{position:relative;float:left;padding:6px 12px;margin-left:-1px;line-height:1.42857143;color:#337ab7;text-decoration:none;background-color:#fff;border:1px solid #ddd}.pagination>li:first-child>a,.pagination>li:first-child>span{margin-left:0;border-top-left-radius:4px;border-bottom-left-radius:4px}.pagination>li:last-child>a,.pagination>li:last-child>span{border-top-right-radius:4px;border-bottom-right-radius:4px}.pagination>li>a:focus,.pagination>li>a:hover,.pagination>li>span:focus,.pagination>li>span:hover{z-index:2;color:#23527c;background-color:#eee;border-color:#ddd}.pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover{z-index:3;color:#fff;cursor:default;background-color:#337ab7;border-color:#337ab7}.pagination>.disabled>a,.pagination>.disabled>a:focus,.pagination>.disabled>a:hover,.pagination>.disabled>span,.pagination>.disabled>span:focus,.pagination>.disabled>span:hover{color:#777;cursor:not-allowed;background-color:#fff;border-color:#ddd}.pagination-lg>li>a,.pagination-lg>li>span{padding:10px 16px;font-size:18px;line-height:1.3333333}.pagination-lg>li:first-child>a,.pagination-lg>li:first-child>span{border-top-left-radius:6px;border-bottom-left-radius:6px}.pagination-lg>li:last-child>a,.pagination-lg>li:last-child>span{border-top-right-radius:6px;border-bottom-right-radius:6px}.pagination-sm>li>a,.pagination-sm>li>span{padding:5px 10px;font-size:12px;line-height:1.5}.pagination-sm>li:first-child>a,.pagination-sm>li:first-child>span{border-top-left-radius:3px;border-bottom-left-radius:3px}.pagination-sm>li:last-child>a,.pagination-sm>li:last-child>span{border-top-right-radius:3px;border-bottom-right-radius:3px}
+table.dataTable thead .sorting:after{
+    opacity: 0.5;
+    content: "\f0dc"!important;
+    font-family: "FontAwesome"!important;
+}
+table.dataTable thead .sorting_asc:after{
+	opacity: 0.5;
+    content: "\f0dc"!important;
+    font-family: "FontAwesome"!important;
+}
+table.dataTable thead .sorting_desc:after{
+	opacity: 0.5;
+    content: "\f0dc"!important;
+    font-family: "FontAwesome"!important;
+}
+.tablefilter > thead > tr > th, .tablefilter > tbody > tr > th, .tablefilter > tfoot > tr > th, .tablefilter > thead > tr > td, .tablefilter > tbody > tr > td, .tablefilter > tfoot > tr > td {
+   padding: 7px 3px;
+}
+.tablefilter > tbody > tr > td {
+	border-bottom: 1px solid #ddd!important;
+	text-weight: normal!important;
+	border-bottom-width: 1!important;
+}
+
 
 
 </style>
@@ -2146,6 +2270,7 @@ ul.custom.purple li:before {
 		  </div>
 	  </div>
   </div>
+ 
   
 	<div class="content-alert-action-elearning-user" value="0" name="0" style="display: none;"></div>
 
@@ -2240,6 +2365,7 @@ ul.custom.purple li:before {
 
 	<!-- //here ends scrolling icon -->
 	{# { render(controller("GeneralTemplateBundle:Menu:testinscriptionnewsletter")) } #}
+	
 	{% block srcjavascript %}
 
 	{% endblock %}
@@ -2368,7 +2494,7 @@ ul.custom.purple li:before {
 		  }
 		});
 		
-		
+		/*
 		var checkStatus;
 		var element = new Image();
 		element.__defineGetter__('id', function(){
@@ -2381,7 +2507,7 @@ ul.custom.purple li:before {
 			console.log(element);
 			console.clear();
 			//document.querySelector('#devtool-status').innerHTML = checkStatus;
-		}, 1000);
+		}, 1000);*/
 		
 		{% if app.user == null %}
 			openArticleOverlay();

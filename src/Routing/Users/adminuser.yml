@@ -407,3 +407,41 @@ users_adminuser_consultation_operations_etudiant:
         id: 0
     requirements:
         id: \d+
+users_adminuser_adding_pays_localite_user:
+    path: /adding/pays/localite/user
+    controller: App\Controller\Produit\Service\PaysController::ajouterpays
+users_adminuser_modif_pays_localisation_user:
+    path: /modif/pays/localisation/user/{id}
+    controller: App\Controller\Produit\Service\PaysController::modificationpays
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_drop_country_user_local:
+    path: /drop/country/user/local/{id}
+    controller: App\Controller\Produit\Service\PaysController::dropcountryuser
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_form_pays_continent:
+    path: /form/pays/continent/{page}
+    controller: App\Controller\Produit\Service\ContinentController::payscontinent
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+users_adminuser_update_content_continent12:
+    path: /user/update/val/continent/{id}
+    controller: App\Controller\Produit\Service\ContinentController::updatecontinent
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_localisation_supprimer_continent:
+    path: /user/localisation/supprimer/continent/{id}
+    controller: App\Controller\Produit\Service\ContinentController::supprimercontinent
+    defaults:
+        id: 0
+    requirements:
+        id: \d+

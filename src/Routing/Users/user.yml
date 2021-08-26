@@ -109,3 +109,8 @@ login:
 logout: 
     path: /logout
     controller: App\Controller\Users\User\SecurityController::clearsession
+users_user_liste_souscription_cours:
+    path: /souscriptions/statistiques
+    controller: App\Controller\Users\User\StatistiqueController::etatsouscription
+    requirements:
+        id: \d+

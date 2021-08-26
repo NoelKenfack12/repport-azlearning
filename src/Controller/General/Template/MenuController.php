@@ -170,7 +170,7 @@ public function testinscriptionnewsletter()
 {
 	$session = $this->get('session');
 	$envoi = $session->get('test_newsletter');
-	
+
 	if($envoi !== 100)
 	{
 		$newsletter = new Newsletter();
@@ -203,4 +203,12 @@ public function stopAlertNewletterAction()
 	echo 1;
 	exit;
 }
+
+public function headermodal($title)
+{
+	$em = $this->getDoctrine()->getManager();
+					   
+	return $this->render('Theme/General/Template/Menu/headermodal.html.twig', array('title'=>$title));
+}
+
 }

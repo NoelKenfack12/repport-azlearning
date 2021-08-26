@@ -1,0 +1,34 @@
+
+{{ form_start(form, {'attr': {'class': 'row','action': path('users_adminuser_update_content_continent12', {'id': continent.id}) }}) }}
+  <div class="form-group col-md-12">
+	 {{ form_widget(form.nom) }}
+	 {{ form_label(form.nom, 'Nom du continent'|trans) }}
+	 <div style="color: red;">{{ form_errors(form.nom)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form.citoyen) }}
+	 {{ form_label(form.citoyen, 'Nom des citoyens'|trans) }}
+	 <div style="color: red;">{{ form_errors(form.citoyen)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form.citoyenne) }}
+	 {{ form_label(form.citoyenne, 'Nom des citoyennes'|trans) }}
+	 <div style="color: red;">{{ form_errors(form.citoyenne)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form.siteweb) }}
+	 {{ form_label(form.siteweb, 'Site web'|trans) }}
+	 <div style="color: red;">{{ form_errors(form.siteweb)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	  <input class="file-path validate" type="text" disabled style="padding-left: 40px;"/>
+	  <div class="btn bg-struct" style="margin-left: 10px;">
+		<span><i class="mdi-image-exposure"></i> {{ 'Image'|trans }}</span>
+		{{ form_widget(form.file) }}
+	  </div>
+  </div>
+  <div class="form-group col-md-12" style="margin-top: 30px;">
+	 <button class="btn btn-primary" type="submit">{{ 'Envoyer'|trans }} <i class="fa fa-send"></i></button>
+  </div>
+{{ form_end(form) }}
+

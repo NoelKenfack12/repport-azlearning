@@ -1,0 +1,51 @@
+
+{{ form_start(form2, {'attr': {'class': 'row','action': path('users_adminuser_modif_pays_localisation_user', {'id': pays.id}) }}) }}
+  <div class="form-group col-md-12">
+	 {{ form_widget(form2.nom) }}
+	 {{ form_label(form2.nom, 'Nom du pays'|trans) }}
+	 <div style="color: red;">{{ form_errors(form2.nom)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form2.citoyen) }}
+	 {{ form_label(form2.citoyen, 'Nom des citoyens'|trans) }}
+	 <div style="color: red;">{{ form_errors(form2.citoyen)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form2.citoyenne) }}
+	 {{ form_label(form2.citoyenne, 'Nom des citoyennes'|trans) }}
+	 <div style="color: red;">{{ form_errors(form2.citoyenne)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form2.code) }}
+	 {{ form_label(form2.code, 'Code Téléphonique, ex: +237'|trans) }}
+	 <div style="color: red;">{{ form_errors(form2.code)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form2.domaine) }}
+	 {{ form_label(form2.domaine, 'Extension domaine, ex: cm'|trans) }}
+	 <div style="color: red;">{{ form_errors(form2.domaine)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form2.siteweb) }}
+	 {{ form_label(form2.siteweb, 'Site web'|trans) }}
+	 <div style="color: red;">{{ form_errors(form2.domaine)|trans }}</div>
+  </div>
+  <div class="form-group col-md-12">
+	 {{ form_widget(form2.continent, {'attr': {'class': 'browser-default'}}) }}
+	 <div style="color: red;">{{ form_errors(form2.continent)|trans }}</div>
+  </div>
+
+  <div class="form-group col-md-12">
+		<span><i class="mdi-image-exposure"></i> {{ 'Drapeau'|trans }}</span>
+		{{ form_widget(form2.drapeau) }}
+  </div>
+  
+  <div class="form-group col-md-12">
+		<span><i class="mdi-image-exposure"></i> {{ 'Background'|trans }}</span>
+		{{ form_widget(form2.file) }}
+  </div>
+	  
+  <div class="form-group col-md-12" style="margin-top: 30px;">
+	 <button class="btn btn-primary" type="submit">{{ 'Envoyer'|trans }} <i class="fa fa-send"></i></button>
+  </div>
+{{ form_end(form2) }}
