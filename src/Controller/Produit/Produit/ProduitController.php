@@ -56,52 +56,56 @@ public function ajouterproduit(GeneralServicetext $service, Request $request)
 	$produit = new Produit($service);
 	$formpro = $this->createForm(ProduitType::class, $produit); 
 
-	if ($request->getMethod() == 'POST' and $this->getUser() != null){
-    $formpro->handleRequest($request);
-	if($formpro->isValid()){
-		
-		if(isset($_POST['dureeminute']))
-		{
-			$produit->setDureeminute($_POST['dureeminute']);
-		}
-		if(isset($_POST['dureeseconde']))
-		{
-			$produit->setDureeseconde($_POST['dureeseconde']);
-		}
-		
-		if($produit->getImgproduit() != null)
-		{
-			$produit->getImgproduit()->setServicetext($service);
-		}
-		if($produit->getVideoproduit() != null)
-		{
-			$produit->getVideoproduit()->setServicetext($service);
-		}
-		$produit->setUser($this->getUser());
-		$em->persist($produit);
-		$em->flush();
-
-		$this->get('session')->getFlashBag()->add('information','Votre cours a été enregistré avec succès.');
-		
-		// envoie d'email
-		$siteweb = $this->params->get('siteweb');
-		$sitename = $this->params->get('sitename');
-		$emailadmin = $this->params->get('emailadmin');
-		// if($service->email($emailadmin))
-		// {
-			// $mail = new Afmail();
+	if($request->getMethod() == 'POST' and $this->getUser() != null){
+		$formpro->handleRequest($request);
+		if($formpro->isValid()){
 			
-			// $mail->setFrom($this->getUser()->name(30).' <'.$this->getUser()->getUsername().'>'); 
-			// $mail->setSubject($this->getUser()->name(30).' viens de démarrer avec la rédaction d\'un nouveau cours sur '.$sitename); 
-			// $mail->setHTML($this->renderView('UsersUserBundle:User:envoiemail.html.twig', array('nom'=>'Team '.$sitename,'titre' => $this->getUser()->name(30).' viens de démarrer avec la rédaction d\'un nouveau cours sur '.$sitename ,'contenu'=> 'Vérifier l\'état de ce cours en cliquant ce lien <a href="'.$siteweb.'/packagewebsiteadmin/liste/produit/souscategorie/'.$produit->getSouscategorie()->getId().'">'.$siteweb.'/packagewebsiteadmin/liste/produit/souscategorie/'.$produit->getSouscategorie()->getId().'</a>')));
-			// $mail->setTextCharset('utf-8');
-			// $mail->setHTMLCharset('utf-8');
-			// $result = $mail->send(array($emailadmin));
-		// }
-		return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
-	}else{
-		$this->get('session')->getFlashBag()->add('information','Une erreur a été rencontrée !!!');
-	}
+			if(isset($_POST['dureeminute']))
+			{
+				$produit->setDureeminute($_POST['dureeminute']);
+			}
+			if(isset($_POST['dureeseconde']))
+			{
+				$produit->setDureeseconde($_POST['dureeseconde']);
+			}
+			if(isset($_POST['typecours']))
+			{
+				$produit->setTypecours($_POST['typecours']);
+			}
+			
+			if($produit->getImgproduit() != null)
+			{
+				$produit->getImgproduit()->setServicetext($service);
+			}
+			if($produit->getVideoproduit() != null)
+			{
+				$produit->getVideoproduit()->setServicetext($service);
+			}
+			$produit->setUser($this->getUser());
+			$em->persist($produit);
+			$em->flush();
+
+			$this->get('session')->getFlashBag()->add('information','Votre cours a été enregistré avec succès.');
+			
+			// envoie d'email
+			$siteweb = $this->params->get('siteweb');
+			$sitename = $this->params->get('sitename');
+			$emailadmin = $this->params->get('emailadmin');
+			// if($service->email($emailadmin))
+			// {
+				// $mail = new Afmail();
+				
+				// $mail->setFrom($this->getUser()->name(30).' <'.$this->getUser()->getUsername().'>'); 
+				// $mail->setSubject($this->getUser()->name(30).' viens de démarrer avec la rédaction d\'un nouveau cours sur '.$sitename); 
+				// $mail->setHTML($this->renderView('UsersUserBundle:User:envoiemail.html.twig', array('nom'=>'Team '.$sitename,'titre' => $this->getUser()->name(30).' viens de démarrer avec la rédaction d\'un nouveau cours sur '.$sitename ,'contenu'=> 'Vérifier l\'état de ce cours en cliquant ce lien <a href="'.$siteweb.'/packagewebsiteadmin/liste/produit/souscategorie/'.$produit->getSouscategorie()->getId().'">'.$siteweb.'/packagewebsiteadmin/liste/produit/souscategorie/'.$produit->getSouscategorie()->getId().'</a>')));
+				// $mail->setTextCharset('utf-8');
+				// $mail->setHTMLCharset('utf-8');
+				// $result = $mail->send(array($emailadmin));
+			// }
+			return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
+		}else{
+			$this->get('session')->getFlashBag()->add('information','Une erreur a été rencontrée !!!');
+		}
 	}
 				  
 	return $this->render('Theme/Produit/Produit/Produit/ajouterproduit.html.twig', 
@@ -138,6 +142,10 @@ public function modifierproduit(Produit $produit, GeneralServicetext $service, R
 			if(isset($_POST['dureeseconde']))
 			{
 				$produit->setDureeseconde($_POST['dureeseconde']);
+			}
+			if(isset($_POST['typecours']))
+			{
+				$produit->setTypecours($_POST['typecours']);
 			}
 		
 			$em->flush();
@@ -708,11 +716,13 @@ if(isset($_POST['_password']))
 						break;
 					}
 				}
+
 				if($lastpanier == null or $lastpanier->getService() != null) //s'il n'a jamais été inscrit à cour ou bien il a été inscrit à une formation contenant ce cours et d'autres cours, il recrait la formation
 				{
 					$panier = new Panier();
 					$panier->setUser($this->getUser());
 					$panier->setMontantttc($produit->getNewprise());
+
 					$em->persist($panier);
 					$produitpanier = new Produitpanier();
 					$produitpanier->setPanier($panier);
@@ -721,6 +731,10 @@ if(isset($_POST['_password']))
 					$em->persist($produitpanier);
 					$produit->setNbcertificat($produit->getNbcertificat() + 1);
 					
+					if($produit->getTypecours() == 'coursspecialise')
+					{
+						$panier->setMontantspecial($produit->getNewprise());
+					}
 					
 					//envoie d'email
 					$siteweb = $this->params->get('siteweb');
@@ -728,7 +742,6 @@ if(isset($_POST['_password']))
 					$emailadmin = $this->params->get('emailadmin');
 					if($service->email($emailadmin))
 					{
-
 						$response = $this->_servicemail->sendNotifEmail(
 							'Team '.$sitename, //Nom du destinataire
 							$emailadmin, //Email Destinataire
@@ -775,7 +788,6 @@ if(isset($_POST['_password']))
 					$emailadmin = $this->params->get('emailadmin');
 					if($service->email($emailadmin))
 					{
-
 						$response = $this->_servicemail->sendNotifEmail(
 							'Team '.$sitename, //Nom du destinataire
 							$emailadmin, //Email Destinataire
@@ -789,7 +801,6 @@ if(isset($_POST['_password']))
 					
 					if($service->email($produit->getUser()->getUsername()))
 					{
-
 						$response = $this->_servicemail->sendNotifEmail(
 							$produit->getUser()->name(50), //Nom du destinataire
 							$produit->getUser()->getUsername(), //Email Destinataire

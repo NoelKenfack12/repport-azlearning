@@ -159,4 +159,26 @@ public function listepanierinvalide($page, $nombreParPage)
 		// Enfin, on retourne l'objet Paginator correspondant à la requête construite
 	return new Paginator($query);
 }
+
+public function findAllCommandeSection($page = 1, $nombreParPage = 1000, $debut='2019-01-01', $fin='2020-01-01')
+{
+	// On déplace la vérification du numéro de page dans cette méthode
+    if($page < 1){
+		throw new \InvalidArgumentException('Page inexistant');
+    }
+	$query = $this->createQueryBuilder('p')
+	              ->leftJoin('p.user','u')
+	              ->leftJoin('p.produitpaniers','pp')
+				  ->addSelect('u')
+				  ->addSelect('pp')
+				  ->where('p.payer = 1 AND p.date >= :debut AND p.date <= :fin')  //Pour les commandes clients 
+				  ->orWhere('p.payer = 1 AND p.date >= :debut AND p.date <= :fin') //Pour les commandes des boutiques Mobiles
+				  ->setParameter('debut', new \Datetime($debut.' 00:00:00'))
+				  ->setParameter('fin',   new \Datetime($fin.' 23:59:59'))
+	              ->orderBy('p.date','DESC')
+                  ->getQuery();
+	$query->setFirstResult(($page-1) * $nombreParPage)
+          ->setMaxResults($nombreParPage);
+return new Paginator($query);
+}
 }

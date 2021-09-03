@@ -947,6 +947,7 @@ public function addformationpanier(Service $service, GeneralServicetext $service
 					$panier->setService($service);
 					$panier->setMontantttc($montant);
 					$em->persist($panier);
+					$montantspecial = 0;
 					foreach($service->getProduits() as $produit)
 					{
 						$produitpanier = new Produitpanier();
@@ -955,7 +956,13 @@ public function addformationpanier(Service $service, GeneralServicetext $service
 						$produitpanier->setQuantite(1);
 						$em->persist($produitpanier);
 						$produit->setNbcertificat($produit->getNbcertificat() + 1);
+
+						if($produit->getTypecours() == "coursspecialise")
+						{
+							$montantspecial = $montantspecial + $produit->getNewprise();
+						}
 					}
+					$panier->setMontantspecial($montantspecial);
 					$service->setNbcertificat($service->getNbcertificat() + 1);
 					$this->get('session')->getFlashBag()->add('information','Inscription à la formation effectuée avec succès !');
 					$em->flush();
@@ -975,7 +982,6 @@ public function addformationpanier(Service $service, GeneralServicetext $service
 								'Suivez la progression de cette formation via le lien ci-dessus.</br><a href="'.$siteweb.'/accueil/user/'.$produit->getId().'">Suivez la formation de'.$this->getUser()->name(35).'.</a>',  //Contenu de l'email
 								 ''  //Lien à suivre
 							);
-
 						}
 						
 						foreach($service->getProduits() as $produit)

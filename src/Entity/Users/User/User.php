@@ -277,26 +277,26 @@ class User implements UserInterface
     private $country;
 	
 	public function __construct(GeneralServicetext $service)
-             {
-                 $this->servicetext = $service;
-                 $this->mailval = false;
-                 $this->telval = false;
-                 $this->sexe = false;
-                 $this->message = '';
-                 $this->telpublic = false;
-                 $this->formateur = false;
-                 $this->dateins = new \Datetime();
-                 $this->datebeg = time();
-                 $this->dateend = time();
-                 $this->nbticket = 0;
-                 $this->nbgaim = 0;
-                 $this->soldeprincipal = 0;
-                 $this->nbmail = 0;
-                 $this->nbdossier = 0;
-                 $this->soldegain = 0;
-                 $this->soldetransit = 0;
-                 $this->roles = array('ROLE_USER');
-             }
+    {
+        $this->servicetext = $service;
+        $this->mailval = false;
+        $this->telval = false;
+        $this->sexe = false;
+        $this->message = '';
+        $this->telpublic = false;
+        $this->formateur = false;
+        $this->dateins = new \Datetime();
+        $this->datebeg = time();
+        $this->dateend = time();
+        $this->nbticket = 0;
+        $this->nbgaim = 0;
+        $this->soldeprincipal = 0;
+        $this->nbmail = 0;
+        $this->nbdossier = 0;
+        $this->soldegain = 0;
+        $this->soldetransit = 0;
+        $this->roles = array('ROLE_USER');
+    }
 	
 	public function getServicetext()
                                  	{

@@ -887,6 +887,11 @@ public function ajouterpanier(Chapitrecours $chapitre, GeneralServicetext $servi
 						$panier->setUser($this->getUser());
 						$panier->setChapitrecours($chapitre);
 						$panier->setMontantttc($montant);
+
+						if($produit->getTypecours() == 'coursspecialise')
+						{
+							$panier->setMontantspecial($montant);
+						}
 						$em->persist($panier);
 						
 						$produitpanier = new Produitpanier();

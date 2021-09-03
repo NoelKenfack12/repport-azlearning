@@ -117,7 +117,7 @@ class Produit
      *
      * @ORM\Column(name="titre", type="string")
      *@Taillemax(valeur=50000, message="Au plus 50000 caractès")
-     */
+    */
     private $titre;
 	
 	
@@ -285,46 +285,51 @@ class Produit
 	private $servicetext;
 	
 	private $em;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $typecours;
 	
 	public function __construct(GeneralServicetext $service, EntityManagerInterface $em = null)
-	{
-		$this->servicetext = $service;
-		$this->timestamp = time();
-		$this->avant = false;
-		$this->valide = false;
-		$this->guide = false;
-		$this->recommander = false;
-		
-		$this->nblike = 0;
-		$this->nbvue = 0;
-		$this->nbpartage = 0;
-		$this->nbenregistrer = 0;
-		$this->nbrecommander = 0;
-		  
-		$this->nbvente = 0;
-		$this->nbcertificat = 0;
-		$this->newprise = 1000;
-		$this->difference = 0;
-		$this->prixlivraison = 0;
-		$this->lastprise = 1000;
-		$this->rang = 0; 
-		$this->dureeacces = 360; 
-		$this->date = new \Datetime();
-		$this->coutlivraisons = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->userlikes = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->produitformations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->em = $em;
-	}
+         	{
+         		$this->servicetext = $service;
+         		$this->timestamp = time();
+         		$this->avant = false;
+         		$this->valide = false;
+         		$this->guide = false;
+         		$this->recommander = false;
+         		
+         		$this->nblike = 0;
+         		$this->nbvue = 0;
+         		$this->nbpartage = 0;
+         		$this->nbenregistrer = 0;
+         		$this->nbrecommander = 0;
+         		  
+         		$this->nbvente = 0;
+         		$this->nbcertificat = 0;
+         		$this->newprise = 1000;
+         		$this->difference = 0;
+         		$this->prixlivraison = 0;
+         		$this->lastprise = 1000;
+         		$this->rang = 0; 
+         		$this->dureeacces = 360; 
+         		$this->date = new \Datetime();
+         		$this->coutlivraisons = new \Doctrine\Common\Collections\ArrayCollection();
+         		$this->userlikes = new \Doctrine\Common\Collections\ArrayCollection();
+         		$this->produitformations = new \Doctrine\Common\Collections\ArrayCollection();
+                 $this->em = $em;
+         	}
 
 	public function setEm($em)
-	{
-		$this->em = $em;
-	}
+         	{
+         		$this->em = $em;
+         	}
 	
 	public function getEm()
-	{
-		return $this->em;
-	}
+         	{
+         		return $this->em;
+         	}
 
     public function postLoad(LifecycleEventArgs $args)
      {
@@ -335,33 +340,33 @@ class Produit
      }
 	
 	public function priseLivraison($ville)
-	{
-		$coutlivraison = $this->em->getRepository(Coutlivraison::class)
-	                     ->findOneBy(array('ville'=>$ville,'produit'=>$this));
-		if($coutlivraison != null)
-		{
-			return $coutlivraison->getMontant();
-		}else{
-			return $this->prixlivraison;
-		}
-	}
+         	{
+         		$coutlivraison = $this->em->getRepository(Coutlivraison::class)
+         	                     ->findOneBy(array('ville'=>$ville,'produit'=>$this));
+         		if($coutlivraison != null)
+         		{
+         			return $coutlivraison->getMontant();
+         		}else{
+         			return $this->prixlivraison;
+         		}
+         	}
 	
 	public function getServicetext()
-	{
-		return $this->servicetext;
-	}
+         	{
+         		return $this->servicetext;
+         	}
 	
 	public function setServicetext(GeneralServicetext $service)
-	{
-		$this->servicetext = $service;
-		return $this;
-	}
+         	{
+         		$this->servicetext = $service;
+         		return $this;
+         	}
 	
 	public function ancienPrixProduit()
-	{
-		$aprix = $this->newprise + $this->difference;
-		return $aprix;
-	}
+         	{
+         		$aprix = $this->newprise + $this->difference;
+         		return $aprix;
+         	}
 	
 	/**
       * @ORM\PrePersist()
@@ -634,39 +639,39 @@ class Produit
     }
 	
 	public function getImagealeatoire()
-	{
-		$max = count($this->getImgproduits());
-		if($max <= 1)
-		{
-			$tail1 = 1;
-		}else{
-			$tail1 = mt_rand(1,$max);
-		}
-		$compt = 1;
-		$imgchoise = null;
-		foreach($this->getImgproduits() as $image)
-		{
-			if($compt == $tail1)
-			{
-				$imgchoise = $image;
-			}
-			$compt++;
-		}
-		return $imgchoise;
-	}
+         	{
+         		$max = count($this->getImgproduits());
+         		if($max <= 1)
+         		{
+         			$tail1 = 1;
+         		}else{
+         			$tail1 = mt_rand(1,$max);
+         		}
+         		$compt = 1;
+         		$imgchoise = null;
+         		foreach($this->getImgproduits() as $image)
+         		{
+         			if($compt == $tail1)
+         			{
+         				$imgchoise = $image;
+         			}
+         			$compt++;
+         		}
+         		return $imgchoise;
+         	}
 	
 	public function name($tail)
-	{
-		if(strlen($this->titre) <= $tail)
-		{
-		return $this->titre;
-		}else{
-		$text = wordwrap($this->titre,$tail,'~',true);
-		$tab = explode('~',$text);
-		$text = $tab[0];
-		return $text.'..';
-		}
-	}
+         	{
+         		if(strlen($this->titre) <= $tail)
+         		{
+         		return $this->titre;
+         		}else{
+         		$text = wordwrap($this->titre,$tail,'~',true);
+         		$tab = explode('~',$text);
+         		$text = $tab[0];
+         		return $text.'..';
+         		}
+         	}
 	
 	/**
       * @ORM\PrePersist()
@@ -955,30 +960,30 @@ class Produit
     }
 	
 	public function getNoteGeneralQCM($prodpan)
-	{
-		$liste_chapitre = $this->em->getRepository(Chapitrecours::class)
-							       ->chapitreselectcours($this->getId());
-		$total = 0;
-		foreach($liste_chapitre as $chap)
-		{
-			$chap->setEm($this->em);
-			$total = $total + $chap->getNoteQuestionnaire($prodpan);
-		}
-		
-		if(count($liste_chapitre) > 0)
-		{
-			return ceil($total/count($liste_chapitre));
-		}else{
-			return 0;
-		}
-	}
+         	{
+         		$liste_chapitre = $this->em->getRepository(Chapitrecours::class)
+         							       ->chapitreselectcours($this->getId());
+         		$total = 0;
+         		foreach($liste_chapitre as $chap)
+         		{
+         			$chap->setEm($this->em);
+         			$total = $total + $chap->getNoteQuestionnaire($prodpan);
+         		}
+         		
+         		if(count($liste_chapitre) > 0)
+         		{
+         			return ceil($total/count($liste_chapitre));
+         		}else{
+         			return 0;
+         		}
+         	}
 	
 	public function getChapitreCours()
-	{
-		$liste_chapitre = $this->em->getRepository(Chapitrecours::class)
-							   ->chapitreselectcours($this->getId());
-		return $liste_chapitre;
-	}
+         	{
+         		$liste_chapitre = $this->em->getRepository(Chapitrecours::class)
+         							   ->chapitreselectcours($this->getId());
+         		return $liste_chapitre;
+         	}
 
     /**
      * Set guide
@@ -1161,30 +1166,30 @@ class Produit
     }
 	
 	public function getDureeCours()
-	{
-		$liste_chapitre = $this->em->getRepository(Chapitrecours::class)
-								->listechapitrecours($this->getId());
-		$durreemin = 0;
-		$durreeseconde = 0;
-		$totalseconde = 0;
-		foreach($liste_chapitre as $chapitre)
-		{
-			$durreemin = $durreemin + $chapitre->getDureeminute();
-			$durreeseconde = $durreeseconde + $chapitre->getDureeseconde();
-		}
-		
-		$totalseconde = $durreeseconde + ($durreemin * 60);
-		$minute = (int)($totalseconde/60);
-		$seconde = $totalseconde % 60;
-		return $minute.' min '.$seconde.' s ';
-	}
+         	{
+         		$liste_chapitre = $this->em->getRepository(Chapitrecours::class)
+         								->listechapitrecours($this->getId());
+         		$durreemin = 0;
+         		$durreeseconde = 0;
+         		$totalseconde = 0;
+         		foreach($liste_chapitre as $chapitre)
+         		{
+         			$durreemin = $durreemin + $chapitre->getDureeminute();
+         			$durreeseconde = $durreeseconde + $chapitre->getDureeseconde();
+         		}
+         		
+         		$totalseconde = $durreeseconde + ($durreemin * 60);
+         		$minute = (int)($totalseconde/60);
+         		$seconde = $totalseconde % 60;
+         		return $minute.' min '.$seconde.' s ';
+         	}
 	
 	public function getLastFormationCours()
-	{
-		$formation = $this->em->getRepository(Produitformation::class)
-								->findOneBy(array('produit'=>$this), array('date'=>'desc'),1);
-		return $formation;
-	}
+         	{
+         		$formation = $this->em->getRepository(Produitformation::class)
+         								->findOneBy(array('produit'=>$this), array('date'=>'desc'),1);
+         		return $formation;
+         	}
 
     public function getAllPartiesCours($nbre = 6)
 	{
@@ -1192,4 +1197,16 @@ class Produit
 							  ->findBy(array('produit'=>$this), array('date'=>'desc'), $nbre);
 		return $formation;
 	}
+
+    public function getTypecours(): ?string
+    {
+        return $this->typecours;
+    }
+
+    public function setTypecours(?string $typecours): self
+    {
+        $this->typecours = $typecours;
+
+        return $this;
+    }
 }

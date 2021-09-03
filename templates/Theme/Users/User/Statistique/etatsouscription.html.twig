@@ -132,18 +132,24 @@
                             }
       
                             td:nth-of-type(4):before {
-                              content: "P.T Achat";
+                              content: "Type formation";
                             }
       
                             td:nth-of-type(5):before {
-                              content: "P.T Vente";
+                              content: "Nombre de cours";
                             }
       
                             td:nth-of-type(6):before {
-                              content: "Bénéfices";
+                              content: "Montant Spécial";
                             }
       
                             td:nth-of-type(7):before {
+                              content: "Montant total";
+                            }
+                            td:nth-of-type(8):before {
+                              content: "Réduction";
+                            }
+                            td:nth-of-type(9):before {
                               content: "Etat";
                             }
       
@@ -158,32 +164,38 @@
                                 <th>Id Panier</th>
                                 <th>Client</th>
                                 <th>Date</th>
-                                <th>P.T Achat</th>
-                                <th>P.T Vente</th>
-                                <th>Bénéfices</th>
+                                <th>Type formation</th>
+                                <th>Nombre de cours</th>
+                                <th>Montant Spécial</th>
+                                <th>Montant total</th>
+                                <th>Réduction</th>
                                 <th>Etat</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Id Panier</th>
-                                <th>Client</th>
-                                <th>Date</th>
-                                <th>P.T Achat</th>
-                                <th>P.T Vente</th>
-                                <th>Bénéfices</th>
-                                <th>Etat</th>
+                              <th>Id Panier</th>
+                              <th>Client</th>
+                              <th>Date</th>
+                              <th>Type formation</th>
+                              <th>Nombre de cours</th>
+                              <th>Montant Spécial</th>
+                              <th>Montant total</th>
+                              <th>Réduction</th>
+                              <th>Etat</th>
                             </tr>
                         </tfoot>
                         <tbody>
                               {% for i in range(0,7) %}
                               <tr>
-                                <td>vvb</td>
-                                <td>gfgf</td>
-                                <td>vccvcv<td>
+                                <td>vvb {{ i }}</td>
+                                <td>gfgf {{ i }}</td>
+                                <td>vccvcv {{ i }}<td>
                                 <td>jhjhj</td>
                                 <td>jhjhj</td>
                                 <td>iouuioi</td>
+                                <td>Payé</td>
+                                <td>Payé</td>
                                 <td>Payé</td>
                               </tr>
                               {% else %}
@@ -193,6 +205,8 @@
                                 <td>-</td>
                                 <td>-</td>
                                 
+                                <td>-</td>
+                                <td>-</td>
                                 <td>-</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -226,10 +240,10 @@
 <hr>
 <script>
     $(document).ready(function() {
-    $('.tablefilter').DataTable({
+      $('.tablefilter').DataTable({
       //disable sorting on last column
       "columnDefs": [
-        { "orderable": false, "targets": 7 }
+        { "orderable": false, "targets": 9 }
       ],
       
       language: {
@@ -248,8 +262,14 @@
         '<option value="-1">All</option>'+
         '</select>'
       }
-    })  
-} );
+    });
+});
+
+setTimeout(function(){
+      $(".tablefilter tbody tr").each(function() {
+          $(this).find("td:eq(3)").remove();
+      });
+},500);
 </script>
 {% endblock %}
 

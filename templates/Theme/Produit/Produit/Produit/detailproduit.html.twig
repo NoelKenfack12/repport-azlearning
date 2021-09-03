@@ -551,7 +551,7 @@ body {
 	background: #092759;
 }
 .item-link-tabs.active a{
-	color: #092759!important;
+	color: #fff!important;
 }
 </style>
 
@@ -1055,19 +1055,29 @@ body {
 				<span class="badge badge-primary">{{ produit.newprise }} {{ devise }}</span>
 			</div>
 			<div style="border-top: 1px solid #ddd; margin-top: 15px;">
-			Pour souscrire, veuillez rentrez votre mot de passe.
+				Pour souscrire, veuillez rentrez votre mot de passe.
 			</div>
 			
 			<div class="clearfix"></div>
 			<form action="{{ path('produit_produit_ajouter_product_panier', {'id': produit.id }) }}" method="post" style="margin-top: 15px;">
-			<div class="form-group">
-				<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px;">
-				<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 5px;">
-			</div>
-			<div style="margin-top: 15px;">
-				<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le payement avec votre compte</button>
-			</div>
+				<div class="form-group">
+					<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+					<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+				</div>
+				<div style="margin-top: 15px;">
+					<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le payement avec votre compte</button>
+				</div>
 			</form>
+			{% if app.user != null %}
+			<div class="alert alert-info" style="margin-top: 15px;">
+				<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal }} {{ devise }}</span>  </div>
+				{% if app.user.soldeprincipal < produit.newprise  %}
+				<a href="{{ path('produit_service_yourcv_recrutement') }}" class="">
+					<span style="color: red; font-size: 16px;">Solde Insufisant</span>: Cliquez ici pour créditer
+				</a>
+				{% endif %}
+			</div>
+			{% endif %}
 		</div>
 		
 		{% if oldservice != null %}
@@ -1090,6 +1100,16 @@ body {
 						<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte</button>
 					</div>
 				</form>
+				{% if app.user != null %}
+				<div class="alert alert-info" style="margin-top: 15px;">
+					<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal }} {{ devise }}</span>  </div>
+					{% if app.user.soldeprincipal < oldservice.nprix  %}
+					<a href="{{ path('produit_service_yourcv_recrutement') }}" style="text-decoration: underline;">
+						<span style="color: red; font-size: 16px;">Solde Insufisant</span>: Cliquez ici pour créditer
+					</a>
+					{% endif %}
+				</div>
+				{% endif %}
 			</div>
 		{% endif %}
 		</div>

@@ -813,7 +813,7 @@ button.owl-next, button{
 	</div>
 	<div class="row">
 		{% for categorie in liste_categorie %}
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="container-cat" style="background: url('{% if categorie.src != null %}{{ asset(categorie.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}'); background-size: cover;">
 			  <p class="title-cat" style="font-size: 15px;">
 				<span class="subtitle-cat" style="color: #fff!important; text-shadow: 0 0 3px #092759, 0 0 5px #092759; font-size: 20px;">

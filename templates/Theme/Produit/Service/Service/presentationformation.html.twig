@@ -848,9 +848,19 @@ body {
 			<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 0px;">
 		</div>
 		<div style="margin-top: 15px;">
-			<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte {{ site }} </button>
+			<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte</button>
 		</div>
 	</form>
+	{% if app.user != null %}
+	<div class="alert alert-info" style="margin-top: 15px;">
+		<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal }} {{ devise }}</span>  </div>
+		{% if app.user.soldeprincipal < service.nprix  %}
+		<a href="{{ path('produit_service_yourcv_recrutement') }}" style="text-decoration: underline;">
+			<span style="color: red; font-size: 16px;">Solde Insufisant</span>: Cliquez ici pour créditer
+		</a>
+		{% endif %}
+	</div>
+	{% endif %}
 	</div>
 	
 	</div>
@@ -1362,7 +1372,7 @@ $accordion_wrapper.addClass($accordion_open);   // Add the accordion--open class
 		<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 0px;">
 	</div>
 	<div style="margin-top: 15px;">
-		<button type="submit" class="btn btn-warning btn-lg btn-block" style="border-radius: 0px;">Confirmez le payement avec votre compte {{ site }} </button>
+		<button type="submit" class="btn btn-warning btn-lg btn-block" style="border-radius: 0px;">Confirmez le payement avec votre compte </button>
 	</div>
 	</form>
 	</div>
