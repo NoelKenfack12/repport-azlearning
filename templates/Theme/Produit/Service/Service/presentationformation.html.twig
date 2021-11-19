@@ -6,7 +6,7 @@
 	{{ parent() }}
 	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration,formation en ligne, e-learning, cours, support, vidéos, {{ service.nom }} , {{ service.keyword }}"/>
 	<meta name="author" content="Noel Kenfack"/>
-	<meta name="description" content="{{ site }} - {{ metier }} - Présentation formation {{ service.nom }} , {{ service.keyword }}" />
+	<meta name="description" content="{{ site }} - {{ metier }} - {{ service.nom }}" />
 	
 {% endblock %}
 
@@ -535,16 +535,38 @@ body {
 }
 </style>
 
-<section style="background: #092759; height: 250px; padding-top: 20px;">
+
+<section style="background: #4e7cff; height: 250px; padding-top: 20px;">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7" style="color: #fff;">
-				<h2 class="">{{ service.nom }}</h2>
-				<div>{{ service.description|raw }}</div>
+				<div id="breadcrumb" class="breadcrumb-dash" style="">
+					<a href="#!" class="breadcrumb-close">Accueil</a>
+					<a href="#!" class="breadcrumb-link">
+					  <span class="fa fa-bandcamp"></span> Parcours
+					</a>
+					<a href="#!" class="breadcrumb-link">{{ service.nom }}</a>
+					<a href="#breadcrumb" class="breadcrumb--active">Détail du parcours</a>
+				</div>
+				<h2>{{ service.nom }}</h2>
+				<a href="#!" class="text-left" style="display: block; text-decoration: none; color: #fff;">
+					<strong>4,7</strong>
+					<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+						<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+						<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+					</div>
+					<strong> (1 614 notes)</strong> <span>6 692 participants</span>
+				</a>
+				<div style="margin-top: 20px;">
+					Suivi par plus de {{ service.produits|length }} formateurs AZ.
+				</div>
+				<div>
+					Dernière mise à jour {{ service.date|date('d') }}/{{ service.date|date('m') }}/{{ service.date|date('Y') }}; Langues: <span class="fa fa-globe"></span> Français
+				</div>
 			</div>
 
 			<div class="col-md-5">
-				<div class="img-thumbnail" style="min-height: 300px; padding: 7px;">
+				<div class="img-thumbnail" style="height: 420px; padding: 7px;">
 				
 					<div class="variation-contenu-ressource" style="height: 300px;">
 						<div class="loader-wrap">
@@ -556,6 +578,11 @@ body {
 								<div class="box-5 box"></div>
 							</div>
 						</div>
+					</div>
+
+					<div class="text-center" style="margin-top: 10px;">
+						<h3>Prix officiel: {{ service.nprix }} {{ devise }}</h3>
+						<a href="#!" class="btn btn-primary btn-block souscription-cours-offline" value="1">Commander</a>
 					</div>
 					
 					<script type="text/javascript">
@@ -587,56 +614,20 @@ body {
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7">
-
-				<div class="alert alert-success text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;">
-					<span class="fa fa-info-circle"></span> Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu par l'état. 
-					<a href="#!" class="btn btn-primary souscription-cours-offline" value="1"> Inscrivez-vous maintenant <span class="fa fa-angle-double-right"></span> </a> 
-					<span class="fa fa-check pull-right"></span>
+				<div class="text-left" style="background: #fff; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+					<a href="#!" class="btn btn-primary souscription-cours-offline float-right" style="margin-top: 15px;"> C'est parti </a> 
+					<h2>Inscrivez vous à cette formation</h2>
+					<div>Accédez à toutes les ressources de cette formation et obtenez un certificat reconnu par l'état.</div>
+				</div>
+				<div class="panel-text">
+					<h2>{{ service.nom }}</h2>
+					<div class="content-panel-1">{{ service.description|raw }}</div>
 				</div>
 				
-				<div class="row">
-					<div class="col-sm-12">
-					<div class="panel-text">
-						<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> Ressources accéssibles partout <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
-						<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
-					</div>
-					</div>
-					
-					<div class="col-md-6">
-					  <a href="#!" class="cardop-item"> 
-					  <span class="icon feature_box_col_one"><img src="{{ asset('template/images/video-image2.png') }}" style="width: 50px; height: 60px; margin-top: -10px;"/></span>
-						<h6>Cours Vidéos <span class="badge badge-secondary">{{ nbvideo }}</span></h6>
-						<p>Commandes clients</p>
-					  </a>
-					</div>
-					<div class="col-md-6">
-					  <a href="#!" class="cardop-item"> 
-					  <span class="icon feature_box_col_one"><img src="{{ asset('template/images/support1.png') }}" style="width: 50px; height: 60px; margin-top: -10px;"/></span>
-						<h6>Supports de cours <span class="badge badge-secondary">{{ nbsupport }}</span></h6>
-						<p>Commandes clients</p>
-					  </a>
-					</div>
-					<div class="col-md-6">
-					  <a href="#!" class="cardop-item"> 
-					  <span class="icon feature_box_col_one"><img src="{{ asset('template/images/tpratique3.png') }}" style="width: 50px; height: 60px; margin-top: -10px;"/></span>
-						<h6>Travaux pratiques <span class="badge badge-secondary">{{ nbpratique }}</span></h6>
-						<p>Commandes clients</p>
-					  </a>
-					</div>
-					<div class="col-md-6">
-					  <a href="#!" class="cardop-item"> 
-					  <span class="icon feature_box_col_one"><img src="{{ asset('template/images/tpratique3.png') }}" style="width: 50px; height: 60px; margin-top: -10px;"/></span>
-						<h6>Exercices corrigés <span class="badge badge-secondary">{{ nbexercice }}</span></h6>
-						<p>Commandes clients</p>
-					  </a>
-					</div>
-				</div>
-
-
 				<div class="row containerprod"> 
 					<div class="col-sm-12">
 						<div class="panel-text">
-							<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> Cette formation comporte les cours suivants:  <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+							<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-communication-textsms"></span> Cette formation comporte les cours suivants:  <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 							<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
 						</div>
 					</div>
@@ -668,29 +659,33 @@ body {
 
 			</div>
 
-			<div class="col-md-5">
-				<div class="card" style="margin-top: 100px; padding: 25px;">
+			<div class="col-md-5" style="margin-top: 200px;">
+				<div class="card" style="padding: 25px;">
 					<h2 class="text-left">
 						À propos de l'offre de formation
 					</h2>
 
-					<div>
-						<span class="badge badge-info">Formation: du {{ service.datebegin|slice(0, 2) }} {{ service.user.mois(service.datebegin|slice(4, 2)) }} au {{ service.datefin|slice(0, 2) }} {{ service.user.mois(service.datefin|slice(4, 2)) }} {{ service.datebegin|slice(6, 4) }}</span>
-					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<span class="fa fa-clock-o"></span> Période: <span class="badge badge-default float-right">du {{ service.datebegin|slice(0, 2) }} {{ service.user.mois(service.datebegin|slice(4, 2)) }} au {{ service.datefin|slice(0, 2) }} {{ service.user.mois(service.datefin|slice(4, 2)) }} {{ service.datebegin|slice(6, 4) }}</span>
+						</li>
+						<li class="list-group-item">
+							<span class="fa fa-users"></span> Formateurs <span class="badge badge-default float-right">{{ service.produits|length }}+</span>
+						</li>
+						<li class="list-group-item">
+							<span class="fa fa-film"></span> Cours Vidéos <span class="badge badge-default float-right">{{ nbvideo }}+</span>
+						</li>
+						<li class="list-group-item">
+							<span class="fa fa-file-pdf-o"></span> Supports de cours <span class="badge badge-default float-right">{{ nbsupport }}+</span>
+						</li>
+						<li class="list-group-item">
+							<span class="fa fa-free-code-camp"></span> Travaux pratiques <span class="badge badge-default float-right">{{ nbpratique }}+</span>
+						</li>
+						<li class="list-group-item">
+							<span class="fa fa-check-circle"></span> Exercices corrigés <span class="badge badge-default float-right">{{ nbexercice }}+</span>
+						</li>
+					</ul>
 					
-					<div>
-						{{ service.pubinline }}
-					</div>
-					
-					<div>
-						<strong>Coût de la formation:</strong> <span class="badge badge-secondary">{{ service.nprix }} {{ devise }}</span>
-					</div>
-					
-					<div style="padding: 10px 20px;">
-						<h2>
-							<a href="#!" class="btn btn-primary souscription-cours-offline" value="1">Souscrire à cette formation</a></li>
-						</h2>
-					</div>
 				</div>
 
 				<h2 style="margin-top: 15px;">Liste des enseignant(e)s</h2>

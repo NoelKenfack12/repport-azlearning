@@ -1,171 +1,134 @@
+
 {% extends "Theme/Users/User/layoutlogin.html.twig" %}
 {% block meta %}
-	
-	{{ parent() }}	
-	<meta name="keywords" content="{{ site }}, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos, Informatique Cameroun, Génie logicielle."/>
-	<meta name="author" content="Noel Kenfack, noel.kenfack@afhunt.com"/>
-	<meta name="description" content="{{ site }} - {{ metier }} - Suivez à votre rythme une formation professionnelle sur la plateforme d'e-learning de l'institut de formation proffessionnelle AZ corporation."/>
-	
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}"/>
+
 {% endblock %}
+
 {% block title %}
-	{{ parent() }} | {{ site }}, Connectez-vous à votre compte.
+
+	{{ parent() }} | Connexion
+
+{% endblock %}
+
+{% block stylesheets %}
+
+	{{ parent() }}
+
+	<style media="screen">
+	.tint {
+		background: linear-gradient(
+			rgba(0, 0, 0, .6),
+			rgba(0, 0, 0, .1)),
+			url("{% if loginbg != null and loginbg.src != null %}{{ asset(loginbg.getwebpath) }}{% else %}https://images.unsplash.com/photo-1420745981456-b95fe23f5753?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb{% endif %}") 100% / cover ;
+		height: 100%;
+		padding: 1.5em;
+		width: 50%;
+		background-size: cover;
+		}
+
+		h1 {
+		margin-bottom: .25em;
+		}
+
+		h1,
+		p,
+		a {
+			color: rgba(255, 255, 255, .95);
+		}
+	</style>
+
 {% endblock %}
 
 {% block userblog_body %}
 
-<style>
-	@media (min-width: 728px){
-	.container-market{
-		max-width: 70%;
-		width: 1200px;
-		padding-right: 15px;
-		padding-left: 15px;
-		margin-right: auto;
-		margin-left: auto;
-	}
-	}
-	@media (min-width: 400px){
-	.container-market{
-		width: 80%;
-		width: 1000px;
-		padding-right: 15px;
-		padding-left: 15px;
-		margin-right: auto;
-		margin-left: auto;
-	}
-	}
-	@media (max-width: 400px){
-	.container-market{
-		max-width: 90%;
-		width: 400px;
-		padding-right: 15px;
-		padding-left: 15px;
-		margin-right: auto;
-		margin-left: auto;
-	}
-	}
-</style>
+<div class="container-fluid">
+<div class="row">
 
-<div class="container" style="box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1); background: #fff;">
-
-<div style="padding: 15px;">
-	<div style="padding: 10px; text-align: center; background: #fff; border-radius: 10px; margin-bottom: 15px;">
-		<h2 style="font-size: 25px; margin: 0px;">Bienvenue dans votre salle de classe !</h2>
+<div class="col-md-6 d-flex">
+  <div class="login-wrapper m-auto">
+	<div class="brand-wrapper" style="margin-bottom: 50px;">
+	  <img src="{% if paramlogosm != null and paramlogosm.src != null %}{{ asset(paramlogosm.getwebpath) }}{% else %}{{ asset('template/images/logomarket.png') }}{% endif %}" alt="logo" class="logo">
+		{% if paramlogosm != null  %}
+		 <a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #e34520;">{{ paramlogosm.link }}</span> <span style="color: #91ba1c;"> {{ paramlogosm.valeur }}</span></strong></a>
+		{% else %}
+			<a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #e34520;">AFH</span> <span style="color: #91ba1c;"> Market</span></strong></a>
+	  {% endif %}
 	</div>
+	<p class="login-description">Connectez-vous à votre compte</p>
+	{% if error %}
+		<p class="text-center" style="color: red;">Mot de passe, Email ou Téléphone invalid</p>
+	{% endif %}
 
-	<div style="padding: 5px; background: #fff; border-radius: 10px; text-align: center; margin-bottom: 15px;">
-		<img src="{{ asset('template/images/banniere.jpg') }}" style="width: 100%;">
-	</div>
-	
-	<div style="padding: 15px 5px; background: #fff; border-radius: 10px; margin-bottom: 15px;">
-		<div class="row">
-			
-			<div class="col-md-6 offset-md-3">
-				{% if error %}
-				<p class="center" style="color: red; padding: 7px; font-weight: bold;">Mot de passe ou Email invalid</p>
-				{% endif %}
-			<div style="padding: 15px; border: 1px solid #ddd; border-radius: 10px;">
-				<h2>Veuillez insérer vos paramètres d'accès à la formation.</h2>
-				
-				<form method="post" action="{{ path('login') }}"> 							
-					<div class="form-group">
-						<input class="form-control" type="text" id="username" name="_username"  required placeholder="Email ou Téléphone">
-					</div>
-					<div class="form-group">
-						<input id="password-field" class="form-control" type="password" id="password" name="_password" required placeholder="Mot de passe">
-                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-					</div>
-					
-					<div class="form-group">
-						<div class="wrap-input100 validate-input" style="margin-top: 15px;">
-						  <input type="checkbox" id="remember_me" name="_remember_me"/>
-						  <label for="remember_me">Garder ma session ouverte</label>
-						</div>
-
-						<div class="text-right p-t-13 p-b-23">
-							<a href="#" class="txt2 modal_reset_password">
-								Mot de passe oublié ?
-							</a>
-						</div>
-					</div>
-					
-					<div class="form-group text-center">
-						<button class="btn btn-primary">
-							Suivre mes formations
-						</button>
-					</div>
-				</form>
-			</div>
-			<div class="flex-col-c p-t-15 p-b-40">
-				<span class="txt1 p-b-9">
-					Vous n'avez pas encore de compte {{ site }} ?
-				</span>
-
-				<a href="{{ path('users_user_inscription_user') }}" class="txt3">
-					Créez un compte
-				</a>
-			</div>
-			</div>
+	<form action="{{ path('login') }}" method="post">
+	  <div class="form-group">
+		<label for="email" class="sr-only">Email</label>
+		<div class="input-group">
+		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
+			<span class="input-group-text"><i class="fa fa-envelope"></i></span>
+		  </div>
+		  <input type="email" id="username" name="_username" value="{{ last_username }}" required class="form-control" placeholder="Email ou Téléphone">
 		</div>
-	</div>
-	<div style="padding: 15px 35px; background: #fff; border-radius: 10px; margin-bottom: 100px;">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<h2>Vous pouvez aussi nous contacter si vous n'avez pas encore vos accès.</h2>
-			</div>
-			<div class="col-md-4">
-				<div style="height: 250px; border: 1px solid #ddd; border-radius: 5px; padding: 7px;">
-					<h6>Localisation</h6>
-					<div>
-						Notre siège social est situé à Yaoundé Biyem-Assi, Carrefour Kameni (Immeuble Mater). 
-					</div>
-					<h6>Téléphones</h6>
-					<ul>
-						<li><a href="https://wa.me/237699934926" target="_blank">Whatsapp: 237699934926</a></li>
-						<li><a href="tel:(237) 222 31 46 62">Ligne 1: (237) 222 31 46 62</a></li>
-						<li><a href="tel:(237) 697 27 97 70">Ligne 2: (237) 697 27 97 70</a></li>
-						<li><a href="tel:(237) 676 26 40 27">Ligne 3: (237) 676 26 40 27</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4"> 
-				<div style="height: 250px; border: 1px solid #ddd; border-radius: 5px; padding: 7px;">
-					<h6>Mode de paiement </h6>
-					<div>Vous pouvez faire votre paiement par virement bancaire ou via un mode de paiement mobile</div>
-					<ul>
-						<li><a href="#!">Afriland FirstBank</a></li>
-						<li><a href="#!">Orange Money</a></li>
-						<li><a href="#!">MTN Mobile Money</a></li>
-						<li><a href="#!">Moneygram</a></li>
-						<li><a href="#!">Paiements directs dans nos bureaux</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div style="height: 250px; border: 1px solid #ddd; border-radius: 5px; padding: 7px;">
-					<h6>Médias sociaux</h6>
-					<div>Suivez nous sur les réseaux sociaux</div>
-					<ul>
-						<li><a href="https://www.google.com/maps/dir//INSTITUT+AZ+CORPORATION,+30+020,+Biyem-Assi+Kameni,+Yaound%C3%A9/@3.8482134,11.4909128,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x108bcfdbfb5da54b:0xe9ed2f8954b445f6!2m2!1d11.4909128!2d3.8482134 " target="_blank">Itinéraire GPS</a></li>
-						<li><a href="https://www.facebook.com/AZcorpAfrica/" target="_blank">Suivez nous sur facebook.</a></li>
-					</ul>
-				</div>
-			</div>
+	  </div>
+	  <div class="form-group">
+		<label for="password" class="sr-only">Password</label>
+		<div class="input-group">
+		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
+			<span class="input-group-text"><i class="fa fa-lock"></i></span>
+		  </div>
+		  <input type="password" id="password" name="_password" class="form-control" placeholder="Mot de passe" required>
 		</div>
-	</div>
+	  </div>
+	  <div class="form-options-wrapper">
+		<div class="custom-control custom-checkbox login-check-box">
+		  <input type="checkbox" class="custom-control-input" id="customCheck1"/>
+		  <label class="custom-control-label" for="customCheck1">Remember me</label>
+		</div>
+		<a href="#!" class="forgot-password-link modal_reset_password">Mot de passe oublié</a>
+	  </div>
+	  <button name="login" id="login" class="btn btn-block login-btn" style="cursor: pointer; border: 1px solid #ff4600;">Connexion</button>
+	</form>
+	<p class="login-wrapper-footer-text">Vous n'avez pas encore de compte ? </br>
+		<a href="{{ path('users_user_inscription_user') }}" class="text-reset">Créer un compte</a>
+	</p>
+	<nav class="social-links">
+	  <a href="#!"><i class="fa fa-facebook"></i></a>
+	  <a href="#!"><i class="fa fa-twitter"></i></a>
+	  <a href="#!"><i class="fa fa-instagram"></i></a>
+	  <a href="#!"><i class="fa fa-dribbble"></i></a>
+	</nav>
+  </div>
 </div>
 
+<div class="col-md-6 px-0 d-none d-md-block">
+<div style="background: #f2f2f2; position: fixed; width: 100%; border: 1px solid #ddd; height: 100%;">
+
+	<div class="tint">
+<h1>{% if loginbg != null %}{{ loginbg.link }}{% else %}Actualité de la semaine{% endif %}</h1>
+  <p>{% if loginbg != null %}{{ loginbg.valeur }}{% else %}Suivez toute l'actualité de {{ site }}.{% endif %}</p>
+	</div>
+
+	<div >
+	  <h1 class="title">{{ site }}</h1>
+	  <h1 class="title title-large">{{ site }}</h1>
+	</div>
+
+	<div style="position: absolute; bottom: 5px; padding: 5px 20px;">
+		<a href="{{ path('users_user_acces_plateforme') }}" style="color: #fff;">Accueil</a> <span class="fa fa-circle" style="font-size: 11px; color: #fff;"></span>
+		<a href="{{ path('produit_produit_accueil_boutique_produit') }}" style="color: #fff;">Cours</a> <span class="fa fa-circle" style="font-size: 11px; color: #fff;"></span>
+		<a href="{{ path('produit_service_visiter_notre_blog') }}" style="color: #fff;">Formations</a> <span class="fa fa-circle" style="font-size: 11px; color: #fff;"></span>
+		<a href="{{ path('produit_service_forum_site') }}" style="color: #fff;">Forum</a>
+	</div>
+</div>
+</div>
+</div>
 </div>
 
 
-<script type="text/javascript">
-$('.open-scroll-bar-body').click(function(){
-	resetNotif();
-	alertify.alert("Echec, Veuillez entrer vos accès pour poursuivre votre formation.");
-});
-</script>
-	
 
 <div class="modal fade" data-backdrop="false"  id="open-modalSelect-reinitialize" style="padding-top: 50px;">
 <div class="modal-dialog">
@@ -188,19 +151,19 @@ $('.open-scroll-bar-body').click(function(){
 					<div class="form-group form-group-resset">
 						<input type="text" class="form-control" placeholder="Rentrez l'email du compte" required="">
 					</div>
-					
+
 					<div class="alert alert-resset alert-block alert-danger" style="display:none">
 					<h4>Erreur !</h4>
 					Nous n'avons pu identifier un compte avec cette adresse.
 					</div>
-					
+
 					<div class="form-group">
 						<button  class="btn btn-primary" style="background: #e34520;">Envoyer</button>
 					</div>
 				 </form>
 				</div>
 				<div class="clearfix"></div>
-			</div>		
+			</div>
 		</div>
 		<div class="modal-footer" style="color: #333;">
 			{% include 'Theme/General/Template/Menu/social.html.twig' %}
@@ -208,37 +171,39 @@ $('.open-scroll-bar-body').click(function(){
     </div>
 </div>
 </div>
-  
-{% include 'Theme/General/Template/Menu/menubottom.html.twig' %}
-   
+
 {% endblock %}
 
 {% block javascripttemplate %}
+	$('#username').focus();
 
-$('.modal_reset_password').click(function(){
-	$('#open-modalSelect-reinitialize').modal('show');
-	setTimeout(function(){ 
-			$('.wait-account-verification-affiliate').hide();
-			$('.form-coustom-reset-password').show();
-	}, 2000);
-});
+	$('.modal_reset_password').click(function(){
+		$('#open-modalSelect-reinitialize').modal('show');
 
-$('form.form-check-identifiant').on('submit', function(){
-	var hauteur = $(".form-coustom-reset-password").height() + 20;
-	var largeur = $(".form-coustom-reset-password").width() + 5;
-	var padding = Math.round(hauteur/2 - 50);
-	var username = $(this).find('input').val();
-	$(".form-coustom-reset-password").before('<div class="attente-resultat" style="padding-top: '+padding+'px; z-index: 102; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: #fff; margin-top: -7px;"><span><img src="{{ asset('template/images/loader1.gif') }}" alt="..." style="width: 80px; height: 80px;" /></span></div>');
-	$.post('{{ path('users_user_reset_user_password', {'etape': 1}) }}',{ username: username }, function(data){
-		$('.attente-resultat').hide();
-		if(data != 0)
-		{
-			$('.form-coustom-reset-password').replaceWith(data);
-		}else{
-			$("div.form-group-resset").addClass("has-error");
-			$("div.alert-resset").show("slow").delay(4000).hide("slow");
-		}
+		setTimeout(function(){
+				$('.wait-account-verification-affiliate').hide();
+				$('.form-coustom-reset-password').show();
+		}, 2000);
 	});
-	return false;
-});
+
+	$('form.form-check-identifiant').on('submit', function(){
+		var hauteur = $(".form-coustom-reset-password").height() + 20;
+		var largeur = $(".form-coustom-reset-password").width() + 5;
+		var padding = Math.round(hauteur/2 - 50);
+		var username = $(this).find('input').val();
+		$(".form-coustom-reset-password").before('<div class="attente-resultat" style="padding-top: '+padding+'px; z-index: 102; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: #fff; margin-top: -7px;"><span><img src="{{ asset('template/images/loader1.gif') }}" alt="..." style="width: 80px; height: 80px;" /></span></div>');
+		$.post('{{ path('users_user_reset_user_password', {'etape': 1}) }}',{ username: username }, function(data){
+			$('.attente-resultat').hide();
+			if(data != 0)
+			{
+				$('.form-coustom-reset-password').replaceWith(data);
+			}else{
+				$("div.form-group-resset").addClass("has-error");
+				$("div.alert-resset").show("slow").delay(4000).hide("slow");
+			}
+		});
+		return false;
+	});
 {% endblock %}
+
+

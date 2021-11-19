@@ -34,7 +34,7 @@ use App\Entity\Produit\Service\Ville;
 use App\Entity\Produit\Service\Infoentreprise;
 use App\Entity\Produit\Service\Continent;
 use App\Entity\Produit\Service\Pays;
-
+use App\Entity\Users\Adminuser\Parametreadmin;
 class UserController extends AbstractController
 {
 private $params;
@@ -113,8 +113,13 @@ public function inscriptionuser(GeneralServicetext $service, Request $request)
 	{
 		$continent->setEm($em);
 	}
+
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+    $signupbg = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'signupbg'));
 	return $this->render('Theme/Users/User/User/inscriptionuser.html.twig',
-	array('form'=>$form->createview(), 'liste_continent'=>$liste_continent));
+	array('form'=>$form->createview(), 'liste_continent'=>$liste_continent, 'signupbg'=>$signupbg, 'paramlogosm'=>$paramlogosm));
 }
 
 public function accueiluser(User $user, GeneralServicetext $service)

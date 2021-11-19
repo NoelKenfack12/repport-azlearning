@@ -266,26 +266,29 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 	<div class="row" style="margin-top: 7px;">
 		<div class="col-md-4">
 			<div class="toutleblock">
-				<div style="height: 700px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px; padding: 7px;">
-					{% if prodpan == null %}
-						{% set idprodpan = 0 %}
-					{% else %}
-						{% set idprodpan = prodpan.id %}
-					{% endif %}
-					<div class="accordion">
+				<div style="border: 1px solid #ddd; border-radius: 5px; padding: 7px;">
+		
+					<div class="mince-scroll-spp" style="height: calc(100vh - 30px); overflow-y: auto; padding-right: 10px;">
+						{% if prodpan == null %}
+							{% set idprodpan = 0 %}
+						{% else %}
+							{% set idprodpan = prodpan.id %}
+						{% endif %}
+						<div class="accordion">
+							
+							{% for partie in liste_part %}
+								{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 0, 'codeadmin': codeadmin,'idpartie': chapitre.partiecours.id, 'idchapitre': chapitre.id, 'idprodpan': idprodpan })) }}
+							{% endfor %}
 						
-						{% for partie in liste_part %}
-							{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 0, 'codeadmin': codeadmin,'idpartie': chapitre.partiecours.id, 'idchapitre': chapitre.id, 'idprodpan': idprodpan })) }}
-						{% endfor %}
-					  
-					</div>
+						</div>
 
-					{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
-					<div>
-						<a href="#!" class="add-new-part" style="text-align: left!important;"><em class="fa fa-plus"></em> Ajoutez une nouvelle partie</a>
-					</div>
-					{% endif %}
+						{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+						<div>
+							<a href="#!" class="add-new-part" style="text-align: left!important;"><em class="fa fa-plus"></em> Ajoutez une nouvelle partie</a>
+						</div>
+						{% endif %}
 
+					</div>
 				</div>
 
 				<div class="row">
@@ -296,7 +299,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 			</div>
 		</div>
 
-		<div class="col-md-8">
+		<div class="col-md-8  text-left">
 			<div class="img-thumbnail" style="min-height: 300px; padding: 7px; max-width: 100%;">
 				{% if chapitre.partiecours.produit.user == app.user %}
 					
@@ -361,17 +364,17 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 					<div class="row">
 						<div class="col-md-8">
 							<div class="panel-text">
-								<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> {{ produit.titre }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+								<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-communication-textsms"></span> {{ produit.titre }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 								<div class="content-panel-1">{{ produit.description|raw }}</div>
 							</div>
 							
-							<div class="panel-text" style="margin-top: 15px;">
-							<div style="border-bottom: 1px solid #ddd;" class="text-info"><strong><span class="mdi-action-question-answer"></span> Objectifs de ce cours <a href="#!" class="open-content pull-right" value="down" name="2"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+							<div class="panel-text text-left" style="margin-top: 15px;">
+							<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-action-question-answer"></span> Objectifs de ce cours <a href="#!" class="open-content pull-right" value="down" name="2"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 								<div class="content-panel-2">{{ produit.objectif|raw }}</div>
 							</div>
 							
 							<div class="panel-text" style="margin-top: 15px;">
-							<div style="border-bottom: 1px solid #ddd;" class="text-warning"><strong><span class="mdi-action-announcement"></span> Pré-requis <a href="#!" class="open-content pull-right" value="down" name="3"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+							<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-action-announcement"></span> Pré-requis <a href="#!" class="open-content pull-right" value="down" name="3"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 								<div class="content-panel-3">{{ produit.prerequis|raw }}</div>
 							</div>
 						</div>
@@ -399,7 +402,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 							{% endfor %}
 							
 							</div>
-							<div class="text-primary" style="font-size: 15px;">
+							<div style="font-size: 15px;">
 								<span class="fa fa-angle-right"> </span> Formation spécial confinement
 							</div>
 							<div style="font-size: 12px; color: #CCC; margin-top: 15px;">
@@ -630,7 +633,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 
 					<div style="margin-top: 10px;"><h2>QCM: Questionnaire à choix multiples</h2></div><hr/>
 					
-					<div class="variation-sub-contenu" value="0" style="margin-bottom: 40px;">
+					<div class="variation-sub-contenu" value="0" style="margin-bottom: 40px; position: sticky;">
 						{{ render(controller("App\\Controller\\Produit\\Produit\\QuestionnaireController:composquestionnaire", {'id': chapitre.id,'idpropan': idpropan, 'src': 0})) }}
 					</div>
 				</div> 

@@ -445,3 +445,6 @@ users_adminuser_localisation_supprimer_continent:
         id: 0
     requirements:
         id: \d+
+users_adminuser_parametres_administration:
+    path: /parametres/admin
+    controller: App\Controller\Users\Adminuser\ParametreadminController::parametresadmin 

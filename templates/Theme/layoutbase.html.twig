@@ -18,7 +18,7 @@
     {% block stylesheets %}
 		<link href="{{ asset('template/assets/css/materializetest.css') }}" rel="stylesheet"/>
 		
-		<link href="{{ asset('template/assets/css/bootstrap.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('template/assets/css/bootstrap-admin.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('template/assets/css/font-awesome.css') }}" rel="stylesheet"/>
 		<!-- Custom styles for this template -->
 		<link href="{{ asset('template/assets/css/main16.css') }}" rel="stylesheet"/>
@@ -453,6 +453,105 @@ span.ellipse.clickable {
 	font-weight: bold;
 	cursor: default;
 }
+
+.block {
+	  position: relative;
+	  height: 460px;
+	  max-height: 500px;
+	  margin-right: 1em;
+	  border: 1px solid #ccc;
+	  overflow: hidden;
+	}
+	.block:hover .block__body {
+	  position: absolute;
+	  top: 0;
+	  background-image: linear-gradient(-1deg, #F6FCFF 0%, #EAF7FF 98%);
+	  height: 100%;
+	  transition: top .5s;
+	}
+	.block:hover .block__body h3 {
+	  color: #fff;
+	}
+
+	.block__body {
+	  padding: 1em;
+	  top: 100%;
+	}
+
+	.topic{
+	  padding:20px;
+	  padding-top:0px;
+	  padding-bottom:0px;
+	  border-bottom:solid 1px #ebebeb;
+	  width: 100%;
+	}
+	.open{
+	  cursor:pointer;
+	  display:block;
+	  padding:0px;
+	}
+	.open:hover{
+	  opacity:0.7;
+	}
+	.expanded{
+	  background-color:#f5f5f5;
+	  transition: all .3s ease-in-out;
+	}
+	.question{
+	  padding-top:30px;
+	  padding-right: 40px;
+	  padding-bottom:20px;
+	  font-size: 18px;
+	  font-weight:500;
+	  color: #526ee4;
+	}
+	.answer{
+	  font-size:16px;
+	  line-height:26px;
+	  display:none;
+	  margin-bottom:30px;
+	  text-align:justify;
+	  padding-left:20px;
+	  padding-right:20px;
+	}
+	.faq-t{
+	  -moz-transform: rotate(-45deg);
+	  -ms-transform: rotate(-45deg);
+	  -webkit-transform: rotate(-45deg);
+	  transform: rotate(-45deg);
+	  display: inline-block;
+	  float:right;
+	  position:relative;
+	  top:-55px;
+	  right:10px;
+	  width: 10px;
+	  height: 10px;
+	  background: transparent;
+	  border-left: 2px solid #ccc;
+	  border-bottom: 2px solid #ccc;
+	  transition: all .3s ease-in-out;
+	}
+	.faq-o{
+	  top:-50px;
+	   -moz-transform: rotate(-224deg);
+	  -ms-transform: rotate(-224deg);
+	  -webkit-transform: rotate(-224deg);
+	  transform: rotate(-224deg);
+	}
+	@media only screen and (max-width: 480px) {
+	  .faq-t{display:none;}
+	  .question{
+	  padding-right: 0px;
+	}
+	  main{
+	  padding:10px;
+	}
+	.answer{
+	  margin-bottom:30px;
+	  padding-left:0px;
+	  padding-right:0px;
+	}
+  }
 	</style>
   </head>
 

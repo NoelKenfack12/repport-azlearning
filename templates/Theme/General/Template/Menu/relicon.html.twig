@@ -1,0 +1,10 @@
+
+{% if position == 'ficon' %}
+  {% if paramlogosm != null and paramlogosm.src != null %}
+    <link rel="icon" href="{{ asset(paramlogosm.getwebpath) }}" sizes="32x32">
+  {% else %}
+    <link rel="icon" href="{{ asset('template/images/logomarket.png') }}" sizes="32x32">
+  {% endif %}
+{% else %}
+  {% if paramlogosm != null %}{{ paramlogosm.link }} {{ paramlogosm.valeur }}{% else %}{{ site }}{% endif %}
+{% endif %}

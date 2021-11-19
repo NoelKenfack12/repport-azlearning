@@ -1,65 +1,722 @@
-<div class="modal fade" id="test-newsletter" style="margin-top: 100px;">
-<div class="modal-dialog modal-md">
-<div class="modal-content" style="border-radius: 0px;">
-<div class="modal-header" style="border-bottom: 2px solid #2980b9; background: #eb5425; color: #fff;">
-<button type="button" class="close" data-dismiss="modal">&times;</button>
-<h4 class="modal-title"><img src="{{ asset('template/images/logombg.jpg') }}" alt="logo" style="width: 60px; height: 50px;"> {{ site }}</br><span style="font-size: 15px;"> Abonnez-vous pour suivre l'évolution de vos équipes favoris..</span></h4>
-</div>
-<div class="modal-body">
-	<section class="subs" style="padding: 15px 0px;">
-		<form action="{{ path('users_user_create_newsletter_account') }}" method="post" {{ form_enctype(form) }} style="margin-bottom: 0px;">
-			<div class="col-lg-6 col-md-6 col-sm-12">
-				<div class="form-group1">
-					{{ form_widget(form.nom,{'attr': {'class':'form-control nameuser','placeholder':'Entrer votre nom'}}) }}
-				</div>
-			</div>
-			<div class="col-lg-6 col-md-6 col-sm-12">
-				<div class="form-group1">
-					{{ form_widget(form.email,{'attr': {'class':'form-control useremail','placeholder':'Entrer votre adresse e-mail'}}) }}
-				</div>
-			</div>
-			<div class="col-lg-12 col-md-12 col-sm-12">
-				<div class="form-group2" style="margin-top: 15px;">
-					<button class="btn btn-outline btn-lg" type="submit">S'inscrire</button>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-			{{ form_rest(form) }}
-		</form>	
-</section>
-</div>
-</div>
-</div>
-</div>
-<script type="text/javascript">
-var afficher = false;
-$('body.homepage').bind('mouseleave.dragged',function(e) {
-    var ev = e || window.event;
-    if(ev.relatedTarget){
-        if(ev.relatedTarget == $('html').get(0) && afficher == false){
-            $('#test-newsletter').modal('show');
-			afficher = true;
-			$.post('{{ path('general_template_stop_alert_newsletter') }}', function(data) {
-			if(data == 1)
-			{
-			
-			}
-			});
-        }
-    } else {
-    // IE
-        if(!ev.toElement && afficher == false){
-            $('#test-newsletter').modal('show');
-			afficher = true;
-			$.post('{{ path('general_template_stop_alert_newsletter') }}', function(data) {
-			if(data == 1)
-			{
-			
-			}
-			});
-        } else if(ev.toElement.tagName == "HTML"){
-            alert('Nous n\'arrivons pas à vous notifiez des informations importantes sur les services qui vous intéressent !!!');
-        }
+<style>
+    /*
+		------Begin Activator---------------*/
+	.activator {
+        /*display: block;
+        position: absolute;
+        width: 24px;
+        height: 20px;
+        top: 41px;
+        right: 15px;
+        cursor: pointer;
+        z-index: 1000;
+        -webkit-transition: all 0.2s linear;
+        transition: all 0.2s linear;*/
     }
-});
+    .activator .menu-icon,
+    .activator .menu-icon::before,
+    .activator .menu-icon::after {
+        content: "";
+        display: block;
+        position: relative;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #000;
+        margin-left: 8px;
+        border-radius: 1px;
+        cursor: pointer;
+        -webkit-transition: all 300ms ease-in-out;
+        transition: all 300ms ease-in-out;
+    }
+    .activator .menu-icon {
+        top: 8px;
+    }
+    .activator .menu-icon::before {
+        top: -8px;
+    }
+    .activator .menu-icon::after {
+        bottom: -8px;
+    }
+
+    .activator.active .menu-icon {
+     background: none;
+    }
+    .activator.active .menu-icon::before {
+        top: 0;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+    .activator.active .menu-icon::after {
+        bottom: 0;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
+
+    #activate-menu {
+        z-index: 50000;
+        padding: 20px 40px;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: -40%;
+        width: 40%;
+        list-style-type: none;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        -webkit-overflow-scrolling: touch;
+        background: #f2f2f2;
+        overflow: hidden;
+        overflow-y: auto;
+        -webkit-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+    }
+    @media (max-width: 400px) {
+      #activate-menu {
+        width: 95%;
+        right: -95%;
+      }
+    }
+    @media (max-width: 600px) {
+      #activate-menu {
+        width: 80%;
+        right: -80%;
+      }
+    }
+    @media (max-width: 900px) {
+      #activate-menu {
+        width: 70%;
+        right: -70%;
+      }
+    }
+    @media (max-width: 1200px) {
+      #activate-menu {
+        width: 60%;
+        right: -60%;
+      }
+    }
+
+    #activate-menu.visible {
+        right: 0;
+    }
+
+    #fade-bg {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        z-index: 5000;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-toggle:before{
+        content: ""!important;
+    }
+	/*
+	------------------------End Activator--------------------*/
+
+
+
+    body {
+	/* Colors */
+		--color-blue-50: #0a84ff;
+		--color-blue-60: #0060df;
+		--color-blue-70: #003eaa;
+		--color-blue-80: #002275;
+		--color-gray-10: #f9f9fa;
+		--color-gray-20: #ededf0;
+		--color-gray-30: #d7d7db;
+		--color-gray-40: #b1b1b3;
+		--color-gray-50: #737373;
+		--color-gray-60: #4a4a4f;
+		--color-gray-70: #38383d;
+		--color-gray-80: #2a2a2e;
+		--color-gray-90: #0c0c0d;
+		--color-green-70: #058b00;
+		--color-teal-50: #00feff;
+		--color-teal-60: #00c8d7;
+		--color-teal-70: #008ea4;
+
+	/* Icons */
+		--icon-context-menu: url("chrome://global/skin/icons/more.svg");
+		--icon-dismiss: url("chrome://global/skin/icons/close.svg");
+
+	--background-color: #F9F9FA;
+	--border-primary-color: #B1B1B3;
+
+	/* Primary Action */
+	--primary-action-default: var(--color-blue-60);
+	--primary-action-hover: var(--color-blue-70);
+	--primary-action-active: var(--color-blue-80);
+	--primary-action-text-color: #fff;
+
+	/* Secondary Action */
+	--secondary-action-default: var(--color-gray-20);
+	--secondary-action-hover: var(--color-gray-30);
+	--secondary-action-active: var(--color-gray-40);
+	--secondary-action-text-color: var(--color-gray-80);
+
+	/* Ghost Action */
+		--ghost-action-hover: var(--color-gray-20);
+		--ghost-action-active: var(--color-gray-30);
+		--ghost-action-text-color: var(--color-gray-80);
+
+	/* Forms */
+		--label-text-color: var(--text-secondary);
+		--text-field-border-color: var(--color-gray-30);
+		--text-field-hover-border-color: var(--color-gray-40);
+		--text-field-focus-border-color: var(--color-gray-40);
+		--text-field-bg-color: #fff;
+	/* Focus */
+	--focus-box-shadow: 0 0 0 2px #fff, 0 0 0 5px rgba(10, 132, 255, 0.5);
+
+	/* Cards */
+	--rasied-card-bg-color: #FFF;
+	--rasied-card-border-radius: 8px;
+	--box-shadow-10: 0px 0px 8px 0 rgba(12, 12, 13, 0.05);
+	--raised-card-hover: 0 0 0 4px var(--secondary-action-default);
+		
+	/* Typography */
+	--base-font-size: 15px;
+	--small-font-size: 13px;
+	--base-line-height: 24px;
+	
+	/* Text Colors */
+	--text-primary: var(--color-gray-90);
+	--text-secondary: var(--color-gray-50);
+	}
+
+
+	/* Primary Button */
+	.btn--primary {
+		background-color: var(--primary-action-default);
+		color: var(--primary-action-text-color);
+		fill: var(--primary-action-text-color);
+		-moz-context-properties: fill;
+	}
+
+	.btn--primary:hover {
+		background-color: var(--primary-action-hover);
+	}
+
+	.btn--primary:active {
+		background-color: var(--primary-action-active);
+	}
+
+	.btn--primary:disabled,
+	.btn--primary.disabled {
+		background-color: var(--primary-action-default);
+		color: var(--primary-action-text-color);
+		fill: var(--primary-action-text-color);
+		-moz-context-properties: fill;
+	}
+
+	/* Secondary Button */
+	.btn--secondary {
+		background-color: var(--secondary-action-default);
+		color: var(--secondary-action-text-color);
+		fill: var(--secondary-action-text-color);
+		-moz-context-properties: fill;
+	}
+
+	.btn--secondary:hover {
+		background-color: var(--secondary-action-hover);
+	}
+
+	.btn--secondary:active {
+		background-color: var(--secondary-action-active);
+	}
+
+	.btn--secondary:disabled,
+	.btn--secondary.disabled {
+		background-color: var(--secondary-action-default);
+		color: var(--secondary-action-text-color);
+		fill: var(--secondary-action-text-color);
+		-moz-context-properties: fill;
+	}
+
+	/* Pill Button */
+	.btn--pill {
+		border-radius: 16px;
+		line-height: 32px;
+		min-height: 32px;
+		padding: 0 16px;
+		vertical-align: middle;
+	}
+
+	.btn--pill-icon-only {
+		background-position: 50%;
+		background-repeat: no-repeat;
+		background-size: 16px;
+		width: 32px;
+	}
+
+	/* Form Button */
+	.btn--form {
+		border-radius: 4px;
+		min-height: 40px;
+		min-width: 96px;
+		padding: 0 8px;
+	}
+
+	/* Ghost Button */
+	.btn--ghost {
+		background-color: transparent;
+		color: var(--ghost-action-text-color);
+		fill: var(--ghost-action-text-color);
+		-moz-context-properties: fill;
+	}
+
+	.btn--ghost:hover {
+		background-color: var(--ghost-action-hover);
+	}
+
+	.btn--ghost:active {
+		background-color: var(--ghost-action-active);
+	}
+
+	.btn--ghost:disabled,
+	.btn--ghost.disabled {
+		background-color: transparent;
+		color: var(--ghost-action-text-color);
+		fill: var(--ghost-action-text-color);
+		-moz-context-properties: fill;
+	}
+
+	.section-header {
+		display: flex;
+		margin-bottom: 12px;
+	}
+
+	.section-header > div {
+		flex-grow: 1;
+	}
+
+	.title-card {
+		color: var(--text-secondary);
+		display: inline-block;
+		margin-right: 12px;
+		font-family: Quicksand-Bold;
+		font-size: 14px;
+	}
+
+	.section-header .actions {
+		flex-grow: 0;
+	}
+
+	.section-header .actions .btn {
+		margin-left: 8px;
+	}
+
+	/* Top Sites */
+	.top-sites {
+		padding: 24px 0;
+	}
+
+	.tile-grid {
+		display: grid;
+		grid-row-gap: 24px;
+		justify-content: space-between;
+		margin-bottom: 24px;
+	}
+
+	@media (min-width: 0) {
+		.tile-grid {		
+			grid-template-columns: 82px 82px 82px;
+		}
+	}
+
+	@media (min-width: 540px) {
+		.tile-grid {
+			grid-template-columns: 82px 82px 82px 82px;	
+		}
+	}
+
+	@media (min-width: 720px) {
+		.tile-grid {
+			grid-template-columns: 82px 82px 82px 82px 82px 82px;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.tile-grid {
+			grid-template-columns: 82px 82px 82px 82px 82px 82px 82px 82px 82px;
+		}
+	}
+
+	/* Tiles */
+	.tile {
+		height: 126px;
+		width: 82px;
+	}
+
+	.tile .card-app {
+		height: 82px;
+		margin-bottom: 4px;
+	}
+
+	.tile .site-updated-badge {
+		background-color: var(--color-teal-60);
+		border-radius: 100%;
+		height: 24px;
+		position: absolute;
+		left: -12px;
+		top: -12px;
+		width: 24px;
+	}
+
+	.tile.tile-wide {
+		width: auto;
+	}
+
+	.tile .title,
+	.tile .meta {
+		text-align: center;
+	}
+
+	.suggestions-grid {	
+		display: grid;
+		grid-column-gap: 24px;
+		grid-row-gap: 24px;
+	}
+
+	@media (min-width: 0px) {
+		.suggestions-grid {
+			grid-template-columns: repeat(1, 1fr);
+		}
+	}
+
+	@media (min-width: 760px) {
+		.suggestions-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.suggestions-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	/* Pocket Stories */
+	.pocket-stories {
+		background-color: #fff;
+		padding: 24px 0;
+	}
+
+	.collection {
+		padding: 24px;
+		margin: 0 -24px;
+	}
+
+
+	.collection.sponsored {
+	/* 	background-color: var(--color-gray-10); */
+		border-radius: 8px;
+	}
+
+	.collection-header {
+		display: flex;
+		margin: -8px 0 12px;
+	}
+
+	.collection-header .actions {
+		flex-grow: 1;
+	}
+
+	.collection-header .actions .btn {
+		float: right;
+	}
+
+
+	.card-app .context-menu-btn {
+		opacity: 0;
+		position: absolute;
+		right: -16px;
+		top: -16px;
+		transform: scale(0.25);
+		transition-duration: 150ms;
+		transition-property: transform, opacity;	
+	}
+
+	/* Cards */
+	.card-raised {
+		background: var(--rasied-card-bg-color);
+		border-radius: var(--rasied-card-border-radius);
+		border: 1px inset rgba(12, 12, 13, 0.07);
+		box-shadow: var(--box-shadow-10);
+		transition: box-shadow 250ms, transform 150ms;
+		position: relative;
+		margin-bottom: 15px;
+	}
+
+	.card-raised:hover {
+		box-shadow: var(--box-shadow-10), var(--raised-card-hover);	
+	}
+
+	.card-raised:hover .context-menu-btn {
+		opacity: 1;
+		transform: scale(1);
+		transition-delay: 200ms;
+	}
+
+	.card-raised:hover .title {
+		color: var(--primary-action-default);
+		text-decoration: underline;
+		font-size: 16px;
+	}
+
+	.card-raised:active {	
+		transform: scale(0.97);
+	}
+
+	.card-raised:focus {
+		box-shadow: var(--box-shadow-10), 0 0 0 3px #fff, 0 0 0 6px rgba(10, 132, 255, 0.5);
+	}
+
+	/*
+	.card-img {
+		border: 1px inset rgba(0, 0, 0, 0.15);
+	}
+	*/
+
+	.card-raised .card-img-top {
+		border-top-left-radius: var(--rasied-card-border-radius);
+		border-top-right-radius: var(--rasied-card-border-radius);
+	}
+
+	.card-body {
+		padding: 12px 16px;
+	}
+
+	.card-footer {
+		padding: 12px 16px;
+	}
+
+	.tile-wide:hover .card-raised{
+		background-color: #99d3ce;
+	}
+
+    /* Fin Testimonial slide */
+
+    .rating-row ul{list-style:none;display:flex; padding:0 ; margin:0;}
+    .rating-row ul li{color:#4e7cff;font-size:20px;margin:0px 3px;}
+</style>
+
+
+<nav id="activate-menu" style="background: #fff;">
+    <div style="box-shadow: 0px 1px 5px 0px #d4d8de;
+    padding: 18px 15px; position: absolute; left: 0px; top: 0px; width: 100%;">
+    
+        <a href="#!" class="activator float-right">
+            <span class="fa fa-times"></span>
+        </a>
+        <h3 class="help-title" style="margin-top: 0px;">
+            <span class="fa fa-th"></span>
+            Applications du groupe AZ
+        </h3>
+    </div>
+    
+    <header class="section-header" style="margin-top: 20px; height: auto;">
+        <div class="actions">						
+            <button aria-haspopup="true" class="btn btn--pill btn--pill-icon-only btn--secondary context-menu-btn icon" title="Open menu" aria-label="Open context menu for…"></button>
+        </div>
+    </header>
+    
+
+    <div class="collection sponsored" style="position: static;">
+        <div class="row" style="min-height: calc(100vh - 150px);">			
+                <div class="col-md-12">
+                <a href="#!" class="card-app card-raised" style="width: 100%; display: inline-block; text-decoration: none;">
+                    <button aria-haspopup="true" class="btn btn--pill btn--pill-icon-only btn--secondary context-menu-btn icon" title="Open menu" aria-label="Open context menu for…">
+                        <span class="fa fa-check" style="display: inline-block; margin-top: -7px; margin-left: -7px;"></span>
+                    </button>
+                    <div class="card-body">
+    
+                        <div class="rating-row" style="float: right; margin-bottom: -15px;">
+                            <ul>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                            </ul>
+    
+                            <span class="btn btn-primary" style="text-transform: capitalize; font-family: Raleway-Medium; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                            transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
+                                Continuer <span class="fa fa-angle-right"></span>
+                            </span>
+                        </div>
+    
+                        <div class="title title-card" style="margin: 0px; padding: 0px;;">
+                            <img src="{{ asset('template/images/logo.png') }}" alt="" style="float: left; margin-right: 7px; height: 80px; width: 80px; border-radius: 20px;">
+                            Entreprise <strong style="color: #333; font-size: 18px;">AzCorporation Sarl</strong>
+                            <div class="meta"><i>Technologie</i> </div>
+                        </div>
+                        
+                        <p style="margin-top: 0px;">Plateforme de l'entreprise Az Corporation Sarl</p>
+                    </div>
+                </a>
+            </div>
+                    <div class="col-md-12">
+                <a href="#!" class="card-app card-raised" style="width: 100%; display: inline-block; text-decoration: none;">
+                    <button aria-haspopup="true" class="btn btn--pill btn--pill-icon-only btn--secondary context-menu-btn icon" title="Open menu" aria-label="Open context menu for…">
+                        <span class="fa fa-check" style="display: inline-block; margin-top: -7px; margin-left: -7px;"></span>
+                    </button>
+                    <div class="card-body">
+    
+                        <div class="rating-row" style="float: right; margin-bottom: -15px;">
+                            <ul>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                            </ul>
+    
+                            <span class="btn btn-primary" style="text-transform: capitalize; font-family: Raleway-Medium; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                            transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
+                                Continuer <span class="fa fa-angle-right"></span>
+                            </span>
+                        </div>
+    
+                        <div class="title title-card" style="margin: 0px; padding: 0px;;">
+                            <img src="{{ asset('template/images/logo.png') }}" alt="" style="float: left; margin-right: 7px; height: 80px; width: 80px; border-radius: 20px;">
+                            Plateforme <strong style="color: #333; font-size: 18px;">de l'institut </strong>
+                            <div class="meta"><i>Institut AZ Corporation</i> </div>
+                        </div>
+                        
+                        <p style="margin-top: 0px;">Site de l'institut de formation professionnelle AZ Corporation (IFP AZ)</p>
+                    </div>
+                </a>
+            </div>
+                    <div class="col-md-12">
+                <a href="#!" class="card-app card-raised" style="width: 100%; display: inline-block; text-decoration: none;">
+                    <button aria-haspopup="true" class="btn btn--pill btn--pill-icon-only btn--secondary context-menu-btn icon" title="Open menu" aria-label="Open context menu for…">
+                        <span class="fa fa-check" style="display: inline-block; margin-top: -7px; margin-left: -7px;"></span>
+                    </button>
+                    <div class="card-body">
+    
+                        <div class="rating-row" style="float: right; margin-bottom: -15px;">
+                            <ul>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                            </ul>
+    
+                            <span class="btn btn-primary" style="text-transform: capitalize; font-family: Raleway-Medium; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                            transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
+                                Continuer <span class="fa fa-angle-right"></span>
+                            </span>
+                        </div>
+    
+                        <div class="title title-card" style="margin: 0px; padding: 0px;;">
+                            <img src="{{ asset('template/images/logo.png') }}" alt="" style="float: left; margin-right: 7px; height: 80px; width: 80px; border-radius: 20px;">
+                             Plateforme <strong style="color: #333; font-size: 18px;">de l'assurance</strong>
+                            <div class="meta"><i>Assurance Technologique AZ</i> </div>
+                        </div>
+                        
+                        <p style="margin-top: 0px;">Assurance maintenance des équipements informatique</p>
+                    </div>
+                </a>
+            </div>
+
+			 <div class="col-md-12">
+                <a href="#!" class="card-app card-raised" style="width: 100%; display: inline-block; text-decoration: none;">
+                    <button aria-haspopup="true" class="btn btn--pill btn--pill-icon-only btn--secondary context-menu-btn icon" title="Open menu" aria-label="Open context menu for…">
+                        <span class="fa fa-check" style="display: inline-block; margin-top: -7px; margin-left: -7px;"></span>
+                    </button>
+                    <div class="card-body">
+    
+                        <div class="rating-row" style="float: right; margin-bottom: -15px;">
+                            <ul>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                            </ul>
+    
+                            <span class="btn btn-primary" style="text-transform: capitalize; font-family: Raleway-Medium; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                            transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
+                                Continuer <span class="fa fa-angle-right"></span>
+                            </span>
+                        </div>
+    
+                        <div class="title title-card" style="margin: 0px; padding: 0px;;">
+                            <img src="{{ asset('template/images/logo.png') }}" alt="" style="float: left; margin-right: 7px; height: 80px; width: 80px; border-radius: 20px;">
+                             Plateforme <strong style="color: #333; font-size: 18px;">d'e-learning</strong>
+                            <div class="meta"><i>AZ Corp e-learning</i> </div>
+                        </div>
+                        
+                        <p style="margin-top: 0px;">Assurance maintenance des équipements informatique</p>
+                    </div>
+                </a>
+            </div>
+
+			<div class="col-md-12">
+                <a href="#!" class="card-app card-raised" style="width: 100%; display: inline-block; text-decoration: none;">
+                    <button aria-haspopup="true" class="btn btn--pill btn--pill-icon-only btn--secondary context-menu-btn icon" title="Open menu" aria-label="Open context menu for…">
+                        <span class="fa fa-check" style="display: inline-block; margin-top: -7px; margin-left: -7px;"></span>
+                    </button>
+                    <div class="card-body">
+    
+                        <div class="rating-row" style="float: right; margin-bottom: -15px;">
+                            <ul>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                              <li class=""><i class="fa fa-star-o"></i></li>
+                            </ul>
+    
+                            <span class="btn btn-primary" style="text-transform: capitalize; font-family: Raleway-Medium; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                            transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
+                                Continuer <span class="fa fa-angle-right"></span>
+                            </span>
+                        </div>
+    
+                        <div class="title title-card" style="margin: 0px; padding: 0px;;">
+                            <img src="{{ asset('template/images/logo.png') }}" alt="" style="float: left; margin-right: 7px; height: 80px; width: 80px; border-radius: 20px;">
+                             AZ Corp <strong style="color: #333; font-size: 18px;">My Account</strong>
+                            <div class="meta"><i>OAuth2</i> </div>
+                        </div>
+                        
+                        <p style="margin-top: 0px;">Toutes les plateformes AZ Corp avec un seul Compte</p>
+                    </div>
+                </a>
+            </div>
+                    
+        </div>
+    
+        <div style="box-shadow:0px 0px 70px #888888; padding: 7px; border-radius: 7px; position: absolute; left: 0px; right: 0px; margin-top: 10px;">
+            Applications du groupe <a href="http://azcorporation.net/" target="_blank"><strong style="color: #4e7cff;">Azcorporation.net</strong></a>
+        </div>
+    </div>
+
+</nav>
+<div id="fade-bg"></div>
+
+<script type="text/javascript">
+    var activator = $('.activator');
+    var navBg = $('#fade-bg');
+
+    activator.on('click', function(){
+        $(this).toggleClass('active');
+        $('#activate-menu').toggleClass('visible');
+        navBg.fadeToggle();
+    });
+
+
+    navBg.on('click', function(){
+        $('#activate-menu').removeClass('visible');
+        $(activator).removeClass('active');
+        $(this).hide();
+    });
 </script>

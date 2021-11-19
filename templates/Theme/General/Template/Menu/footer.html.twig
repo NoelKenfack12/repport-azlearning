@@ -333,7 +333,6 @@ footer hr {
 			<div><a href="http://azcorporation.net" style="color: #fff;" target="_blank"> azcorporation.net</a></div>
 			
 			<div>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('users_adminuser_accueil_administration') }}" style="color: #fff;"> Administration</a> {% endif %} {% if is_granted('ROLE_FORMATEUR') %}| <a href="{{ path('produit_produit_ajouter_nouveau_produit') }}" style="color: #fff;"> Créez un cours</a>{% endif %}</div>
-			
 		</div>
 		<div class="col-lg-3">
 			<div><strong><span class="mdi-action-perm-phone-msg"></span> Nous Contactez</strong></div>	

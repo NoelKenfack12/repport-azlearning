@@ -23,7 +23,7 @@
 	   <div class="form-group">
 		  {% for proposition in question.propositions %}
 		  <label class="radio" style="display: block; margin-bottom: 7px;">
-			<input type="radio" data-toggle="radio" class="elem-radio-check" proposition="{{ proposition.id }}" question="{{ question.id }}" propan="{% if prodpan != null %}{{ prodpan.id }}{% else %}0{% endif %}" name="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" id="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" value="option1" style="cursor: pointer!important;" data-radiocheck-toggle="radio" {% if proposition.id == question.element %}checked="" {% set submitsolution = 1 %}{% endif %}/>
+			<input type="radio" data-toggle="radio" class="elem-radio-check" data-proposition="{{ proposition.id }}" data-question="{{ question.id }}" propan="{% if prodpan != null %}{{ prodpan.id }}{% else %}0{% endif %}" name="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" id="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" value="option1" style="cursor: pointer!important;" data-radiocheck-toggle="radio" {% if proposition.id == question.element %}checked="" {% set submitsolution = 1 %}{% endif %}/>
 			{{ proposition.titre }}
 			{% if proposition.id == question.element %}
 				<a href="#!" class="pull-right"><span class="fa fa-check"></span></a>
@@ -45,8 +45,8 @@
 <script src="{{ asset('template/assets/js/application.js') }}"></script>
 <script type="text/javascript">
 $('.elem-radio-check').click(function(){
-var id = $(this).attr('proposition');
-var question = $(this).attr('question');
+var id = $(this).attr('data-proposition');
+var question = $(this).attr('data-question');
 	
 	{% if prodpan != null %}
 		{% if prechapter == null or (prechapter != null and prechapter.getNoteQuestionnaire(prodpan) >= notemin) %}
@@ -56,34 +56,29 @@ var question = $(this).attr('question');
 			  var hauteur = $('.variation-sub-contenu').height() + 2; 
 			  var largeur = $('.variation-sub-contenu').width() + 2;
 			  var padding = Math.round(hauteur/2 - 15);
+			  
 			  $('.variation-sub-contenu').before('<div class="attente-resultat" style="padding-top: '+50+'px; z-index: 2; height: '+hauteur+'px; text-align: center; vertical-align: center; width: '+largeur+'px; position: absolute; background: rgba(221, 221, 221, 0.48);; margin-top: 0px;"><span><img src="{{ asset('template/images/wait-user-big.gif') }}" alt="..." style="width: 30px; height: 30px;" /></span></div>');
 			  $.post('{{ path('produit_produit_composition_update_compos_questionnaire', {'id': prodpan.id}) }}', { id: id, question: question }, function(data) {
-			  $('.attente-resultat').hide();
-			  $('.variation-sub-contenu').attr('value',0);
-			  if(data == -1)
-			  {
-				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec !! Cette feuille de composition a déjà été validé.');
-				$('#infos-action-effectuer').modal('show');
-			  }else if(data < 5000)
-			  {
-				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous devez attendre environs '+data+'H pour une nouvelle tentative.');
-				$('#infos-action-effectuer').modal('show');
-			  }else{
-				$('.variation-sub-contenu').html(data);
-			  }
+				
+				$('.attente-resultat').hide();
+				$('.variation-sub-contenu').attr('value',0);
+				if(data == -1)
+				{
+					alertify.alert('{{ site }}', '<span class="fa fa-warning"></span> Echec !! Cette feuille de composition a déjà été validé.', function(){ alertify.success('Merci'); });
+				}else if(data < 5000)
+				{
+					alertify.alert('{{ site }}', '<span class="fa fa-warning"></span> Echec ! Vous devez attendre environs '+data+'H pour une nouvelle tentative.', function(){ alertify.success('Merci'); });
+				}else{
+					$('.variation-sub-contenu').html(data);
+				}
 			  
 			  });
 			}
 		{% else %}
-			$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Vous n\'avez pas obtenu la note réquise à la notion précedente. Pour valider cette partie, <a href="{{ path('produit_produit_presentation_chapter', {'id': prechapter.id }) }}">Essayez d\'abord de valider la leçon précedente.</a>');
-			$('#infos-action-effectuer').modal('show');
+			alertify.alert('{{ site }}', '<span class="fa fa-warning"></span> Echec ! Vous n\'avez pas obtenu la note réquise à la notion précedente. Pour valider cette partie, <a href="{{ path('produit_produit_presentation_chapter', {'id': prechapter.id }) }}">Essayez d\'abord de valider la leçon précedente.</a>', function(){ alertify.success('Merci'); });
 		{% endif %}
 	{% else %}
-		{% if app.user != null %}
-			$('#modal-inscription-cours').modal('show');
-		{% else %}
-			$('#modal-infos-action-connexion').modal('show');
-		{% endif %}
+		alertify.alert('{{ site }}', 'Vous n\'avez pas une inscription valide à cette formation', function(){ alertify.success('Merci'); });
 	{% endif %}
 });
 
@@ -99,8 +94,7 @@ $('.submit-feuille-composition').on('submit',function(){
 	});
 	if(valid == false)
 	{
-		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec d\'envoi ! Vous n\'avez pas traité la question '+question+'.');
-		$('#infos-action-effectuer').modal('show');
+		alertify.alert('{{ site }}', '<span class="fa fa-warning"></span> Echec d\'envoi ! Vous n\'avez pas traité la question '+question+'.', function(){ alertify.success('Merci'); });
 		return false;
 	}
 });

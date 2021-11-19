@@ -337,36 +337,36 @@ class Panier
         return $this->ville;
     }
 	
-	public function numFacture()
-                  	{
-                  		$datetransform = new DateTimeToArrayTransformer();
-                  		$dt = $datetransform->transform($this->getDate());
-                  		return ''.$dt['day'].''.$this->getId().''.$dt['month'].''.$dt['year'];
-                  	}
-	
-	public function dateFacture()
-                  	{
-                  		$datetransform = new DateTimeToArrayTransformer();
-                  		$dt = $datetransform->transform($this->getDate());
-                  		return $dt['day'].'-'.$dt['month'].'-'.$dt['year'];
-                  	}
-	
-	public function getUploadDir()
-                  	{
-                  	// On retourne le chemin relatif vers l'image pour un navigateur
-                  	return 'bundles/produit/produit/facture/panier';
-                  	}
-	
-	public function getUploadRootDir()
-                  	{
-                  	// On retourne le chemin relatif vers l'image pour notre codePHP
-                  	return  __DIR__.'/../../../../public/'.$this->getUploadDir();
-                  	}
-	
-	public function getWebPath()
-                  	{
-                  	return $this->getUploadDir().'/'.$this->numFacture().'.pdf';
-                  	}
+    public function numFacture()
+    {
+        $datetransform = new DateTimeToArrayTransformer();
+        $dt = $datetransform->transform($this->getDate());
+        return ''.$dt['day'].''.$this->getId().''.$dt['month'].''.$dt['year'];
+    }
+
+    public function dateFacture()
+    {
+        $datetransform = new DateTimeToArrayTransformer();
+        $dt = $datetransform->transform($this->getDate());
+        return $dt['day'].'-'.$dt['month'].'-'.$dt['year'];
+    }
+
+    public function getUploadDir()
+    {
+        // On retourne le chemin relatif vers l'image pour un navigateur
+        return 'bundles/produit/produit/facture/panier';
+    }
+
+    public function getUploadRootDir()
+    {
+        // On retourne le chemin relatif vers l'image pour notre codePHP
+        return  __DIR__.'/../../../../public/'.$this->getUploadDir();
+    }
+
+    public function getWebPath()
+    {
+        return $this->getUploadDir().'/'.$this->numFacture().'.pdf';
+    }
 
     /**
      * Set messadmin

@@ -144,7 +144,7 @@ public function listepanierinvalide($page, $nombreParPage)
 {
 	if($page < 1){
 		throw new \InvalidArgumentException('Page inexistant');
-		}
+	}
 		$query = $this->createQueryBuilder('p')
 					  ->leftJoin('p.user', 'u')
 					  ->addSelect('u')

@@ -21,6 +21,7 @@ use App\Entity\Produit\Produit\Souscategorie;
 use App\Entity\Produit\Produit\Produit;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use App\Entity\Users\Adminuser\Parametreadmin;
 
 class MenuController extends AbstractController
 {
@@ -124,9 +125,15 @@ public function menubare(GeneralServicetext $service, $position='accueil')
 		$liste_message = $em->getRepository(Commentaireblog::class)
 							->findBy(array('dest'=>$this->getUser(),'lut'=>0));
 	}
+
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+    $paramlogomd = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logomd'));
+
 	return $this->render('Theme/General/Template/Menu/menubare.html.twig',
 	array('liste_notification'=>$liste_notification,'position'=>$position,'liste_categorie'=>$liste_categorie,
-	'liste_formation'=>$liste_formation, 'liste_message'=>$liste_message));
+	'liste_formation'=>$liste_formation, 'liste_message'=>$liste_message, 'paramlogosm'=>$paramlogosm, 'paramlogomd'=>$paramlogomd));
 }
 
 public function footer($position='accueil')
@@ -160,26 +167,34 @@ public function footer($position='accueil')
 	
 	$liste_categorie = $em->getRepository(Categorie::class)
 	                      ->myFindAll();
-						  
+	
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+	$aproposfooter = $em->getRepository(Parametreadmin::class)
+	                    ->findOneBy(array('type'=>'aproposfooter'));
+	$paramtel = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'telprincipal'));
+	$paramemail = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'emailprincipal'));
+
+	$telwhatsapp = $em->getRepository(Parametreadmin::class)
+	                  ->findOneBy(array('type'=>'telwhatsapp'));
+	$adresse = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'adresse'));
+
+	$paramlogomd = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logomd'));
+
 	return $this->render('Theme/General/Template/Menu/footer.html.twig',
 	array('topcat'=>$topcat,'plus_vendu'=>$plus_vendu,'plus_like'=>$plus_like,'nbprod'=>$nbprod,
-	'topservice'=>$topservice,'position'=>$position,'liste_categorie'=>$liste_categorie,'form'=>$form->createView()));
+	'topservice'=>$topservice,'position'=>$position,'liste_categorie'=>$liste_categorie,
+	'form'=>$form->createView(), 'paramlogosm'=>$paramlogosm, 'aproposfooter'=>$aproposfooter,'paramlogomd'=>$paramlogomd, 
+	'paramtel'=>$paramtel, 'paramemail'=>$paramemail, 'telwhatsapp'=>$telwhatsapp, 'adresse'=>$adresse));
 }
 
 public function testinscriptionnewsletter()
 {
-	$session = $this->get('session');
-	$envoi = $session->get('test_newsletter');
-
-	if($envoi !== 100)
-	{
-		$newsletter = new Newsletter();
-		$form = $this->createForm(NewsletterType::class, $newsletter);
-		
-		return $this->render('Theme/General/Template/Menu/testinscriptionnewsletter.html.twig',
-		array('form'=>$form->createView()));
-	}
-	return new Response(' ');
+	return $this->render('Theme/General/Template/Menu/testinscriptionnewsletter.html.twig');
 }
 
 public function parametreuser()
@@ -209,6 +224,16 @@ public function headermodal($title)
 	$em = $this->getDoctrine()->getManager();
 					   
 	return $this->render('Theme/General/Template/Menu/headermodal.html.twig', array('title'=>$title));
+}
+
+public function relicon($position = 'ficon')
+{
+	$em = $this->getDoctrine()->getManager();
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+
+	return $this->render('Theme/General/Template/Menu/relicon.html.twig',
+	 array('paramlogosm'=>$paramlogosm,'position'=>$position));
 }
 
 }

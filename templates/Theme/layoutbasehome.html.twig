@@ -25,6 +25,7 @@
 	<link rel="stylesheet" href="{{ asset('templatehome/css/vendor.bundle.base.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('templatehome/css/vendor.bundle.addons.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('template/css/bootstrap.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('template/css/fontsaps.css') }}" type="text/css" />
 	<!-- endinject -->
 	<!-- plugin css for this page -->
 	<!-- End plugin css for this page -->
@@ -61,7 +62,6 @@
 	
   <link href="https://fonts.googleapis.com/css2?family=Vollkorn&display=swap" rel="stylesheet"/>
 <style>
-
 
 a {
 	color: #092759;
@@ -2250,38 +2250,132 @@ p span{
 	font-size: 25px!important;	
 }
 
+
+.breadcrumb-dash {
+border-radius: 0.25em;
+overflow: hidden;
+position: relative;
+transition: all 0.3s ease-in-out;
+z-index: 1;
+padding-bottom: 10px;margin-bottom: 15px;
+}
+.breadcrumb-dash a {
+display: block;
+padding: 0.7em 1.4em;
+}
+.breadcrumb-dash a:hover{
+	text-decoration: underline!important;
+	color: #fff;
+}
+.breadcrumb-dash:target {
+max-height: 20em;
+}
+.breadcrumb-dash:target .breadcrumb-link {
+opacity: 1;
+position: static;
+visibility: visible;
+}
+.breadcrumb-dash:target .breadcrumb--active:after {
+content: none;
+}
+
+.breadcrumb-dash:target .breadcrumb-close:after {
+visibility: visible;
+}
+
+.breadcrumb-link {
+color: #fff;
+opacity: 0;
+visibility: hidden;
+position: absolute;
+transition: all 0.2s;
+z-index: 0;
+}
+
+.breadcrumb--active {
+color: #fff;
+font-weight: 700;
+position: relative;
+}
+.breadcrumb--active:after {
+content: "▾";
+position: absolute;
+right: 22px;
+z-index: 1;
+}
+
+.breadcrumb-close {
+position: absolute;
+right: 0;
+bottom: 0;
+visibility: hidden;
+z-index: 10;
+}
+.breadcrumb-close:after {
+	content: "▴";
+	color: #fff;
+}
+
+@media (min-width: 700px) {
+.breadcrumb-dash {
+	border: none;
+}
+.breadcrumb-dash a {
+	display: inline;
+	padding: 0.5em;
+}
+
+.breadcrumb-link {
+	display: inline;
+	opacity: 1;
+	visibility: visible;
+	position: static;
+}
+.breadcrumb-link:after {
+	content: "/";
+	margin-left: 0.5em;
+	margin-right: -0.75em;
+}
+.breadcrumb--active {
+	pointer-events: none;
+}
+.breadcrumb--active:after {
+	content: none;
+}
+
+.breadcrumb-close {
+	display: none !important;
+}
+}
 </style>
 </head>
 
   <body class="mince-scroll-spp">
-  <div class="container-scroller">
-	  {{ render(controller("App\\Controller\\General\\Template\\MenuController:menubare"
-	, {'position': 'home' })) }}
 
+	<div class="container-scroller">
+		{{ render(controller("App\\Controller\\General\\Template\\MenuController:menubare"
+		,{'position': 'home' })) }}
 
-	  <div class="container-fluid page-body-wrapper">
-		  <div class="main-panel" style="background: #f7f7f7;">
-		  
-		  <div class="content-manage-market variation-contenu" value="0">
-			{% block body %}
+		<div class="container-fluid page-body-wrapper">
+			<div class="main-panel" style="background: #f7f7f7;">
+			
+				<div class="content-manage-market variation-contenu" value="0">
+					{% block body %}
+						
+					{% endblock %}
+				</div>
+
+				<div class="content-recherche-products-market" style="display: none;">
+
+				</div>
 				
-			{% endblock %}
-		  </div>
-		  
+				{{ render(controller("App\\Controller\\General\\Template\\MenuController:footer"
+				,{'position': currentposition|default('home') })) }}
 
-		  
-		  <div class="content-recherche-products-market" style="display: none;">
-
-		  </div>
-		  
-		  {{ render(controller("App\\Controller\\General\\Template\\MenuController:footer"
-	      , {'position': currentposition|default('home') })) }}
-
-		  </div>
-	  </div>
-  </div>
+			</div>
+		</div>
+	</div>
  
-  
 	<div class="content-alert-action-elearning-user" value="0" name="0" style="display: none;"></div>
 
 	<div class="panel-result-action-elearning-user" style="display: none; position: fixed; z-index: 900000; width: 100%; text-align: center; top: 40%;">
@@ -2289,8 +2383,7 @@ p span{
 			<div data-w-id="bdd6bb74-6a76-cc2b-93ad-7ae71601b802" data-animation-type="lottie" data-src="{{ asset('template/js/dataloader.json') }}" data-loop="1" data-direction="1" data-autoplay="1" data-is-ix2-target="0" data-renderer="svg" data-default-duration="26.2" data-duration="0" style="height: 100px;"></div>
 		</span>
 	</div>
-	
-  
+
 	<div class="modal fade modal-alter" id="modal-infos-action-connexion" style="margin-top: 100px;">
 	<div class="modal-dialog modal-md" style="border-radius: 10px;">
 	<div class="modal-content text-left">
@@ -2327,10 +2420,10 @@ p span{
 		</div>
 	</div>
 	
-		<div class="modal-footer" style="display: block!important; text-align: right;">
+	<div class="modal-footer" style="display: block!important; text-align: right;">
 		<span class="pull-left">&copy; {{ site }}</span>
 		{% include 'Theme/General/Template/Menu/social.html.twig' %}
-		</div>
+	</div>
 
 	</div>
 	</div>
@@ -2374,7 +2467,8 @@ p span{
 	</aside>
 
 	<!-- //here ends scrolling icon -->
-	{# { render(controller("GeneralTemplateBundle:Menu:testinscriptionnewsletter")) } #}
+	{{ render(controller("App\\Controller\\General\\Template\\MenuController:testinscriptionnewsletter"
+	      , {'position': currentposition|default('home') })) }}
 	
 	{% block srcjavascript %}
 

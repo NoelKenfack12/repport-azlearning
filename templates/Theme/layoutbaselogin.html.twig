@@ -1,83 +1,206 @@
 
+
 <!DOCTYPE HTML>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="msapplication-tap-highlight" content="no">
-	{% block meta %} {% endblock %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="msapplication-tap-highlight" content="no"/>
 
-	<!-- Favicons-->
-    <link rel="shortcut icon" href="{{ asset('template/images/logo.png') }}"/>
-	<!-- Favicons-->
+  {% block meta %} {% endblock %}
+  {{ render(controller("App\\Controller\\General\\Template\\MenuController:relicon")) }}
 
-	<meta name="msapplication-TileColor" content="#00bcd4"/>
-	<meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png"/>
-	<!-- For Windows Phone -->
-	
-	<title>{% block title %}{{ site }}{% endblock %}</title>
-	{% block stylesheets %}
-	<!-- CORE CSS-->
+  <!-- For Windows Phone -->
 
-	<link rel="stylesheet" href="{{ asset('template/css/bootstrap.css') }}" type="text/css" />
-	
-    <link rel="stylesheet" type="text/css" href="{{ asset('template/css/util.css') }}"/>
-	<link rel="stylesheet" type="text/css" href="{{ asset('template/css/main.css') }}"/>
+  <title>
+    {% block title %}
+	  {{ render(controller("App\\Controller\\General\\Template\\MenuController:relicon", {'position': 'title'})) }}
+    {% endblock %}
+  </title>
 
-	<script type="text/javascript" src="{{ asset('template/js/jquery-1.11.2.min.js') }}"></script>
-	<link rel="stylesheet" href="{{ asset('template/assets/css/font-awesome.css') }}"/>
-	
-	<link rel="stylesheet" href="{{ asset('template/css/bootstrap.min.css') }}" />
+  {% block stylesheets %}
 
-	
-	<script src="{{ asset('template/js/popper.min.js') }}"></script>
-    <script src="{{ asset('template/js/bootstrap2.min.js') }}"></script>
-    
-	
-	{% endblock %}
+	<link rel="stylesheet" href="{{ asset('template/assets/css/bootstrap.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('template/css/login.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('template/assets/css/font-awesome.css') }}" type="text/css"/>
+	<script src="{{ asset('template/js/jquery.min.js') }}"></script>
 	<style>
-		.btn-primary{
-			background: #092759;
-			color: #fff;
+		.title {
+		  position: absolute;
+		  left: 50%;
+		  top: 100%;
+		  transform: translate(-50%,-50%);
+		  z-index: -1;
+		  color: #ECEFF1;
+		  font-size: 120px;
+		  font-weight: 600;
 		}
-		.field-icon {
-		  float: right;
-		  margin-right: 10px;
-		  margin-top: -28px;
-		  position: relative;
-		  z-index: 2;
-		}
-	</style>
-</head> 
-<body style="background: #f4f4f4;">
-  
-  <!-- START MAIN -->
-  <div class="limiter">
-  {% block body %}
-        
-  {% endblock %}
-  </div>
-  
-  <script type="text/javascript">
- 
-	$(".toggle-password").click(function() {
-	  $(this).toggleClass("fa-eye fa-eye-slash");
-	  var input = $($(this).attr("toggle"));
-	  if (input.attr("type") == "password") {
-		input.attr("type", "text");
-	  } else {
-		input.attr("type", "password");
-	  }
-	});
 
+		.title-large {
+		  height: 130px;
+		  margin-left: -5px;
+		  opacity: 0.1;
+		}
+
+		.img-container {
+		  display: inline-block;
+		  overflow: hidden;
+		  margin-left: -2.8px;
+		  margin-right: -2.8px;
+		  width: 170px;
+		  vertical-align: top;
+		  border-radius: 0px 0px 80px 80px;
+		  animation-name: flow;
+		  animation-duration: 4s;
+		  animation-iteration-count: infinite;
+		  animation-delay: -2s;
+		  transition-timing-function: cubic-bezier(0,.57,1,.46);
+		  box-shadow: 2px 2px 16px 2px rgba(0,0,0,0.5);
+		}
+
+		.second-animation {
+		  animation-delay: -1.5s;
+		}
+
+		.third-animation {
+		  animation-delay: -1s;
+		}
+
+		.fourth-animation {
+		  animation-delay: -0.5s;
+		}
+
+		.fifth-animation {
+		  animation-delay: 0s;
+		}
+
+		.sixth-animation {
+		  animation-delay: 0.5s;
+		}
+
+		.seventh-animation {
+		  animation-delay: 1s;
+		}
+
+		.img {
+		  object-fit: cover;
+		  width: 170px;
+		  height: 100vh;
+		  margin-top: -60px;
+		}
+
+		.nba {
+		  margin-top: -20px;
+		}
+
+		@keyframes flow {
+		  0% {height: 20%; border-radius: 0px 0px 30px 30px;}
+		  50% {height: 90%; border-radius: 0px 0px 100px 100px;}
+		  100% {height: 20%; border-radius: 0px 0px 30px 30px;}
+		}
+
+		@media only screen and (max-width: 1200px) {
+		  #img-7 {
+			display: none;
+		  }
+		}
+
+		@media only screen and (max-width: 1028px) {
+		  #img-1 {
+			display: none;
+		  }
+		}
+
+		@media only screen and (max-width: 860px) {
+		  #img-6 {
+			display: none;
+		  }
+		}
+
+	input[type="checkbox"] {
+	  -webkit-appearance: none;
+		 -moz-appearance: none;
+			  appearance: none;
+	  background-color: white;
+	  border: 0.125rem #808080 solid;
+	  border-radius: 4px;
+	  cursor: pointer;
+	  display: inline-block;
+	  height: 1.25rem;
+	  margin-right: 0.25rem;
+	  position: relative;
+	  -webkit-transition: all 0.25s;
+	  transition: all 0.25s;
+	  vertical-align: middle;
+	  width: 1.25rem;
+	}
+	input[type="checkbox"]::after {
+	  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2264px%22%20height%3D%2264px%22%20viewBox%3D%220%200%2064%2064%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cpolygon%20id%3D%22Combined-Shape%22%20fill%3D%22white%22%20points%3D%2223%2056%2021%2054%200%2033%207%2026%2023%2042%2057%208%2064%2015%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E");
+	  background-position: center center;
+	  background-repeat: no-repeat;
+	  background-size: 0.75rem 0.75rem;
+	  content: "";
+	  height: 1rem;
+	  left: 0;
+	  opacity: 0;
+	  position: absolute;
+	  top: 0;
+	  -webkit-transition: opacity 0.25s;
+	  transition: opacity 0.25s;
+	  width: 1rem;
+	}
+	input[type="checkbox"]:hover {
+	  background-color: #bfdde1;
+	  border: 0.125rem #007788 solid;
+	  -webkit-transform: scale(1.1);
+			  transform: scale(1.1);
+	}
+	input[type="checkbox"]:focus {
+	  outline: none;
+	  box-shadow: 0px 0px 8px rgba(0, 119, 136, 0.75);
+	}
+	input[type="checkbox"]:checked {
+	  background-color: #007788;
+	  border: 0.125rem #007788 solid;
+	}
+	input[type="checkbox"]:checked::after {
+	  opacity: 1;
+	}
+
+	label {
+	  display: inline-block;
+	  vertical-align: middle;
+	}
+	.login-wrapper .input-group {
+		margin-bottom: 18px;
+		border-radius: 24px;
+		border: solid 1px #ddd;
+	}
+
+  .text-reset{
+    color: #007bff;
+  }
+	</style>
+
+  {% endblock %}
+</head>
+
+<body>
+	<main style="overflow: hidden;">
+	  {% block body %}
+
+	  {% endblock %}
+	</main>
+  <script src="{{ asset('template/js/jquery-1.11.2.min.js') }}"></script>
+  <script src="{{ asset('template/js/popper.min.js') }}"></script>
+  <script src="{{ asset('template/js/bootstrap.min.js') }}"></script>
+
+  <script type="text/javascript">
   {% block javascript %}
 
   {% endblock %}
-  
   </script>
 </body>
 </html>
-
-
 

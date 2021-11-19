@@ -1,6 +1,6 @@
 
 {% if type == "cours" %}
-<div>
+<div style="height: 300px;">
    <video
 	id="my-player"
 	class="video-js"
@@ -8,7 +8,7 @@
 	preload="auto"
 	poster="{% if produit.imgproduit != null %} {{ asset(produit.imgproduit.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}"
 	data-setup="{}"
-    style="width: 100%!important; height: 300px; " onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
+    style="width: 100%!important; height: 100%!important;" onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
 	<source src="{% if produit.videoproduit != null %}{{ asset(produit.videoproduit.getwebpath) }} {% else %}{{ asset('template/player/media/intro.mp4') }}{% endif %}" type="video/mp4" />
 	<source src="{{ asset('template/player/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf') }}" type="video/webm" />
 	<p class="vjs-no-js">
@@ -49,7 +49,7 @@ var player = videojs('my-player', options, function onPlayerReady() {
 </script>
 
 {% elseif(type == "formation") %}
-<div >
+<div style="height: 300px;">
    <video
 	id="my-player"
 	class="video-js"
@@ -57,7 +57,7 @@ var player = videojs('my-player', options, function onPlayerReady() {
 	preload="auto"
 	poster="{% if service.imgservice != null %} {{ asset(service.imgservice.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}"
 	data-setup="{}"
-  style="width: 100%!important; height: 300px; " onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
+  style="width: 100%!important; height: 100%!important;" onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
 	<source src="{% if service.imgservicesecond != null %}{{ asset(service.imgservicesecond.getwebpath) }} {% else %}{{ asset('template/player/media/intro.mp4') }}{% endif %}" type="video/mp4" />
 	<source src="{{ asset('template/player/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf') }}" type="video/webm" />
 	<p class="vjs-no-js">
@@ -97,25 +97,25 @@ var player = videojs('my-player', options, function onPlayerReady() {
 
 </script>
 {% elseif(type == "chapitre") %}
-
-   <video
-	id="my-player"
-	class="video-js"
-	controls
-	preload="auto"
-	poster="{% if chapitre.imgchapitre != null %} {{ asset(chapitre.imgchapitre.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}"
-	data-setup="{}"
-  style="width: 100%!important; height: 300px; " onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
-	<source src="{% if chapitre.videochapitre != null %}{{ asset(chapitre.videochapitre.getwebpath) }} {% else %}{{ asset('template/player/media/intro.mp4') }}{% endif %}" type="video/mp4" />
-	<source src="{{ asset('template/player/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf') }}" type="video/webm" />
-	<p class="vjs-no-js">
-	  To view this video please enable JavaScript, and consider upgrading to a
-	  web browser that
-	  <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a
-	  >
-	</p>
-  </video>
-
+	<div style="height: 300px;">
+		<video
+			id="my-player"
+			class="video-js"
+			controls
+			preload="auto"
+			poster="{% if chapitre.imgchapitre != null %} {{ asset(chapitre.imgchapitre.getwebpath) }} {% else %}{{ asset('template/player/media/intro.png') }}{% endif %}"
+			data-setup="{}"
+		style="width: 100%!important; height: 100%!important;" onselectstart="return false" oncontextmenu="return false" ondragstart="return false" onMouseOver="window.status='..message perso .. '; return true;">
+			<source src="{% if chapitre.videochapitre != null %}{{ asset(chapitre.videochapitre.getwebpath) }} {% else %}{{ asset('template/player/media/intro.mp4') }}{% endif %}" type="video/mp4" />
+			<source src="{{ asset('template/player/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf') }}" type="video/webm" />
+			<p class="vjs-no-js">
+			To view this video please enable JavaScript, and consider upgrading to a
+			web browser that
+			<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a
+			>
+			</p>
+		</video>
+    </div>
 
 <script type="text/javascript">
 {% if mess > 0 %}
@@ -165,7 +165,6 @@ function sauveLectureVideo()
 			{% else %}
 				alert('Pas de suite');
 			{% endif %}
-			
 	   },
 
 	   error : function(resultat, statut, erreur){

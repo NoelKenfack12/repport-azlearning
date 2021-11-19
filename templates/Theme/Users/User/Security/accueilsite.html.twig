@@ -679,126 +679,123 @@ button.owl-next, button{
 </section>
 		
 <div class="content-wrapper" style="margin-bottom: -20px;">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
-					<h2>Appréciés en ce moment</h2>
-					<p>Consultez les cours les plus suivis en ce moment dans notre institut</p>
-				</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
+				<h2>Appréciés en ce moment</h2>
+				<p>Consultez les cours les plus suivis en ce moment dans notre institut</p>
 			</div>
 		</div>
-            
-		<div class="row">
-			<div class="col-md-12">
-				<div class="owl-carousel staff-list" style="padding-top: 10px;">
-					{% for produit in produit_aime %}
+	</div>
+		
+	<div class="row">
+		<div class="col-md-12">
+			<div class="owl-carousel staff-list" style="padding-top: 10px;">
+				{% for produit in produit_aime %}
 					<div class="card-cours"  style="background: transparent;">
 						{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
 					</div>
-					{% endfor %}
-				</div>
+				{% endfor %}
 			</div>
-		</div>
-    
-		
-        <script type="text/javascript">
-		$(document).ready(function(){
-		  $(".owl-carousel").owlCarousel({
-			  items:4,
-			  autoplay:false,
-			  margin:30,
-			  loop:true,
-			  nav:true,
-			  responsive: {
-				0:{
-					items: 1,
-					nav:true
-				},
-				600:{
-					items: 3,
-					nav:false
-				},
-				1000:{
-					items: 4,
-					nav:true,
-					loop:false
-				}
-			  },
-			  navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
-		  });
-		});
-        </script>
-		
-		
-		<div class="row">
-			<div class="col-md-12">
-				<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
-					<h2> Les plus visités</h2>
-					<p>Voici les les cours les plus recherchés par nos abonnés en ce moment</p>
-				</div>
-			</div>
-		</div>
-            
-		<div class="row">
-
-			<div class="col-md-12">
-				<div class="owl-carousel staff-list" id="owl-carousel" style="padding-top: 10px;">
-
-					{% for produit in produit_visite %}
-						<div class="card-cours" style="background: transparent;">
-							{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
-						</div>
-					{% endfor %}
-
-				</div>
-			</div>
-		</div>
-    
-		
-        <script type="text/javascript">
-
-		
-	
-		$(document).ready(function(){
-		  $("#owl-carousel").owlCarousel({
-			  items: 4,
-			  autoplay:false,
-			  margin:30,
-			  loop:true,
-			  nav:true,
-			  responsive:{
-				0:{
-					items:1,
-					nav:true
-				},
-				600:{
-					items: 3,
-					nav:false
-				},
-				1000:{
-					items: 4,
-					nav:true,
-					loop:false
-				}
-			  },
-			  navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
-		  });
-		});
-        </script>
-</div>
-
-<section class="theme-bg-light">
-	<div class="container">
-		<div class="row">
-		<div class="col-md-12 text-center" style="height: 150px; padding: 20px;">
-			
-			<h2>Récommandations</h2>
-			<p>Aidez-nous à choisir les cours adaptés aux compétences que vous désirez avoir</p>
-			<a href="{{ path('produit_service_search_recommandations_user') }}" class="btn btn-primary">Mes recommandations</a>
-		</div>
 		</div>
 	</div>
-</section>
+
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$(".owl-carousel").owlCarousel({
+			items:4,
+			autoplay:false,
+			margin:30,
+			loop:true,
+			nav:true,
+			responsive: {
+			0:{
+				items: 1,
+				nav:true
+			},
+			600:{
+				items: 3,
+				nav:false
+			},
+			1000:{
+				items: 4,
+				nav:true,
+				loop:false
+			}
+			},
+			navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
+		});
+	});
+	</script>
+	
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
+				<h2> Les plus visités</h2>
+				<p>Voici les les cours les plus recherchés par nos abonnés en ce moment</p>
+			</div>
+		</div>
+	</div>
+		
+	<div class="row">
+		<div class="col-md-12">
+			<div class="owl-carousel staff-list" id="owl-carousel" style="padding-top: 10px;">
+
+				{% for produit in produit_visite %}
+					<div class="card-cours" style="background: transparent;">
+						{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
+					</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#owl-carousel").owlCarousel({
+			items: 4,
+			autoplay:false,
+			margin:30,
+			loop:true,
+			nav:true,
+			responsive:{
+			0:{
+				items:1,
+				nav:true
+			},
+			600:{
+				items: 3,
+				nav:false
+			},
+			1000:{
+				items: 4,
+				nav:true,
+				loop:false
+			}
+			},
+			navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
+		});
+	});
+	</script>
+</div>
+
+
+<section style="background: #fff; padding: 15px 0px; margin-top: 15px;">
+	<div class="container">
+		<div style="">
+			<div class="row">
+				<div class="col-md-12">
+					<a href="{{ path('produit_service_search_recommandations_user') }}" class="btn btn-primary float-right">Mes recommandations</a>
+					<h2>Récommandations</h2>
+					<p>Aidez-nous à choisir les cours adaptés aux compétences que vous désirez avoir</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>	
 
 <div class="content-wrapper">	
 	<div class="row">
@@ -828,13 +825,15 @@ button.owl-next, button{
 	</div>
 </div>
 
-<section class="theme-bg-light">
+<section style="background: #fff; padding: 15px 0px; margin-top: 15px;">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center" style="height: 150px; padding: 20px;">
-				<h2>Devenir Enseignant </h2>
-				<p>Rejoingnez la communauté grandissante d'enseignant(e)s {{ site }}</p>
-				<a href="{{ path('produit_service_souscription_programme_formateur') }}" class="btn btn-primary">Devenir enseignant</a>
+		<div style="">
+			<div class="row">
+				<div class="col-md-12">
+					<a href="{{ path('produit_service_souscription_programme_formateur') }}" class="btn btn-primary float-right">Devenir enseignant</a>
+					<h2>Devenir Enseignant </h2>
+					<p>Rejoingnez la communauté grandissante d'enseignant(e)s {{ site }}</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -845,6 +844,7 @@ button.owl-next, button{
 		 <div class="row">
 			<div class="col-md-12">
 				<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
+					<a href="{{ path('produit_service_visiter_notre_blog') }}" class="btn btn-primary float-right">Toutes les formations</a>
 					<h2>Nos offres de formation</h2>
 					<p>
 					A des moments particuliers de l'année, nous lancons des campagnes de formation pour permettre à tous nos abonnés de renforcer leurs capacités à moindre coût. Découvrez nos campagnes de formation actuellement disponibles et 100% à distance.

@@ -16,6 +16,12 @@
 	<script src="{{ asset('template/table/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('template/table/js/dataTables.responsive.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('template/table/js/dataTables.bootstrap.min.js') }}"></script>
+
+  <style>
+    .dataTables_wrapper .dataTable thead .sorting:after, .dataTables_wrapper .dataTable thead .sorting_asc:after, .dataTables_wrapper .dataTable thead .sorting_desc:after, .dataTables_wrapper .dataTable thead .sorting_asc_disabled:after, .dataTables_wrapper .dataTable thead .sorting_desc_disabled:after {
+        display: none;
+    }
+  </style>
 {% endblock %}
 
 {% block userblog_body %}
@@ -48,8 +54,8 @@
 		
 			<div class="col-lg-12">
 				<h3 class="panel-title">
-                    Toutes les souscriptions aux formations du mois
-                </h3>
+            Toutes les souscriptions aux formations du mois
+        </h3>
 			</div>
 
             <div class="col-md-12">
@@ -130,26 +136,23 @@
                             td:nth-of-type(3):before {
                               content: "Date";
                             }
+    
       
                             td:nth-of-type(4):before {
-                              content: "Type formation";
-                            }
-      
-                            td:nth-of-type(5):before {
                               content: "Nombre de cours";
                             }
       
-                            td:nth-of-type(6):before {
+                            td:nth-of-type(5):before {
                               content: "Montant Spécial";
                             }
       
-                            td:nth-of-type(7):before {
+                            td:nth-of-type(6):before {
                               content: "Montant total";
                             }
-                            td:nth-of-type(8):before {
+                            td:nth-of-type(7):before {
                               content: "Réduction";
                             }
-                            td:nth-of-type(9):before {
+                            td:nth-of-type(8):before {
                               content: "Etat";
                             }
       
@@ -164,7 +167,6 @@
                                 <th>Id Panier</th>
                                 <th>Client</th>
                                 <th>Date</th>
-                                <th>Type formation</th>
                                 <th>Nombre de cours</th>
                                 <th>Montant Spécial</th>
                                 <th>Montant total</th>
@@ -177,7 +179,6 @@
                               <th>Id Panier</th>
                               <th>Client</th>
                               <th>Date</th>
-                              <th>Type formation</th>
                               <th>Nombre de cours</th>
                               <th>Montant Spécial</th>
                               <th>Montant total</th>
@@ -186,21 +187,33 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                              {% for i in range(0,7) %}
+                              {% for panier in liste_panier %}
                               <tr>
-                                <td>vvb {{ i }}</td>
-                                <td>gfgf {{ i }}</td>
-                                <td>vccvcv {{ i }}<td>
-                                <td>jhjhj</td>
-                                <td>jhjhj</td>
-                                <td>iouuioi</td>
-                                <td>Payé</td>
-                                <td>Payé</td>
-                                <td>Payé</td>
+                                <td>{{ panier.numFacture }}</td>
+                                <td>{{ panier.user.name(25) }}</td>
+                                <td>{{ panier.date|date('d') }}.{{ panier.date|date('m') }}.{{ panier.date|date('Y') }}<td>
+                                <td>
+                                  {% if panier.service != null %}
+                                    {% set nbcours = 0 %}
+                                    {% for product in panier.service.produits %}
+                                      {% set nbcours = nbcours + 1 %}
+                                    {% endfor %}
+                                    {{ nbcours }} Cours
+                                  {% else %}
+                                    {% if panier.chapitrecours != null %}
+                                      Une leçon
+                                    {% else %}  
+                                      Un cours
+                                    {% endif %}
+                                  {% endif %}
+                                </td>
+                                <td> {% if panier.montantspecial != null %}{{ panier.montantspecial }}{% else %}0{% endif %}XAF</td>
+                                <td>{% if panier.montantttc != null %}{{ panier.montantttc }}{% else %}0{% endif %}XAF</td>
+                                <td>-</td>
+                                <td>{% if panier.payer == true %}Payé{% else %}Non payé{% endif %}</td>
                               </tr>
                               {% else %}
                               <tr>
-                                <td>-</td>
                                 <td>-</td>
                                 <td>-</td>
                                 <td>-</td>
@@ -243,7 +256,7 @@
       $('.tablefilter').DataTable({
       //disable sorting on last column
       "columnDefs": [
-        { "orderable": false, "targets": 9 }
+        { "orderable": false, "targets": 8 }
       ],
       
       language: {

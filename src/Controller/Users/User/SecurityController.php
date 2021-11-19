@@ -6,7 +6,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 use General\ServiceBundle\AfMail\Afmail;
 use General\ServiceBundle\AfMail\fileAttachment;
-
+use App\Entity\Users\Adminuser\Parametreadmin;
 use App\Entity\Users\User\Imgslide;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Produit\Produit;
@@ -86,8 +86,15 @@ public function login(GeneralServicetext $service, Request $request)
 			}
 		}
 	}
+
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+
+	$loginbg = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'loginbg'));
 	return $this->render('Theme/Users/User/Security/login.html.twig',
-	array('last_username' => $last_username,'error'=> $error_login));
+	array('last_username' => $last_username,'error'=> $error_login, 'loginbg'=>$loginbg,
+	'paramlogosm'=>$paramlogosm));
 }
 
 
