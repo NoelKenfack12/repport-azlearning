@@ -180,12 +180,17 @@
 			border-left: 4px solid #fff!important;
 		}
 
-		
-	.active-item-cours{
-		background: rgba(255,255,255,0.2); 
-		color: #fff!important;
-		border-left: 4px solid #fff!important;
-	}
+		.active-item-cours{
+			background: rgba(255,255,255,0.2); 
+			color: #fff!important;
+			border-left: 4px solid #fff!important;
+		}
+		.my-fixed-nav{
+			position: fixed;
+			top: 0px;
+			width: 100%;
+			z-index: 100;
+		}
 	</style>
 {% endblock %}
 
@@ -218,6 +223,22 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 	</div>
 </header>
 
+<script>
+	$(window).bind('scroll', function(){
+		var largeur = ($(window).width());
+		dimension = 100;
+		/*if (largeur < 768)
+		{
+			dimension = 800;
+		}*/
+		// The value of where the "scoll" is.
+		if($(window).scrollTop() > dimension){
+			$('.header-learning').addClass('my-fixed-nav');
+		}else{
+			$('.header-learning').removeClass('my-fixed-nav');
+		}
+	});
+</script>
 
 <div class="main-container">
 	<div class="row">
@@ -256,9 +277,10 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 		    </span>
 		</span>
 		<ol class="breadcrumb" style="padding: 0px; background-color: #fff; border: none;">
-		  <li class="breadcrumb-item"><a href="#"><span class="fa fa-home"></span> Accueil</a></li>
+		  <li class="breadcrumb-item"><a href="{{ path('users_user_acces_plateforme') }}"><span class="fa fa-home"></span> Accueil</a></li>
 		  <li class="breadcrumb-item"><a href="{{ path('produit_produit_accueil_boutique_produit') }}">Cours</a></li>
-		  <li class="breadcrumb-item"><a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ produit.titre }}</a></li>
+		  <li class="breadcrumb-item"><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': produit.souscategorie.categorie.id }) }}">{{ produit.souscategorie.categorie.nom }}</a></li>
+		  <li class="breadcrumb-item">{{ produit.souscategorie.nom }}</li>
 		  <li class="breadcrumb-item active" aria-current="page">{{ chapitre.partiecours.titre }}</li>
 		</ol>
 	</nav>
@@ -651,12 +673,12 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 		
 
 <div class="modal fade" id="infos-action-new-part" style="margin-top: 100px;">
-<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-dialog modal-md" style="border-radius: 10px; margin-top: 70px;">
 	<div class="modal-content text-left">
 	<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
 		<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
 			<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
-			<span class="fa fa-plus"></span> Ajouter un nouvelle partie
+			<span class="fa fa-plus"></span> Ajouter une nouvelle partie
 		</h4>
 	</div>
 		

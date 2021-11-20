@@ -32,8 +32,19 @@
 		<h5 class="card-title">
 			<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ produit.name(40) }}</a>
 		</h5>
+		<a href="#!" class="text-left" style="display: block; text-decoration: none; color: #333;">
+			<strong>4,7</strong>
+			<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+				<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+				<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+			</div>
+			<strong> (1 614 notes)</strong> <span>6 692 participants</span>
+		</a>
+		<div style="margin-top: 20px;">
+			Crée par <a href="{{ path('users_user_user_accueil', {'id': produit.id }) }}"style="text-decoration: underline; color: #333;">{{ produit.user.name(50) }}</a>, Formateur AZ
+		</div>
 		<div>
-		{{ produit.description|raw }}
+			Dernière mise à jour {{ produit.date|date('d') }}/{{ produit.date|date('m') }}/{{ produit.date|date('Y') }}; Langue: <span class="fa fa-globe"></span> Français
 		</div>
 
 		<div>

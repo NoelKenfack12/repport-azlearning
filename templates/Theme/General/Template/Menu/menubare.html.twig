@@ -842,10 +842,13 @@ $('.form-recherche-product').on('submit', function(){
     transition: all 200ms linear;
 }
 .nav-item:hover .nav-link{
-	color: #8167a9 !important;
+	color: #092759 !important;
 }
 .nav-item.active .nav-link{
 	color: #777 !important;
+}
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover{
+	border: none!important;
 }
 .nav-link {
 	position: relative;
@@ -859,7 +862,7 @@ $('.form-recherche-product').on('submit', function(){
 	width: 100%;
 	height: 2px;
 	content: '';
-	background-color: #8167a9;
+	background-color: #092759;
 	opacity: 0;
     transition: all 200ms linear;
 }
@@ -1119,7 +1122,11 @@ body.hero-anime #switch{
 .dropdown-item:hover, 
 .dropdown-item:focus {
 	color: #fff;
-	background-color: rgba(129,103,169,.6);
+	background-color: #092759;
+}
+
+.dropdown-item:hover p{
+	color: #fff;
 }
 
 
@@ -1220,14 +1227,33 @@ ol, ul {
     box-shadow: inset 2px 0 0 #092759;
     color: #092759;
 }
+.cd-dropdown-content > .has-children > a, .cd-dropdown-content > .has-children > .cd-secondary-dropdown.is-active > li > ul, .other_list a{
+	font-size: 16px!important;
+	font-family: OpenSans-Regular!important;
+}
 .cd-dropdown-content .cd-secondary-dropdown > li > a, .cd-dropdown-content .see-all a {
     color: #092759;
+}
+.cd-dropdown-content .cd-dropdown-icons .cd-dropdown-item h3{
+	color: #092759;
+	font-size: 14px;
+}
+.cd-dropdown-content .cd-secondary-dropdown a:hover, .other_list a:hover, .no-touch .cd-dropdown-content .cd-secondary-dropdown a:hover{
+	color: #092759;
+}
+.cd-dropdown-content .cd-dropdown-icons .cd-dropdown-item{
+	padding: 20px 0 0 85px;
+	height: auto;
+	line-height: 15px;
 }
 .cd-dropdown-content > .has-children > .cd-secondary-dropdown.is-active > li > ul {
     padding-left: 10px!important;
 }
 .cd-dropdown-content .cd-secondary-dropdown ul {
     margin-left: -10px!important;
+}
+.cd-dropdown-content .cd-secondary-dropdown .see-all{
+	left: 10px!important;
 }
 .cd-dropdown-content .cd-secondary-dropdown > li{
 	height: auto;
@@ -1238,12 +1264,31 @@ ol, ul {
 .cd-dropdown-content .cd-dropdown-icons > li, .cd-dropdown-content .cd-secondary-dropdown > li{
 	width: 100%;
 }
-
+.cd-dropdown-content .cd-secondary-dropdown::before{
+	display: none;
+}
+.cd-dropdown-content .cd-dropdown-icons .cd-dropdown-item::before{
+	margin-top: -10px;
+}
+.cd-dropdown-content .cd-secondary-dropdown > .see-all, .cd-dropdown-content .cd-dropdown-gallery > .see-all, .cd-dropdown-content .cd-dropdown-icons > .see-all{
+	bottom: 0px;
+	width: 100%!important;
+}
+.cd-dropdown-content a, .cd-dropdown-content ul a{
+	border: none;
+}
 @media (min-width: 1024px){
 	.no-touch .cd-dropdown-trigger.dropdown-is-active:hover {
 		background-color: #ffffff!important;
 		color: #092759!important;
 	}
+}
+
+.img-dd-profil{
+	float: left;
+	margin-right: 7px;
+	border-radius: 20px;
+	height: 40px;
 }
 </style>
 
@@ -1254,8 +1299,8 @@ ol, ul {
 			<div class="col-12">
 				<nav class="navbar navbar-expand-md navbar-light">
 					
-					<a class="navbar-brand" href="{{ path('users_user_acces_plateforme') }}">
-						<img src="{{ asset('template/images/logo.png') }}" alt="" style="height: 50px width: 60px;"/>
+					<a href="{{ path('users_user_acces_plateforme') }}">
+						<img src="{{ asset('template/images/logo.png') }}" alt="" style="height: 50px; width: 70px;"/>
 					</a>	
 
 					<div class="cd-dropdown-wrapper" style="margin: 0px;">
@@ -1263,29 +1308,26 @@ ol, ul {
 						<nav class="cd-dropdown" style="margin-top: 20px;">
 							<h2>Title</h2>
 							<a href="#0" class="cd-close">Close</a>
-							<ul class="cd-dropdown-content" style="padding-top: 15px;">
-								
-								<li class="has-children" style="margin-top: 5px; border-top: 2px solid #ddd;">
+							<ul class="cd-dropdown-content" style="padding: 10px 0px 50px 0px;">
+								<li class="has-children" style="margin-top: 5px;">
 									<a href="#!">Cours</a>
 
-									<ul class="cd-secondary-dropdown is-hidden">
+									<ul class="cd-secondary-dropdown is-hidden" style="padding: 0px 0px 50px 15px;">
 										<li class="go-back"><a href="#0">Menu</a></li>
-										<li class="see-all"><a href="#!">Tous les cours</a></li>
+										<li class="see-all" style="left: 0px!important;"><a href="{{ path('produit_produit_accueil_boutique_produit') }}">Tous les cours</a></li>
 										
 										{% for cat in liste_categorie %}
 										<li class="has-children">
 											<a href="#!">{{ cat.nom }}</a>
-											
-											<ul class="is-hidden">
+											<ul class="is-hidden" style="margin-bottom: 15px;">
 												<li class="go-back"><a href="#0">{{ cat.nom }}</a></li>
-												<li class="see-all"><a href="#!">All Accessories</a></li>
+												<li class="see-all"><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': cat.id }) }}" style="font-size: 10px;">Tous les cours {{ cat.nom }} <span class="fa fa-arrow-right"></span> </a></li>
 												{% for scat in cat.getScategories %}
 												<li class="has-children">
 													<a href="#0">{{ scat.nom }}</a>
-			
-													<ul class="is-hidden">
-														<li class="go-back"><a href="#0">Accessories</a></li>
-														<li class="see-all"><a href="http://codyhouse.co/?p=748">0ll Benies</a></li>
+													<ul class="is-hidden" >
+														<li class="go-back" style="margin-bottom: 15px;"><a href="#0" style="color: #333;">Retourner</a></li>
+														<li class="see-all"><a href="#!" style="padding-left: 25px; font-size: 10px;;">Tous les cours {{ scat.nom }} <span class="fa fa-arrow-right"></span> </a></li>
 														{% for prod in scat.getProduitSouscategorie %}
 														<li><a href="{{ path('produit_produit_detail_produit_market', {'id': prod.id }) }}">{{ prod.titre }}</a></li>
 														{% endfor %}
@@ -1295,43 +1337,24 @@ ol, ul {
 											</ul>
 										</li>
 										{% endfor %}
+
 									</ul> <!-- .cd-secondary-dropdown -->
 								</li> <!-- .has-children -->
 			
 								<li class="has-children">
-									<a href="http://codyhouse.co/?p=748">Campagnes</a>
-			
-									<ul class="cd-dropdown-gallery is-hidden">
+									<a href="#!">Campagnes</a>
+									<ul class="cd-dropdown-icons is-hidden" style="padding: 0px 0px 50px 0px;">
 										<li class="go-back"><a href="#0">Menu</a></li>
-										<li class="see-all"><a href="http://codyhouse.co/?p=748">Browse Gallery</a></li>
+										<li class="see-all"><a href="{{ path('produit_service_visiter_notre_blog') }}">Toutes nos campagnes</a></li>
+										{% for formation in liste_formation %}
 										<li>
-											<a class="cd-dropdown-item" href="http://codyhouse.co/?p=748">
-												<img src="img/img.png" alt="Product Image">
-												<h3>Product #1</h3>
+											<a class="cd-dropdown-item item-7" href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}">
+												<h3>{{ formation.nom }}</h3>
+												<span style="font-size: 12px;">12 Cours</span>
 											</a>
 										</li>
-			
-										<li>
-											<a class="cd-dropdown-item" href="http://codyhouse.co/?p=748">
-												<img src="img/img.png" alt="Product Image">
-												<h3>Product #2</h3>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item" href="http://codyhouse.co/?p=748">
-												<img src="img/img.png" alt="Product Image">
-												<h3>Product #3</h3>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item" href="http://codyhouse.co/?p=748">
-												<img src="img/img.png" alt="Product Image">
-												<h3>Product #4</h3>
-											</a>
-										</li>
-									</ul> <!-- .cd-dropdown-gallery -->
+										{% endfor %}			
+									</ul> <!-- .cd-dropdown-icons -->
 								</li> <!-- .has-children -->
 			
 								<li class="has-children">
@@ -1353,84 +1376,15 @@ ol, ul {
 											</a>
 										</li>
 			
-										<li>
-											<a class="cd-dropdown-item item-3" href="http://codyhouse.co/?p=748">
-												<h3>Service #3</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-4" href="http://codyhouse.co/?p=748">
-												<h3>Service #4</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-5" href="http://codyhouse.co/?p=748">
-												<h3>Service #5</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-6" href="http://codyhouse.co/?p=748">
-												<h3>Service #6</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-7" href="http://codyhouse.co/?p=748">
-												<h3>Service #7</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-8" href="http://codyhouse.co/?p=748">
-												<h3>Service #8</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-9" href="http://codyhouse.co/?p=748">
-												<h3>Service #9</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-10" href="http://codyhouse.co/?p=748">
-												<h3>Service #10</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-11" href="http://codyhouse.co/?p=748">
-												<h3>Service #11</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
-			
-										<li>
-											<a class="cd-dropdown-item item-12" href="http://codyhouse.co/?p=748">
-												<h3>Service #12</h3>
-												<p>This is the item description</p>
-											</a>
-										</li>
 			
 									</ul> <!-- .cd-dropdown-icons -->
 								</li> <!-- .has-children -->
 			
-								<li class="cd-divider">Divider</li>
+								<li class="cd-divider" style="text-transform: capitalize;">Autres</li>
 			
-								<li><a href="http://codyhouse.co/?p=748">Page 1</a></li>
-								<li><a href="http://codyhouse.co/?p=748">Page 2</a></li>
-								<li><a href="http://codyhouse.co/?p=748">Page 3</a></li>
+								<li class="other_list"><a href="{{ path('produit_service_forum_site') }}">Forum</a></li>
+								<li class="other_list"><a href="{{ path('produit_service_toute_actualite_entreprise') }}">Formateurs</a></li>
+								<li class="other_list"><a href="{{ path('produit_service_yourcv_recrutement') }}">Ajout de fond</a></li>
 							</ul> <!-- .cd-dropdown-content -->
 						</nav> <!-- .cd-dropdown -->
 					</div> <!-- .cd-dropdown-wrapper -->
@@ -1467,9 +1421,9 @@ ol, ul {
 												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{{ notification.user.name(30) }}
 													<span class="float-right font-weight-light small-text">{{ notification.getDuree }}</span>
 												</h6>
-												<p class="text-truncate font-weight-light small-text text-left" >
+												<div class="text-truncate text-left" >
 													{{ notification.titre }}
-												</p>
+												</div>
 											</div>
 										</a>
 										{% else %}
@@ -1479,9 +1433,9 @@ ol, ul {
 												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{{ notification.user.name(30) }}
 													<span class="float-right font-weight-light small-text">{{ notification.getDuree }}</span>
 												</h6>
-												<p class="text-truncate font-weight-light small-text text-left" >
+												<div class="text-truncate text-left" >
 													{{ notification.titre }}
-												</p>
+												</div>
 											</div>
 										</a>
 										{% endif %}
@@ -1493,9 +1447,9 @@ ol, ul {
 													<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">Anonyme
 														<span class="float-right font-weight-light small-text">À l'instant</span>
 													</h6>
-													<p class="text-truncate font-weight-light small-text text-left" >
+													<div class="text-truncate text-left" >
 														Veuillez vous connecter à votre compte 
-													</p>
+													</div>
 												</div>
 											</a>
 										{% else %}
@@ -1505,9 +1459,9 @@ ol, ul {
 													<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{{ app.user.name(40) }}
 														<span class="float-right font-weight-light small-text">À l'instant</span>
 													</h6>
-													<p class="text-truncate font-weight-light small-text text-left" >
+													<div class="text-truncate text-left" >
 														Aucune nouvelle notification
-													</p>
+													</div>
 												</div>
 											</a>
 										{% endif %}
@@ -1537,9 +1491,9 @@ ol, ul {
 												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{% if message.user != null %}{{ message.user.name(30) }}{% else %}Anonyme{% endif %}
 													<span class="float-right font-weight-light small-text">{{ message.getDuree }}</span>
 												</h6>
-												<p class="text-truncate font-weight-light small-text text-left" >
+												<div class="text-truncate text-left" >
 													{{ message.contenu }}
-												</p>
+												</div>
 											</div>
 										</a>
 										
@@ -1551,9 +1505,9 @@ ol, ul {
 												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">Anonyme
 													<span class="float-right font-weight-light small-text">À l'instant</span>
 												</h6>
-												<p class="text-truncate font-weight-light small-text text-left" >
+												<div class="text-truncate text-left" >
 													Veuillez vous connecter à votre compte
-												</p>
+												</div>
 											</div>
 										</a>
 
@@ -1564,9 +1518,9 @@ ol, ul {
 												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{{ app.user.name(40) }}
 													<span class="float-right font-weight-light small-text">À l'instant</span>
 												</h6>
-												<p class="text-truncate font-weight-light small-text text-left" >
+												<div class="text-truncate text-left" >
 													Aucun nouveau message
-												</p>
+												</div>
 											</div>
 										</a>
 										{% endif %}
