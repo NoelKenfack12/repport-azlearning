@@ -191,6 +191,152 @@
 			width: 100%;
 			z-index: 100;
 		}
+
+
+		.container-fostrap {
+			display: table-cell;
+			padding: 1em;
+			text-align: center;
+			vertical-align: middle;
+		}
+		.fostrap-logo {
+			width: 100px;
+			margin-bottom:15px
+		}
+		h1.heading {
+			color: #fff;
+			font-size: 1.15em;
+			font-weight: 900;
+			margin: 0 0 0.5em;
+			color: #505050;
+		}
+		@media (min-width: 450px) {
+		h1.heading {
+			font-size: 3.55em;
+		}
+		}
+		@media (min-width: 760px) {
+		h1.heading {
+			font-size: 3.05em;
+		}
+		}
+		@media (min-width: 900px) {
+		h1.heading {
+			font-size: 3.25em;
+			margin: 0 0 0.3em;
+		}
+		} 
+		.card {
+		display: block; 
+			margin-bottom: 20px;
+			line-height: 1.42857143;
+			background-color: #fff;
+			border-radius: 2px;
+			box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12); 
+			transition: box-shadow .25s; 
+		}
+		.card:hover {
+		box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+		}
+		.card:hover a{
+			text-decoration: underline!important;
+			color: #092759;
+		}
+		.img-card {
+		width: 100%;
+		height:200px;
+		border-top-left-radius:2px;
+		border-top-right-radius:2px;
+		display:block;
+			overflow: hidden;
+		}
+		.img-card img{
+		width: 100%;
+		height: 200px;
+		object-fit:cover; 
+		transition: all .25s ease;
+		} 
+		.card-content {
+		padding:15px;
+		text-align:left;
+		}
+		.card-title {
+		margin-top:0px;
+		font-weight: 700;
+		font-size: 1.65em;
+		}
+		.card-title a {
+		color: #000;
+		text-decoration: none !important;
+		}
+		.card-read-more {
+		border-top: 1px solid #D4D4D4;
+		}
+		.card-read-more a {
+		text-decoration: none !important;
+		padding:10px;
+		font-weight:600;
+		text-transform: uppercase
+		}
+
+		.star-ratings-css {
+			unicode-bidi: bidi-override;
+			color: #c5c5c5;
+			font-size: 22px;
+			height: 25px;
+			width: 100px;
+			margin: 0 auto;
+			position: relative;
+			padding: 0;
+			text-shadow: 0px 1px 0 #a2a2a2;
+		}
+		.star-ratings-css-top {
+			color: #e7711b;
+			padding: 0;
+			position: absolute;
+			z-index: 0;
+			display: block;
+			top: 0;
+			left: 0;
+			overflow: hidden;
+		}
+		.star-ratings-css-bottom {
+			padding: -1;
+			display: block;
+			z-index: 0;
+		}
+		.star-ratings-sprite {
+			background: url("{{ asset('template/images/star-rating-sprite.png') }}") repeat-x;
+			font-size: 0;
+			height: 21px;
+			line-height: 0;
+			overflow: hidden;
+			text-indent: -999em;
+			width: 110px;
+			margin: 0 auto;
+		}
+
+		.star-ratings-sprite-rating {
+			background: url("{{ asset('template/images/star-rating-sprite.png') }}") repeat-x;
+			background-position: 0 100%;
+			float: left;
+			height: 21px;
+			display: block;
+		}
+		.content-panel-1, .content-panel-1 p, .content-panel-2, .content-panel-2 p, .content-panel-3 p{
+			text-align: left!important;
+		}
+
+		.disabled-btn {
+			cursor: not-allowed;
+			text-decoration: none;
+			text-align: center;
+			background: #d6d9e4 !important;
+			pointer-events: none;
+		}
+		.btnlogic{
+			white-space: nowrap;
+		}
 	</style>
 {% endblock %}
 
@@ -203,20 +349,34 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 			<i class="show-for-large-down icon-tasks" onclick="opennav()"  title="Click to view menu"></i>
 			<div class="row" style="padding: 15px 0px;">
 				<div class="col-md-2">
-					<a href="" class="btnlogic" style="margin-bottom: -15px;">
+					{% if precedentchapter != null %}
+					<a href="{{ path('produit_produit_presentation_chapter', {'id': precedentchapter.id }) }}" class="btnlogic" style="margin-bottom: -15px;">
 						<span class="fa fa-chevron-circle-left"></span>
 						Retourner
 					</a>
+					{% else %}
+					<a href="#!" class="btnlogic disabled-btn" style="margin-bottom: -15px;">
+						<span class="fa fa-chevron-circle-left"></span>
+						Retourner
+					</a>
+					{% endif %}
 				</div>
 				<div class="col-md-8" style="color: #fff;">
 					<h2 style="padding: 0px; margin: 0px;">{{ chapitre.titre }}</h2>
 					<div>Leçon {{ ranglecon }} / {{ liste_chapter|length }}</div>
 				</div>
 				<div class="col-md-2 text-right">
-					<a href="" class="btnlogic" style="margin-bottom: -15px;">
+					{% if suivantchapter != null %}
+					<a href="{{ path('produit_produit_presentation_chapter', {'id': suivantchapter.id }) }}" class="btnlogic" style="margin-bottom: -15px;">
 						Avancer
 						<span class="fa fa-chevron-circle-right"></span>
 					</a>
+					{% else %}
+					<a href="#!" class="btnlogic disabled-btn" style="margin-bottom: -15px;">
+						Avancer
+						<span class="fa fa-chevron-circle-right"></span>
+					</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -384,7 +544,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 					<div class="alert alert-success text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;"><span class="fa fa-info-circle"></span> Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu. <a href="#!" class="btn btn-primary souscription-cours-online" value="1"> Inscrivez-vous maintenant <span class="fa fa-angle-double-right"></span> </a> <span class="fa fa-check pull-right"></span></div>
 					
 					<div class="row">
-						<div class="col-md-8">
+						<div class="col-md-12">
 							<div class="panel-text">
 								<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-communication-textsms"></span> {{ produit.titre }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 								<div class="content-panel-1">{{ produit.description|raw }}</div>
@@ -398,37 +558,6 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 							<div class="panel-text" style="margin-top: 15px;">
 							<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-action-announcement"></span> Pré-requis <a href="#!" class="open-content pull-right" value="down" name="3"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 								<div class="content-panel-3">{{ produit.prerequis|raw }}</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="list-group">
-							
-							{% for oderproduct in cours_formation|slice(0,4) %}
-							<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}" class="list-group-item list-group-item-action flex-column align-items-start {% if oderproduct.produit == chapitre.partiecours.produit %}active{% endif %}">
-								<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">{{ oderproduct.produit.titre }}</h5>
-								</div>
-								<img src="{% if oderproduct.produit.imgproduit != null %}{{ asset(oderproduct.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/annonce.png') }}{% endif %}" style="width: 40px; height: 40px; float: left; margin-right: 5px;"/>
-								<p class="mb-1">Durée Totale: {{ oderproduct.produit.getDureeCours }}</p>
-								<small>{{ oderproduct.produit.souscategorie.nom }}</small>
-							</a>
-							{% else %}
-							<a href="#!" class="list-group-item list-group-item-action flex-column align-items-start">
-								<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">Aucun Cours</h5>
-								<small class="text-muted">3 days ago</small>
-								</div>
-								<p class="mb-1">La liste des cours associés à cette formation est vide.</p>
-								<small class="text-muted">{{ site }}</small>
-							</a>
-							{% endfor %}
-							
-							</div>
-							<div style="font-size: 15px;">
-								<span class="fa fa-angle-right"> </span> Formation spécial confinement
-							</div>
-							<div style="font-size: 12px; color: #CCC; margin-top: 15px;">
-								<span class="fa fa-info-circle"></span> Ce cours fait aussi partir de 5 autres formations.
 							</div>
 						</div>
 					</div>
@@ -660,6 +789,58 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 					</div>
 				</div> 
 				</div>
+			</div>
+
+
+
+			<div class="row text-left" style="margin-bottom: 50px;">
+				<div class="col-md-12">
+					<div class="panel-text">
+						<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-communication-textsms"></span> Cours de la même famille</strong></div>
+						<div class="content-panel-1">
+							<div>Ce cours partage les 5 formations avec les cours ci-dessous.</div>
+						</div>
+					</div>
+
+				</div>
+				{% for oderproduct in cours_formation|slice(0,6) %}
+				{% set produit = oderproduct.produit %}
+				<div class="col-md-4">
+					<div class="card">
+						<a class="img-card" href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}">
+							<img src="{% if oderproduct.produit.imgproduit != null %}{{ asset(oderproduct.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/annonce.png') }}{% endif %}" />
+						</a>
+						<div class="card-content">
+							<h4 class="card-title">
+								<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}"> {{ oderproduct.produit.titre }}
+							  	</a>
+								  <div style="font-size: 11px;">{{ oderproduct.produit.souscategorie.nom }} <span class="float-right">{{ oderproduct.produit.getDureeCours }}</span></div>
+							</h4>
+							<div style="width: 100%; font-size: 9px;">
+								<div style="color: #6a6f73;">{{ produit.user.name(25) }} | {% if produit.user.diplome != null %} {{ produit.user.diplome }}{% else %}Formateur Az{% endif %}</div>
+							</div>
+						
+							<div class="text-left">
+								<strong>4,7</strong>
+								<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+									<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+									<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+								</div>
+							</div>
+							
+							<p class="card-text text-left">
+								<strong style="font-size: 18px; color: #7a818d;">Montant</strong> <br>
+								<strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span>
+							</p>
+						</div>
+						<div class="card-read-more">
+							<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}" class="btn btn-link btn-block">
+								En savoir plus
+							</a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
 			</div>
 
 		</div>

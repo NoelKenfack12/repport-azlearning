@@ -285,4 +285,12 @@ function controlScroll()
 	}
 }
 controlScroll();
+
+{% for infos in app.session.flashbag.get('information') %}
+{% if loop.first %}
+	resetNotif();
+	alertify.alert("{{ infos }}");
+{% endif %}
+{% endfor %}
+
 {% endblock %}

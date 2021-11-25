@@ -945,6 +945,7 @@ public function addformationpanier(Service $service, GeneralServicetext $service
 					$panier = new Panier();
 					$panier->setUser($this->getUser());
 					$panier->setService($service);
+					$panier->setValide(true);
 					$panier->setMontantttc($montant);
 					$em->persist($panier);
 					$montantspecial = 0;

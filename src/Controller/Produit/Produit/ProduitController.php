@@ -721,6 +721,7 @@ if(isset($_POST['_password']))
 				{
 					$panier = new Panier();
 					$panier->setUser($this->getUser());
+					$panier->setValide(true);
 					$panier->setMontantttc($produit->getNewprise());
 
 					$em->persist($panier);

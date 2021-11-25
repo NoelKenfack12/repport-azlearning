@@ -619,6 +619,7 @@ body {
 					<h2>Inscrivez vous à cette formation</h2>
 					<div>Accédez à toutes les ressources de cette formation et obtenez un certificat reconnu par l'état.</div>
 				</div>
+				
 				<div class="panel-text">
 					<h2>{{ service.nom }}</h2>
 					<div class="content-panel-1">{{ service.description|raw }}</div>
@@ -631,29 +632,18 @@ body {
 							<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
 						</div>
 					</div>
-					
-					
+
 					{% for produit in service.produits %}
-						<div class="col-md-12">
-							<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="product" style="text-decoration: none;">
-								<div class="img-container">
-								  <img src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" style="background: #fff;">
-								</div>
-								<div class="product-info">
-								  <div class="product-content">
-									<h1 class="text-left" style="margin: 0px;">{{ produit.titre }} <span class="fa fa-share"></span></h1>
-									<p>{{ produit.description|raw }}</p>
-								  </div>
-								</div>
-							</a>
+						<div class="col-md-6">
+							{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
 						</div>
 					{% else %}
-					<div class="col-md-12">
-						<div style="height: 500px; padding-top: 200px; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15); background: #fff;" class="text-center">
-							<div><span class="fa fa-frown-o"></span> Aucune donnée disponible pour cette section</div>
-							<hr style="display: inline-block; width: 40px; border: 1px solid red;">
-						  </div>
-					</div>
+						<div class="col-md-12">
+							<div style="height: 500px; padding-top: 200px; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.15); background: #fff;" class="text-center">
+								<div><span class="fa fa-frown-o"></span> Aucune donnée disponible pour cette section</div>
+								<hr style="display: inline-block; width: 40px; border: 1px solid red;">
+							</div>
+						</div>
 					{% endfor %}
 				</div>
 
