@@ -11,9 +11,8 @@
 	
 	 <div class="row" style="margin: 0px;">
 		<div class="col-md-4">
-
 			<div class="form-check">
-				<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault1" value="chapitre">
+				<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault1" value="chapitre" {% if chapitre|default(null) != null and chapitre.type == 0 %}checked=""{% endif %}>
 				<label class="form-check-label" for="flexRadioDefault1">
 					Nouveau Chapitre
 				</label>
@@ -22,7 +21,7 @@
 		 <div class="col-md-4">
 
 		  <div class="form-check">
-			<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault12" value="ressource">
+			<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault12" value="ressource" {% if chapitre|default(null) != null and chapitre.type == 1 %}checked=""{% endif %}>
 			<label class="form-check-label" for="flexRadioDefault12">
 				Ressources nécessaires
 			</label>
@@ -30,7 +29,7 @@
 		 </div>
 		 <div class="col-md-4">
 		  <div class="form-check">
-			<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault13" value="conclusion">
+			<input class="form-check-input" type="radio" name="radios1" id="flexRadioDefault13" value="conclusion" {% if chapitre|default(null) != null and chapitre.type == 2 %}checked=""{% endif %}>
 			<label class="form-check-label" for="flexRadioDefault13">
 				Conclusion partie
 			</label>

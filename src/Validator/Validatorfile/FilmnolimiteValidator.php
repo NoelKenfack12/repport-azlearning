@@ -7,10 +7,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class FilmnolimiteValidator extends ConstraintValidator
 {
-
 public function validate($file, Constraint $constraint)
 {
-    $extension = array('mp4', 'MP4');
+    $extension = array('mp4', 'MP4', 'm4v', 'M4V');
     if ($file === null)
     {
         $size = 0;

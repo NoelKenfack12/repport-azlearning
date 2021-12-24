@@ -1,14 +1,14 @@
 
     <div class="card-format" style="width: 100%; overflow: hidden;">
         <img class="card-img-top" src="{% if formation.imgservice != null and formation.imgservice.src != null %}{{ asset(formation.imgservice.getwebpath) }}{% else %}{{ asset('template/images/present.jpg') }}{% endif %}">
-        <p class="card-top-text">
+        <!-- p class="card-top-text">
                 {{ formation.nom }}
 
             <span style="font-size: 12px; background: rgba(0,0,0,0.6); display: inline-block; margin-top: 5px; padding: 15px; line-height: 15px;">
                 <span>{{ formation.pubinline[:150] }}..</span><br/>
                     <span><strong>Formation: du</strong>  {{ formation.datebegin|slice(0, 2) }} {{ formation.user.mois(formation.datebegin|slice(4, 2)) }} au {{ formation.datefin|slice(0, 2) }} {{ formation.user.mois(formation.datefin|slice(4, 2)) }} {{ formation.datebegin|slice(6, 4) }}</span>
             </span>
-        </p>
+        </p -->
 
         <div style="margin-top: 15px;">
             <h3>
@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <strong style="font-size: 18px; color: #7a818d;">Montant</strong> <br>
-                    <strong>{{ formation.nprix }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ formation.aprix }} {{ devise|raw }}</span>
+                    <strong>{{ formation.nprix|numberFormat }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ formation.ancienPrix|numberFormat }} {{ devise|raw }}</span>
                 </div>
                 <div class="col-md-6">
                     <div class="rating-row" style="float: right;">

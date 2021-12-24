@@ -76,6 +76,13 @@ class Recrutement
       *@Email()
      */
     private $mail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="typedocument", type="text")
+     */
+    private $typedocument;
 	
 	/**
      * @var string
@@ -119,6 +126,20 @@ class Recrutement
      * @ORM\Column(name="dossierformateur", type="boolean")
      */
     private $dossierformateur;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="supportformation", type="boolean")
+     */
+    private $supportformation;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="fichepaiement", type="boolean")
+     */
+    private $fichepaiement;
 	
 	/**
      * @var text
@@ -167,6 +188,8 @@ class Recrutement
 		$this->dossierformateur = false;
 		$this->servicetext = $servicetext;
 		$this->date = new \Datetime();
+        $this->supportformation = false;
+        $this->fichepaiement = false;
 	}
 
     /**
@@ -372,6 +395,29 @@ class Recrutement
     public function getMessage()
     {
         return $this->message;
+    }
+    
+    /**
+     * Set typedocument
+     *
+     * @param string $typedocument
+     * @return Recrutement
+     */
+    public function setTypedocument($typedocument)
+    {
+        $this->typedocument = $typedocument;
+
+        return $this;
+    }
+
+    /**
+     * Get typedocument
+     *
+     * @return string 
+     */
+    public function getTypedocument()
+    {
+        return $this->typedocument;
     }
 
     public function setUser(User $user): self
@@ -624,6 +670,54 @@ class Recrutement
     public function getDossierformateur()
     {
         return $this->dossierformateur;
+    }
+    
+    /**
+     * Set supportformation
+     *
+     * @param boolean $supportformation
+     * @return Recrutement
+     */
+    public function setSupportformation($supportformation)
+    {
+        $this->supportformation = $supportformation;
+
+        return $this;
+    }
+
+    /**
+     * Get supportformation
+     *
+     * @return boolean 
+     */
+    public function getSupportformation()
+    {
+        return $this->supportformation;
+    }
+
+    
+
+    /**
+     * Set fichepaiement
+     *
+     * @param boolean $fichepaiement
+     * @return Recrutement
+     */
+    public function setFichepaiement($fichepaiement)
+    {
+        $this->fichepaiement = $fichepaiement;
+
+        return $this;
+    }
+
+    /**
+     * Get fichepaiement
+     *
+     * @return boolean 
+     */
+    public function getFichepaiement()
+    {
+        return $this->fichepaiement;
     }
 
     public function setYourcv(Yourcv $yourcv = null): self

@@ -40,6 +40,11 @@
 		a {
 			color: rgba(255, 255, 255, .95);
 		}
+		.modal-open .modal {
+			overflow-x: hidden;
+			overflow-y: auto;
+			background: rgba(0,0,0,0.5);
+		}
 	</style>
 
 {% endblock %}
@@ -52,11 +57,11 @@
 <div class="col-md-6 d-flex">
   <div class="login-wrapper m-auto">
 	<div class="brand-wrapper" style="margin-bottom: 50px;">
-	  <img src="{% if paramlogosm != null and paramlogosm.src != null %}{{ asset(paramlogosm.getwebpath) }}{% else %}{{ asset('template/images/logomarket.png') }}{% endif %}" alt="logo" class="logo">
+	  <img src="{% if paramlogosm != null and paramlogosm.src != null %}{{ asset(paramlogosm.getwebpath) }}{% else %}{{ asset('template/images/logo.png') }}{% endif %}" alt="logo" class="logo">
 		{% if paramlogosm != null  %}
-		 <a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #e34520;">{{ paramlogosm.link }}</span> <span style="color: #91ba1c;"> {{ paramlogosm.valeur }}</span></strong></a>
+		 <a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #343a40;">{{ paramlogosm.link }}</span> <span style="color: #739fec;"> {{ paramlogosm.valeur }}</span></strong></a>
 		{% else %}
-			<a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #e34520;">AFH</span> <span style="color: #91ba1c;"> Market</span></strong></a>
+			<a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #343a40;">AZ</span> <span style="color: #739fec;"> E-learning</span></strong></a>
 	  {% endif %}
 	</div>
 	<p class="login-description">Connectez-vous à votre compte</p>
@@ -130,7 +135,7 @@
 
 
 
-<div class="modal fade" data-backdrop="false"  id="open-modalSelect-reinitialize" style="padding-top: 50px;">
+<div class="modal" data-backdrop="false"  id="open-modalSelect-reinitialize" style="padding-top: 50px;">
 <div class="modal-dialog">
     <div class="modal-content">
 		<div class="modal-header color-bottom" style="border-bottom: 4px solid #37c0fb; display: block!important;">

@@ -140,10 +140,11 @@
 			border-radius: 5px!important;
 		}
 
-		.btn-primary{
+		.btn-primary, .btn-video-article{
 			background-color: #092759!important;
 			border: 1px solid #092759!important;
 		}
+
 
 		.feature_box_col_one{
 			display: inline-block;
@@ -414,27 +415,21 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 			{% if app.user == chapitre.partiecours.produit.user or is_granted('ROLE_GESTION') %}
 				<a href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-edit"></span> Modifier</a>
 				<a href="{{ path('produit_produit_user_supprimer_chapter', {'id': chapitre.id }) }}"><span class="fa fa-times"></span> Supprimer</a>
-			{% endif %}
-			<span style="display: inline-block; background-color: #092759; border-radius: 7px;">
-				<span class="btn-video-article">
-					<a href="#!" class="like-current-product" style="font-size: 14px; color: #fff;" title="Ajouter une mention j'aime" value="{{ produit.id }}"><span class="fa fa-thumbs-up"></span></a>
-					<a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nblike }}</a>
-				</span>
-				<span class="btn-video-article">
-					<a href="#!"  class="save-current-product" style="font-size: 14px; color: #fff;" title="Enregistrer la vidéo" value="{{ produit.id }}"><span class="fa fa-bookmark"></span></a>
-					<a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nbenregistrer }}</a>
-				</span>
+			{% else %}
+			<span>
+				<img src="{{ asset('template/images/exclusive_icons.png') }}" alt="" style="width: 15px;"/> 
+				<span class="badge badge-info">Note:</span> 
+				{% if prodpan != null %}
+					{% set note = chapitre.getNoteQuestionnaire(prodpan) %}
+					<strong>{{ note }}/20</strong>
+				{% else %}
+					{% set note = 0 %}
+					<strong>_/20</strong>
+				{% endif %}
 				
-				<span class="btn-video-article">
-					<a href="#! {# { path('produit_produit_download_video_cours', {'id': produit.id }) } #}" style="font-size: 14px; color: #fff;" title="Télécharger la vidéo"><span class="fa fa-download"></span></a>
-					<a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.videoproduit.nbtele }}</a>
-				</span>
-				
-				<span class="btn-video-article">
-					<a href="#!" target="_blank" style="font-size: 14px; color: #fff;" title="Partager la vidéo"><span class="fa fa-share-alt"></span></a>
-					<a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nbpartage }}</a>
-				</span>
 		    </span>
+			{% endif %}
+			
 		</span>
 		<ol class="breadcrumb" style="padding: 0px; background-color: #fff; border: none;">
 		  <li class="breadcrumb-item"><a href="{{ path('users_user_acces_plateforme') }}"><span class="fa fa-home"></span> Accueil</a></li>
@@ -482,25 +477,25 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 		</div>
 
 		<div class="col-md-8  text-left">
-			<div class="img-thumbnail" style="min-height: 300px; padding: 7px; max-width: 100%;">
+			<div class="img-thumbnail" style="min-height: 300px; padding: 7px; border-radius: 0px; max-width: 100%; background: #739ee6;">
 				{% if chapitre.partiecours.produit.user == app.user %}
 					
-					{% elseif(is_granted('ROLE_GESTION')) %}
+				{% elseif(is_granted('ROLE_GESTION')) %}
 					
-					{% else %}
-						{% if (prodpan == null and chapitre.partiecours.produit.user != app.user) or (prodpan == null and not(is_granted('ROLE_GESTION'))) %}
-							<div class="souscription-cours-online" value="0" style="position: absolute; z-index: 9; cursor: pointer;  background: url({{ asset('template/images/bghide6.png') }}); height: 520px; width: 105%; top: 0px; left: -3%; padding-right: 50px; padding-top: 30px;"><img src="{{ asset('template/images/lockb.png') }}" title="Accès non autorisé" class="pull-right" style="margin-top: 20px; width: 100px; height: 100px;"/></div>
-						{% endif %}
+				{% else %}
+					{% if (prodpan == null and chapitre.partiecours.produit.user != app.user) or (prodpan == null and not(is_granted('ROLE_GESTION'))) %}
+						<div class="souscription-cours-online" value="0" style="position: absolute; z-index: 9; cursor: pointer;  background: url({{ asset('template/images/bghide6.png') }}); height: 520px; width: 105%; top: 0px; left: -3%; padding-right: 50px; padding-top: 30px;"><img src="{{ asset('template/images/lockb.png') }}" title="Accès non autorisé" class="pull-right" style="margin-top: 20px; width: 100px; height: 100px;"/></div>
+					{% endif %}
 				{% endif %}
 						
-				<div class="variation-contenu-ressource">
+				<div class="variation-contenu-ressource" style="padding-top: 50px; min-height: 290px; background: #fff;">
 					<div class="loader-wrap">
 						<div class="loader">
-							<div class="box-1 box"></div>
-							<div class="box-2 box"></div>
-							<div class="box-3 box"></div>
-							<div class="box-4 box"></div>
-							<div class="box-5 box"></div>
+							<div class="box-1 box" style="background: #fff;"></div>
+							<div class="box-2 box" style="background: #fff;"></div>
+							<div class="box-3 box" style="background: #fff;"></div>
+							<div class="box-4 box" style="background: #fff;"></div>
+							<div class="box-5 box" style="background: #fff;"></div>
 						</div>
 					</div>
 				</div>
@@ -523,8 +518,34 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 				});
 			</script>
 
-			<div>
-				<div style="margin-top: 20px;">
+			<div class="panel-text" style="background: #739ee6; border-radius: 0px; box-shadow:0px 0px 10px #888888; border: none;">
+				<div style="border-bottom: 1px solid #ddd;">
+					<span style="float: right;">
+						<span class="btn-video-article">
+							<a href="#!" class="like-current-product" name="aimer" style="font-size: 14px; color: #fff;" title="Ajouter une mention j'aime" value="{{ produit.id }}"><span class="fa fa-thumbs-up"></span></a>
+							<a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nblike }}</a>
+						</span>
+						<span class="btn-video-article">
+							<a href="#!"  class="like-current-product" name="enregistrer" style="font-size: 14px; color: #fff;" title="Enregistrer la vidéo" value="{{ produit.id }}"><span class="fa fa-bookmark"></span></a>
+							<a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nbenregistrer }}</a>
+						</span>
+					</span>
+					<strong>À propos de cette leçon</strong>
+				</div>
+				<div style="font-size: 13px;"><span style="font-weight: bold;">Auteur:</span> <a href="{{ path('users_user_user_accueil', {'id': produit.user.id}) }}" style="color: #fff;">{{ produit.user.name(50) }}</a>
+					<a href="#!" class="text-left" style="text-decoration: none; color: #333;" data-original-title="" title="">
+						<span style="font-weight: bold;">4,7</span>
+						<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+							<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+							<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+						</div>
+						<span style="font-weight: bold;"> (1 614 notes)</span> <span>6 692 participants</span>
+					</a>
+				</div>
+			</div>
+
+					
+			<div style="margin-top: 20px;">
 				<input id="tab-1" class="input-tabs" type="radio" name="tabs" checked=""/>
 				<label for="tab-1" class="label-tab">Description</label>
 					
@@ -541,8 +562,6 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 				<label for="tab-5" class="label-tab">QCM</label>
 					
 				<div class="section-tabs" id="content1">
-					<div class="alert alert-success text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;"><span class="fa fa-info-circle"></span> Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu. <a href="#!" class="btn btn-primary souscription-cours-online" value="1"> Inscrivez-vous maintenant <span class="fa fa-angle-double-right"></span> </a> <span class="fa fa-check pull-right"></span></div>
-					
 					<div class="row">
 						<div class="col-md-12">
 							<div class="panel-text">
@@ -788,7 +807,6 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 						{{ render(controller("App\\Controller\\Produit\\Produit\\QuestionnaireController:composquestionnaire", {'id': chapitre.id,'idpropan': idpropan, 'src': 0})) }}
 					</div>
 				</div> 
-				</div>
 			</div>
 
 
@@ -852,6 +870,52 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 {{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 1, 'codeadmin': codeadmin })) }}
 {% endfor %}
 		
+
+<div id="sppmodal-container" class="sppmodal-container" style="color: #333;">
+	<div class="sppmodal-background">
+		<div class="sppmodal ">
+			<div class="row">
+			<div class="col-md-12">
+				<a href="#!" class="float-right close-sppmodal">
+					<img src="{{ asset('template/images/close.svg') }}" class="img-size-15"/>
+				</a>
+				<h3 class="text-left" style="font-family: OpenSans-Bold; color: #333; padding: 0px;margin: 0px;">Bravo !!!</h3>
+			</div>
+			<div class="col-md-12">
+				<hr>
+			</div>
+			<div class="col-md-12">
+					
+				<div class="text-left">
+					<div class="col-sm-12 col-md-12 text-center" style="margin-bottom: 20px;">
+						<h3 style="font-family: OpenSans-Bold; color: #333;">
+							<div>
+								<img src="{{ asset('template/images/messagefin.png') }}" alt="" style="height: 100px;">
+							</div>
+							 Vous êtes allez jusqu'au bout de cette leçon.
+						</h3>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+				<div style="margin: 30px 0px 15px 0px;">
+					<h4>Avez-vous une question à pauser au formateur ?</h4>
+				</div>
+
+				<div>
+					<div class="btn-group" role="group" aria-label="Basic example">
+					<button type="button" class="btn btn-primary open-panel-chat-message">Oui, écrire au formateur</button>
+					<button type="button" class="btn btn-secondary" onclick="validationAquis();">Non, validation des aquis</button>
+					</div>
+				</div>
+
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 
 <div class="modal fade" id="infos-action-new-part" style="margin-top: 100px;">
 <div class="modal-dialog modal-md" style="border-radius: 10px; margin-top: 70px;">
@@ -1039,7 +1103,6 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 </div>
 
 <script src="{{ asset('template/js/onvisible.js') }}" type="text/javascript"></script>
-
 {% endblock %}
 
 {% block srcjavascripttemplate %}
@@ -1047,6 +1110,20 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 {% endblock %}
 
 {% block javascripttemplate %}
+
+$('.close-sppmodal').click(function(){
+	closemodalAlert();
+});
+function closemodalAlert()
+{
+	$('#sppmodal-container').addClass('out');
+	$('body').removeClass('sppmodal-active');
+}
+function validationAquis()
+{
+	closemodalAlert();
+	setTimeout(function(){ $('#tab-5').trigger('click'); }, 1000);
+}
 
 const accordion = document.querySelector('.accordion');
 const items = accordion.querySelectorAll('.accordion__item');
@@ -1225,7 +1302,7 @@ Fin du code de gestion du responsive
 
 $('.like-current-product').click(function(){
 	var id = $(this).attr('value');
-	
+	var position = $(this).attr('name');
 	{% if app.user != null %}
 		var height = ($(window).height() + $(window).scrollTop());
 		var width = $(window).width() + 100;
@@ -1235,14 +1312,14 @@ $('.like-current-product').click(function(){
 		$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
 
 	  
-		$.post('{{ path('produit_produit_add_mention_animation_produit', {'id': app.user.id, 'position': 'aimer'}) }}',{ id: id }, function(data){
+		$.post('{{ path('produit_produit_add_mention_animation_produit', {'id': app.user.id}) }}',{ id: id, position: position }, function(data){
 		  if(data != 0)
 		  {
 			  $('.panel-result-action-elearning-user').hide();
 			  $('.content-alert-action-elearning-user').hide();
 			
 			  resetNotif();
-			  alertify.alert('<div style="margin-bottom: 20px;">Excellent !!! <br/>La mention j\'aime le cours a été ajoutée avec succès !</div>');
+			  alertify.alert('<div style="margin-bottom: 20px;">Excellent !!! <br/>Action sauvegardée avec succès</div>');
 		  }else{
 			  resetNotif();
 			  alertify.alert("Echec, Une erreur a été rencontrée lors de l\'enregistrement de la commande.");
@@ -1319,6 +1396,7 @@ function is_int(value){
 
 $('.open-panel-chat-message').click(function(){
 
+  closemodalAlert();
   openPanelMessage();
 
 });

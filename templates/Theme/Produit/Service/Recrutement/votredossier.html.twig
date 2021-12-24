@@ -17,6 +17,16 @@
 
 	{{ parent() }}
 	
+	<style>
+		.select2-container .select2-selection--single {
+			display: block;
+			padding-top: 6px!important;
+			height: 45px!important;
+		}
+		.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    		margin-top: 8px!important;
+		}
+	</style>
 {% endblock %}
 
 {% block userblog_body %}
@@ -383,7 +393,7 @@
 							<select class="form-control" name="montantransfert" id="montantransfert" style="width: 100%; border-radius: 0px; padding-left: 10px;">
 							<option value="">Montant du transfert</option>
 							{% for i in range(1000, 300000, 1000) %}
-							<option value="{{ i }}">{{ i }} {{ devise }}</option>
+							<option value="{{ i }}">{{ i|numberFormat }} {{ devise }}</option>
 							{% endfor %}
 							</select>
 						</div>
@@ -422,6 +432,18 @@
 <!-- //mail -->
 <!-- script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script -->	
 <script src="{{ asset('autocomplete/js/jquery.auto-complete.js') }}"></script>
+<link href="{{ asset('template/css/select2.min.css') }}" rel="stylesheet"/>
+<script src="{{ asset('template/js/select2.min.js') }}"></script>
+<script type="text/javascript">
+	var $disabledResults = $("#pays_user");
+	$disabledResults.select2();
+
+	var $disabledResults = $("#moyentransfert");
+	$disabledResults.select2();
+
+	var $disabledResults = $("#montantransfert");
+	$disabledResults.select2();
+</script>
 {% endblock %}
 
 {% block javascripttemplate %}

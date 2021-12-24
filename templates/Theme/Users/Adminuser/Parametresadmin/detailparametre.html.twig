@@ -1,0 +1,154 @@
+<div class="topic">
+    <div class="open">
+        <h2 class="question"><img src="{% if param.src != null %}{{ asset(param.getWebPath) }}{% else %}{{ asset('template/images/setting.png') }}{% endif %}" alt="" style="width: 30px; height: 30px; margin-bottom: -8px!important;"/> {{ param.type }} <span class="fa fa-arrow-right" style="font-size: 11px;"></span> {% if param.valeur != null %}{{ param.valeur }}{% else %}{{ param.src }}{% endif %}</h2>
+        <span class="faq-t"></span>
+    </div>
+
+    <div class="answer">
+        <div class="module-comment-block">
+        <div>{% if param.description != null %}{{ param.description }}{% else %}Vide{% endif %}</div>
+
+        {% if param.type == 'slideacceuil' %}
+            {{ form_start(form, {'attr': {'class': 'row','action': path('users_adminuser_update_parameters_admin', {'id': param.id}) }}) }}
+                <div class="col-md-6">
+                    <select name="valeur" id="type_style">
+                        <option value="0">Selectionnez le type de slide pour l'accueil</option>
+                        <option value="layerslider" {% if param.valeur == 'layerslider' %}selected{% endif %}>Layer Slider</option>
+                        <option value="alloy_finger_lightbox" {% if param.valeur == 'alloy_finger_lightbox' %}selected{% endif %}>Alloy Finger Lightbox</option>
+                    </select>
+                    <div class="form-group">
+                        {{ form_widget(form.file, {'attr': {'style': 'display: none;', novalidate: 'novalidate'}}) }}
+                    </div>
+                </div>
+
+                <div class="col s12 m6 16">
+                    <button class="btn btn-primary">Envoyer</button>
+                </div>
+            {{ form_end(form) }}
+        {% elseif param.type == 'logosm' or param.type == 'loginbg' or param.type == 'signupbg' or param.type == 'logomd' %}
+            {{ form_start(form, {'attr': {'class': 'row','action': path('users_adminuser_update_parameters_admin', {'id': param.id}) }}) }}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_widget(form.file, {'attr': {'style': ''}}) }}
+                    </div>
+
+                    <input type="hidden" name="idparam" value="{{ param.id }}"/>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <input type="text" name="linkfile" class="form-control" placeholder="Entre le libellé du champ" value="{% if param.link != null %}{{ param.link }}{% else %}{% endif %}"/>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="valeurfile" class="form-control" placeholder="Entrez la valeur de ce champ" />
+                </div>
+
+                <div class="col-md-6" style="padding-top: 15px;">
+                    <button class="btn btn-primary">Envoyer</button>
+                </div>
+            {{ form_end(form) }}
+        {% elseif param.type == 'aproposaccueil' or param.type == 'aproposfooter' %}
+            {{ form_start(form, {'attr': {'class': 'row','action': path('users_adminuser_update_parameters_admin', {'id': param.id}) }}) }}
+            
+                {% if param.type == 'aproposaccueil' %}
+                    <div class="col-md-12 form-group">
+                        <input type="text" name="valeur" class="form-control" placeholder="Titre du message" value="{% if param.valeur != null %}{{ param.valeur }}{% else %}{% endif %}"/>
+                    </div>
+                
+                    <div class="col-md-12 form-group">
+                        <textarea name="link" id="script_complet_product" class="form-control" placeholder="Saisissez le contenu du message.">{% if param.link != null %}{{ param.link }}{% else %}{% endif %}</textarea>
+                        <input type="hidden" name="idparam" value="{{ param.id }}"/>
+                    </div>
+                {% else %}
+                    <div class="col-md-6 form-group">
+                        <input type="text" name="valeur" class="form-control" placeholder="Entrez la valeur de ce champ" value="{% if param.valeur != null %}{{ param.valeur }}{% else %}{% endif %}"/>
+
+                        <input type="hidden" name="idparam" value="{{ param.id }}"/>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input type="text" name="link" class="form-control" placeholder="Insérez un lien" value="{% if param.link != null %}{{ param.link }}{% else %}{% endif %}"/>
+                    </div>
+                {% endif %}
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_widget(form.file, {'attr': {'style': 'display: none;', novalidate: 'novalidate'}}) }}
+                    </div>
+                    <button class="btn btn-primary">Envoyer</button>
+                </div>
+            {{ form_end(form) }}
+        {% elseif 'couleur' in param.type  %}
+
+            {{ form_start(form, {'attr': {'class': 'row','action': path('users_adminuser_update_parameters_admin', {'id': param.id}) }}) }}
+                <div class="col-md-6">
+                <span class="color-picker">
+                    <label for="colorPicker-{{ param.id }}">background:
+                    <input type="color" name="link" value="{% if param.link != null %}{{ param.link }}{% else %}#FFFFFF{% endif %}" id="colorPicker-{{ param.id }}"/>
+                    </label>
+                </span>
+                <input type="hidden" name="idparam" value="{{ param.id }}"/>
+                </div>
+
+                <div class="col-md-6">
+                <span class="color-picker">
+                    <label for="colorPicker-text-{{ param.id }}">Text:
+                        <input type="color" name="valeur" value="{% if param.valeur != null %}{{ param.valeur }}{% else %}#333333{% endif %}" id="colorPicker-text-{{ param.id }}">
+                    </label>
+                </span>
+                </div>
+
+                <div class="col-md-12" style="margin-top: 15px;">
+                    <div class="form-group">
+                        {{ form_widget(form.file, {'attr': {'style': 'display: none;', novalidate: 'novalidate'}}) }}
+                    </div>
+                    <button class="btn btn-primary">Envoyer</button>
+                </div>
+            {{ form_end(form) }}
+
+        {% elseif 'offrembill' in param.type %}
+            {{ form_start(form, {'attr': {'class': 'row','action': path('users_adminuser_update_parameters_admin', {'id': param.id}) }}) }}
+                <div class="col-md-6 form-group">
+                    <input type="text" name="link" class="form-control" placeholder="Libélé du champ" disabled/>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <input type="text" name="valeur" value="{% if param.valeur != null %}{{ param.valeur }}{% else %}{% endif %}" class="form-control" placeholder="Entrez la valeur de ce champ" disabled/>
+
+                    <input type="hidden" name="idparam" value="{{ param.id }}"/>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_widget(form.file, {'attr': {'style': 'display: none', novalidate: 'novalidate'}}) }}
+                    </div>
+                    <button class="btn btn-primary">Envoyer</button>
+                </div>
+                <div class="col-md-12" style="margin-top: 15px;">
+                    <a href="#!">Changer de version</a>
+                </div>
+            {{ form_end(form) }}
+        {% else %}
+            {{ form_start(form, {'attr': {'class': 'row','action': path('users_adminuser_update_parameters_admin', {id : param.id}) }}) }}
+
+                <div class="col-md-6 form-group">
+                    <input type="text" name="link" value="{% if param.link != null %}{{ param.link }}{% else %}{% endif %}" class="form-control" placeholder="Libélé du champ"/>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <input type="text" name="valeur" value="{% if param.valeur != null %}{{ param.valeur }}{% else %}{% endif %}" class="form-control" placeholder="Entrez la valeur de ce champ"/>
+
+                    <input type="hidden" name="idparam" value="{{ param.id }}"/>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_widget(form.file, {'attr': {'style': 'display: none;', novalidate: 'novalidate'}}) }}
+                    </div>
+                    <button class="btn btn-primary">Envoyer</button>
+                </div>
+
+            {{ form_end(form) }}
+        {% endif %}
+
+        </div>
+    </div>
+    </div>

@@ -41,7 +41,7 @@
 					</div>
 				{% endif %}
 				{% endfor %}
-				<div style="background: #f7f7f7;">
+				<div style="background: #fff;">
 				{{ form_start(form, {'attr': {'class': 'form-service-offert','action': path('users_adminuser_modifier_un_service', {'id': service.id}) }}) }}
     			 <fieldset>
 				 <legend>Intitulé et prix de la formation</legend>
@@ -109,102 +109,6 @@
 				  Taille invalide !!! <span class="label label-info pull-right control-info-champ6"></span>
 				  </div>
 				  </fieldset>
-				  <fieldset>
-				  <div class="col-xs-6" style="padding: 0px;">
-				  <legend>Début de la formation</legend>
-				  {% set tab = service.datebegin|split('-') %}
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding: 0px;">
-					<div class="form-group">
-						<select name="jour" id="jour" style="border-radius: 0px; width: 100%;" class="form-control">
-						{% for i in 1..31 %}
-							{% if i < 10 %}
-							<option value="0{{ i }}" {% if tab[0] == i %}selected{% endif %}>{{ i }}</option>
-							{% else %}
-							<option value="{{ i }}" {% if tab[0] == i %}selected{% endif %}>{{ i }}</option>
-							{% endif %}
-						{% endfor %}
-						</select>
-					</div>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 0px; padding-left: 0px;">
-					<div class="form-group">
-						<select name="mois" id="mois"  style="border-radius: 0px; width: 100%;" class="form-control">
-						<option value="01" {% if tab[1] == 01 %}selected{% endif %} >Janvier</option>
-						<option value="02" {% if tab[1] == 02 %}selected{% endif %}>Février</option>
-						<option value="03" {% if tab[1] == 03 %}selected{% endif %}>Mars</option>
-						<option value="04" {% if tab[1] == 04 %}selected{% endif %}>Avril</option>
-						<option value="05" {% if tab[1] == 05 %}selected{% endif %}>Mai</option>
-						<option value="06" {% if tab[1] == 06 %}selected{% endif %}>Juin</option>
-						<option value="07" {% if tab[1] == 07 %}selected{% endif %}>Juillet</option>
-						<option value="08" {% if tab[1] == 08 %}selected{% endif %}>Août</option>
-						<option value="09" {% if tab[1] == 09 %}selected{% endif %}>Septembre</option>
-						<option value="10" {% if tab[1] == 10 %}selected{% endif %}>Octobre</option>
-						<option value="11" {% if tab[1] == 11 %}selected{% endif %}>Novembre</option>
-						<option value="12" {% if tab[1] == 12 %}selected{% endif %}>Décembre</option>
-						</select>
-					</div>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-left: 0px; padding-right: 3px;">
-					<div class="form-group">
-						{% set fin = "now"|date('Y') %}
-						{% set debut = "now"|date('Y') + 1 %}
-						<select name="anneeend" id="annee" style="border-radius: 0px; width: 100%;" class="form-control">
-						{% for i in fin..debut %}
-							<option value="{{ i }}" {% if tab[2] == i %}selected{% endif %}>{{ i }}</option>
-						{% endfor %}
-						</select>
-					</div>
-					</div>
-					</div>
-					
-				     <div class="col-xs-6" style="padding: 0px;">
-				     <legend>Fin de la formation</legend>
-					 
-					 {% set tab = service.datefin|split('-') %}
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-left: 3px; padding-right: 0px;">
-					<div class="form-group">
-						<select name="jourend" id="jour" style="border-radius: 0px; width: 100%;" class="form-control">
-						{% for i in 1..31 %}
-							{% if i < 10 %}
-							<option value="0{{ i }}" {% if tab[0] == i %}selected{% endif %}>{{ i }}</option>
-							{% else %}
-							<option value="{{ i }}" {% if tab[0] == i %}selected{% endif %}>{{ i }}</option>
-							{% endif %}
-						{% endfor %}
-						</select>
-					</div>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 0px; padding-left: 0px;">
-					<div class="form-group">
-						<select name="moisend" id="mois"  style="border-radius: 0px; width: 100%;" class="form-control">
-						<option value="01" {% if tab[1] == 01 %}selected{% endif %} >Janvier</option>
-						<option value="02" {% if tab[1] == 02 %}selected{% endif %}>Février</option>
-						<option value="03" {% if tab[1] == 03 %}selected{% endif %}>Mars</option>
-						<option value="04" {% if tab[1] == 04 %}selected{% endif %}>Avril</option>
-						<option value="05" {% if tab[1] == 05 %}selected{% endif %}>Mai</option>
-						<option value="06" {% if tab[1] == 06 %}selected{% endif %}>Juin</option>
-						<option value="07" {% if tab[1] == 07 %}selected{% endif %}>Juillet</option>
-						<option value="08" {% if tab[1] == 08 %}selected{% endif %}>Août</option>
-						<option value="09" {% if tab[1] == 09 %}selected{% endif %}>Septembre</option>
-						<option value="10" {% if tab[1] == 10 %}selected{% endif %}>Octobre</option>
-						<option value="11" {% if tab[1] == 11 %}selected{% endif %}>Novembre</option>
-						<option value="12" {% if tab[1] == 12 %}selected{% endif %}>Décembre</option>
-						</select>
-					</div>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding: 0px;">
-					<div class="form-group">
-						{% set fin = "now"|date('Y') %}
-						{% set debut = "now"|date('Y') + 1 %}
-						<select name="anneeend" id="annee" style="border-radius: 0px; width: 100%;" class="form-control">
-						{% for i in fin..debut %}
-							<option value="{{ i }}" {% if tab[2] == i %}selected{% endif %}>{{ i }}</option>
-						{% endfor %}
-						</select>
-					</div>
-					</div>
-					</div>
-					</fieldset>
 				  <fieldset>
 				  <legend>Formation en ligne</legend>
 				  <span style="color:red;">{{ form_errors(form.pubinline) }}</span>
@@ -318,7 +222,7 @@
 					<div class="col-md-6">
 						<div class="input-group">
 						  <input type="text" class="form-control text-right"  name="dureeminute" value="{% if service.dureeminute != null %}{{ service.dureeminute }}{% else %}0{% endif %}" aria-describedby="basic-addon2"/>
-						  <div class="input-group-append">
+						  <div class="input-group-addon">
 							<span class="input-group-text" id="basic-addon2">Minutes</span>
 						  </div>
 						</div>
@@ -326,12 +230,12 @@
 					<div class="col-md-6">
 						<div class="input-group">
 						  <input type="text" class="form-control text-right"  name="dureeseconde" value="{% if service.dureeminute != null %}{{ service.dureeseconde }}{% else %}0{% endif %}" aria-describedby="basic-addon2"/>
-						  <div class="input-group-append">
+						  <div class="input-group-addon">
 							<span class="input-group-text" id="basic-addon2">Secondes</span>
 						  </div>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<div class="col-md-12" style="margin-top: 15px;">
 					<button type="submit" class="btn btn-primary btn-block btn-lg" style="border-radius: 0px;">Enregistrez <span class="glyphicon glyphicon-send"></Span> </button>
 					</div>
 					
@@ -341,18 +245,17 @@
 				
 				<div class="clearfix"></div>
 				<div style="background: #f7f7f7; border: 1px solid #ddd; margin-bottom: 7px; margin-top: 7px;">
-						<h2 style="margin: 5px;">Liste des offres de formation !</h2>	
-					</div>
+					<h2 style="margin: 5px;">Liste des offres de formation !</h2>	
+				</div>
 				<div class="mid-popular">
 					{% for service in liste_service %}
 					<!-- Preview Image -->
 					<div style="text-align:left; border-bottom: 1px solid #ddd; margin-bottom: 15px;">
-						<div class="skill-wrap clearfix" style="margin-bottom: 15px;">
 							<div class="row">
-								<div class="col-sm-1 text-center" style="padding: 0px;">
+								<div class="col-sm-1 col-md-1 text-center" style="padding: 0px;">
 									<a href="{{ path('users_user_user_accueil', {'id': service.user.id }) }}" title="{{ service.user.name(20) }}"><img src="{% if service.user.imgprofil != null %} {{ asset(service.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" alt="{{ service.user.name(20) }}" class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/> </a>
 								</div>
-								<div class="col-sm-3">
+								<div class="col-sm-3 col-md-3">
 								<a href="#!">
 								<div class="hover01 column">
 									<div>
@@ -361,7 +264,7 @@
 								</div>
 								</a>
 								</div>
-								<div class="col-sm-8">
+								<div class="col-sm-8 col-md-8">
 								<h3 style="margin: 0px; border-bottom: 1px solid #ddd;">
 									<a href="{{ path('users_adminuser_add_un_evenement', {'id': service.id }) }}">{{ service.nom }}</a>
 									<div class="btn-group pull-right" style="margin-top: 0px; padding: 0px;">
@@ -376,11 +279,11 @@
 									</div>
 								</h3>
 								<p class="blog-agile1 w3layouts w3 w3l w3ls" style="font-size: 11px; margin-bottom: 0px;"><a href="#!">Rang:</a> {{ service.rang }}; <a href="#!">Positon:</a> {% if service.recrutement == true %}Accueil&Liste{% else %}Liste{% endif %}; {% set nbre = (service.dureeacces/30) %} <a href="#!">Durée:</a> {{ nbre }} Mois <a href="{{ path('produit_service_assistance_entreprise', {'id': service.id }) }}"> Afficher tout <i class=" fa fa-angle-double-right"></i></a></p>
-								{{ service.detail[:200]|raw }}
+								<div style="height: 120px; overflow-y: hidden;">
+									{{ service.detail|raw }}
+								</div>
 								</div>
 							</div>
-							<div class="clearfix"></div>
-						</div>
 					</div>
 					{% endfor %}	
 					<div class="clearfix"></div>

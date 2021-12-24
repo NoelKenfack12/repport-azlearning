@@ -12,6 +12,7 @@ use App\Entity\Produit\Produit\Pratiquechapitre;
 use App\Entity\Produit\Produit\Exercicepartie;
 use App\Entity\Produit\Produit\Chapitrecours;
 use App\Form\Produit\Produit\ChapitrecoursType;
+use App\Form\Produit\Produit\ChapitrecourseditType;
 use App\Form\Produit\Produit\PartiecoursType;
 use App\Form\Produit\Produit\SupportchapitreType;
 use App\Form\Produit\Produit\ExercicepartieType;
@@ -27,7 +28,7 @@ use App\Service\AfMail\fileAttachment;
 
 use App\Entity\Produit\Service\Produitformation;
 use App\Entity\Produit\Service\Commentaireblog;
-
+use App\Entity\Produit\Produit\Animationproduit;
 use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -298,10 +299,15 @@ public function presentationchapter(Chapitrecours $chapitre, $mess, GeneralServi
 		}
 		$em->flush();*/
 		
-		if(($bestpanier == null and !$this->isGranted('ROLE_GESTION')) or ($bestpanier == null and $this->getUser() != $produit->getUser()))
+		if($this->isGranted('ROLE_GESTION') or $produit->getUser() == $this->getUser())
 		{
-			$this->get('session')->getFlashBag()->add('information','Echec, Vous n\'avez pas une inscription valide à cette formation.');
-			return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
+
+		}else{
+			if($this->getUser() == null or $bestpanier == null)
+			{
+				$this->get('session')->getFlashBag()->add('information','Echec, Vous n\'avez pas une inscription valide à cette formation.');
+				return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
+			}
 		}
 
 		$supportchapitres = new \Doctrine\Common\Collections\ArrayCollection();
@@ -387,7 +393,7 @@ public function modifierchapter(Chapitrecours $chapitre, GeneralServicetext $ser
 {
 	$em = $this->getDoctrine()->getManager();
 	$partie = $chapitre->getPartiecours();
-	$formchap = $this->createForm(ChapitrecoursType::class, $chapitre); 
+	$formchap = $this->createForm(ChapitrecourseditType::class, $chapitre); 
 	
 	$question = new Questionnaire();
 	$formquestion = $this->createForm(QuestionnaireType::class, $question);
@@ -465,13 +471,36 @@ public function supprimerchapter(Chapitrecours $chapitre)
 	$em = $this->getDoctrine()->getManager();
 	$partie = $chapitre->getPartiecours();
 	$produit = $partie->getProduit();
-	if($produit->getUser() == $this->getUser())
+
+	$liste_questionnaire = $em->getRepository(Questionnaire::class)
+								->findBy(array('chapitrecours'=>$chapitre));
+	$nbsupport = count($chapitre->getSupportchapitres());
+	$nbpratique = count($chapitre->getPratiquechapitres());
+	$nbexercice = count($chapitre->getExerciceparties());
+	$total = $nbsupport + $nbpratique + $nbexercice + count($liste_questionnaire);
+	if(($total == 0 and $produit->getUser() == $this->getUser()) or ($total == 0 and $this->isGranted('ROLE_GESTION')))
 	{
+		$liste_commentaire = $em->getRepository(Commentaireblog::class)
+								->findBy(array('chapitrecours'=>$chapitre));
+		foreach($liste_commentaire as $commentaire){
+			$em->remove($commentaire);
+		}
+		$liste_animation = $em->getRepository(Animationproduit::class)
+								->findBy(array('chapitrecours'=>$chapitre));
+		foreach($liste_animation as $animation){
+			$em->remove($animation);
+		}
+		
 		$em->remove($chapitre);
 		$em->flush();
 		$this->get('session')->getFlashBag()->add('information','Votre cours a été mis à jour avec succès.');
 	}else{
-		$this->get('session')->getFlashBag()->add('information','Echec !! Vous n\'avez pas le droit d\'effectuer cette action.');
+		if($total != 0)
+		{
+			$this->get('session')->getFlashBag()->add('information','Echec !! Vous devez supprimer au préalable tous les ressources de cette leçons.');
+		}else{
+			$this->get('session')->getFlashBag()->add('information','Echec !! Vous n\'avez pas le droit d\'effectuer cette action.');
+		}
 	}
 	return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
 }
@@ -544,7 +573,7 @@ public function supprimersupport(Supportchapitre $support)
 	$chapitre = $support->getChapitrecours();
 	$partie = $chapitre->getPartiecours();
 	$produit = $partie->getProduit();
-	if($produit->getUser() == $this->getUser())
+	if($produit->getUser() == $this->getUser() or $this->isGranted('ROLE_GESTION'))
 	{
 		$em->remove($support);
 		$em->flush();
@@ -651,13 +680,13 @@ public function telechargertp(Pratiquechapitre $tp)
 	}
 }
 
-public function suppressiontpAction(Pratiquechapitre $tp)
+public function suppressiontp(Pratiquechapitre $tp)
 {
 	$em = $this->getDoctrine()->getManager();
 	$chapitre = $tp->getChapitrecours();
 	$partie = $chapitre->getPartiecours();
 	$produit = $partie->getProduit();
-	if($produit->getUser() == $this->getUser())
+	if($produit->getUser() == $this->getUser() or $this->isGranted('ROLE_GESTION'))
 	{
 		$em->remove($tp);
 		$em->flush();
@@ -825,7 +854,7 @@ public function supprimeexercice(Exercicepartie $exercice)
 	$chapitre = $exercice->getChapitrecours();
 	$partie = $chapitre->getPartiecours();
 	$produit = $partie->getProduit();
-	if($produit->getUser() == $this->getUser())
+	if($produit->getUser() == $this->getUser() or $this->isGranted('ROLE_GESTION'))
 	{
 		$em->remove($exercice);
 		$em->flush();

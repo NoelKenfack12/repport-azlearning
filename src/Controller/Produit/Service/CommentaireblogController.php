@@ -32,7 +32,7 @@ public function __construct(ParameterBagInterface $params, Singleemail $servicem
 	$this->_servicemail = $servicemail;
 }
 
-public function postmessageproduit($id, $type, $idmessage)
+public function postmessageproduit($id, $type, $idmessage, GeneralServicetext $service)
 {
 	$em = $this->getDoctrine()->getManager();
 	$siteweb = $this->params->get('siteweb');

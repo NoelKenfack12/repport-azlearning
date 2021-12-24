@@ -76,33 +76,8 @@ public function nouveauservice(GeneralServicetext $service, Request $request)
 	}
 	$nosservice->setPrincipal(true);
 	
-	$valid  = false;
-	$datetext = '00-00-0000';
-	if (isset($_POST['jour']) and isset($_POST['mois']) and isset($_POST['annee'])){
-		$date = ''.$_POST['jour'].'/'.$_POST['mois'].'/'.$_POST['annee'].'';
-		$datetext = ''.$_POST['jour'].'-'.$_POST['mois'].'-'.$_POST['annee'].'';
-		if($service->mydate($date))
-		{
-			$nosservice->setDatepicket($date);
-			$nosservice->setDatebegin($datetext);
-			$valid = true;
-		}
-	}
-
-	$datetextend = '00-00-0000';
-	if (isset($_POST['jourend']) and isset($_POST['moisend']) and isset($_POST['anneeend']) and $valid == true){
-		$date = ''.$_POST['jourend'].'/'.$_POST['moisend'].'/'.$_POST['anneeend'].'';
-		$datetextend = ''.$_POST['jourend'].'-'.$_POST['moisend'].'-'.$_POST['anneeend'].'';
-		if($service->mydate($date))
-		{
-			$nosservice->setDatefin($datetextend);
-			$valid = true;
-		}
-	}else{
-		$valid = false;
-	}
-	
-	if(isset($_POST['allposteservice']) and $valid == true)
+	$valid = false;
+	if(isset($_POST['allposteservice']))
 	{
 		$tabcours = explode('$$$$$$', $_POST['allposteservice']);
 		$liste_cours = $em->getRepository(Produit::class)
@@ -118,11 +93,10 @@ public function nouveauservice(GeneralServicetext $service, Request $request)
 				$produitformation->setService($nosservice);
 				$em->persist($produitformation);
 			}
+			$valid = true;
 		}else{
 			$valid = false;
 		}
-	}else{
-		$valid = false;
 	}
 			
     if ($form->isValid() and $valid == true and $_POST['dureeacces'] and $_POST['dureeacces'] != 0){
@@ -235,34 +209,8 @@ public function modifierservice(Service $nosservice, GeneralServicetext $service
 		$nosservice->getImgservicesecond()->setServicetext($service);
 	}
 	$nosservice->setPrincipal(true);
-	
-	$valid  = false;
-	$datetext = '00-00-0000';
-	if (isset($_POST['jour']) and isset($_POST['mois']) and isset($_POST['annee'])){
-		$date = ''.$_POST['jour'].'/'.$_POST['mois'].'/'.$_POST['annee'].'';
-		$datetext = ''.$_POST['jour'].'-'.$_POST['mois'].'-'.$_POST['annee'].'';
-		if($service->mydate($date))
-		{
-			$nosservice->setDatepicket($date);
-			$nosservice->setDatebegin($datetext);
-			$valid = true;
-		}
-	}
 
-	$datetextend = '00-00-0000';
-	if (isset($_POST['jourend']) and isset($_POST['moisend']) and isset($_POST['anneeend']) and $valid == true){
-		$date = ''.$_POST['jourend'].'/'.$_POST['moisend'].'/'.$_POST['anneeend'].'';
-		$datetextend = ''.$_POST['jourend'].'-'.$_POST['moisend'].'-'.$_POST['anneeend'].'';
-		if($service->mydate($date))
-		{
-			$nosservice->setDatefin($datetextend);
-			$valid = true;
-		}
-	}else{
-		$valid = false;
-	}
-	
-	if(isset($_POST['allposteservice']) and $valid == true)
+	if(isset($_POST['allposteservice']))
 	{
 		$tabcours = explode('$$$$$$', $_POST['allposteservice']);
 		$liste_cours = $em->getRepository(Produit::class)
@@ -293,11 +241,9 @@ public function modifierservice(Service $nosservice, GeneralServicetext $service
 				$nosservice->addProduit($cours);
 			}
 		}
-	}else{
-		$valid = false;
 	}
 			
-    if ($form->isValid() and $valid == true and $_POST['dureeacces'] and $_POST['dureeacces'] != 0){
+    if ($form->isValid() and $_POST['dureeacces'] and $_POST['dureeacces'] != 0){
 		if(isset($_POST['dureeminute']))
 		{
 			$nosservice->setDureeminute($_POST['dureeminute']);
@@ -600,10 +546,10 @@ public function nosformations($page)
 {
 	$em = $this->getDoctrine()->getManager();
 	$liste_formation = $em->getRepository(Service::class)
-	                      ->listeformation($page,6);
+	                      ->listeformation($page,8);
 						  
 	return $this->render('Theme/Produit/Service/Service/nosformations.html.twig', 
-	array('nombrepage' => ceil(count($liste_formation)/6),'page'=>$page));
+	array('nombrepage' => ceil(count($liste_formation)/8),'page'=>$page));
 }
 
 public function listeformation($page)
@@ -617,13 +563,13 @@ public function listeformation($page)
 	
 	$em = $this->getDoctrine()->getManager();
 	$liste_formation = $em->getRepository(Service::class)
-	                      ->listeformation($page,6);
+	                      ->listeformation($page,8);
 	foreach($liste_formation as $formation)
 	{
 		$formation->setEm($em);
 	}
 	return $this->render('Theme/Produit/Service/Service/listeformation.html.twig',
-	array('nombrepage' => ceil(count($liste_formation)/6),'page'=>$page,'liste_formation'=>$liste_formation));
+	array('nombrepage' => ceil(count($liste_formation)/8),'page'=>$page,'liste_formation'=>$liste_formation));
 }
 
 public function affichearticle(Service $service)
@@ -892,6 +838,7 @@ public function presentationformation(Service $service)
 	$nbsupport = 0;
 	$nbpratique = 0;
 	$nbexercice = 0;
+	$dureeTotal = 0;
 	foreach($liste_cours as $cours)
 	{
 		$liste_video = $em->getRepository(Chapitrecours::class)
@@ -909,14 +856,22 @@ public function presentationformation(Service $service)
 		$liste_exercice = $em->getRepository(Exercicepartie::class)
 	                      ->myFindByCours($cours->getId());
 		$nbexercice = $nbexercice + count($liste_exercice);
+
+		$cours->setEm($em);
+		$dureeTotal = $dureeTotal + $cours->getDureeCours(0); //Durée Total en seconde
 	}
-	
+	$minutes = (int)($dureeTotal/60);
+	$heure = (int)($minutes/60);
+	$minute = $heure % 60;
+    $seconde = $dureeTotal % 60;
+
+	$dureeText = $heure.' h '.$minute.' min '.$seconde.' s ';
 	$liste_diapo = $em->getRepository(Infoentreprise::class)
-				  ->findBy(array('principal'=>1,'valeur'=>0), array('rang'=>'desc'));
+				      ->findBy(array('principal'=>1,'valeur'=>0), array('rang'=>'desc'));
 				  
 	return $this->render('Theme/Produit/Service/Service/presentationformation.html.twig', 
 	array('service'=>$service,'nbvideo'=>$nbvideo,'liste_diapo'=>$liste_diapo,'nbsupport'=>$nbsupport,
-	'nbpratique'=>$nbpratique,'nbexercice'=>$nbexercice));
+	'nbpratique'=>$nbpratique,'nbexercice'=>$nbexercice, 'dureeTotal'=>$dureeText));
 }
 
 public function addformationpanier(Service $service, GeneralServicetext $serviceadd)

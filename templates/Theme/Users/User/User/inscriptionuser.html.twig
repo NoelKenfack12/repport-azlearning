@@ -58,12 +58,12 @@
 <div class="col-md-6 d-flex">
   <div class="login-wrapper m-auto">
 	<div class="brand-wrapper" style="margin-bottom: 20px;">
-	  <img src="{% if paramlogosm != null and paramlogosm.src != null %}{{ asset(paramlogosm.getwebpath) }}{% else %}{{ asset('template/images/logomarket.png') }}{% endif %}" alt="logo" class="logo">
-		{% if paramlogosm != null  %}
-		 <a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #e34520;">{{ paramlogosm.link }}</span> <span style="color: #91ba1c;"> {{ paramlogosm.valeur }}</span></strong></a>
+	  <img src="{% if paramlogosm != null and paramlogosm.src != null %}{{ asset(paramlogosm.getwebpath) }}{% else %}{{ asset('template/images/logo.png') }}{% endif %}" alt="logo" class="logo">
+	  {% if paramlogosm != null  %}
+		<a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #343a40;">{{ paramlogosm.link }}</span> <span style="color: #739fec;"> {{ paramlogosm.valeur }}</span></strong></a>
 		{% else %}
-			<a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #e34520;">AFH</span> <span style="color: #91ba1c;"> Market</span></strong></a>
-	  {% endif %}
+			<a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #343a40;">AZ</span> <span style="color: #739fec;"> E-learning</span></strong></a>
+	{% endif %}
 	</div>
 	<p class="login-description">Créez un  nouveau compte !</p>
 

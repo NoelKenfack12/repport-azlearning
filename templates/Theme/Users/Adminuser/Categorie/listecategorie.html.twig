@@ -4,8 +4,8 @@
 		<ul>
 			<li class="head" style="padding-right: 0px; margin-left: -20px; border-bottom: 1px solid #ddd;"><strong><img src="{% if cat.src != 'source' %}{{ asset(cat.webpath) }}{% else %}{{ asset('template/images/info.png') }}{% endif %}" alt="{{ cat.nom }}" style="width: 20px; height: 20px;"/> {{ cat.nom }}</strong>
 			<div class="btn-group pull-right">
-			<a href="#a" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0px; border: none;"> <i class="fa fa-ellipsis-v mail-icon"></i></a>
-			<ul class="dropdown-menu pull-right">
+			<a href="#a" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0px; border: none; color: #333!important;"> <i class="fa fa-ellipsis-v mail-icon"></i></a>
+			<ul class="dropdown-menu pull-right" style="opacity: 1!important;">
 				<li class="menu-dropdown ">
 					<a href="{{ path('users_adminuser_modification_categorie_produit', {'id': cat.id }) }}" value="1"><i class="fa fa-pencil"></i> Modifier la catégorie</a>
 					<a href="{{ path('users_adminuser_supprimer_cat_prod', {'id': cat.id}) }}" value="1"><i class="fa fa-times"></i> Supprimer la catégorie</a>

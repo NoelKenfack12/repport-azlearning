@@ -272,6 +272,9 @@ users_adminuser_about_us_supprimer:
 users_adminuser_liste_dossier_recrutement:
     path: /liste/dossier/recrutement/user
     controller: App\Controller\Produit\Service\RecrutementController::listedossier
+users_adminuser_liste_doc_and_candidature:
+    path: /liste/doc/and/candidature/user
+    controller: App\Controller\Produit\Service\RecrutementController::listedocandcandidature
 users_adminuser_gestion_info_entreprise:
     path: /gestion/information/entreprise/{page}
     controller: App\Controller\Produit\Service\InfoentrepriseController::infoentreprise
@@ -447,4 +450,9 @@ users_adminuser_localisation_supprimer_continent:
         id: \d+
 users_adminuser_parametres_administration:
     path: /parametres/admin
-    controller: App\Controller\Users\Adminuser\ParametreadminController::parametresadmin 
+    controller: App\Controller\Users\Adminuser\ParametreadminController::parametresadmin
+users_adminuser_update_parameters_admin:
+    path: /update/parameters/admin/{id}
+    controller: App\Controller\Users\Adminuser\ParametreadminController::updateParameter
+    requirements:
+        id: \d+

@@ -557,9 +557,23 @@
 		text-indent: 0pt!important;
 		margin: 0px!important;
 	}
+	.detail-course-height{
+		height: 250px;
+	}
+	.detail-course-margin{
+		margin-top: 200px;
+	}
+	@media screen and (max-width: 768px){
+		.detail-course-height{
+			height: auto;
+		}
+		.detail-course-margin{
+			margin-top: 15px;
+		}
+	}
 </style>
 
-<section style="background: #4e7cff; height: 250px; padding-top: 20px;">
+<section class="detail-course-height" style="background: #4e7cff;  padding-top: 20px;">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7" style="color: #fff;">
@@ -583,7 +597,7 @@
 				<div style="margin-top: 20px;">
 					Crée par <a href="{{ path('users_user_user_accueil', {'id': produit.id }) }}"style="text-decoration: underline; color: #fff;">{{ produit.user.name(50) }}</a>, Formateur AZ
 				</div>
-				<div>
+				<div style="margin-bottom: 15px;">
 					Dernière mise à jour {{ produit.date|date('d') }}/{{ produit.date|date('m') }}/{{ produit.date|date('Y') }}; Langue: <span class="fa fa-globe"></span> Français
 				</div>
 			</div>
@@ -676,7 +690,7 @@
 
 			</div>
 
-			<div class="col-md-5" style="margin-top: 200px;"> 
+			<div class="col-md-5 detail-course-margin" style=""> 
 				
 				<div class="card" style="padding: 25px;">
 					<h2 class="text-left">

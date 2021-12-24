@@ -2,10 +2,9 @@
 
 <div class="accordion__item {% if partie.id == idpartie %}is-open{% endif %}">
 	<div class="accordion__title" style="{% if partie.id == idpartie %}color: #1d61d8;{% endif %} padding: 7px 0px;">
-	   <div>
-			<h5 style="margin-top: -10px;"> {{ partie.name(80) }}</h5>
-			<div><span class="badge badge-info"><span class="fa fa-clock-o"></span> {{ partie.getDureePartie }}</span></div>
-	   </div>
+		<h5 style="margin-top: -10px; border-bottom: 1px solid #ddd; padding-bottom: 7px;"> 
+			{{ partie.name(80) }} <span class="badge"><span class="fa fa-clock-o"></span> {{ partie.getDureePartie }}</span>
+		</h5>
 	</div>
 
 	<div class="accordion__body" style="{% if partie.id == idpartie %}height: auto;{% endif %}">
@@ -26,16 +25,18 @@
 				  {% if produitpanier != null %}
 				  	{% set vue = chapitre.getNoteQuestionnaire(produitpanier, 'voir') %}
 					{% if vue == true %}
-					<span class="fa fa-circle" style="color: 11px; color: green;"></span>
+						<span class="fa fa-check-circle" style="color: 11px; color: green;"></span>
+						<strong>{{ chapitre.titre }}</strong>
 					{% else %}
-					<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+						<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+						{{ chapitre.titre }}
 					{% endif %}
 				  {% else %}
-				  <span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+					<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+					{{ chapitre.titre }}
 				  {% endif %}
-				  
 
-				  {{ chapitre.titre }}<br/>
+				  <br/>
 				  <span style="font-size: 11px; margin-left: 15px;"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
 			  </a>
 			  {% endfor %}
@@ -56,17 +57,18 @@
 			  </a>
 			  {% endif %}	  
 		  </div>
-
+		  {% if app.user == produit.user or is_granted('ROLE_GESTION') %}
 		  <div style="margin: 15px 0px; border: 1px solid #092759; padding: 15px;">
 			<strong>Mise à jour de la partie</strong>
-			{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+			
 				<div style="display: block; width: 100%;">
 					<a href="{{ path('produit_produit_add_new_chapter', {'id': partie.id }) }}" class="btn " style="width: 30%; border: 1px solid #092759; color: #092759;" title="Ajouter une leçon"><em class="fa fa-plus"></em> </a>
 					<a href="#!" class="btn modifier-partiecours-{{ partie.id }}" style="width: 30%; border: 1px solid #092759; color: #092759;" title="Modifier cette partie"><em class="fa fa-edit"></em> </a>
 					<a href="{{ path('produit_produit_supprimer_partie_cours', {'id': partie.id}) }}" class="btn " style="width: 30%; border: 1px solid #092759; color: #092759;" title="Supprimer cette partie"><span class="fa fa-times"></span> </a>
 				</div>
-			{% endif %}
+			
 		  </div>
+		  {% endif %}
 	  </div>
 	</div>
 </div>

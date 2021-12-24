@@ -802,7 +802,7 @@ button.owl-next, button{
 		<div class="col-md-12">
 			<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
 				<h2>Meilleures catégories</h2>
-				<p>"Nous les avons recensé d’après nous visiteurs et internautes 
+				<p>"Nous les avons recensé d’après nos visiteurs et internautes 
 				(d'après les sondages faits à l'institut et sur nos réseaux sociaux). Voici vos meilleures catégories selon vous. "
 				</p>
 			</div>
@@ -811,12 +811,12 @@ button.owl-next, button{
 	<div class="row">
 		{% for categorie in liste_categorie %}
 		<div class="col-md-3">
-			<div class="container-cat" style="background: url('{% if categorie.src != null %}{{ asset(categorie.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}'); background-size: cover;">
-			  <p class="title-cat" style="font-size: 15px;">
-				<span class="subtitle-cat" style="color: #fff!important; text-shadow: 0 0 3px #092759, 0 0 5px #092759; font-size: 20px;">
+			<div class="container-cat" style="background: url('{% if categorie.src != null %}{{ asset(categorie.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}'); background-repeat: no-repeat; background-size: cover; background-position-x: center; ">
+			  <p class="title-cat" style="font-size: 15px;"><!-- span>background-size: cover;</span -->
+				<span class="subtitle-cat" style="background: #fff!important; color: #333!important; font-weight: bold; font-size: 20px;">
 				  {{ categorie.nom }}
 				</span>
-				{{ categorie.description[:100] }}..
+				<span style="background: #333!important;">{{ categorie.description[:100] }}..</span>
 			  </p>
 			  <a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': categorie.id }) }}" class="button-cat" style="display: block; text-decoration: none;">Consulter</a>
 			</div>

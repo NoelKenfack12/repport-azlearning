@@ -136,12 +136,19 @@ var player = videojs('my-player', options, function onPlayerReady(){
     
 	//Mentionnez la lecture de la vidéo en base de données !
 	sauveLectureVideo();
-	
+
   });
 });
 
 function sauveLectureVideo()
 {
+	var height = ($(window).height() + $(window).scrollTop());
+	var width = $(window).width() + 100;
+	var scrolltop = $(window).scrollTop();
+	$('.panel-result-action-elearning-user').show();
+	$('.content-alert-action-elearning-user').show();
+	$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+	
 	$.ajax({
 	   url : '{{ path('produit_produit_confirmation_lectrure_video_chapitre',{'id': chapitre.id, 'idprodpan': idprodpan }) }}',
 	   type : 'POST',
@@ -151,16 +158,26 @@ function sauveLectureVideo()
 		   {% if nextchapter != null %}
 				if(data != 0)
 				{
+					/*
 					var height = ($(window).height() + $(window).scrollTop());
 					var width = $(window).width() + 100;
 					var scrolltop = $(window).scrollTop();
 					$('.panel-result-action-elearning-user').show();
 					$('.content-alert-action-elearning-user').show();
 					$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+					document.location.href= "{{ path('produit_produit_presentation_chapter', {'id': nextchapter.id}) }}";*/
+					$('.panel-result-action-elearning-user').hide();
+					$('.content-alert-action-elearning-user').hide();
 
-					document.location.href= "{{ path('produit_produit_presentation_chapter', {'id': nextchapter.id}) }}";
+					$('#sppmodal-container').removeClass('out').addClass('one');
+    				$('body').addClass('sppmodal-active');
+
 				}else{
-					alert('Echec de sauvegarde de la lecture');
+					alert('Echec de sauvegarde de la lecture, ça peut être lié au fait que vous administrez cette leçon.');
+
+					$('.panel-result-action-elearning-user').hide();
+					$('.content-alert-action-elearning-user').hide();
+
 				}
 			{% else %}
 				alert('Pas de suite');

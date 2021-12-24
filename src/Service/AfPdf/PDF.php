@@ -79,17 +79,17 @@ public function setDate($date)
 function Header()
 {
     // Logo
-    $this->Image(__DIR__.'\logoafex.png',3,6,40);
+    $this->Image(__DIR__.'/proformat-cover.png',3,6,40);
     // Police Arial gras 15
     $this->SetFont('Arial','',9);
 	
-	$this->Image(__DIR__.'\ligne2.png',65,38,150);
+	//$this->Image(__DIR__.'\ligne2.png',65,38,150);
 	
 	$this->SetFont('Arial','i',8);
 	$this->SetY(0);
 	$this->SetX(192);
 	$this->Cell(60,10,$this->getDate(),0,1);
-	$this->Image(__DIR__.'\ligneright.png',65,4,150);
+	$this->Image(__DIR__.'/ligneright.png',65,4,150);
     // Saut de ligne
     $this->Ln(5);
 }
@@ -103,7 +103,7 @@ function Footer()
     // Numéro de page
 	$this->SetY(110);
 	$this->SetX(10);
-	$this->Cell(60,10,'Directeur Commercial et finnacier',0,1);
+	$this->Cell(60,10,'Direction Commerciale',0,1);
 	
 	$this->SetY(120);
 	$this->SetX(30);
@@ -113,7 +113,7 @@ function Footer()
 	$this->SetTextColor(239,39,39);
 	$this->SetY(125);
 	$this->SetX(15);
-	$this->Cell(60,10,'Non payer',0,1);
+	$this->Cell(60,10,'NON PAYE',0,1);
 	
 	$this->SetFont('Arial','B',8);
 	$this->SetTextColor(0,0,0);
@@ -135,10 +135,10 @@ function Footer()
 	
 	$this->SetY(-10);
 	$this->SetX(67);
-	$this->Cell(50,10,'Contr. No : po81812150016j             RCCM : RC/Y AO/2014/A/4758             compte No : 04319801051',0,1);
+	$this->Cell(50,10,'IFP AZ CORPORATION | Arrete No 371/MINEFOP/SG/SDGSF/SACD Yaounde-Cameroun (Carrefour KAMENI)',0,1);
 	
 	$this->Link(100, 140, 120, 10,$this->getSitewebsite().'/questions/reponses');
-	$this->Image(__DIR__.'\ligneright.png',65,134,150);
+	$this->Image(__DIR__.'/ligneright.png',65,134,150);
 }
 
 function contactstruct($bp,$tel)
@@ -146,17 +146,17 @@ function contactstruct($bp,$tel)
 	$this->SetFont('Arial','B',10);
 	$this->SetY(70);
 	$this->SetX(10);
-	$this->Cell(60,10,'Direction générale',0,1);
+	$this->Cell(60,10,'Direction',0,1);
 	
 	$this->SetFont('Arial','B',8);
 	$this->SetY(75);
 	$this->SetX(10);
-	$this->Cell(60,10,'Ville:',0,1);
+	$this->Cell(60,10,'BP :',0,1);
 	
 	$this->SetFont('Arial','',8);
 	$this->SetY(75);
 	$this->SetX(18);
-	$this->Cell(60,10,$bp.' Yaoundé - Bambis',0,1);
+	$this->Cell(60,10,$bp.'  30 020 Yaounde - Cameroun',0,1);
 	$this->SetFont('Arial','B',8);
 	$this->SetY(80);
 	$this->SetX(10);
@@ -180,11 +180,21 @@ function contactstruct($bp,$tel)
 	$this->SetFont('Arial','B',8);
 	$this->SetY(90);
 	$this->SetX(10);
-	$this->Cell(60,10,'Téléphone: ',0,1);
+	$this->Cell(60,10,'Telephone: ',0,1);
 	$this->SetFont('Arial','',8);
 	$this->SetY(90);
 	$this->SetX(27);
 	$this->Cell(60,10,$tel,0,1);
+
+	$this->SetFont('Arial','B',8);
+	$this->SetY(95);
+	$this->SetX(10);
+	$this->Cell(60,10,'Ligne 2: 697 27 97 70',0,1);
+
+	$this->SetFont('Arial','B',8);
+	$this->SetY(100);
+	$this->SetX(10);
+	$this->Cell(60,10,'Ligne 3: 676 26 40 27',0,1);
 }
 
 function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$montant)
@@ -198,17 +208,17 @@ function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$mo
 	$this->SetFont('Arial','B',12);
 	$this->SetY(43);
 	$this->SetX(67);
-	$this->Cell(60,10,'FICHE D\'AJOUT DU CREDIT D\'ACHAT N° '.$num,0,1);
+	$this->Cell(60,10,'FICHE D\'AJOUT DU CREDIT D\'ACHAT No '.$num,0,1);
 	
 	$this->SetFont('Times','',12);
 	$this->SetY(55);
 	$this->SetX(67);
 	$this->Cell(60,10,'...........................................................................................................................',0,1);
 	
-	$this->SetFont('Times','B',12);
+	$this->SetFont('Times','B',9);
 	$this->SetY(54);
 	$this->SetX(67);
-	$this->Cell(60,10,'Nom et Prenom:',0,1);
+	$this->Cell(60,10,'NOMS ET PRENOMS:',0,1);
 	
 	$this->SetFont('Times','',12);
 	$this->SetY(54);
@@ -220,10 +230,10 @@ function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$mo
 	$this->SetX(67);
 	$this->Cell(60,10,'...........................................................................................................................',0,1);
 	
-	$this->SetFont('Times','B',12);
+	$this->SetFont('Times','B',9);
 	$this->SetY(61);
 	$this->SetX(67);
-	$this->Cell(60,10,'Tel et E-mail:',0,1);
+	$this->Cell(60,10,'TEL ET EMAIL:',0,1);
 	
 	$this->SetFont('Times','',12);
 	$this->SetY(61);
@@ -235,10 +245,10 @@ function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$mo
 	$this->SetX(67);
 	$this->Cell(60,10,'...........................................................................................................................',0,1);
 	
-	$this->SetFont('Times','B',12);
+	$this->SetFont('Times','B',9);
 	$this->SetY(68);
 	$this->SetX(67);
-	$this->Cell(60,10,'CNI N°:',0,1);
+	$this->Cell(60,10,'CNI/PASSPORT NO:',0,1);
 	
 	$this->SetFont('Times','',12);
 	$this->SetY(68);
@@ -250,10 +260,10 @@ function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$mo
 	$this->SetX(67);
 	$this->Cell(60,10,'...........................................................................................................................',0,1);
 	
-	$this->SetFont('Times','B',12);
+	$this->SetFont('Times','B',9);
 	$this->SetY(75);
 	$this->SetX(67);
-	$this->Cell(60,10,'Opérateur:',0,1);
+	$this->Cell(60,10,'OPERATEUR:',0,1);
 	
 	$this->SetFont('Times','',12);
 	$this->SetY(75);
@@ -265,10 +275,10 @@ function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$mo
 	$this->SetX(67);
 	$this->Cell(60,10,'...........................................................................................................................',0,1);
 	
-	$this->SetFont('Times','B',12);
+	$this->SetFont('Times','B',9);
 	$this->SetY(82);
 	$this->SetX(67);
-	$this->Cell(60,10,'Compte:',0,1);
+	$this->Cell(60,10,'COMPTE:',0,1);
 	
 	$this->SetFont('Times','',12);
 	$this->SetY(82);
@@ -280,10 +290,10 @@ function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$mo
 	$this->SetX(67);
 	$this->Cell(60,10,'...........................................................................................................................',0,1);
 	
-	$this->SetFont('Times','B',12);
+	$this->SetFont('Times','B',9);
 	$this->SetY(89);
 	$this->SetX(67);
-	$this->Cell(60,10,'N° du compte:',0,1);
+	$this->Cell(60,10,'NO DU COMPTE:',0,1);
 	
 	$this->SetFont('Times','',12);
 	$this->SetY(89);
@@ -297,7 +307,7 @@ function contenutransfert($num,$nom,$mail,$cni,$operateur,$compte,$numcompte,$mo
 	$this->SetFont('Arial','B',11);
 	$this->SetY(100);
 	$this->SetX(116);
-	$this->Cell(60,10,'MONTANT À TRANSFERER: '.$montant,0,1);
+	$this->Cell(60,10,'MONTANT A TRANSFERER: '.$montant,0,1);
 }
 
 

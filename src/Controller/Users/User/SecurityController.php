@@ -171,7 +171,8 @@ public function accueilsite(GeneralServicetext $service)
 	$liste_categorie = $em->getRepository(Categorie::class)
 	                      ->myFindAll();
 	$liste_formation = $em->getRepository(Service::class)
-	                      ->listeformation(1,8);
+	                      ->listeformation(1,30);
+	$liste_formation = $service->selectEntities($liste_formation, 2);
 	foreach($liste_formation as $formation)
 	{
 		$formation->setEm($em);

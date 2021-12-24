@@ -83,9 +83,9 @@ class Composexercice
     private $exercicepartie;
 	
 	/**
-         * @ORM\ManyToOne(targetEntity=Produitpanier::class)
-         * @ORM\JoinColumn(nullable=false)
-         */
+     * @ORM\ManyToOne(targetEntity=Produitpanier::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
     private $produitpanier;
 	
 	/**

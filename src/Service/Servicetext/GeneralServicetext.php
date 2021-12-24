@@ -12,19 +12,19 @@ public function normaliseText($text)
  $text = str_replace("'", "-", $text);
  $text = str_replace(" ", "-", $text); 
  $text = str_replace("_", "-", $text);
-return $text; 
+ return $text; 
 }
 
 public function chaineValide($text,$valmin,$valmax)
 {
-$text = trim($text);
-$tail = strlen($text);
-if ($valmin <= $tail and $valmax >= $tail)
-{
-return true;
-}else{
-return false; 
-}
+	$text = trim($text);
+	$tail = strlen($text);
+	if ($valmin <= $tail and $valmax >= $tail)
+	{
+		return true;
+	}else{
+		return false; 
+	}
 }
 
 public function codepays($text)
@@ -41,8 +41,8 @@ public function codepays($text)
 // cette fonction recherche les éléments de tab1 dans la variable texte et remplace par les éléments de tab2 de la même position.
 public function retireAccent($text)
 {
-	$tab1 = array('é','è','à','ù','ç','_','ô','ê','î');
-	$tab2 = array('e','e','a','u','c','-','o','e','i');
+	$tab1 = array('é','è','à','ù','ç','_','ô','ê','î','ï','ö','ë');
+	$tab2 = array('e','e','a','u','c','-','o','e','i','i','o','e');
 	$text = str_ireplace($tab1, $tab2, $text);
 	return $text;
 }
@@ -50,7 +50,7 @@ public function retireAccent($text)
 public function email($text)
 {
 	$regex ='#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}#i';
-	if (preg_match($regex, $text) || $text == null)
+	if(preg_match($regex, $text) || $text == null)
 	{
 		return true;
 	}else{
@@ -144,19 +144,19 @@ public function selectEntity($entites)
 {
     $nbreetab = count($entites);
 	if ($nbreetab == 0){
-	$nbreetab = 1;
-	$etabaleatoire = null;
+		$nbreetab = 1;
+		$etabaleatoire = null;
 	}
 	$numero = mt_rand(0, ($nbreetab - 1));
 	$compteur = 0;
 	foreach($entites as $entite)
 	{
-	if ( $compteur == $numero )
-	{ 
-	$etabaleatoire = $entite;
-	break;
-	}
-	$compteur = $compteur + 1;
+		if ( $compteur == $numero )
+		{ 
+			$etabaleatoire = $entite;
+			break;
+		}
+		$compteur = $compteur + 1;
 	}
 	return $etabaleatoire;
 }

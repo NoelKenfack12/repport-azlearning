@@ -533,10 +533,26 @@ body {
 	color: #fff!important;
 	border-left: 4px solid #fff!important;
 }
+
+.detail-course-height{
+	height: 250px;
+}
+.detail-course-margin{
+	margin-top: 200px;
+}
+
+@media screen and (max-width: 768px){
+	.detail-course-height{
+		height: auto;
+	}
+	.detail-course-margin{
+		margin-top: 15px;
+	}
+}
 </style>
 
 
-<section style="background: #4e7cff; height: 250px; padding-top: 20px;">
+<section class="detail-course-height"  style="background: #4e7cff; padding-top: 20px;">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7" style="color: #fff;">
@@ -560,7 +576,7 @@ body {
 				<div style="margin-top: 20px;">
 					Suivi par plus de {{ service.produits|length }} formateurs AZ.
 				</div>
-				<div>
+				<div style="margin-bottom: 15px;">
 					Dernière mise à jour {{ service.date|date('d') }}/{{ service.date|date('m') }}/{{ service.date|date('Y') }}; Langues: <span class="fa fa-globe"></span> Français
 				</div>
 			</div>
@@ -629,7 +645,7 @@ body {
 					<div class="col-sm-12">
 						<div class="panel-text">
 							<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-communication-textsms"></span> Cette formation comporte les cours suivants:  <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
-							<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout aulong de votre formation.</div>
+							<div class="content-panel-1">En souscrivant à cette formation vous avez accès à tous ses ressources tout au long de votre formation.</div>
 						</div>
 					</div>
 
@@ -649,7 +665,7 @@ body {
 
 			</div>
 
-			<div class="col-md-5" style="margin-top: 200px;">
+			<div class="col-md-5 detail-course-margin">
 				<div class="card" style="padding: 25px;">
 					<h2 class="text-left">
 						À propos de l'offre de formation
@@ -657,7 +673,7 @@ body {
 
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item">
-							<span class="fa fa-clock-o"></span> Période: <span class="badge badge-default float-right">du {{ service.datebegin|slice(0, 2) }} {{ service.user.mois(service.datebegin|slice(4, 2)) }} au {{ service.datefin|slice(0, 2) }} {{ service.user.mois(service.datefin|slice(4, 2)) }} {{ service.datebegin|slice(6, 4) }}</span>
+							<span class="fa fa-clock-o"></span> Durée Moyenne de la formation: <span class="badge badge-default float-right">{{ dureeTotal }}</span>
 						</li>
 						<li class="list-group-item">
 							<span class="fa fa-users"></span> Formateurs <span class="badge badge-default float-right">{{ service.produits|length }}+</span>
@@ -675,7 +691,6 @@ body {
 							<span class="fa fa-check-circle"></span> Exercices corrigés <span class="badge badge-default float-right">{{ nbexercice }}+</span>
 						</li>
 					</ul>
-					
 				</div>
 
 				<h2 style="margin-top: 15px;">Liste des enseignant(e)s</h2>
@@ -758,7 +773,7 @@ body {
 					<div class="col-sm-12">
 					  <div class="panel-text">
 						  <div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong>Foire aux questions</strong></div>
-						  <div class="content-panel-1">Ici nous apportons des réponses aux questions que vous pouvez vous posées actuellement.</div>
+						  <div class="content-panel-1">Ici nous apportons des réponses aux questions que vous pouvez vous poser actuellement.</div>
 					  </div>
 					</div>
 				  </div>
@@ -780,7 +795,7 @@ body {
 						  </div><!-- end .accordion 01 -->
 						  {% else %}
 							  <div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
-								  <span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+								  <span class="fa fa-frown-o"></span> Aucune donnée disponible pour cette requête.</br>
 								  <hr style="width: 100px; border-bottom: 1px solid red;">
 							  </div>
 						  {% endfor %}

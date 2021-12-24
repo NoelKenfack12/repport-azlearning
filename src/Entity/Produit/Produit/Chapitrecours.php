@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Table("chapitrecours")
  * @ORM\Entity(repositoryClass=ChapitrecoursRepository::class)
- *  @ApiResource(
+ * @ApiResource(
  *    normalizationContext={"groups"={"chapitrecours:read"}},
  *    denormalizationContext={"groups"={"chapitrecours:write"}}
  * )
@@ -56,7 +56,7 @@ class Chapitrecours
      * @var string
      *
      * @ORM\Column(name="contenu", type="text", nullable=true)
-     *@Taillemax(valeur=100000, message="Au plus 100000 caractès")
+     * @Taillemax(valeur=100000, message="Au plus 100000 caractès")
     */
     private $contenu;
 

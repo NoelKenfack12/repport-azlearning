@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Users\Adminuser\Parametreadmin;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\Servicetext\GeneralServicetext;
+use Symfony\Component\HttpFoundation\Request;;
+use App\Form\Users\Adminuser\ParametreadminType;
 
 class ParametreadminController extends AbstractController
 {
@@ -211,57 +213,54 @@ public function parametresadmin(GeneralServicetext $service)
 		$this->get('session')->getFlashBag()->add('parametres','les paramètres ont été mise à jour avec succès !!!');
 	}
 
-	if(isset($_POST['valeur']) and isset($_POST['idparam']))
-	{
-		$oldparam = $em->getRepository(Parametreadmin::class)
-	                   ->find($_POST['idparam']);
-		if($oldparam != null)
-		{
-
-			$oldparam->setValeur($_POST['valeur']);
-			if(isset($_POST['link']))
-			{
-				$oldparam->setLink($_POST['link']);
-			}
-			$em->flush();
-		}
-	}else if(isset($_FILES['logosm']) and isset($_POST['idparam']))
-	{
-		$oldparam = $em->getRepository(Parametreadmin::class)
-	                 ->find($_POST['idparam']);
-		if($oldparam != null)
-		{
-			$src = 0;
-			$extension = '';
-			if($_FILES['logosm']['error'] == 0)
-			{
-				$uploadedFile = new UploadedFile($_FILES['logosm']['tmp_name'],$_FILES['logosm']['name'],strtolower(substr(strrchr($_FILES['logosm']['name'], '.'),1)),$_FILES['logosm']['size']);
-
-				$extension = strtolower($uploadedFile->getClientOriginalExtension());
-				if(in_array($extension, array('gif','jpg','png','bmp','jpeg')))
-				{
-					$oldparam->setServicetext($service);
-					$oldparam->setFile($uploadedFile);
-				}
-			}
-			if(isset($_POST['valeurfile']))
-			{
-				$oldparam->setValeur($_POST['valeurfile']);
-			}
-			if(isset($_POST['linkfile']))
-			{
-				$oldparam->setLink($_POST['linkfile']);
-			}
-			$oldparam->setDate(new \Datetime());
-			$em->persist($oldparam);
-			$em->flush();
-		}
-	}
-
 	$liste_param = $em->getRepository(Parametreadmin::class)
 	                  ->myFindAll();
 	return $this->render('Theme/Users/Adminuser/Parametresadmin/parametresadmin.html.twig',
 	array('liste_param'=>$liste_param));
 }
 
+public function detailparametre(Parametreadmin $parametreadmin, GeneralServicetext $service)
+{
+	$em = $this->getDoctrine()->getManager();
+	$form = $this->createForm(ParametreadminType::class, $parametreadmin);
+
+	return $this->render('Theme/Users/Adminuser/Parametresadmin/detailparametre.html.twig',
+	array('form'=>$form->createView(), 'param'=>$parametreadmin));
+}
+
+public function updateParameter(Parametreadmin $parametreadmin, GeneralServicetext $service, Request $request)
+{
+	$em = $this->getDoctrine()->getManager();
+	$form = $this->createForm(ParametreadminType::class, $parametreadmin);
+
+	if($request->getMethod() == 'POST')
+	{
+		$form->handleRequest($request);
+		if($form->isValid()){
+			$parametreadmin->setServicetext($service);
+			if(isset($_POST['valeurfile']))
+			{
+				$parametreadmin->setValeur($_POST['valeurfile']);
+			}
+			if(isset($_POST['linkfile']))
+			{
+				$parametreadmin->setLink($_POST['linkfile']);
+			}
+
+			if(isset($_POST['valeur']))
+			{
+				$parametreadmin->setValeur($_POST['valeur']);
+			}
+			if(isset($_POST['link']))
+			{
+				$parametreadmin->setLink($_POST['link']);
+			}
+
+			$parametreadmin->setDate(new \Datetime());
+			$em->flush();
+
+		}
+	}
+	return $this->redirect($this->generateUrl('users_adminuser_parametres_administration'));
+}
 }

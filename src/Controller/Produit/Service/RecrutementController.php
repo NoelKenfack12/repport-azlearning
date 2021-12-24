@@ -93,8 +93,8 @@ public function votredossier(GeneralServicetext $service, Request $request)
 			$pdf->SetFont('Times','',12);
 
 			$pdf->contactstruct($bp,$tel);
-			$pdf->contenutransfert($recrutement->numFacture(),$recrutement->getUsername(),$recrutement->getTel().' / '.$recrutement->getMail(),' - ',$banquecheck[1],$banquecheck[2],$banquecheck[3],$_POST['montantransfert'].'FCFA');
-			$pdf->completeBorder('Az Corp',$recrutement->getUsername());
+			$pdf->contenutransfert($recrutement->numFacture(),$service->retireAccent($recrutement->getUsername()),$recrutement->getTel().' / '.$recrutement->getMail(),' - ',$banquecheck[1],$banquecheck[2],$banquecheck[3],$_POST['montantransfert'].'FCFA');
+			$pdf->completeBorder('Az Corporation',$service->retireAccent($recrutement->getUsername()));
 			$pdf->SetAuthor('Noel Kenfack');
 			
 			if(!file_exists ($recrutement->getUploadDossierRootDir()))
@@ -159,7 +159,14 @@ public function getArrayBanque()
 {
 	$orangemoney = $this->params->get('orangemoney');
 	$mtnmobile = $this->params->get('mtnmobile');
-	return array(array('1','Orange Money','Az Corp',$orangemoney),array('2','MTN Mobile','Az Corp',$mtnmobile));
+	return array(
+		array('1','Paiement direct à notre bureau','Service Comptable','Az Corporation Cameroun'),
+		array('2', 'Afriland FirstBank','AZ CORPORATION','IBAN : CM21 10005 00034 04978021001-48'),
+		array('3','Paypal','AZ Corporation','gaielbleriot@gmail.com'),
+		array('4','Orange Money','Az Corporation',$orangemoney),
+		array('5','MTN Mobile','Az Corporation',$mtnmobile), 
+		array('6', ' Autre moyen (MoneyGram, Ria, Western Union,...)','Vous serez contacté','Vous serez contacté')
+	);
 }
 
 public function affichedossieruser(Recrutement $dossier)
@@ -200,6 +207,16 @@ public function listedossier()
 	$liste_dossier = $em->getRepository(Recrutement::class)
 	                          ->myfindAll();
 	return $this->render('Theme/Users/Adminuser/Recrutement/listedossier.html.twig',
+	array('liste_dossier'=>$liste_dossier,'formsupp'=>$formsupp->createView()));
+}
+
+public function listedocandcandidature()
+{
+	$em = $this->getDoctrine()->getManager();
+	$formsupp = $this->createFormBuilder()->getForm(); 
+	$liste_dossier = $em->getRepository(Recrutement::class)
+	                          ->myfindAll();
+	return $this->render('Theme/Users/Adminuser/Recrutement/listedocandcandidature.html.twig',
 	array('liste_dossier'=>$liste_dossier,'formsupp'=>$formsupp->createView()));
 }
 
@@ -273,13 +290,13 @@ public function validerdossier(Recrutement $recrut, Request $request, GeneralSer
 
 public function telechargercv(Recrutement $recrut)
 {
-	$namefile = '/../../../Symfony/web/'.$recrut->getYourcv()->getWebPath();
+	$namefile = '/../../../Symfony/public/'.$recrut->getYourcv()->getWebPath();
 	return $this->redirect($namefile);
 }
 
 public function telechargerlettre(Recrutement $recrut)
 {
-	$namefile = '/../../../Symfony/web/'.$recrut->getDossierWebPath();
+	$namefile = '/../../../Symfony/public/'.$recrut->getDossierWebPath();
 	return $this->redirect($namefile);
 }
 

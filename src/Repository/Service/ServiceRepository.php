@@ -68,7 +68,6 @@ public function listeformation($page,$nombreParPage)
     $query = $this->createQueryBuilder('s')
 	              ->leftJoin('s.evenements', 'e')
 				  ->addSelect('e')
-				  ->where('s.principal = 1')
                   ->orderBy('s.rang', 'DESC')
                   ->getQuery();
     // On définit l'établissemnt à partir duquel commencer la liste

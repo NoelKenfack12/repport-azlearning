@@ -16,13 +16,13 @@ parameters:
     emailadmin: gaielbleriot@gmail.com
     username: az_e-learning
     password: africexplorer
-    tel: 695689632
+    tel: 222 31 46 62
     bp: 1245
     repeattime: 24
     notemin: 1
     noteminexo: 5
-    orangemoney: 695689632
-    mtnmobile: 675689632
+    orangemoney: 697 27 97 70
+    mtnmobile: 676 26 40 27
     curentwebsite: 0123-4567-8901
     saltcookies: dkjdlkdsfnksdfsd
     devise: XAF
@@ -67,6 +67,10 @@ services:
         arguments: ['@general_service.servicetext']
         tags: 
             - { name: validator.constraint_validator, alias: my_image }
+    twig.extension:
+        class: App\Twig\CustomTwigExtensions
+        tags:
+          -  { name: twig.extension }
     general_validatorfile.yourfile:
         class:   App\Validator\Validatorfile\YfileValidator
         arguments: ['@general_service.servicetext']

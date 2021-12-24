@@ -19,7 +19,7 @@
 	
 	<p class="card-text">
 		<strong style="font-size: 18px; color: #7a818d;">Montant</strong> <br>
-		<strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span>
+		<strong>{{ produit.newprise|numberFormat }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit|numberFormat }} {{ devise|raw }}</span>
 	</p>
 	<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}" class="btn btn-primary">Suivre</a>
 	</div>
