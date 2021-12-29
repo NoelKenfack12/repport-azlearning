@@ -4,6 +4,12 @@ namespace App\Service\Servicetext;
 
 class GeneralServicetext
 {
+private $bareme;
+
+public function __construct($bareme=100)
+{
+	$this->bareme = $bareme;
+}
 public function normaliseText($text)
 {
  $text = trim($text); //retire les caractères vide en début et en fin du text.
@@ -206,7 +212,7 @@ public function normaliseDate($text)
 
 public function getBareme()
 {
-	return 10;
+	return $this->bareme;
 }
 
 public function decrypt($message, $key)

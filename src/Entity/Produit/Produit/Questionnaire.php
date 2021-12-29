@@ -39,7 +39,7 @@ class Questionnaire
      * @var string
      *
      * @ORM\Column(name="titre", type="text")
-     * @Taillemin(valeur=3, message="Au moins 3 caractères")
+     * @Taillemin(valeur=1, message="Au moins 1 caractères")
      * @Taillemax(valeur=250, message="Au plus 250 caractès")
      * @Groups({"proposition:read", "questionnaire:write"})
      */

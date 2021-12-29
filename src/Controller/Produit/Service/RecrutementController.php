@@ -290,13 +290,13 @@ public function validerdossier(Recrutement $recrut, Request $request, GeneralSer
 
 public function telechargercv(Recrutement $recrut)
 {
-	$namefile = '/../../../Symfony/public/'.$recrut->getYourcv()->getWebPath();
+	$namefile = '/../../../elearning/public/'.$recrut->getYourcv()->getWebPath();
 	return $this->redirect($namefile);
 }
 
 public function telechargerlettre(Recrutement $recrut)
 {
-	$namefile = '/../../../Symfony/public/'.$recrut->getDossierWebPath();
+	$namefile = '/../../../elearning/public/'.$recrut->getDossierWebPath();
 	return $this->redirect($namefile);
 }
 

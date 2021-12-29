@@ -45,6 +45,21 @@
 			overflow-y: auto;
 			background: rgba(0,0,0,0.5);
 		}
+		.login-wrapper .login-btn{
+			background-color: #092759;
+			border: 1px solid #092759;
+		}
+		.login-wrapper .login-btn:hover{
+			background-color: #fff;
+			border: 1px solid #76b4e7;
+			color: #76b4e7;
+		}
+		.login-check-box .custom-control-label::before{
+			left: 0px;
+		}
+		.custom-control-input {
+			width: 0px!important;
+		}
 	</style>
 
 {% endblock %}
@@ -93,18 +108,20 @@
 		  <input type="checkbox" class="custom-control-input" id="customCheck1"/>
 		  <label class="custom-control-label" for="customCheck1">Remember me</label>
 		</div>
-		<a href="#!" class="forgot-password-link modal_reset_password">Mot de passe oublié</a>
+		<a href="#!" class="forgot-password-link modal_reset_password">
+			<span class="fa fa-info-circle"></span> Mot de passe oublié
+		</a>
 	  </div>
-	  <button name="login" id="login" class="btn btn-block login-btn" style="cursor: pointer; border: 1px solid #ff4600;">Connexion</button>
+	  <button name="login" id="login" class="btn btn-block login-btn" style="cursor: pointer;">Connexion</button>
 	</form>
 	<p class="login-wrapper-footer-text">Vous n'avez pas encore de compte ? </br>
 		<a href="{{ path('users_user_inscription_user') }}" class="text-reset">Créer un compte</a>
 	</p>
 	<nav class="social-links">
-	  <a href="#!"><i class="fa fa-facebook"></i></a>
-	  <a href="#!"><i class="fa fa-twitter"></i></a>
-	  <a href="#!"><i class="fa fa-instagram"></i></a>
-	  <a href="#!"><i class="fa fa-dribbble"></i></a>
+		<a href="http://facebook.com/AZcorpAfrica" target="_blank"><i class="fa fa-facebook-f"></i></a>
+		<a href="https://twitter.com/gaielbleriot?lang=en" target="_blank"><i class="fa fa-twitter"></i></a>
+		<a href="https://wa.me/237699934926" target="_blank"><i class="fa fa-whatsapp"></i></a>
+		<a href="https://www.youtube.com/channel/UCvlgTzTAw1tABaOXhDM7U8g" target="_blank"><i class="fa fa-youtube"></i></a>
 	</nav>
   </div>
 </div>

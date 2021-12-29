@@ -379,7 +379,7 @@ public function presentationchapter(Chapitrecours $chapitre, $mess, GeneralServi
 		}
 		
 		return $this->render('Theme/Produit/Produit/Chapitrecours/presentationchapter.html.twig', 
-		array('chapitre'=>$chapitre, 'partie'=>$partie,'prodpan'=>$prodpan,'codeadmin'=>$codeadmin,'bareme'=>$service->getBareme(),
+		array('chapitre'=>$chapitre, 'partie'=>$partie,'prodpan'=>$prodpan,'codeadmin'=>$codeadmin,'bareme'=>$service->getBareme(),'notemin'=>$this->params->get('notemin'),
 		'liste_chapter'=>$liste_chapter,'produit'=>$produit,'liste_part'=>$liste_part,'form'=>$form->createView(),'supportchapitres'=>$supportchapitres,'oldservice'=>$oldservice,
 		'pratiquechapitres'=>$pratiquechapitres,'exerciceparties'=>$exerciceparties,'mess'=>$mess,'cours_formation'=>$cours_formation,
 		'messages_cours'=>$messages_cours, 'ranglecon'=>$ranglecon, 'precedentchapter'=>$precedentchapter, 'suivantchapter'=>$suivantchapter));

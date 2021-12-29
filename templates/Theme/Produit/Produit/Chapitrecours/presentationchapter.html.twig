@@ -400,45 +400,49 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 		}
 	});
 </script>
-
-<div class="main-container">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="animecourant-panel" style="display: block;">
-					
+<section style="background: #f4f4f4; border-bottom: 1px solid #ddd;">
+	<div class="main-container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="animecourant-panel" style="display: block;">
+						
+				</div>
 			</div>
 		</div>
-	</div>
-
-	<nav aria-label="breadcrumb" style="margin-top: 0px;">
-		<span class="float-right">
-			{% if app.user == chapitre.partiecours.produit.user or is_granted('ROLE_GESTION') %}
-				<a href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-edit"></span> Modifier</a>
-				<a href="{{ path('produit_produit_user_supprimer_chapter', {'id': chapitre.id }) }}"><span class="fa fa-times"></span> Supprimer</a>
-			{% else %}
-			<span>
-				<img src="{{ asset('template/images/exclusive_icons.png') }}" alt="" style="width: 15px;"/> 
-				<span class="badge badge-info">Note:</span> 
-				{% if prodpan != null %}
-					{% set note = chapitre.getNoteQuestionnaire(prodpan) %}
-					<strong>{{ note }}/20</strong>
+	
+		<nav aria-label="breadcrumb" style="margin-top: 0px;">
+			<span class="float-right">
+				{% if app.user == chapitre.partiecours.produit.user or is_granted('ROLE_GESTION') %}
+					<a href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-edit"></span> Modifier</a>
+					<a href="{{ path('produit_produit_user_supprimer_chapter', {'id': chapitre.id }) }}"><span class="fa fa-times"></span> Supprimer</a>
 				{% else %}
-					{% set note = 0 %}
-					<strong>_/20</strong>
+				<span>
+					<img src="{{ asset('template/images/exclusive_icons.png') }}" alt="" style="width: 15px;"/> 
+					<span class="badge badge-info">Note:</span> 
+					{% if prodpan != null %}
+						{% set note = chapitre.getNoteQuestionnaire(prodpan) %}
+						<strong>{{ note }}/{{ bareme }}</strong>
+					{% else %}
+						{% set note = 0 %}
+						<strong>_/{{ bareme }}</strong>
+					{% endif %}
+					
+				</span>
 				{% endif %}
 				
-		    </span>
-			{% endif %}
-			
-		</span>
-		<ol class="breadcrumb" style="padding: 0px; background-color: #fff; border: none;">
-		  <li class="breadcrumb-item"><a href="{{ path('users_user_acces_plateforme') }}"><span class="fa fa-home"></span> Accueil</a></li>
-		  <li class="breadcrumb-item"><a href="{{ path('produit_produit_accueil_boutique_produit') }}">Cours</a></li>
-		  <li class="breadcrumb-item"><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': produit.souscategorie.categorie.id }) }}">{{ produit.souscategorie.categorie.nom }}</a></li>
-		  <li class="breadcrumb-item">{{ produit.souscategorie.nom }}</li>
-		  <li class="breadcrumb-item active" aria-current="page">{{ chapitre.partiecours.titre }}</li>
-		</ol>
-	</nav>
+			</span>
+			<ol class="breadcrumb" style="padding: 0px;border: none; margin: 0px;">
+			  <li class="breadcrumb-item"><a href="{{ path('users_user_acces_plateforme') }}"><span class="fa fa-home"></span> Accueil</a></li>
+			  <li class="breadcrumb-item"><a href="{{ path('produit_produit_accueil_boutique_produit') }}">Cours</a></li>
+			  <li class="breadcrumb-item"><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': produit.souscategorie.categorie.id }) }}">{{ produit.souscategorie.categorie.nom }}</a></li>
+			  <li class="breadcrumb-item">{{ produit.souscategorie.nom }}</li>
+			  <li class="breadcrumb-item active" aria-current="page">{{ chapitre.partiecours.titre }}</li>
+			</ol>
+		</nav>
+	</div>
+</section>
+<div class="main-container">
+	
 
 	<div class="row" style="margin-top: 7px;">
 		<div class="col-md-4">
@@ -485,6 +489,13 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 				{% else %}
 					{% if (prodpan == null and chapitre.partiecours.produit.user != app.user) or (prodpan == null and not(is_granted('ROLE_GESTION'))) %}
 						<div class="souscription-cours-online" value="0" style="position: absolute; z-index: 9; cursor: pointer;  background: url({{ asset('template/images/bghide6.png') }}); height: 520px; width: 105%; top: 0px; left: -3%; padding-right: 50px; padding-top: 30px;"><img src="{{ asset('template/images/lockb.png') }}" title="Accès non autorisé" class="pull-right" style="margin-top: 20px; width: 100px; height: 100px;"/></div>
+					{% else %}
+						{% if precedentchapter != null %}
+							{% set note = precedentchapter.getNoteQuestionnaire(prodpan) %}
+							{% if note < notemin %}
+							<div class="note-precedente-invalide" value="0" style="position: absolute; z-index: 9; cursor: pointer;  background: url({{ asset('template/images/bghide6.png') }}); height: 520px; width: 105%; top: 0px; left: -3%; padding-right: 50px; padding-top: 30px;"><img src="{{ asset('template/images/lockb.png') }}" title="Accès non autorisé" class="pull-right" style="margin-top: 20px; width: 100px; height: 100px;"/></div>
+							{% endif %}
+						{% endif %}
 					{% endif %}
 				{% endif %}
 						
@@ -518,7 +529,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 				});
 			</script>
 
-			<div class="panel-text" style="background: #739ee6; border-radius: 0px; box-shadow:0px 0px 10px #888888; border: none;">
+			<div id="target_details" class="panel-text" style="background: #739ee6; border-radius: 0px; box-shadow:0px 0px 10px #888888; border: none;">
 				<div style="border-bottom: 1px solid #ddd;">
 					<span style="float: right;">
 						<span class="btn-video-article">
@@ -545,7 +556,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 			</div>
 
 					
-			<div style="margin-top: 20px;">
+			<div  style="margin-top: 20px;">
 				<input id="tab-1" class="input-tabs" type="radio" name="tabs" checked=""/>
 				<label for="tab-1" class="label-tab">Description</label>
 					
@@ -894,18 +905,19 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 							</div>
 							 Vous êtes allez jusqu'au bout de cette leçon.
 						</h3>
+						
 					</div>
 					<div class="clearfix"></div>
 				</div>
 
 				<div style="margin: 30px 0px 15px 0px;">
-					<h4>Avez-vous une question à pauser au formateur ?</h4>
+					<h4 style="color: #333;">Auriez-vous une question à poser au Formateur ?</h4>
 				</div>
 
 				<div>
 					<div class="btn-group" role="group" aria-label="Basic example">
-					<button type="button" class="btn btn-primary open-panel-chat-message">Oui, écrire au formateur</button>
-					<button type="button" class="btn btn-secondary" onclick="validationAquis();">Non, validation des aquis</button>
+					<button type="button" class="btn btn-primary open-panel-chat-message" style="white-space: normal;">Oui, écrire à mon formateur</button>
+					<button type="button" class="btn btn-secondary" onclick="validationAquis();" style="white-space: normal;">Tout va plutôt bien pour l'instant</button>
 					</div>
 				</div>
 
@@ -1020,7 +1032,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 					<span class="badge badge-primary">{{ produit.newprise }} {{ devise }}</span>
 				</div>
 				<div style="border-top: 1px solid #ddd; margin-top: 15px;">
-				Pour souscrire, veuillez rentrez votre mot de passe.
+				Pour souscrire, veuillez rentrer votre mot de passe.
 				</div>
 				
 				<div class="clearfix"></div>
@@ -1042,7 +1054,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 						<span class="badge badge-primary">{{ oldservice.nprix }} {{ devise }}</span>
 					</div>
 					<div style="border-top: 1px solid #ddd; margin-top: 15px;">
-						Pour souscrire, veuillez rentrez votre mot de passe.
+						Pour souscrire, veuillez rentrer votre mot de passe.
 					</div>
 					
 					<div class="clearfix"></div>
@@ -1064,7 +1076,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 					<span class="badge badge-primary">{% set prise = (produit.newprise/liste_chapter|length)|round(0,'ceil') %}{{ prise }} {{ devise }}</span>
 				</div>
 				<div style="border-top: 1px solid #ddd; margin-top: 15px;">
-				Pour souscrire, veuillez rentrez votre mot de passe.
+				Pour souscrire, veuillez rentre votre mot de passe.
 				</div>
 				
 				<div class="clearfix"></div>
@@ -1103,6 +1115,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 </div>
 
 <script src="{{ asset('template/js/onvisible.js') }}" type="text/javascript"></script>
+
 {% endblock %}
 
 {% block srcjavascripttemplate %}
@@ -1123,7 +1136,12 @@ function validationAquis()
 {
 	closemodalAlert();
 	setTimeout(function(){ $('#tab-5').trigger('click'); }, 1000);
+	var target = $('#target_details');
+	$('body,html').animate({
+		scrollTop: target.offset().top
+	}, 800);
 }
+
 
 const accordion = document.querySelector('.accordion');
 const items = accordion.querySelectorAll('.accordion__item');
@@ -1345,6 +1363,12 @@ $('.add-new-part').click(function(){
 	{% endif %}
 {% endfor %}
 
+{% if precedentchapter != null %}
+$('.note-precedente-invalide').click(function(){
+	resetNotif();
+	alertify.alert("Echec, Vous devez avoir une note supérieur ou égale à {{ notemin }}/{{ bareme }} à la leçon précédente pour continuer !</br><a href='{{ path('produit_produit_presentation_chapter',{'id': precedentchapter.id }) }}'>Reéssayez le QCM de la leçon précédente en cliquant ici</a>");	  
+});
+{% endif %}
 
 $('.souscription-cours-online').click(function(){
 	

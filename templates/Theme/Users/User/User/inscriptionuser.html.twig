@@ -18,7 +18,7 @@
 		background: linear-gradient(
 			rgba(0, 0, 0, .6),
 			rgba(0, 0, 0, .1)),
-			url("{% if signupbg != null and signupbg.src != null %}{{ asset(signupbg1.getwebpath) }}{% else %}https://images.unsplash.com/photo-1420745981456-b95fe23f5753?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb{% endif %}") 100% / cover ;
+			url("{% if signupbg != null and signupbg.src != null %}{{ asset(signupbg.getwebpath) }}{% else %}https://images.unsplash.com/photo-1420745981456-b95fe23f5753?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb{% endif %}") 100% / cover ;
 		height: 100%;
 		padding: 1.5em;
 		width: 50%;
@@ -45,6 +45,21 @@
 		}
 		.select2-container--default .select2-selection--single .select2-selection__arrow b {
 			margin-top: 10px!important;
+		}
+		.login-wrapper .login-btn{
+			background-color: #092759;
+			border: 1px solid #092759;
+		}
+		.login-wrapper .login-btn:hover{
+			background-color: #fff;
+			border: 1px solid #76b4e7;
+			color: #76b4e7;
+		}
+		.login-check-box .custom-control-label::before{
+			left: 0px;
+		}
+		.custom-control-input {
+			width: 0px!important;
 		}
 	</style>
 {% endblock %}
@@ -89,6 +104,7 @@
 		</div>
 	  </div>
 	  <div class="form-group">
+		  <div><span style="color:red;">{{ form_errors(form.prenom) }}</span></div>
 		{{ form_label(form.prenom, 'Prenom',{'attr': {'class': 'sr-only'}}) }}
 		<div class="input-group">
 		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
@@ -98,6 +114,7 @@
 		</div>
 	  </div>
 	  <div class="form-group">
+		<div><span style="color:red;">{{ form_errors(form.username) }}</span></div>
 		{{ form_label(form.username, 'Email ou Téléphone',{'attr': {'class': 'sr-only'}}) }}
 		<div class="input-group">
 		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
@@ -107,6 +124,7 @@
 		</div>
 	  </div>
 	  <div class="form-group">
+		<div><span style="color:red;">{{ form_errors(form.password) }}</span></div>
 		{{ form_label(form.password, 'Mot de passe',{'attr': {'class': 'sr-only'}}) }}
 		<div class="input-group">
 		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
@@ -141,16 +159,16 @@
 		</div>
 	</div>
 
-	  <button name="login" id="login" class="btn btn-block login-btn" style="cursor: pointer; border: 1px solid #ff4600;">S'inscrire</button>
+	  <button name="login" id="login" class="btn btn-block login-btn" style="cursor: pointer;">S'inscrire</button>
 	  {{ form_end(form) }}
 	<p class="login-wrapper-footer-text">Vous avez un compte ? </br>
 		<a href="{{ path('login') }}" class="text-reset">Connectez-vous</a>
 	</p>
 	<nav class="social-links">
-	  <a href="#!"><i class="fa fa-facebook"></i></a>
-	  <a href="#!"><i class="fa fa-twitter"></i></a>
-	  <a href="#!"><i class="fa fa-instagram"></i></a>
-	  <a href="#!"><i class="fa fa-dribbble"></i></a>
+		<a href="http://facebook.com/AZcorpAfrica" target="_blank"><i class="fa fa-facebook-f"></i></a>
+		<a href="https://twitter.com/gaielbleriot?lang=en" target="_blank"><i class="fa fa-twitter"></i></a>
+		<a href="https://wa.me/237699934926" target="_blank"><i class="fa fa-whatsapp"></i></a>
+		<a href="https://www.youtube.com/channel/UCvlgTzTAw1tABaOXhDM7U8g" target="_blank"><i class="fa fa-youtube"></i></a>
 	</nav>
   </div>
 </div>

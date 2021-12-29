@@ -190,6 +190,7 @@ class Recrutement
 		$this->date = new \Datetime();
         $this->supportformation = false;
         $this->fichepaiement = false;
+        $this->typedocument = 'depot';
 	}
 
     /**

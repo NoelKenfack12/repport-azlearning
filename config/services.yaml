@@ -18,14 +18,15 @@ parameters:
     password: africexplorer
     tel: 222 31 46 62
     bp: 1245
-    repeattime: 24
-    notemin: 1
+    repeattime: 24  #en heure
+    notemin: 70
     noteminexo: 5
     orangemoney: 697 27 97 70
     mtnmobile: 676 26 40 27
     curentwebsite: 0123-4567-8901
     saltcookies: dkjdlkdsfnksdfsd
     devise: XAF
+    bareme: 100
 
 services:
     # default configuration for services in *this* file
@@ -34,8 +35,10 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $curentwebsite: '%curentwebsite%'
+            $bareme: '%bareme%'
     general_service.servicetext:
         class: App\Service\Servicetext\GeneralServicetext
+        arguments: ['%bareme%']
  #   general_service.myuserauthentification:
  #       class: App\Service\UserAuthentification\Curentwebsite
  #       arguments: ['@request','@doctrine.orm.entity_manager','%curentwebsite%']
@@ -89,6 +92,11 @@ services:
     produit_produit.produit:
         class: App\Entity\Produit\Produit\Produit
         arguments: [ '@general_service.servicetext', '@doctrine.orm.entity_manager' ]
+        tags:
+           - { name: doctrine.event_listener, event: postLoad }
+    produit_produit.chapitrecours:
+        class: App\Entity\Produit\Produit\Chapitrecours
+        arguments: [ '@general_service.servicetext' ]
         tags:
            - { name: doctrine.event_listener, event: postLoad }
     # makes classes in src/ available to be used as services

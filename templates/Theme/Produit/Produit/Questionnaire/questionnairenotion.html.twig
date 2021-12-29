@@ -153,7 +153,7 @@ Taille invalide !!! <span class="label label-info pull-right control-info-champ8
 <!-- <script type="text/javascript" src="{{ asset('template/assets/js/application.js') }}"></script> -->
 <script type="text/javascript">
 $('.form-submit-response').on('submit', function(){
-if($(this).find('input').val().length < 3 ||  $(this).find('input').val().length > 250)
+if($(this).find('input').val().length < 1 ||  $(this).find('input').val().length > 250)
 {
 	$("div.champ6"+$(this).attr('value')).addClass("has-error");
 	$("div.alertnotif6"+$(this).attr('value')).show("slow").delay(6000).hide("slow");
