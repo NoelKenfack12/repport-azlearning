@@ -134,7 +134,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<input type="text" name="username" class="form-control" value="{{ user.username }}" style="width: 100%;" placeholder="Rentrez votre e-mail" required="" disabled=""/>
+							<input type="email" name="username" class="form-control" value="{{ user.username }}" style="width: 100%;" placeholder="Rentrez votre e-mail" required=""/>
 						</div>
 						</fieldset>
 						<fieldset>
@@ -177,7 +177,7 @@
 						</div>
 						<div class="input-group" style="margin-top: 15px;">
 							<span class="input-group-addon">Âge:</span>
-							<input type="text" name="datenaiss" class="datepicker form-control" value="{{ user.datenaiss|date('d') }}/{{ user.datenaiss|date('m') }}/{{ user.datenaiss|date('Y') }}" style="width: 100%;" placeholder="Rentrez votre e-mail" required=""/>
+							<input type="date" name="datenaiss" class="form-control" value="{{ user.datenaiss|date('d') }}/{{ user.datenaiss|date('m') }}/{{ user.datenaiss|date('Y') }}" style="width: 100%;" placeholder="Rentrez votre e-mail" required=""/>
 						</div>
 						</fieldset>
 						

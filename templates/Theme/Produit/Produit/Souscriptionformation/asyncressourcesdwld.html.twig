@@ -33,6 +33,24 @@ var player = videojs('my-player', options, function onPlayerReady() {
   //How about an event listener?
   this.on('ended', function() {
     
+	openAlertSouscription();
+	
+  });
+});
+
+
+function openAlertSouscription()
+{
+	$('.panel-result-action-elearning-user').hide();
+	$('.content-alert-action-elearning-user').hide();
+
+	$('#sppmodal-container-cours').removeClass('out').addClass('one');
+	$('body').addClass('sppmodal-active');
+}
+function poursuivreLaFormation(){
+	$('#sppmodal-container-cours').addClass('out');
+	$('body').removeClass('sppmodal-active');
+
 	{% if nextchapter != null %}
 		var height = ($(window).height() + $(window).scrollTop());
 		var width = $(window).width() + 100;
@@ -43,9 +61,7 @@ var player = videojs('my-player', options, function onPlayerReady() {
 
 		document.location.href= "{{ path('produit_produit_presentation_chapter', {'id': nextchapter.id}) }}";
 	{% endif %}
-	
-  });
-});
+}
 </script>
 
 {% elseif(type == "formation") %}
@@ -80,7 +96,25 @@ var player = videojs('my-player', options, function onPlayerReady() {
 
   // How about an event listener?
   this.on('ended', function(){
-  
+	
+	openAlertSouscription();
+	
+	
+  });
+});
+
+function openAlertSouscription()
+{
+	$('.panel-result-action-elearning-user').hide();
+	$('.content-alert-action-elearning-user').hide();
+
+	$('#sppmodal-container-service').removeClass('out').addClass('one');
+	$('body').addClass('sppmodal-active');
+}
+function poursuivreLaFormation(){
+	$('#sppmodal-container-service').addClass('out');
+	$('body').removeClass('sppmodal-active');
+
 	{% if nextcourse != null %}
 		var height = ($(window).height() + $(window).scrollTop());
 		var width = $(window).width() + 100;
@@ -88,13 +122,9 @@ var player = videojs('my-player', options, function onPlayerReady() {
 		$('.panel-result-action-elearning-user').show();
 		$('.content-alert-action-elearning-user').show();
 		$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
-
 		document.location.href= "{{ path('produit_produit_detail_produit_market', {'id': nextcourse.produit.id}) }}";
 	{% endif %}
-	
-  });
-});
-
+}
 </script>
 {% elseif(type == "chapitre") %}
 	<div style="height: 300px;">

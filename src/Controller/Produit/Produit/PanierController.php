@@ -89,7 +89,6 @@ public function validationpayement(User $user, GeneralServicetext $service)
 			$emailadmin = $this->params->get('emailadmin');
 			if($service->email($panier->getUser()->getUsername()))
 			{
-
 				$response = $this->_servicemail->sendNotifEmail(
 					$panier->getUser()->name(40), //Nom du destinataire
 					$panier->getUser()->getUsername(), //Email Destinataire
@@ -219,17 +218,14 @@ public function livraisonpanier(Panier $panier, Request $request)
 		if($panier->getLivrer() == false)
 		{
 			$panier->setLivrer(true);
-			foreach($panier->getProduitpaniers() as $propan)
-			{
-				$propan->getProduit()->setActive(false);
-			}
+			$panier->setPayer(true);
 			$em->flush();
 			$this->get('session')->getFlashBag()->add('information','Validation effectuée avec succès !');
 		}
 	}else{
 		$this->get('session')->getFlashBag()->add('valide_prod',$panier->getId());
 	    $this->get('session')->getFlashBag()->add('valide_prod',$panier->numFacture());
-		}
+	}
 	return $this->redirect($this->generateUrl('users_adminuser_liste_panier_non_livrer'));
 }
 
@@ -275,7 +271,7 @@ public function detailpanieruser(Panier $panier, Produit $produit, Generalservic
 			break;
 		}
 	}
-	
+
 	return $this->render('Theme/Produit/Produit/Panier/detailpanieruser.html.twig',
 	array('liste_produit'=>$liste_produit,'prodpan'=>$prodpan,'user'=>$panier->getUser(),
 	'bareme'=>$bareme,'produit'=>$produit,'panier'=>$panier,'liste_part'=>$liste_part,'liste_chapter'=>$liste_chapter,

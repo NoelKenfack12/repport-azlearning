@@ -135,7 +135,7 @@ public function accueiluser(User $user, GeneralServicetext $service)
 	}
 	
 	$panier_payer = $em->getRepository(Panier::class)
-					   ->findBy(array('user'=>$user,'payer'=>1), array('date'=>'desc'));
+					   ->findBy(array('user'=>$user), array('date'=>'desc'));
 	
 	$profil = new Imgprofil($service);
 	$form = $this->createForm(ImgprofilType::class, $profil);
@@ -350,6 +350,11 @@ public function updateprofil(User $user, GeneralServicetext $service, Request $r
 			if(isset($_POST['prenomuser']))
 			{
 				$user->setPrenom($_POST['prenomuser']);
+			}
+
+			if(isset($_POST['username']) and $service->email($_POST['username']))
+			{
+				$user->setUsername($_POST['username']);
 			}
 			
 			if(isset($_POST['sexe']))

@@ -14,27 +14,27 @@ use App\Entity\Produit\Produit\Souscategorie;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\Produit\Produit\Produit;
 
-
 class ProduitType extends AbstractType
 {
-private $idcat;
-public function __construct($cat = null)
-{
-	if($cat != null)
-	{
-		$this->idcat = $cat->getId();
-	}else{
-		$this->idcat = 0;
-	}
-}
-public function getIdCat()
-{
-return $this->idcat;
-}
-public function setIdCat($id)
-{
-$this->idcat = $id;
-}
+    private $idcat;
+    public function __construct($cat = null)
+    {
+        if($cat != null)
+        {
+            $this->idcat = $cat->getId();
+        }else{
+            $this->idcat = 0;
+        }
+    }
+    public function getIdCat()
+    {
+    return $this->idcat;
+    }
+
+    public function setIdCat($id)
+    {
+    $this->idcat = $id;
+    }
      /**
      * @param FormBuilderInterface $builder
      * @param array $options

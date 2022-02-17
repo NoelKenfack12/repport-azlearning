@@ -178,9 +178,17 @@
 		border: solid 1px #ddd;
 	}
 
-  .text-reset{
-    color: #007bff;
-  }
+	.text-reset{
+		color: #007bff;
+	}
+
+	.field-icon {
+		margin-top: 10px;
+		position: absolute;
+		z-index: 2;
+		right: 15px;
+		cursor: pointer;
+	}
 	</style>
 
   {% endblock %}
@@ -197,9 +205,20 @@
   <script src="{{ asset('template/js/bootstrap.min.js') }}"></script>
 
   <script type="text/javascript">
-  {% block javascript %}
+	{% block javascript %}
 
-  {% endblock %}
+	{% endblock %}
+
+	$(".toggle-password").click(function() {
+
+		$(this).toggleClass("fa-eye fa-eye-slash");
+		var input = $($(this).attr("toggle"));
+		if (input.attr("type") == "password") {
+			input.attr("type", "text");
+		} else {
+			input.attr("type", "password");
+		}
+	});
   </script>
 </body>
 </html>

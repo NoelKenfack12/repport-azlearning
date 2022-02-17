@@ -1,3 +1,12 @@
+<style>
+	.disabled-btn {
+		cursor: not-allowed;
+		text-decoration: none;
+		text-align: center;
+		background: #d6d9e4 !important;
+		pointer-events: none;
+	}
+</style>
 {% for question in liste_questionnaire %}
 {% set submitsolution = 0  %}
 <div class="panel panel-default" style="border-radius: 0px;">
@@ -6,14 +15,14 @@
 {{ loop.index }}. {{ question.titre }}
 
 <div class="dropdown-btn float-right" style="position: relative; margin: 0px 20px 0px 0px;">
-	<a href="javascript:void(0)">
+	<!-- a href="javascript:void(0)">
 			Infos <span class=" fa fa-angle-down"></span>
 	</a>
 	<div class="dropdown__menu" style="margin-top: 10px;">
 
 		<a href="#!" class="dropdown__option" style="font-size: 13px;"><span class="fa fa-list-alt"></span> Réponse unique</a>
 
-	</div>
+	</div -->
 </div>
 
 </h3>
@@ -25,8 +34,17 @@
 		  <label class="radio" style="display: block; margin-bottom: 7px;">
 			<input type="radio" data-toggle="radio" class="elem-radio-check" data-proposition="{{ proposition.id }}" data-question="{{ question.id }}" propan="{% if prodpan != null %}{{ prodpan.id }}{% else %}0{% endif %}" name="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" id="{% if question.reponsemultiple == true %}options{{ proposition.id }}{% else %}radios{{ question.id }}{% endif %}" value="option1" style="cursor: pointer!important;" data-radiocheck-toggle="radio" {% if proposition.id == question.element %}checked="" {% set submitsolution = 1 %}{% endif %}/>
 			{{ proposition.titre }}
+
 			{% if proposition.id == question.element %}
+				{% if (proposition.reponse == false and etat == 'fermer') %}
+					<a href="#!" class="pull-right" style="color: red;"><span class="fa fa-times"></span></a>
+				{% else %}
+					<a href="#!" class="pull-right"><span class="fa fa-check"></span></a>
+				{% endif %}
+			{% elseif (proposition.reponse == true and etat == 'fermer')  %}
 				<a href="#!" class="pull-right"><span class="fa fa-check"></span></a>
+			{% elseif (question.element > 0 and proposition.id == question.element)  %}
+				<a href="#!" class="pull-right" style="color: red;"><span class="fa fa-times"></span></a>
 			{% endif %}
 		  </label>
 		  {% endfor %}
@@ -37,9 +55,21 @@
 </div>
 {% endfor %}
 {% if prodpan != null and liste_questionnaire|length > 0 %}
-<form action="{{ path('produit_produit_valider_questionnaire_courant_chapter', {'id': chapitre.id, 'prodpan': prodpan.id }) }}" method="post" class="submit-feuille-composition">
-	<button href="#!" class="btn btn-primary btn-lg btn-block" style="border-radius: 0px;">Soumettre ma feuille de composition pour validation <span class="glyphicon glyphicon-send"></span></button>
-</form>
+	{% if etat == 'fermer' %}
+		<form action="#!" method="post" class="submit-feuille-composition">
+			<button href="#!" class="btn btn-primary btn-lg btn-block disabled-btn" style="border-radius: 0px;">Soumettre ma feuille de composition pour validation <span class="glyphicon glyphicon-send"></span></button>
+		</form>
+	{% else %}
+		{% if composeAllQuestion == true %}
+			<form action="{{ path('produit_produit_valider_questionnaire_courant_chapter', {'id': chapitre.id, 'prodpan': prodpan.id }) }}" method="post" class="submit-feuille-composition ">
+				<button href="#!" class="btn btn-primary btn-lg btn-block {% if waitTimePerMin > 0 %}disabled-btn{% endif %}" style="border-radius: 0px;">Soumettre ma feuille de composition pour validation {% if waitTimePerMin > 0 %} <span style="color: red;">Dans {{ waitTimePerMin }}Minute(s) </span>{% endif %} <span class="glyphicon glyphicon-send"></span></button>
+			</form>
+		{% else %}
+			<form action="{{ path('produit_produit_valider_questionnaire_courant_chapter', {'id': chapitre.id, 'prodpan': prodpan.id }) }}" method="post" class="submit-feuille-composition">
+				<button href="#!" class="btn btn-primary btn-lg btn-block" style="border-radius: 0px;">Soumettre ma feuille de composition pour validation <span class="glyphicon glyphicon-send"></span></button>
+			</form>
+		{% endif %}
+	{% endif %}
 {% endif %}
 <script src="{{ asset('template/assets/js/flat-ui.min.js') }}"></script>
 <script src="{{ asset('template/assets/js/application.js') }}"></script>

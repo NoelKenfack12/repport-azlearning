@@ -582,45 +582,45 @@ body {
 			</div>
 
 			<div class="col-md-5">
-				<div class="img-thumbnail" style="height: 420px; padding: 7px;">
+					<div class="img-thumbnail" style="height: 420px; padding: 7px;">
 				
-					<div class="variation-contenu-ressource" style="height: 300px;">
-						<div class="loader-wrap">
-							<div class="loader">
-								<div class="box-1 box"></div>
-								<div class="box-2 box"></div>
-								<div class="box-3 box"></div>
-								<div class="box-4 box"></div>
-								<div class="box-5 box"></div>
+						<div class="variation-contenu-ressource" style="height: 300px;">
+							<div class="loader-wrap">
+								<div class="loader">
+									<div class="box-1 box"></div>
+									<div class="box-2 box"></div>
+									<div class="box-3 box"></div>
+									<div class="box-4 box"></div>
+									<div class="box-5 box"></div>
+								</div>
 							</div>
 						</div>
-					</div>
-
-					<div class="text-center" style="margin-top: 10px;">
-						<h3>Prix officiel: {{ service.nprix }} {{ devise }}</h3>
-						<a href="#!" class="btn btn-primary btn-block souscription-cours-offline" value="1">Commander</a>
-					</div>
-					
-					<script type="text/javascript">
-						$(document).ready(function(){
+	
+						<div class="text-center" style="margin-top: 10px;">
+							<h3>Prix officiel: {{ service.nprix|numberFormat }} {{ devise }}</h3>
+							<a href="#!" class="btn btn-primary btn-block souscription-cours-offline" value="1">Commander</a>
+						</div>
 						
-							$.ajax({
-							   url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'formation', 'id': service.id }) }}',
-							   type : 'POST',
-							   dataType : 'html',
-							   success : function(code_html, statut){ // success est toujours en place, bien sûr !
-								   $('.variation-contenu-ressource').replaceWith(code_html);
-							   },
-			
-							   error : function(resultat, statut, erreur){
-								 alert("Echec");
-							   }
-			
+						<script type="text/javascript">
+							$(document).ready(function(){
+							
+								$.ajax({
+								   url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'formation', 'id': service.id }) }}',
+								   type : 'POST',
+								   dataType : 'html',
+								   success : function(code_html, statut){ // success est toujours en place, bien sûr !
+									   $('.variation-contenu-ressource').replaceWith(code_html);
+								   },
+				
+								   error : function(resultat, statut, erreur){
+									 alert("Echec");
+								   }
+				
+								});
 							});
-						});
-					</script>
-					
-				</div>
+						</script>
+						
+					</div>
 			</div>
 		</div>
 	</div>
@@ -833,7 +833,7 @@ body {
 		<h3>Prix unique de la formation</h3>
 		
 		<div>
-			<span class="badge badge-primary">{{ service.nprix }} {{ devise }}</span>
+			<span class="badge badge-primary">{{ service.nprix|numberFormat }} {{ devise }}</span>
 		</div>
 		
 		<div style="border-top: 1px solid #ddd; margin-top: 15px;">
@@ -843,9 +843,10 @@ body {
 	<div class="clearfix"></div>
 	
 	<form action="{{ path('produit_service_add_formation_panier', {'id': service.id }) }}" method="post" style="margin-top: 15px;">
-		<div class="form-group">
-			<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px; border: 3px solid #ddd;"/>
+		<div class="form-group" style="position: sticky;">
+			<input type="password" placeholder="Rentrez votre mot de passe" id="password-field2" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px; border: 3px solid #ddd;"/>
 			<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 0px;">
+			<span toggle="#password-field2" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
 		</div>
 		<div style="margin-top: 15px;">
 			<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte</button>
@@ -853,7 +854,7 @@ body {
 	</form>
 	{% if app.user != null %}
 	<div class="alert alert-info" style="margin-top: 15px;">
-		<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal }} {{ devise }}</span>  </div>
+		<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal|numberFormat }} {{ devise }}</span>  </div>
 		{% if app.user.soldeprincipal < service.nprix  %}
 		<a href="{{ path('produit_service_yourcv_recrutement') }}" style="text-decoration: underline;">
 			<span style="color: red; font-size: 16px;">Solde Insufisant</span>: Cliquez ici pour créditer
@@ -877,7 +878,52 @@ body {
 	</div>
 	</div>
 	</div>
+
 	
+<div id="sppmodal-container-service" class="sppmodal-container" style="color: #333;">
+	<div class="sppmodal-background">
+		<div class="sppmodal ">
+			<div class="row">
+			<div class="col-md-12">
+				<a href="#!" class="float-right close-sppmodal">
+					<img src="{{ asset('template/images/close.svg') }}" class="img-size-15"/>
+				</a>
+				<h3 class="text-left" style="font-family: OpenSans-Bold; color: #333; padding: 0px;margin: 0px;">Bravo !!!</h3>
+			</div>
+			<div class="col-md-12">
+				<hr>
+			</div>
+			<div class="col-md-12">
+					
+				<div class="text-left">
+					<div class="col-sm-12 col-md-12 text-center" style="margin-bottom: 20px;">
+						<h3 style="font-family: OpenSans-Bold; color: #333;">
+							<div>
+								<img src="{{ asset('template/images/messagefin.png') }}" alt="" style="height: 100px;">
+							</div>
+							Vous venez de regarder la vidéo de présentation de cette formation
+						</h3>
+						
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+				<div style="margin: 30px 0px 15px 0px;">
+					<h4 style="color: #333;">Que souhaitez-vous faire maintenant ?</h4>
+				</div>
+
+				<div>
+					<div class="btn-group" role="group" aria-label="Basic example">
+					<button type="button" class="btn btn-primary" onclick="souscrireLaFormation();" style="white-space: normal; text-transform: capitalize;">M'inscrire à la formation</button>
+					<button type="button" class="btn btn-secondary" onclick="poursuivreLaFormation();" style="white-space: normal; text-transform: capitalize;">Poursuivre avec la présentation des modules</button>
+					</div>
+				</div>
+
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}
 
 {% block srcjavascripttemplate %}
@@ -885,6 +931,16 @@ body {
 {% endblock %}
 
 {% block javascripttemplate %}
+
+function souscrireLaFormation(){
+	$('#sppmodal-container-service').addClass('out');
+	$('body').removeClass('sppmodal-active');
+	$('.souscription-cours-offline').trigger('click');
+}
+$('.close-sppmodal').click(function(){
+	$('#sppmodal-container-service').addClass('out');
+	$('body').removeClass('sppmodal-active');
+});
 
 jQuery(function($){
 $(".sidebar-dropdown > a").click(function(){
@@ -955,6 +1011,7 @@ $('.like-current-product').click(function(){
 	var position = "aimer";
 	updateproduit(id,position);
 });
+
 $('.save-current-product').click(function(){
 	var id = $(this).attr('value');
 	var position = "enregistrer";
@@ -1124,7 +1181,7 @@ $accordion_wrapper.addClass($accordion_open);   // Add the accordion--open class
 			<li><a href=""><span class="mdi-notification-event-available" style="font-size: 17px;"></span> Formation: du {{ service.datebegin|slice(0, 2) }} {{ service.user.mois(service.datebegin|slice(4, 2)) }} au {{ service.datefin|slice(0, 2) }} {{ service.user.mois(service.datefin|slice(4, 2)) }} {{ service.datebegin|slice(6, 4) }}</a></li>
 		</ul>
 		<div style="text-align: justify;">{{ service.puboffline }}</div>
-		<div class="alert-info" style="margin-top: 15px; padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px;">Formation: {{ service.nprixoff }} {{ devise }} <a href="#formationhorsligne" class="page-scroll-to">Comprennant <span class="fa fa-check-square-o"></span></a></div>
+		<div class="alert-info" style="margin-top: 15px; padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px;">Formation: {{ service.nprixoff|numberFormat }} {{ devise }} <a href="#formationhorsligne" class="page-scroll-to">Comprennant <span class="fa fa-check-square-o"></span></a></div>
 		<div><a href="#!" class="btn btn-primary souscription-cours-offline" value="0">Souscrire à cette formation</a></div>
 		</div>
 		</div>
@@ -1151,7 +1208,7 @@ $accordion_wrapper.addClass($accordion_open);   // Add the accordion--open class
 			<li><a href=""><span class="mdi-notification-event-available" style="font-size: 17px;"></span> Formation: En continue</a></li>
 		</ul>
 		<div style="text-align: justify;">{{ service.pubinline }}</div>
-		<div class="alert-info" style="margin-top: 15px; padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px;">Formation: {{ service.nprix }} {{ devise }} <a href="#formationenligne" class="page-scroll-to">Comprennant <span class="fa fa-check-square-o"></span></a></div>
+		<div class="alert-info" style="margin-top: 15px; padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px;">Formation: {{ service.nprix|numberFormat }} {{ devise }} <a href="#formationenligne" class="page-scroll-to">Comprennant <span class="fa fa-check-square-o"></span></a></div>
 		<div><a href="#!" class="btn btn-primary souscription-cours-offline" value="1">Souscrire à cette formation</a></div>
 		</div>
 		</div>
@@ -1356,7 +1413,7 @@ $accordion_wrapper.addClass($accordion_open);   // Add the accordion--open class
 				<div class="chat-right">
 					<p style="margin: 0px;"><strong><span class="fa fa-chevron-right"></span> {{ service.nom }}</strong></p>
 					<p style="margin: 0px;" class="type-de-formation">Prix de la formation</p>
-					<p style="margin: 0px; text-align: right;">Montant :: <i class="badge montant-formation">{{ service.nprixoff }} {{ devise }}</i> ::</p>
+					<p style="margin: 0px; text-align: right;">Montant :: <i class="badge montant-formation">{{ service.nprixoff|numberFormat }} {{ devise }}</i> ::</p>
 				</div>
 			<div class="clearfix"> </div>
 			</li>
@@ -1367,9 +1424,10 @@ $accordion_wrapper.addClass($accordion_open);   // Add the accordion--open class
 	</div>
 	<div class="col-sm-12" style="padding: 8px;">
 	<form action="{{ path('produit_service_add_formation_panier', {'id': service.id }) }}" method="post" style="margin-top: 15px;">
-	<div class="form-group">
-		<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 0px;">
+	<div class="form-group" style="position: sticky;">
+		<input type="password" placeholder="Rentrez votre mot de passe" id="password-field" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 0px;">
 		<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 0px;">
+		<span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
 	</div>
 	<div style="margin-top: 15px;">
 		<button type="submit" class="btn btn-warning btn-lg btn-block" style="border-radius: 0px;">Confirmez le payement avec votre compte </button>

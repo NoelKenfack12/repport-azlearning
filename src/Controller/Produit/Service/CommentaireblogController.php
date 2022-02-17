@@ -107,12 +107,18 @@ public function postmessageproduit($id, $type, $idmessage, GeneralServicetext $s
 			if($message != null)
 			{
 				$message->setEm($em);
+				if($message->getDest() == $this->getUser())
+				{
+					$message->setLut(true);
+				}
+
 				$liste_reponse = $message->getInterventionsMessage();
 
 				$lastid = 0;
 				$compt = 0;
 				foreach($liste_reponse as $reponse)
 				{
+					//$reponse->setLut(true);
 					if($compt  == 0)
 					{
 						$collection2 = new \Doctrine\Common\Collections\ArrayCollection();
@@ -133,6 +139,7 @@ public function postmessageproduit($id, $type, $idmessage, GeneralServicetext $s
 					$collection1[] = $collection2;
 				}
 			}
+			$em->flush();
 			
 			return $this->render('Theme/Produit/Service/Commentaireblog/postmessageproduit.html.twig',
 			array('produit'=>$produit, 'message'=>$message, 'collection1'=>$collection1));
@@ -183,7 +190,6 @@ public function postmessageproduit($id, $type, $idmessage, GeneralServicetext $s
 				}else if($service->email($produit->getUser()->getMailformateur()) == true){
 					$emailformateur = $produit->getUser()->getMailformateur();
 				}
-				
 			}
 			
 			$message = $em->getRepository(Commentaireblog::class)
@@ -194,7 +200,6 @@ public function postmessageproduit($id, $type, $idmessage, GeneralServicetext $s
 							  ->findOneBy(array('chapitrecours'=>$chapitre, 'user'=>$this->getUser()));
 			}
 			
-
 			if(strlen($emailformateur) > 3 and $message != null)
 			{
 
@@ -215,6 +220,10 @@ public function postmessageproduit($id, $type, $idmessage, GeneralServicetext $s
 			if($message != null)
 			{
 				$message->setEm($em);
+				if($message->getDest() == $this->getUser())
+				{
+					$message->setLut(true);
+				}
 				$liste_reponse = $message->getInterventionsMessage();
 
 				$lastid = 0;
@@ -240,6 +249,7 @@ public function postmessageproduit($id, $type, $idmessage, GeneralServicetext $s
 				{
 					$collection1[] = $collection2;
 				}
+				$em->flush();
 			}
 			
 			return $this->render('Theme/Produit/Service/Commentaireblog/postmessagechapitre.html.twig',

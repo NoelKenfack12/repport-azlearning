@@ -140,7 +140,7 @@
 				  {% for message in liste_message|filter(message => message.user!= null)  %}
 				  <li class="accordion-list__item">
 					<div class="accordion-item false">
-					  <div class="accordion-item__line">message.user
+					  <div class="accordion-item__line">
 						<h3 class="accordion-item__title">
 							<img src="{% if message.user.imgprofil != null %}{{ asset(message.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" style="margin-top: -7px; width: 30px; height: 30px; border-radius: 50%;">
 							{{ message.user.name(30) }}
@@ -151,8 +151,15 @@
 						<div class="accordion-item__content">
 						  <p class="accordion-item__paragraph" style="margin-bottom: 20px;">
 							{{ message.contenu }}
-							<a href="{% if message.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': message.produit.id, 'mess': message.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': message.chapitrecours.id, 'mess': message.id }) }}{% endif %}" style="float: right; padding: 3px; display: inline-block; border-radius: 3px; border: 1px solid #ddd;">Commencez le tchat</a> 
 							</p>
+							<div>
+								{% if message.lut == 0 %}
+									<span class="badge badge-danger">Non lut</span>
+								{% else %}
+									<span class="badge badge-success">Lut</span>
+								{% endif %}
+								<a href="{% if message.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': message.produit.id, 'mess': message.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': message.chapitrecours.id, 'mess': message.id }) }}{% endif %}" style="float: right; padding: 3px; display: inline-block; border-radius: 3px; border: 1px solid #ddd;">Commencez le tchat</a> 
+							</div>
 						</div>
 					  </div>
 					</div>

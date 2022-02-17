@@ -18,7 +18,7 @@ parameters:
     password: africexplorer
     tel: 222 31 46 62
     bp: 1245
-    repeattime: 24  #en heure
+    repeattime: 2  #en heure
     notemin: 70
     noteminexo: 5
     orangemoney: 697 27 97 70

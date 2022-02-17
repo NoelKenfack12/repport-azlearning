@@ -405,44 +405,72 @@ class Chapitrecours
     {
         return $this->type;
     }
+
+    public function getQuestionnaires()
+    {
+        $liste_questionnaire = $this->em->getRepository(Questionnaire::class)
+	                                ->findBy(array('chapitrecours'=>$this), array('date'=>'asc'));
+        return $liste_questionnaire;
+    }
+
+    public function getLectureVideo($user)
+    {
+        $animationproduit = $this->em->getRepository(Animationproduit::class)
+	                                ->findOneBy(array('chapitrecours'=>$this, 'user'=>$user, 'voir'=>1), array('date'=>'asc'), 1);
+        if($animationproduit != null)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
 	
 	public function getNoteQuestionnaire($prodpan, $op='voir')
 	{
-		$liste_compos_user = $this->em->getRepository(Composquestionnaire::class)
-							      ->myfindComposquestionnaire($prodpan->getId(),$this->getId());
-							
-		$liste_questionnaire = $this->em->getRepository(Questionnaire::class)
-	                                ->findBy(array('chapitrecours'=>$this), array('date'=>'asc'));
-		$nbrequestion = count($liste_compos_user);
-		$servicetext = $this->helperService;
-		$trouver = 0;
-		foreach($liste_questionnaire as $question)
-		{
-			$oldcompos = $this->em->getRepository(Composquestionnaire::class)
-							  ->findOneBy(array('produitpanier'=>$prodpan,'questionnaire'=>$question));
-			if($oldcompos != null and $oldcompos->getProposition() != null)
-			{
-				$bestpro = null;
-				foreach($question->getPropositions() as $prop)
-				{
-					if($prop->getReponse() == true)
-					{
-						$bestpro = $prop;
-					}
-				}
-				
-				if($bestpro == $oldcompos->getProposition())
-				{
-					$trouver = $trouver + 1;
-				}
-			}
-		}
-		if($nbrequestion > 0)
-		{
-			return ($servicetext->getBareme()*$trouver)/$nbrequestion;
-		}else{
-			return 0;
-		}
+        $oldanimation = $this->em->getRepository(Animationproduit::class)
+					         ->findOneBy(array('user'=>$prodpan->getPanier()->getUser(),'chapitrecours'=>$this,'produitpanier'=>$prodpan,'voir'=>1));
+
+        if($oldanimation == null or $oldanimation->getNotechapter() == null)//Si n'a pas encore vue la vidéo ou que ça note est non définie
+        {
+            $liste_compos_user = $this->em->getRepository(Composquestionnaire::class)
+                                    ->myfindComposquestionnaire($prodpan->getId(),$this->getId());
+                                
+            $liste_questionnaire = $this->em->getRepository(Questionnaire::class)
+                                        ->findBy(array('chapitrecours'=>$this, 'valide'=>true), array('date'=>'asc'));
+            $nbrequestion = count($liste_questionnaire);
+            $servicetext = $this->helperService;
+            $trouver = 0;
+            foreach($liste_questionnaire as $question)
+            {
+                $oldcompos = $this->em->getRepository(Composquestionnaire::class)
+                                ->findOneBy(array('produitpanier'=>$prodpan,'questionnaire'=>$question));
+                if($oldcompos != null and $oldcompos->getProposition() != null)
+                {
+                    $bestpro = null;
+                    foreach($question->getPropositions() as $prop)
+                    {
+                        if($prop->getReponse() == true)
+                        {
+                            $bestpro = $prop;
+                        }
+                    }
+                    
+                    if($bestpro == $oldcompos->getProposition())
+                    {
+                        $trouver = $trouver + 1;
+                    }
+                }
+            }
+            if($nbrequestion > 0)
+            {
+                return ($servicetext->getBareme()*$trouver)/$nbrequestion;
+            }else{
+                return 0;
+            }
+        }else{
+            return $oldanimation->getNotechapter();
+        }
+		
 		/*
 		if($op == "voir")
 		{

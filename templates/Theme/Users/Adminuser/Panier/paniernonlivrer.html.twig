@@ -58,7 +58,7 @@
 				<div class="alert alert-warning">
 					<strong style="color: red;"><span class="fa fa-warning"></span> Êtes vous certain de vouloir valider la commande N°: {{ infos|lower }} </strong>
 					<form action="{{ path('users_adminuser_livraison_panier_commander',{'id': idp }) }}" method="post">
-					<input type="submit" value="Supprimer" style="background: red;"/>
+					<input type="submit" value="Valider" style="background: green;"/>
 					</form>
 				</div>
 				{% else %}
@@ -122,7 +122,7 @@
 							{% if panier.payer == true %}
 								<a href="#!" class="btn btn-primary">Archiver</a>
 							{% else %}
-								<a href="#!" class="btn btn-primary">Demander le paiement</a>
+								<a href="{{ path('users_adminuser_livraison_panier_commander', {'id': panier.id }) }}" class="btn btn-primary">Demander le paiement</a>
 							{% endif %}
 						</dd>
                       </div>

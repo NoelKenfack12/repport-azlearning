@@ -3,8 +3,8 @@
 		<img class="card-img-top" src="{% if produit.imgproduit != null %}{{ asset(produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}" alt="Card image cap">
 	</div>
 	<div class="card-body pt-0">
-	<h5 class="card-title">{{ produit.name(40) }}</h5>
-
+	<a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}"><h5 class="card-title">{{ produit.name(40) }}</h5></a>
+	
 	<div style="width: 100%; font-size: 9px;">
 		<div style="color: #6a6f73;">{{ produit.user.name(25) }} | {% if produit.user.diplome != null %} {{ produit.user.diplome }}{% else %}Formateur Az{% endif %}</div>
 	</div>

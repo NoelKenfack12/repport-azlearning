@@ -338,6 +338,11 @@
 		.btnlogic{
 			white-space: nowrap;
 		}
+
+		.card-horizontal {
+			display: flex;
+			flex: 1 1 auto;
+		}
 	</style>
 {% endblock %}
 
@@ -487,7 +492,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 				{% elseif(is_granted('ROLE_GESTION')) %}
 					
 				{% else %}
-					{% if (prodpan == null and chapitre.partiecours.produit.user != app.user) or (prodpan == null and not(is_granted('ROLE_GESTION'))) %}
+					{% if prodpan == null %}
 						<div class="souscription-cours-online" value="0" style="position: absolute; z-index: 9; cursor: pointer;  background: url({{ asset('template/images/bghide6.png') }}); height: 520px; width: 105%; top: 0px; left: -3%; padding-right: 50px; padding-top: 30px;"><img src="{{ asset('template/images/lockb.png') }}" title="Accès non autorisé" class="pull-right" style="margin-top: 20px; width: 100px; height: 100px;"/></div>
 					{% else %}
 						{% if precedentchapter != null %}
@@ -830,42 +835,39 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 							<div>Ce cours partage les 5 formations avec les cours ci-dessous.</div>
 						</div>
 					</div>
-
 				</div>
+				
 				{% for oderproduct in cours_formation|slice(0,6) %}
 				{% set produit = oderproduct.produit %}
-				<div class="col-md-4">
-					<div class="card">
-						<a class="img-card" href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}">
-							<img src="{% if oderproduct.produit.imgproduit != null %}{{ asset(oderproduct.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/annonce.png') }}{% endif %}" />
-						</a>
-						<div class="card-content">
-							<h4 class="card-title">
-								<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}"> {{ oderproduct.produit.titre }}
-							  	</a>
-								  <div style="font-size: 11px;">{{ oderproduct.produit.souscategorie.nom }} <span class="float-right">{{ oderproduct.produit.getDureeCours }}</span></div>
-							</h4>
-							<div style="width: 100%; font-size: 9px;">
-								<div style="color: #6a6f73;">{{ produit.user.name(25) }} | {% if produit.user.diplome != null %} {{ produit.user.diplome }}{% else %}Formateur Az{% endif %}</div>
+				<div class="col-12">
+					<div class="card" style="box-shadow: none;">
+						<div class="card-horizontal">
+							<div class="img-square-wrapper">
+								<img class="" src="{% if oderproduct.produit.imgproduit != null %}{{ asset(oderproduct.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/annonce.png') }}{% endif %}" alt="Card image cap" style="max-width: 150px;">
 							</div>
-						
-							<div class="text-left">
-								<strong>4,7</strong>
-								<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
-									<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-									<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}"> {{ oderproduct.produit.titre }}
+									</a>
+									<div style="font-size: 11px;">{{ oderproduct.produit.souscategorie.nom }} <span class="float-right">{{ oderproduct.produit.getDureeCours }}</span></div>
+								</h4>
+								<div style="width: 100%; font-size: 9px;">
+									<div style="color: #6a6f73;">{{ produit.user.name(25) }} | {% if produit.user.diplome != null %} {{ produit.user.diplome }}{% else %}Formateur Az{% endif %}</div>
+								</div>
+								<div class="text-left">
+									<strong>4,7</strong>
+									<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+										<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+										<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+									</div>
+									<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}" class="btn btn-primary float-right" style="color: #fff;">
+										En savoir plus <span class="fa fa-angle-right"></span>
+									</a>
 								</div>
 							</div>
-							
-							<p class="card-text text-left">
-								<strong style="font-size: 18px; color: #7a818d;">Montant</strong> <br>
-								<strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span>
-							</p>
 						</div>
-						<div class="card-read-more">
-							<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}" class="btn btn-link btn-block">
-								En savoir plus
-							</a>
+						<div class="card-footer">
+							<strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span>
 						</div>
 					</div>
 				</div>
@@ -903,7 +905,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 							<div>
 								<img src="{{ asset('template/images/messagefin.png') }}" alt="" style="height: 100px;">
 							</div>
-							 Vous êtes allez jusqu'au bout de cette leçon.
+							 Vous êtes allé(e) jusqu'au bout de cette leçon.
 						</h3>
 						
 					</div>
@@ -1106,8 +1108,8 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 	
 	<hr style="margin-bottom: 15px;"/>
 	<div class="modal-footer" style="display: block!important; text-align: right;">
-	<span class="pull-left">&copy; {{ site }}</span>
-	{% include 'Theme/General/Template/Menu/social.html.twig' %}
+		<span class="pull-left">&copy; {{ site }}</span>
+		{% include 'Theme/General/Template/Menu/social.html.twig' %}
 	</div>
 	
 	</div>

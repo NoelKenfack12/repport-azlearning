@@ -12,6 +12,172 @@
 
 {% block userblog_body %}
 
+<style>
+
+.ac-label {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+
+.ac-input:checked + label, .ac-label:hover {
+  background-color: #999;
+}
+
+.ac-label:after, .ac-input:checked + .ac-label:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+
+.ac-label:hover:after, .ac-input:checked + .ac-label:after {
+  background-color: #b5b5b5;
+}
+
+.ac-input:checked + .ac-label:after {
+  content: "-";
+}
+
+.ac-input {
+  display: none;
+}
+
+.ac-text, .ac-sub-text {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+
+.ac-input:checked ~ .ac-text, .ac-sub .ac-input:checked ~ .ac-sub-text { 
+  opacity: 1;
+  height: auto;
+}
+
+.ac-sub .ac-label {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+
+.ac-sub .ac-label:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.ac-sub .ac-label:after, .ac-sub .ac-input:checked + .ac-label:after {
+  left: 0;
+  background: none;
+}
+
+.ac-sub .ac-input:checked + label, .ac-sub .ac-label:hover {
+  background: none;
+}
+
+.ac-sub-text {
+  padding: 0 1em 0 2em;
+}
+
+
+
+.title-pen {
+  color: #333;
+  font-family: "Coda", sans-serif;
+  text-align: center;
+}
+.title-pen span {
+  color: #55acee;
+}
+
+.user-profile {
+  width: 100%; 
+  height: 11em;
+  background: #fff;
+  border-radius: .3em;
+  padding-top: 15px;
+  text-align: left;
+}
+
+.user-profile  .username {
+  margin: auto;
+  margin-top: -4.40em;
+  margin-left: 5.80em;
+  color: #658585;
+  font-size: 1.53em;
+  font-family: "Coda", sans-serif;
+  font-weight: bold;
+}
+.user-profile  .bio {
+  margin: auto;
+  display: inline-block;
+  margin-left: 10.43em;
+  color: #e76043; 
+  font-size: .87em;
+  font-family: "varela round", sans-serif;
+}
+.user-profile > .description {
+  margin: auto;
+  margin-top: 1.35em;
+  margin-right: 4.43em;
+  width: 14em;
+  color: #c0c5c5; 
+  font-size: .87em;
+  font-family: "varela round", sans-serif;
+}
+.user-profile > img.avatar {
+	padding: .7em;
+  margin-left: .3em;
+  margin-top: .3em;
+  height: 6.23em;
+  width: 6.23em;
+  border-radius: 18em;
+}
+
+.user-profile ul.data {
+	margin: 2em auto;
+  background: #739ee6;
+  text-align: center;
+  border-radius: 0 0 .3em .3em;
+  height: unset;
+    margin-top: 35px;
+}
+.user-profile li {
+	margin: 0 auto;
+  padding: 1.30em; 
+  width: 33.33334%;
+  display: table-cell;
+  text-align: center;
+}
+
+.user-profile span {
+	font-family: "varela round", sans-serif;
+	color: #e3eeee;
+  white-space: nowrap;
+  font-size: 1.27em;
+  font-weight: bold;
+}
+.user-profile span:hover {
+  color: #daebea;
+}
+
+</style>
+
+
 <div class="container" style="min-height: 10px;">	
 <div class="row">	
 <div class="col-md-12 text-left">
@@ -51,113 +217,176 @@
 				<span class="fa fa-info-circle"></span> Feuille de suivi de {{ user.name(30) }} sur ce cours. <span class="fa fa-check pull-right"></span>
 				</div>
 			</div>
+
+			<div class="col-md-12">
+				<div class="user-profile">
+				  <img class="avatar" src="{{ asset('template/images/co.png') }}" alt="Ash" />
+				  <div class="username">{{ user.name(30) }}</div>
+				  <div class="bio" style="display: block; margin-right: 15px;">
+					  <a href="" class="btn btn-primary float-right" style="float: right;">
+						  <span class="fa fa-envelope-o"></span> Envoyer un message 
+					  </a>
+					{% if user.poste != null %}{{ user.poste }}{% else %}Profession non spécifiée{% endif %}
+					<div class="text-left" style="color: #333;">
+						Inscrit depuis le {{ prodpan.panier.date|date('d') }}/{{ prodpan.panier.date|date('m') }}/{{ prodpan.panier.date|date('Y') }}
+					</div>
+				  </div>
+				  
+				  <ul class="data">
+					<li>
+					  <span class="entypo-heart"> -</span>
+					</li>
+					<li>
+					  <span class="entypo-eye"> -</span>
+					</li>
+					<li>
+					  <span class="entypo-user"> -</span>
+					</li>
+				 </ul>
+				</div>
+			</div>
 		{% endfor %}
-	
-		<div class="col-lg-12">
-		<div class="variation-sub-contenu" value="0">
-			{% for chapitre in liste_chapter %}
-			
-				{% if chapitre.exerciceparties|length == 0 and chapitre.pratiquechapitres|length == 0 %}
+
+		<div class="col-md-12">
+			<section style="background: #fff; min-height: 500px; padding: 7px; margin-top: 15px;">
+
+				<h3>{{ produit.titre }}</h3>
 				
-				{% else %}
+				{% for partie in liste_part %}
+				<div class="ac">
+				  
+				  <input class="ac-input" id="ac-{{ partie.id }}" name="ac-{{ partie.id }}" type="checkbox" />
+				  <label class="ac-label" for="ac-{{ partie.id }}">{{ partie.titre }}</label>
+				  
+				  <article class="ac-text">
 					
-					<div class="panel panel-default text-left" style="border-radius: 0px;">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							<a class="accordion-toggle" href="#itemm{{ chapitre.id }}" data-parent="#monaccordeon" data-toggle="collapse" style="display: block;"><span class="mdi-content-report" style="font-size: 15px;"></span> {{ chapitre.partiecours.titre }} <span class="fa fa-angle-double-right"></span> {{ chapitre.titre }} <span class="mdi-hardware-keyboard-arrow-down pull-right"></span></a>
-						</h3>
-					</div>
-					</div>
-					{% if chapitre.exerciceparties|length != 0 %}
-						<div style="background: #fff; padding: 10px; margin-bottom: 15px;">
-							<div style="margin-top: 10px;">
-								<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Exercices</h4>
-							</div>
-							<table>
-								<thead>
-									<tr>
-										<th>Enoncé</th>
-										<th>Composition</th>
-										<th>Correction</th>
-										<th>Note/{{ bareme }}</th>
+					{% for chapitre in partie.getAllChapitre %}
+					{% set nbexercice = chapitre.exerciceparties|length %}
+					{% set nbtp = chapitre.pratiquechapitres|length %}
+					{% set nbqcm = chapitre.getQuestionnaires|length %}
+					<div class="ac-sub">
+					  <input class="ac-input" id="ac-chapter-{{ chapitre.id }}" name="ac-chapter-{{ chapitre.id }}" type="checkbox" />
+					  <label class="ac-label" for="ac-chapter-{{ chapitre.id }}">{{ chapitre.titre }} 
+						  <span style="float: right; text-transform: capitalize; font-weight: normal;">
+							{% if chapitre.getLectureVideo(user) == true %}
+								<span class="fa fa-eye" style="color: green;"></span>
+							{% else %}
+								<span class="fa fa-eye-slash"></span>
+							{% endif %}
+							<strong>Exercices:</strong> {{ nbexercice }}; <strong>TP:</strong> {{ nbtp }}; <strong>QCM:</strong> {{ nbqcm }};
+						  </span>
+					  </label>
+					  <article class="ac-sub-text">
+							{% if nbexercice != 0 %}
+							<div style="background: #fff; padding: 10px; margin-bottom: 15px;">
+								<div style="margin-top: 10px;">
+									<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Exercices</h4>
+								</div>
+								<table>
+									<thead>
+										<tr>
+											<th>Enoncé</th>
+											<th>Composition</th>
+											<th>Correction</th>
+											<th>Note/{{ bareme }}</th>
+										</tr>
+									</thead>
+									<tbody>
+									{% for exercice in chapitre.exerciceparties %}
+										{{ render(controller("App\\Controller\\Produit\\Produit\\PanierController:detailexercice", {'id': exercice.id, 'panier': panier.id, 'ident': loop.index })) }}
+									{% else %}
+									<tr class="success">
+										<td data-column="Enoncé">-</td>
+										<td data-column="Composition">-</td>
+										<td data-column="Correction">-</td>
+										<td data-column="Note/{{ bareme }}">-</td>
 									</tr>
-								</thead>
-								<tbody>
-								{% for exercice in chapitre.exerciceparties %}
-									{{ render(controller("App\\Controller\\Produit\\Produit\\PanierController:detailexercice", {'id': exercice.id, 'panier': panier.id, 'ident': loop.index })) }}
-								{% else %}
-								<tr class="success">
-									<td data-column="Enoncé">-</td>
-									<td data-column="Composition">-</td>
-									<td data-column="Correction">-</td>
-									<td data-column="Note/{{ bareme }}">-</td>
-								</tr>
-								{% endfor %}
-								</tbody>
-							</table>
-						</div>
-					{% endif %}
-					
-					{% if chapitre.pratiquechapitres|length != 0 %}
+									{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						{% endif %}
+						
+						{% if nbtp != 0 %}
+							<div style="background: #fff; padding: 10px; margin-bottom: 15px;">
+								<div style="margin-top: 10px;">
+									<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Travaux pratiques</h4>
+								</div>
+								<table class="table table-bordered table-striped table-condensed">
+									<thead>
+										<tr>
+											<th>Enoncé</th>
+											<th>Composition</th>
+											<th>Correction</th>
+											<th>Note/{{ bareme }}</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for pratique in chapitre.pratiquechapitres %}
+											{{ render(controller("App\\Controller\\Produit\\Produit\\PanierController:detailpartique", {'id': pratique.id, 'panier': panier.id, 'ident': loop.index })) }}
+										{% else %}
+										<tr class="success">
+											<td data-column="Enoncé">-</td>
+											<td data-column="Composition">-</td>
+											<td data-column="Correction">-</td>
+											<td data-column="Note/{{ bareme }}">-</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						{% endif %}
+
+						{% if nbqcm > 0 %}
 						<div style="background: #fff; padding: 10px; margin-bottom: 15px;">
 						<div style="margin-top: 10px;">
-							<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Travaux pratiques</h4>
+							<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Questionnaire</h4>
 						</div>
+						
 						<table class="table table-bordered table-striped table-condensed">
 						<thead>
-							<tr>
-								<th>Enoncé</th>
-								<th>Composition</th>
-								<th>Correction</th>
-								<th>Note/{{ bareme }}</th>
-							</tr>
+						<tr>
+							<th>Enoncé</th>
+							<th>Composition</th>
+							<th>Correction</th>
+							<th>Note/{{ bareme }}</th>
+						</tr>
 						</thead>
 						<tbody>
-							{% for pratique in chapitre.pratiquechapitres %}
-								{{ render(controller("App\\Controller\\Produit\\Produit\\PanierController:detailpartique", {'id': pratique.id, 'panier': panier.id, 'ident': loop.index })) }}
-							{% else %}
-							<tr class="success">
-								<td data-column="Enoncé">-</td>
-								<td data-column="Composition">-</td>
-								<td data-column="Correction">-</td>
-								<td data-column="Note/{{ bareme }}">-</td>
-							</tr>
-							{% endfor %}
+						<tr class="success">
+							<td data-column="Enoncé"><a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id }) }}"><span class="fa fa-eye"></span> Voir</a></td>
+							<td data-column="Composition">-</td>
+							<td data-column="Correction">-</td>
+							<td data-column="Note/{{ bareme }}">
+								<a href="#!">
+									<span class="fa fa-file-text-o"></span> 
+									{% if prodpan != null %}
+										{% set note = chapitre.getNoteQuestionnaire(prodpan) %}
+										<strong>{{ note }}/{{ bareme }}</strong>
+									{% else %}
+									-
+									{% endif %} 
+								</a> 
+							</td>
+						</tr>
 						</tbody>
 						</table>
 						</div>
-					{% endif %}
+						{% endif %}
 
-					{% if 0 %}
-					<div style="background: #fff; padding: 10px; margin-bottom: 15px;">
-					<div style="margin-top: 10px;">
-						<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Questionnaire</h4>
+
+					  </article>
 					</div>
-					
-					<table class="table table-bordered table-striped table-condensed">
-					<thead>
-					<tr>
-						<th>Enoncé</th>
-						<th>Composition</th>
-						<th>Correction</th>
-						<th>Note/{{ bareme }}</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr class="success">
-						<td data-column="Enoncé"><a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id }) }}"><span class="fa fa-eye"></span> Voir</a></td>
-						<td data-column="Composition">-</td>
-						<td data-column="Correction">-</td>
-						<td data-column="Note/{{ bareme }}"><a href="#!"><span class="fa fa-file-text-o"></span> {% if prodpan != null %}{{ chapitre.getNoteQuestionnaire(prodpan)}}{% else %}-{% endif %} </a> </td>
-					</tr>
-					</tbody>
-					</table>
-					</div>
-					{% endif %}
-				{% endif %}
-			{% endfor %}
+					{% endfor %}
+
+				  </article><!--/ac-text-->
+				  
+				</div><!--/ac-->
+				{% endfor %}
+
+			  </section>
 		</div>
-		</div>
+	
 	</div>
 </div>
 

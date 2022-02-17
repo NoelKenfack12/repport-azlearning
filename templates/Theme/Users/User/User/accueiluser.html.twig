@@ -193,7 +193,7 @@
 					</div>
 					<div class="four-text">
 						<h3>Solde</h3>
-						<h4>{{ user.soldeprincipal }} {{ devise }}</h4>
+						<h4>{{ user.soldeprincipal|numberFormat }} {{ devise }}</h4>
 					</div>
 					<a href="{{ path('produit_service_yourcv_recrutement') }}">Créditer <span class=" fa fa-angle-double-right"></span></a>
 				</div>

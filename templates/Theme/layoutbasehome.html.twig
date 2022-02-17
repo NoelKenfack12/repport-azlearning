@@ -2347,6 +2347,147 @@ z-index: 10;
 	display: none !important;
 }
 }
+
+
+/*
+---------------------------------------------
+Start Modal SPP
+-------------------------------------------------
+*/
+html.sppmodal-active, body.sppmodal-active {
+  overflow: hidden;
+}
+.sppmodal-container{
+  position: fixed;  /*Mettre à fixed si la classe sppmodal-active est appliqué à l'élément body*/
+  display: table;
+  height:100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transform: scale(0);
+  z-index: 100000;
+}
+.sppmodal-container.one{
+  transform: scaleY(0.01) scaleX(0);
+  animation: unfoldIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.sppmodal-container.one .sppmodal-background .sppmodal {
+  transform: scale(0);
+  animation: zoomIn 0.5s 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.sppmodal-container.one.out {
+  transform: scale(1);
+  animation: unfoldOut 1s 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.sppmodal-container.one.out .sppmodal-background .sppmodal {
+  animation: zoomOut 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.sppmodal-container .sppmodal-background {
+  display: table-cell;
+  background: rgba(247, 248, 251,0.8)!important;
+  text-align: center;
+  vertical-align: middle;
+}
+.sppmodal-container .sppmodal-background .sppmodal {
+  padding: 10px;
+  display: inline-block;
+  position: relative;
+	width: 450px!important;
+  height: auto!important;
+  max-height: 750px!important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: 400;
+	text-align: center;
+	line-height: 18px;
+	color:  #FFFFFF;
+	background-color: #FFFFFF;
+	background-repeat: repeat;
+	background-position: left top;
+	border: 1px solid  #F1F3F9;
+	border-radius: 4px;
+	box-shadow: 0px 2px 5px 1px  #999999;
+}
+
+.sppmodal-container .sppmodal-background .sppmodal h2 {
+  font-size: 25px;
+  line-height: 25px;
+  margin-bottom: 15px;
+}
+.sppmodal-container .sppmodal-background .sppmodal p {
+  font-size: 18px;
+  line-height: 22px;
+}
+.sppmodal-container .sppmodal-background .sppmodal .sppmodal-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+}
+.sppmodal-container .sppmodal-background .sppmodal .sppmodal-svg rect {
+  stroke: #fff;
+  stroke-width: 2px;
+  stroke-dasharray: 778;
+  stroke-dashoffset: 778;
+}
+
+@keyframes unfoldIn {
+  0% {
+    transform: scaleY(0.005) scaleX(0);
+  }
+  50% {
+    transform: scaleY(0.005) scaleX(1);
+  }
+  100% {
+    transform: scaleY(1) scaleX(1);
+  }
+}
+@keyframes unfoldOut {
+  0% {
+    transform: scaleY(1) scaleX(1);
+  }
+  50% {
+    transform: scaleY(0.005) scaleX(1);
+  }
+  100% {
+    transform: scaleY(0.005) scaleX(0);
+  }
+}
+@keyframes zoomIn {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+/*
+--------------------------------------
+End Modal SPP
+--------------------------------------
+*/
+
+.field-icon {
+	margin-top: 10px;
+	position: absolute;
+	z-index: 2;
+	right: 15px;
+	cursor: pointer;
+}
 </style>
 </head>
 
@@ -2400,7 +2541,11 @@ z-index: 10;
 			<form action="{{ path('login') }}" method="post" style="margin-top: 15px;">
 			<div class="form-group">
 				<input type="email" placeholder="E-mail" id="username" name="_username" value="" required class="form-control" style="width: 100%;">
-				<input type="password" placeholder="Mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%;">
+				
+			</div>
+			<div class="form-group" style="position: sticky;">
+				<input type="password" placeholder="Mot de passe" id="password-field" name="_password" required class="form-control" style="margin-top: 15px; width: 100%;">
+				<span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
 			</div>
 			<div style="margin-top: 15px;">
 				<a class="news-letter " href="#" style="color: #333;">
@@ -2476,6 +2621,17 @@ z-index: 10;
 	
 	<div id="devtool-status"></div>
 	<script type="text/javascript">
+		$(".toggle-password").click(function() {
+			$(this).toggleClass("fa-eye fa-eye-slash");
+			var input = $($(this).attr("toggle"));
+			if (input.attr("type") == "password") {
+				input.attr("type", "text");
+			} else {
+				input.attr("type", "password");
+			}
+		});
+
+
 		$('a').tooltip();
 		
 		$(".dropdown-btn").click(function(){

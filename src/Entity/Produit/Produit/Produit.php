@@ -318,7 +318,7 @@ class Produit
         $this->coutlivraisons = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userlikes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->produitformations = new \Doctrine\Common\Collections\ArrayCollection();
-            $this->em = $em;
+        $this->em = $em;
     }
 
 	public function setEm($em)

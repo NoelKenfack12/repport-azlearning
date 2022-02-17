@@ -99,16 +99,26 @@ class Animationproduit
        * @ORM\JoinColumn(nullable=true)
     */
 	private $produitpanier;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $notechapter;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $baremechapter;
 	
 	public function __construct()
-	{
-		$this->date = new \Datetime();
-		$this->aimer = false;
-		$this->enregistrer = false;
-		$this->partager = false;
-		$this->voir = false;
-		$this->recommander = false;
-	}
+                           	{
+                           		$this->date = new \Datetime();
+                           		$this->aimer = false;
+                           		$this->enregistrer = false;
+                           		$this->partager = false;
+                           		$this->voir = false;
+                           		$this->recommander = false;
+                           	}
 
 
     /**
@@ -341,5 +351,29 @@ class Animationproduit
     public function getProduitpanier(): ?Produitpanier
     {
         return $this->produitpanier;
+    }
+
+    public function getNotechapter(): ?float
+    {
+        return $this->notechapter;
+    }
+
+    public function setNotechapter(?float $notechapter): self
+    {
+        $this->notechapter = $notechapter;
+
+        return $this;
+    }
+
+    public function getBaremechapter(): ?float
+    {
+        return $this->baremechapter;
+    }
+
+    public function setBaremechapter(?float $baremechapter): self
+    {
+        $this->baremechapter = $baremechapter;
+
+        return $this;
     }
 }
