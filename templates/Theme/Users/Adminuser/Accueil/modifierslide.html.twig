@@ -44,8 +44,8 @@
 		{% for infos in app.session.flashbag.get('imgslide') %}
 		{% if loop.first %}
 		<div class="alert alert-warning alert-dismissable" style="margin: 3px;">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		{{ infos|raw }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ infos|raw }}
 		</div>
 		{% endif %}
 		{% endfor %}
@@ -227,7 +227,7 @@ function is_int(value){
       return true;
   } else {
       return false;
-  }
+  } 
 }
 function getExtension(filename)
 {
@@ -272,7 +272,7 @@ if(taille1.length >= maxchamp1 && $(this).val().length >= maxchamp1)
 	$('.control-info-champ1').html(taille1.length+'/'+maxchamp1);
 	$('#users_userbundle_imgslide_titre').focus();
 }else{
-	  taille1 = $(this).val();
+	taille1 = $(this).val();
 }
 });
 var taille2 = "";

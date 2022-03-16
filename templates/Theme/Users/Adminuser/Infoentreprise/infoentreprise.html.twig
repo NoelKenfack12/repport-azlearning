@@ -12,6 +12,7 @@
 {% block userblog_body %}
 <hr style="margin-top: 45px; margin-bottom: 0px;"/>
 <div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+
 </div>
 <div style="background: #BDC3C7;">
 	<div class="container" style="color: #fff;">
@@ -23,6 +24,7 @@
 <div class="product" style="padding-top: 20px; margin-bottom: 20px;">
 	<div class="container" style="padding: 0px;">
 	<div class="col-lg-12 animecourant-panel">
+
 	</div>
 		<div class="col-md-4 product-bottom">
 			{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
@@ -59,22 +61,22 @@
 			{% endfor %}
 			
 			<div style="padding: 5px 0px;">
-			{% for apropos in allinfo %}
-				<div class="col-md-12" style="padding: 5px;">
+			  {% for apropos in allinfo %}
+				<div class="row" style="padding: 5px;">
 					<div class="col-sm-1" style="padding: 0px;">
 						<a href="{{ path('users_user_user_accueil', {'id': apropos.user.id }) }}" title="{{ apropos.user.name(20) }}"><img src="{% if apropos.user.imgprofil != null %} {{ asset(apropos.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" alt="{{ apropos.user.name(20) }}" class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/></a>
 					</div>
 					<div class="col-md-4">
 						<a href="#!">
-							<div class="hover01 column">
+							<div class="hover01 column" style="border: 1px solid red;">
 								<div>
 									<figure style="padding: 0px!important; margin: 0px!important; height: 150px;">{% if apropos.imginfoentreprise != null %}<img class="img-responsive img-hover img-thumbnail" src="{% if apropos.imginfoentreprise != null %}{{ asset(apropos.imginfoentreprise.getWebpath) }}{% else %}#!{% endif %}" alt="" title="" style="height: 150px; width: 100%; margin-bottom: 15px;">{% endif %}</figure>
 								</div>
 							</div>
 						</a>
 					</div>
-					<div class="col-md-8 panel panel-widget" style="padding: 0px;">
-				<div class="header-card" style="margin-bottom: 7px;">
+					<div class="col-md-7 panel panel-widget" style="padding: 0px;">
+					  <div class="header-card" style="margin-bottom: 7px;">
 							{{ apropos.titre }}
 						</h3>
 						<p class="blog-agile1 w3layouts w3 w3l w3ls" style="font-size: 11px; margin-bottom: 0px;">Le {{ apropos.date|date('d/m/y') }} <a href="#!">Rang:</a> {{ apropos.rang }}; 
@@ -101,10 +103,11 @@
 								Slide Page Vidéo
 							{% endif %}
 						</p>
-						<p class="blog-agile2 agileits agileinfo wthree w3-agileits">{{ apropos.description }}</p>
+						<p class="blog-agile2 agileits agileinfo wthree w3-agileits">{{ apropos.description|raw }}</p>
 						<a class="btn btn-danger pull-right" href="{{ path('users_adminuser_supprission_information_entreprise', {'id': apropos.id }) }}" style="border-radius: 0px; height: 35px; font-size: 14px; padding: 2px;">Supprimer <i class="fa fa-times"></i></a>
 						<a class="btn btn-primary pull-right" href="{{ path('users_adminuser_modification_information_entreprise_courant', {'id': apropos.id }) }}" style="border-radius: 0px; height: 35px; font-size: 14px; padding: 2px;">Modifier <i class="fa fa-pencil"></i></a>
-					</div>
+					  </div>
+				    </div>
 				</div>
 			{% endfor %}
 			<div class="clearfix"></div>

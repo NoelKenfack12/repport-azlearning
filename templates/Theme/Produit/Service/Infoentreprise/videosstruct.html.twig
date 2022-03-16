@@ -296,7 +296,7 @@ article footer a:hover{
 				  </div>
 				  {% if article.linkvideo != null %}
 				  <iframe class="cover-image"
-				   src="https://www.youtube.com/embed/tgbNymZ7vqY">
+				   src="{{ article.linkvideo }}"> <!-- span>https://www.youtube.com/embed/tgbNymZ7vqY</span -->
 				  </iframe>
 				  {% else %}
 				  <img src='{% if article.imginfoentreprise != null %}{{ asset(article.imginfoentreprise.getwebpath) }}{% else %}https://images.unsplash.com/photo-1509588935269-1b058d737b41?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=f79a1fd82243b784c0b8ffd78acca895{% endif %}' class="cover-image">

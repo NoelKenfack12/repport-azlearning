@@ -48,18 +48,18 @@
 		<h4>
 		{% set id = '' %}
 		{% for infos in app.session.flashbag.get('supprime_slide') %}
-		{% if loop.last %}
-			<div class="alert alert-warning alert-dismissable">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<span class="fa fa-warning"></span> Êtes vous certain de vouloir supprimer le slide {{ infos|lower }}
-			<form action="{{ path('users_adminuser_delete_courant_slide',{'id': id }) }}" method="post" style="display: inline;">
-			<input type="submit" value="Supprimer" style="background: red;"/>
-			{{ form_rest(formsupp) }}
-			</form>
-			</div>
-		{% else %}
-			{% set id = infos %}
-		{% endif %}
+			{% if loop.last %}
+				<div class="alert alert-warning alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="fa fa-warning"></span> Êtes vous certain de vouloir supprimer le slide {{ infos|lower }}
+				<form action="{{ path('users_adminuser_delete_courant_slide',{'id': id }) }}" method="post" style="display: inline;">
+				<input type="submit" value="Supprimer" style="background: red;"/>
+				{{ form_rest(formsupp) }}
+				</form>
+				</div>
+			{% else %}
+				{% set id = infos %}
+			{% endif %}
 		{% endfor %}
 		</h4>
 		<div style="padding: 5px 0px;">
@@ -150,7 +150,7 @@
 		  <div class="col-sm-12">
 		  
 			<div class="form-group item-custom-slide-1">
-				<span style="color:red;">{{ form_errors(formslide.link) }}</span>
+				<span style="color: red;">{{ form_errors(formslide.link) }}</span>
 				{{ form_widget(formslide.link, {'attr': {'class': 'form-control', 'style': 'width: 100%;'}}) }}
 		    </div>
 			

@@ -250,38 +250,52 @@ public function validerdossier(Recrutement $recrut, Request $request, GeneralSer
 	
 	if ($request->getMethod() == 'POST'){
     $formsupp->handleRequest($request);
-    if ($formsupp->isValid() and $recrut->setValide(false)){
-		$recrut->setValide(true);
-		$recrut->getUser()->setSoldeprincipal($recrut->getUser()->getSoldeprincipal() + $recrut->getMontantransfert());
-		
-		//envoie d'email
-		$siteweb = $this->params->get('siteweb');
-		$sitename = $this->params->get('sitename');
-		$emailadmin = $this->params->get('emailadmin');
-		
-		$notif = new Notification();
-		$notif->setTitre('Votre compte a été crédité avec succès.');
-		$notif->setContenu('Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commandes sur '.$sitename);
-		$notif->setUser($recrut->getUser());
-		$em->persist($notif);
-		$em->flush();
+		if ($formsupp->isValid()){
 
-		if($service->email($recrut->getUser()->getUsername()))
-		{
+			if($recrut->getValide() == false)
+			{
+				$recrut->setValide(true);
+				$recrut->getUser()->setSoldeprincipal($recrut->getUser()->getSoldeprincipal() + $recrut->getMontantransfert());
+				
+				//envoie d'email
+				$siteweb = $this->params->get('siteweb');
+				$sitename = $this->params->get('sitename');
+				$emailadmin = $this->params->get('emailadmin');
+				
+				$notif = new Notification();
+				$notif->setTitre('Votre compte a été crédité avec succès.');
+				$notif->setContenu('Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commandes sur '.$sitename);
+				$notif->setUser($recrut->getUser());
+				$em->persist($notif);
+				$em->flush();
 
-			$response = $this->_servicemail->sendNotifEmail(
-				$recrut->getUser()->name(40), //Nom du destinataire
-				$recrut->getUser()->getUsername(), //Email Destinataire
-				'Votre compte a été crédité avec succès.', //Objet de l'email
-				$this->getUser()->name(30).' vient de déposer un montant de '.$recrut->getMontantransfert().' FCFA sur votre compte '.$sitename, //Grand Titre de l'email
-				'Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commande sur '.$sitename,  //Contenu de l'email
-				 ''  //Lien à suivre
-			);
+				if($service->email($recrut->getUser()->getUsername()))
+				{
+					$response = $this->_servicemail->sendNotifEmail(
+						$recrut->getUser()->name(40), //Nom du destinataire
+						$recrut->getUser()->getUsername(), //Email Destinataire
+						'Votre compte a été crédité avec succès.', //Objet de l'email
+						$this->getUser()->name(30).' vient de déposer un montant de '.$recrut->getMontantransfert().' FCFA sur votre compte '.$sitename, //Grand Titre de l'email
+						'Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commande sur '.$sitename,  //Contenu de l'email
+						''  //Lien à suivre
+					);
+				}
+					
+				$this->get('session')->getFlashBag()->add('information','Solde mis à jour avec succès');
+				return $this->redirect($this->generateUrl('users_adminuser_liste_dossier_recrutement'));
+			}else{
+				if(($recrut->getUser()->getSoldeprincipal() - $recrut->getMontantransfert()) >= 0)
+				{
+					$recrut->setValide(false);
+					$recrut->getUser()->setSoldeprincipal($recrut->getUser()->getSoldeprincipal() - $recrut->getMontantransfert());
+					$em->flush();
+					$this->get('session')->getFlashBag()->add('information','Solde mis à jour avec succès');
+				}else{
+					$this->get('session')->getFlashBag()->add('information','Echec, Le compte ne peut être négatif');
+				}
+				return $this->redirect($this->generateUrl('users_adminuser_liste_dossier_recrutement'));				
+			}			
 		}
-			
-		$this->get('session')->getFlashBag()->add('information','Solde mis à jour avec succès');
-		return $this->redirect($this->generateUrl('users_adminuser_liste_dossier_recrutement'));
-	}
 	}
     $this->get('session')->getFlashBag()->add('valider_dossier',$recrut->getId());
 	$this->get('session')->getFlashBag()->add('valider_dossier',$recrut->getUser()->name(20));

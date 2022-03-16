@@ -80,9 +80,9 @@ public function tel($text)
 	$regex ='#^[0-9][0-9]{6,20}$#';
 	if (preg_match($regex, $text))
 	{
-	return true;
+		return true;
 	}else{
-	return false; 
+		return false; 
 	}	
 }
 

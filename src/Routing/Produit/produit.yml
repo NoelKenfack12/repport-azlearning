@@ -333,3 +333,9 @@ produit_produit_confirmation_lectrure_video_chapitre:
     requirements:
         id: \d+
         idprodpan: \d+
+produit_produit_positionnement_chapter_cours:
+    path: /positionnement/chapter/cours/{id}/{prodpan}
+    controller: App\Controller\Produit\Produit\ProduitController:positionnementchapter
+    requirements:
+        id: \d+
+        prodpan: \d+

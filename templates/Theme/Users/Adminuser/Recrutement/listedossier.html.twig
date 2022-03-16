@@ -62,7 +62,7 @@
 					{% for infos in app.session.flashbag.get('valider_dossier') %}
 					{% if loop.last %}
 					<div class="alert alert-warning alert-dismissable">
-					<button type="button" class="close" data-dismiss="alert">&times;</button><span class="fa fa-warning"></span> Êtes vous certain de vouloir créditer le solde du client  {{ infos|lower }} ?
+					<button type="button" class="close" data-dismiss="alert">&times;</button><span class="fa fa-warning"></span> Êtes vous certain de vouloir créditer/annuler le solde du client  {{ infos|lower }} ?
 					<form action="{{ path('users_adminuser_valider_demande_defont',{'id': id }) }}" method="post" style="display: block;">
 					<input type="submit" value="Valider" style="background: red;"/>
 					{{ form_rest(formsupp) }}
@@ -87,14 +87,14 @@
 						<div class="col-md-6 filtr-item baner-top" data-category="1, 5" data-sort="Busy streets" style="margin-bottom: 15px;">
 							<div class="panel panel-widget text-left">
 							<a href="{{ path('users_user_user_accueil', {'id': dossier.user.id }) }}"><h3 style="margin-bottom: 10px;"><img src="{% if dossier.user.imgprofil != null %} {{ asset(dossier.user.imgprofil.webpath) }} {% else %} {{ asset('template/images/co.png') }} {% endif %}" alt="{{ dossier.user.name(20) }}" class="img-thumbnail"  style="width: 50px; height: 50px; border-radius: 25px;"/> {{ dossier.user.name(30) }}</h3></a>
-							<p><a href="#!" title="{{ dossier.message }}">Message</a> - <a href="#!" title="{{ dossier.moyentransfert }} - {{ dossier.montantransfert }}{{ devise }}">Transfert</a> - <a href="#!" title="{{ dossier.villeactuel }}">Ville</a></p>
+							<p><a href="#!" title="{{ dossier.message }}">Message</a> - <a href="#!" title="{{ dossier.moyentransfert }} - {{ dossier.montantransfert }}{{ devise }}">Transfert</a> - <a href="#!" title="{{ dossier.villeactuel }}">Ville</a> - <a href="#!" title="{{ dossier.date|date('d') }}.{{ dossier.date|date('M') }}.{{ dossier.date|date('Y') }}">Date</a></p>
 							<div style="margin-top: 20px;"><a href="{{ path('users_adminuser_telecharg_lettre_motivation_user', {'id': dossier.id }) }}" target="_blank"><strong>Fiche N°: </strong> {{ dossier.numFacture }}</a></div>
 							<div><strong>Tel:</strong> {{ dossier.tel }}</div>
 							<div><strong>Mail:</strong> {{ dossier.mail }}</div>
 									
 							<div style="margin-top: 15px;">
 							{% if dossier.valide == true %}
-								<a href="#!" class="btn btn-primary pull-right" style="margin-top: -10px;"> Effectuer <span class="fa fa-ban"></span></a>
+								<a href="{{ path('users_adminuser_valider_demande_defont',{'id': dossier.id }) }}" class="btn btn-primary pull-right" style="margin-top: -10px;"> Annuler <span class="fa fa-ban"></span></a>
 							{% else %}
 								<a href="{{ path('users_adminuser_valider_demande_defont',{'id': dossier.id }) }}" class="btn btn-primary pull-right" style="margin-top: -10px;"> Valider <span class="fa fa-check"></span></a>
 							{% endif %}

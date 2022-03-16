@@ -662,10 +662,10 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 										<a href="#!" target="_blank" class="dropdown__option"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a>
 										<li class="divider"></li>
 										{% if prodpan.produit != null %}
-										<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a>
+										<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a>
 										{% else %}
 											{% if prodpan.panier.chapitrecours != null %}
-											<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a>
+											<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a>
 											{% endif %}
 										{% endif %}
 									{% else %}
@@ -680,7 +680,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 
 								  {% if prodpan != null %}
 									<a href="{{ path('produit_produit_download_travaux_pratique', {'id': pratique.id }) }}" class="dropdown__option">
-										<span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction
+										<span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici
 								    </a>
 									{% else %}
 									<a href="#!" class="dropdown__option souscription-cours-online">
@@ -787,10 +787,10 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
 									<a href="{{ path('produit_produit_telecharge_exercice', {'id': exercice.id }) }}" target="_blank" class="dropdown__option"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a>
 									
 									{% if prodpan.produit != null %}
-									<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a>
+									<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a>
 									{% else %}
 										{% if prodpan.panier.chapitrecours != null %}
-										<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a>
+										<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a>
 										{% endif %}
 									{% endif %}
 								{% else %}

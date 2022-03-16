@@ -691,7 +691,7 @@ if(isset($_POST['_password']))
 				}
 			}
 			
-			if($souscription == true and ($this->getUser()->getSoldeprincipal() > $produit->getNewprise()))
+			if($souscription == true and ($this->getUser()->getSoldeprincipal() >= $produit->getNewprise()))
 			{
 				$this->getUser()->setSoldeprincipal($this->getUser()->getSoldeprincipal() - $produit->getNewprise());
 				
@@ -828,14 +828,14 @@ if(isset($_POST['_password']))
 				$this->get('session')->getFlashBag()->add('information','Inscription au cours effectuée avec succès !');
 				$em->flush();
 			}else{
-				$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous êtes déjà inscrit à une formation contennant ce cours ou vous n\'avez pas assez de fond');
+				$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous êtes déjà inscrit(e) à une formation contenant ce cours ou vous n\'avez pas assez de fonds');
 			}
 				 
 		}else{
 			$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Le mot de passe que vous avez entré est invalide.');
 		}
 	}else{
-		$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous n\'avez pas assez de fond pour souscrire à cette formation.');
+		$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous n\'avez pas assez de fonds pour souscrire à cette formation.');
 	}
 }else{
 	$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Toutes les données n\'ont pas été reçu.');
@@ -1285,5 +1285,51 @@ public function downloadvideocours(Produit $produit)
 public function guideformateur(Produit $produit)
 {
 	return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId(),'codeadmin'=>10001)));
+}
+
+public function positionnementchapter(Produit $produit, Produitpanier $prodpan)
+{
+	$em = $this->getDoctrine()->getManager();
+	$liste_part = $em->getRepository(Partiecours::class)
+					 ->findBy(array('produit'=>$produit), array('rang'=>'asc'));
+
+	$trouver = false;
+	$firstchapter = null;
+	$nextchapter = null;
+	$lastchapter  = null;
+	foreach($liste_part as $part)
+	{
+		$part->setEm($em);
+		$all_chapter = $part->getAllChapitre();
+		foreach($all_chapter as $chapter)
+		{
+			$firstchapter = $chapter;
+			$oldanimation = $em->getRepository(Animationproduit::class)
+					   		   ->findOneBy(array('user'=>$this->getUser(),'chapitrecours'=>$chapter,'produitpanier'=>$prodpan,'voir'=>1));
+			if($oldanimation != null){
+				$trouver = true;
+				$lastchapter  = $chapter;
+			}else{
+				$nextchapter = $chapter;
+				break;
+			}
+		}
+	}
+	if($nextchapter != null){
+		return $this->redirect($this->generateUrl('produit_produit_presentation_chapter', array('id'=>$nextchapter->getId())));
+	}else{
+		if($firstchapter != null and $lastchapter != null)
+		{
+			//go to $lastchapter
+			return $this->redirect($this->generateUrl('produit_produit_presentation_chapter', array('id'=>$lastchapter->getId())));
+		}else if($firstchapter != null)
+		{
+			//go to  $firstchapter
+			return $this->redirect($this->generateUrl('produit_produit_presentation_chapter', array('id'=>$firstchapter->getId())));
+		}else{
+			//Go to présentation course
+			return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
+		}
+	}
 }
 }

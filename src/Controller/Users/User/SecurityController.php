@@ -18,17 +18,23 @@ use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Email\Singleemail;
+use App\Security\TokenAuthenticator;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class SecurityController extends AbstractController
 {
 
 private $params;
 private $_servicemail;
+private $authenticator;
+private $guardHandler;
 
-public function __construct(ParameterBagInterface $params, Singleemail $servicemail)
+public function __construct(ParameterBagInterface $params, Singleemail $servicemail, TokenAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler)
 {
 	$this->params = $params;
 	$this->_servicemail = $servicemail;
+	$this->authenticator = $authenticator;
+    $this->guardHandler = $guardHandler;
 }
 
 public function login(GeneralServicetext $service, Request $request)
@@ -51,9 +57,17 @@ public function login(GeneralServicetext $service, Request $request)
 			{
 				if($_POST['_password'] == $service->decrypt($user->getPassword(),$user->getSalt()))
 				{
-					$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-					$this->get('security.token_storage')->setToken($token);
-					$this->get('session')->set('_security_main', serialize($token));
+					$response = $this->guardHandler->authenticateUserAndHandleSuccess(
+						$user,          // the User object you just created
+						$request,
+						$this->authenticator, // authenticator whose onAuthenticationSuccess you want to use
+						'main'          // the name of your firewall in security.yaml
+					);
+
+
+					//$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+					//$this->get('security.token_storage')->setToken($token);
+					//$this->get('session')->set('_security_main', serialize($token));
 
 					// Verifie si le cookie n existe pas
 					if((!isset($_COOKIE["PIDSESSREM"]) or $_COOKIE["PIDSESSREM"] == 'delete') and isset($_POST['_remember_me']) and $_POST['_remember_me'] == true)
@@ -115,17 +129,12 @@ public function accueilsite(GeneralServicetext $service)
 	                      ->findSlideAccueil();
 	$slide_bg = $em->getRepository(Imgslide::class)
 	                      ->findSlideConnexion();
-	
-	
 	$liste_formateur = $em->getRepository(User::class)
 	                      ->findFormateurs();
-	
 	$liste_produit = $em->getRepository(Produit::class)
 	                    ->findBy(array('valide'=>1,'avant'=>1), array('rang'=>'desc'));	
-	
 	$article_faq = $em->getRepository(Infoentreprise::class)
 	                   ->findBy(array('type'=>'article-faq'), array('rang'=>'desc'));
-					   
 	$article_avantage = $em->getRepository(Infoentreprise::class)
 	                   ->findBy(array('type'=>'nos-avantage'), array('rang'=>'desc'));
 					   
@@ -152,7 +161,6 @@ public function accueilsite(GeneralServicetext $service)
 			array_push($tabproduit,$produit->getId());
 		}
 	}
-	
 	$produit_enregistrer = $em->getRepository(Animationproduit::class)
 	                          ->findBy(array('user'=>$this->getUser(), 'enregistrer'=>1), array('date'=>'desc'),3);	
 							  

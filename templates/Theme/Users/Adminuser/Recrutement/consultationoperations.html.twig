@@ -5,7 +5,7 @@
 	  
       <div class="row">
         <div class="col-md-12">
-        <legend>Identifiez votre compte</legend>
+            <legend>Demande d'ajout de fond pour le compte ci-dessous</legend>
         </div>
         <div class="col-md-6">
             <div class="form-group champ1" style="width: 100%;">
@@ -28,7 +28,6 @@
                 
                 {% set tel = user.tel %}
                 {{ form_widget(form.tel, {'attr':{'class': 'form-control','value': tel}}) }}
-        
             </div>
             
             <div class="alert alertnotif2 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
@@ -303,12 +302,7 @@
         
         <div class="col-md-6">
             <div class="form-group champ7" style="width: 100%;">
-                <select class="form-control" name="montantransfert" id="montantransfert" style="width: 100%; border-radius: 0px; padding-left: 10px;">
-                <option value="">Montant du transfert</option>
-                {% for i in range(1000, 300000, 500) %}
-                <option value="{{ i }}">{{ i }} {{ devise }}</option>
-                {% endfor %}
-                </select>
+                <input type="text" name="montantransfert" id="montantransfert" value="{{ user.soldeprincipal }}" class="form-control" style="width: 100%; border-radius: 0px; padding-left: 10px;">
             </div>
             <div class="alert alertnotif7 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
                 <h4 style="margin-bottom: 0px;">Erreur </h4>

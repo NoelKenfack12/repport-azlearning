@@ -1,5 +1,5 @@
 <?php
-namespace General\ServiceBundle\UserAuthentification;
+namespace App\Service\UserAuthentification;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;

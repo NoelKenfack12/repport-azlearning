@@ -578,23 +578,23 @@ class User implements UserInterface
     }
 	
 	public function addRole($role)
-                                     {
-                                         if (!in_array($role, $this->roles)) {
-                                             $this->roles[] = $role;
-                                         }
-                                 
-                                         return $this;
-                                     }
+    {
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
 	
 	public function removeRole($role)
-                                     {
-                                         if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
-                                             unset($this->roles[$key]);
-                                             $this->roles = array_values($this->roles);
-                                         }
-                                 
-                                         return $this;
-                                     }
+    {
+        if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
+            unset($this->roles[$key]);
+            $this->roles = array_values($this->roles);
+        }
+
+        return $this;
+    }
 	
 	/**
      * Set salt
@@ -643,22 +643,22 @@ class User implements UserInterface
     }
 	
 	public function eraseCredentials()
-                                 	{
-                                 	
-                                 	}
+    {
+    
+    }
 	public function name($tail)
-                                 	{
-                                 		$name = $this->prenom .' '.$this->nom;
-                                 		if(strlen($name) <= $tail)
-                                 		{
-                                 			return $name;
-                                 		}else{
-                                 			$text = wordwrap($name,$tail,'~',true);
-                                 			$tab = explode('~',$text);
-                                 			$text = $tab[0];
-                                 			return $text.'';
-                                 		}
-                                 	}
+    {
+        $name = $this->prenom .' '.$this->nom;
+        if(strlen($name) <= $tail)
+        {
+            return $name;
+        }else{
+            $text = wordwrap($name,$tail,'~',true);
+            $tab = explode('~',$text);
+            $text = $tab[0];
+            return $text.'';
+        }
+    }
 
     public function setImgprofil(Imgprofil $imgprofil = null): self
     {
@@ -696,52 +696,52 @@ class User implements UserInterface
     }
 	
 	public function mois($nbre)
-                                 	{
-                                 	$mois ='';
-                                 	switch ($nbre)
-                                     {
-                                     case 1: 
-                                     $mois = 'Janvier';
-                                     break;
-                                     case 2: 
-                                 	$mois = 'Février';
-                                 	break;
-                                 	case 3: 
-                                 	$mois = 'Mars';
-                                 	break;
-                                 	case 4: 
-                                 	$mois = 'Avril';
-                                 	break;
-                                 	case 5: 
-                                 	$mois = 'Mai';
-                                 	break;
-                                 	case 6: 
-                                 	$mois = 'Juin';
-                                 	break;
-                                 	case 7: 
-                                 	$mois = 'Juillet';
-                                 	break;
-                                 	case 8: 
-                                 	$mois = 'Août';
-                                 	break;
-                                 	case 9: 
-                                 	$mois = 'Septembre';
-                                 	break;
-                                 	case 10: 
-                                 	$mois = 'Octobre';
-                                 	break;
-                                 	case 11: 
-                                 	$mois = 'Novembre';
-                                 	break;
-                                 	case 12: 
-                                 	$mois = 'Decembre';
-                                 	break;
-                                 	default:
-                                 	$mois = 'Janvier';
-                                 	break;
-                                 	}
-                                 	return $mois;
-                                 	}
+    {
+    $mois ='';
+    switch ($nbre)
+        {
+        case 1: 
+            $mois = 'Janvier';
+            break;
+        case 2: 
+            $mois = 'Février';
+            break;
+        case 3: 
+            $mois = 'Mars';
+            break;
+        case 4: 
+            $mois = 'Avril';
+            break;
+        case 5: 
+            $mois = 'Mai';
+            break;
+        case 6: 
+            $mois = 'Juin';
+            break;
+        case 7: 
+            $mois = 'Juillet';
+            break;
+        case 8: 
+            $mois = 'Août';
+            break;
+        case 9: 
+            $mois = 'Septembre';
+            break;
+        case 10: 
+            $mois = 'Octobre';
+            break;
+        case 11: 
+            $mois = 'Novembre';
+            break;
+        case 12: 
+            $mois = 'Decembre';
+            break;
+        default:
+            $mois = 'Janvier';
+            break;
+        }
+        return $mois;
+    }
 
     /**
      * Set nbdossier

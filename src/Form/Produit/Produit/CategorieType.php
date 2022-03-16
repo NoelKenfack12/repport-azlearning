@@ -14,7 +14,7 @@ use App\Entity\Produit\Produit\Categorie;
 
 class CategorieType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */

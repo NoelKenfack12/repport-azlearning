@@ -247,7 +247,13 @@
 								<li style="background: #f4f4f4; padding: 7px;"><a href="#!"><span class="fa fa-info-circle"></span> Liste de cours à suivre</a></li>
 								<li class="divider"></li>
 								{% for product in panier.service.produits %}
-									<a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': product.id }) }}"  class="list-group-item">{{ product.titre }}</a>
+
+									{% for prodpan in panier.produitpaniers %}
+										{% if prodpan.produit == product %}
+											<a href="{{ path('produit_produit_positionnement_chapter_cours', {'id': product.id, 'prodpan': prodpan.id }) }}"  class="list-group-item">{{ product.titre }}</a>
+										{% endif %}
+									{% endfor %} 
+									
 								{% endfor %}
 							</ul>
 						</div>
@@ -256,7 +262,7 @@
 							{{ panier.chapitrecours.titre }} <span style="float: right;"><a href="{{ path('produit_produit_presentation_chapter', {'id': panier.chapitrecours.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': panier.chapitrecours.partiecours.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>
 						{% else %}  
 							{% for prodpan in panier.produitpaniers %}
-								{% if loop.first %}{{ prodpan.produit.titre }} <span style="float: right;"><a href="{{ path('produit_produit_detail_produit_market', {'id': prodpan.produit.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': prodpan.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>{% endif %}
+								{% if loop.first %}{{ prodpan.produit.titre }} <span style="float: right;"><a href="{{ path('produit_produit_positionnement_chapter_cours', {'id': prodpan.produit.id, 'prodpan': prodpan.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': prodpan.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>{% endif %}
 							{% endfor %}  
 						{% endif %}
 					{% endif %}

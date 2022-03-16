@@ -157,6 +157,9 @@
 						  <p class="accordion-item__paragraph" style="margin-bottom: 20px;">
 							{{ notification.contenu|raw }}
 						  </p>
+						  {% if notification.commentaireblog != null and notification.commentaireblog.produit != null %}
+						  	<a href="{{ path('produit_produit_detail_produit_market', {'id': notification.commentaireblog.produit.id, 'mess': notification.commentaireblog.id }) }}" class="btn btn-primary">Consulter</a>
+						  {% endif %}
 						</div>
 					  </div>
 					</div>

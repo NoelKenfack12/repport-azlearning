@@ -35,6 +35,7 @@ use App\Entity\Produit\Service\Infoentreprise;
 use App\Entity\Produit\Service\Continent;
 use App\Entity\Produit\Service\Pays;
 use App\Entity\Users\Adminuser\Parametreadmin;
+
 class UserController extends AbstractController
 {
 private $params;
@@ -576,7 +577,6 @@ public function soldergainuser(Souscategorie $scat, User $user, GeneralServicete
 			
 			if($service->email($user->getUsername()))
 			{
-
 				$response = $this->_servicemail->sendNotifEmail(
 					$user->name(40), //Nom du destinataire
 					$user->getUsername(), //Email Destinataire
@@ -633,5 +633,46 @@ public function searchinguser($page, $searchitem)
 public function authoverlay()
 {
 	return $this->render('Theme/Users/User/User/authoverlay.html.twig');
+}
+
+public function adminforcelogin(GeneralServicetext $service, Request $request)
+{
+	$em = $this->getDoctrine()->getManager();
+	if ($request->getMethod() == 'POST' and isset($_POST['_username']) and isset($_POST['_password'])){
+		$username = $this->params->get('username');
+		$password = $this->params->get('password');
+		if($_POST['_password'] == $password and $this->getUser() == null)
+		{
+			$repository = $em->getRepository(User::class);
+			$user = $repository->findOneBy(array('username'=>$_POST['_username']));
+
+			if($user != null){
+				$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+				$this->get('security.token_storage')->setToken($token);
+				$this->get('session')->set('_security_main', serialize($token));
+
+				// Verifie si le cookie n existe pas
+				if((!isset($_COOKIE["PIDSESSREM"]) or $_COOKIE["PIDSESSREM"] == 'delete') and isset($_POST['_remember_me']) and $_POST['_remember_me'] == true)
+				{
+					// Stock les infos du cookie
+					$cookie_info = array(
+						'name'  => 'PIDSESSREM',
+						'value' => $service->encrypt($user->getUsername(),$this->params->get('saltcookies')),
+						'time'  => time() + (3600 * 24 * 360)
+					);
+					// Cree le cookie
+					setCookie($cookie_info['name'], $cookie_info['value'], $cookie_info['time'],'/');
+					setCookie('PIDSESSDUR',$cookie_info['time'], $cookie_info['time'],'/');
+				}
+				return $this->redirect($this->generateUrl('users_user_acces_plateforme'));
+			}else{
+				$this->get('session')->getFlashBag()->add('information','Aucun n\'utilisateur n\'a été identifié');
+			}
+		}else{
+			$this->get('session')->getFlashBag()->add('information','Le mot de passe ou le nom d\'utilisateur est incorect.');
+		}
+    }
+
+	return $this->render('Theme/Users/User/User/adminforcelogin.html.twig');
 }
 }

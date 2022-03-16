@@ -223,9 +223,9 @@
 				  <img class="avatar" src="{{ asset('template/images/co.png') }}" alt="Ash" />
 				  <div class="username">{{ user.name(30) }}</div>
 				  <div class="bio" style="display: block; margin-right: 15px;">
-					  <a href="" class="btn btn-primary float-right" style="float: right;">
-						  <span class="fa fa-envelope-o"></span> Envoyer un message 
-					  </a>
+					<a href="#!" class="btn btn-primary float-right open_form_send_message" style="float: right;">
+						<span class="fa fa-envelope-o"></span> Envoyer un message 
+					</a>
 					{% if user.poste != null %}{{ user.poste }}{% else %}Profession non spécifiée{% endif %}
 					<div class="text-left" style="color: #333;">
 						Inscrit depuis le {{ prodpan.panier.date|date('d') }}/{{ prodpan.panier.date|date('m') }}/{{ prodpan.panier.date|date('Y') }}
@@ -389,9 +389,47 @@
 	
 	</div>
 </div>
-
 <hr>
-<script src="{{ asset('template/assets/js/onvisible.js') }}" type="text/javascript"></script>
+
+<div class="modal fade" id="infos-action-new-support-chapter" style="margin-top: 100px; z-index: 9999;">
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-file-text-o"></span> Nouveau support 
+	</h4>
+</div>
+
+<div class="modal-body" style="background: #fff; color: #333;">
+	<div style="background: #ECF0F1; padding: 15px;">
+		<h3>Envoyer un message à <a href="#!"><u>{{ user.name(50) }}</u></a></h3>
+	</div>
+
+	<div style="margin-top: 15px;">
+		<form action="{{ path('produit_service_send_message_tostudent', {'user': user.id, 'panier': panier.id, 'produit': produit.id}) }}" method="post">
+			<div class="form-control">
+				<textarea name="messageToStudent" class="form-control" id="message_to_student" style="min-height: 200px;" placeholder="Saisissez votre message ici"></textarea>
+			</div>
+
+			<div class="form-control" style="margin-top: 15px;">
+				<button class="btn btn-primary">
+					Envoyer le message 
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
+</div>
+
+</div>
+</div>
+</div>
+
 {% endblock %}
 
 
@@ -451,4 +489,8 @@ function controlScroll()
 }
 controlScroll();
 
+
+$('.open_form_send_message').click(function(){
+	$('#infos-action-new-support-chapter').modal('show');
+});
 {% endblock %}

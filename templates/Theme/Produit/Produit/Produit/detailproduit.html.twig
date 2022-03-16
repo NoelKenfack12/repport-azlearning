@@ -868,10 +868,10 @@
 								<li><a href="{{ path('produit_produit_download_travaux_pratique', {'id': pratique.id }) }}" target="_blank"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a></li>
 								<li class="divider"></li>
 								{% if prodpan.produit != null %}
-								<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
+								<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span>  Déposez votre travail ici</a></li>
 								{% else %}
 									{% if prodpan.panier.chapitrecours != null %}
-									<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
+									<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a></li>
 									{% endif %}
 								{% endif %}
 							{% else %}
@@ -906,10 +906,10 @@
 								<li><a href="{{ path('produit_produit_telecharge_exercice', {'id': exercice.id }) }}" target="_blank"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a></li>
 								<li class="divider"></li>
 								{% if prodpan.produit != null %}
-								<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
+								<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a></li>
 								{% else %}
 									{% if prodpan.panier.chapitrecours != null %}
-									<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
+									<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a></li>
 									{% endif %}
 								{% endif %}
 							{% else %}
@@ -1107,7 +1107,7 @@
 				<span class="badge badge-primary">{{ produit.newprise|numberFormat }} {{ devise }}</span>
 			</div>
 			<div style="border-top: 1px solid #ddd; margin-top: 15px;">
-				Pour souscrire, veuillez rentrez votre mot de passe.
+				Pour souscrire, veuillez rentrer votre mot de passe.
 			</div>
 			
 			<div class="clearfix"></div>
@@ -1118,7 +1118,7 @@
 					<span toggle="#password-field2" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
 				</div>
 				<div style="margin-top: 15px;">
-					<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le payement avec votre compte</button>
+					<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte</button>
 				</div>
 			</form>
 			{% if app.user != null %}
@@ -1140,7 +1140,7 @@
 					<span class="badge badge-primary">{{ oldservice.nprix|numberFormat }} {{ devise }}</span>
 				</div>
 				<div style="border-top: 1px solid #ddd; margin-top: 15px;">
-					Pour souscrire, veuillez rentrez votre mot de passe.
+					Pour souscrire, veuillez rentrer votre mot de passe.
 				</div>
 				
 				<div class="clearfix"></div>

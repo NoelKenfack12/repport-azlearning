@@ -140,3 +140,10 @@ produit_service_liste_message_user:
     controller: App\Controller\Produit\Service\CommentaireblogController::listemessage
     requirements:
         id: \d+
+produit_service_send_message_tostudent:
+    path: /send/message/tostudent/{user}/{panier}/{produit}
+    controller: App\Controller\Produit\Service\CommentaireblogController::sendmessagetostudent
+    requirements:
+        user: \d+
+        panier: \d+
+        produit: \d+

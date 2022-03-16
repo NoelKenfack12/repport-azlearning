@@ -148,7 +148,6 @@ public function composquestionnaire(Chapitrecours $chapitre, $idpropan, $src, Ge
 		}
 	}
 	
-	
 	return $this->render('Theme/Produit/Produit/Questionnaire/composquestionnaire.html.twig', 
 	array('chapitre'=>$chapitre,'prechapter'=>$prechapter,'notemin'=>$notemin,'liste_questionnaire'=>$liste_questionnaire,
 	'prodpan'=>$prodpan, 'src'=>$src, 'etat'=> $etat, 'waitTimePerMin'=>$waitTimePerMin, 'composeAllQuestion'=>$composeAllQuestion));
