@@ -1,0 +1,1804 @@
+{% if position ==  'home' %}
+
+<!-- Header START -->
+<header class="navbar-light navbar-sticky header-static">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-xl">
+		<div class="container-fluid px-3 px-xl-5">
+			<!-- Logo START -->
+			<a class="navbar-brand" href="index.html">
+				<img class="light-mode-item navbar-brand-item" src="{% if paramlogosm != null %}{{ asset(paramlogosm.getwebpath) }}{% else %}{{ asset('eduporttemplate/images/logo.svg') }}{% endif %}" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" src="{% if paramlogosm != null %}{{ asset(paramlogosm.getwebpath) }}{% else %}{{ asset('eduporttemplate/images/logo.svg') }}{% endif %}" alt="logo">
+			</a>
+			<!-- Logo END -->
+
+			<!-- Responsive navbar toggler -->
+			<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-animation">
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
+			</button>
+
+			<!-- Main navbar START -->
+			<div class="navbar-collapse w-100 collapse" id="navbarCollapse">
+
+				<!-- Nav category menu START -->
+				<ul class="navbar-nav navbar-nav-scroll me-auto">
+					<!-- Nav item 1 Demos -->
+					<li class="nav-item dropdown dropdown-menu-shadow-stacked">
+						<a class="nav-link bg-primary bg-opacity-10 rounded-3 text-primary px-3 py-3 py-xl-0" href="#" id="categoryMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-ui-radios-grid me-2"></i><span>Nos cours</span></a>
+						<ul class="dropdown-menu" aria-labelledby="categoryMenu">
+
+							{% for categorie in liste_categorie %}
+							{% set liste_scat = categorie.getScategories %}
+							
+							{% if liste_scat|length > 0 %}
+								<!-- Dropdown submenu -->
+								<li class="dropdown-submenu dropend">
+									<a class="dropdown-item dropdown-toggle" href="#">{{ categorie.nom }}</a>
+									<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+										{% for scat in liste_scat %}
+											<!-- dropdown submenu open right -->
+											{% set liste_produit = scat.getProduitSouscategorie %}
+											{% if liste_produit|length > 0 %}
+											<li class="dropdown-submenu dropend">
+												<a class="dropdown-item dropdown-toggle" href="#" style="width: 90%; overflow: hidden; text-overflow: ellipsis;">{{ scat.nom }}</a>
+												<ul class="dropdown-menu" data-bs-popper="none">
+													{% for produit in liste_produit %}
+													<li> <a class="dropdown-item" href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}">{{ produit.titre }}</a> </li>
+													{% endfor %}
+													<li> <a class="dropdown-item" href="{{ path('produit_produit_liste_produit_souscategorie', {'id': scat.id }) }}">Tous les cours</a> </li>
+												</ul>
+											</li>
+											{% else %}
+											<li> <a class="dropdown-item" href="#">{{ scat.nom }}</a> </li>
+											{% endif %}
+										{% endfor %}
+										<li> <a class="dropdown-item" href="#">Tous les cours</a> </li>
+									</ul>
+								</li>
+							{% else %}
+								<li> <a class="dropdown-item" href="#">{{ categorie.nom }}</a></li>
+							{% endif %}
+							
+							{% endfor %}
+
+							<!-- Dropdown submenu -->
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#">Formateurs</a>
+								<div class="dropdown-menu dropdown-menu-start dropdown-width-lg" data-bs-popper="none">
+									<div class="row p-4">
+										<!-- Dropdown column item -->
+										<div class="col-xl-6 col-xxl-4 mb-4 mb-xl-0">
+											<h6 class="mb-0">Get started</h6>
+											<hr> <!-- Divider -->
+											<ul class="list-unstyled">
+												<li> <a class="dropdown-item" href="#">Market Research</a> </li>
+												<li> <a class="dropdown-item" href="#">Advertising</a> </li>
+												<li> <a class="dropdown-item" href="#">Consumer Behavior</a> </li>
+												<li> <a class="dropdown-item" href="#">Digital Marketing</a> </li>
+												<li> <a class="dropdown-item" href="#">Marketing Ethics</a> </li>
+												<li> <a class="dropdown-item" href="#">Social Media Marketing</a> </li>
+												<li> <a class="dropdown-item" href="#">Public Relations</a> </li>
+												<li> <a class="dropdown-item" href="#">Advertising</a> </li>
+												<li> <a class="dropdown-item" href="#">Decision Science</a> </li>
+												<li> <a class="dropdown-item" href="#">SEO</a> </li>
+												<li> <a class="dropdown-item" href="#">Business Marketing</a> </li>
+											</ul>
+										</div>
+
+										<!-- Dropdown column item -->
+										<div class="col-xl-6 col-xxl-4 mb-4 mb-xl-0">
+											<h6 class="mb-0">Degree</h6>
+											<hr> <!-- Divider -->
+											<!-- Dropdown item -->
+											<div class="d-flex mb-4 position-relative">
+												<img src="{{ asset('eduporttemplate/images/client/uni-logo-01.svg') }}" class="icon-md" alt="">
+												<div class="ms-3">
+													<a class="stretched-link h6 mb-0" href="#">American Century University, New Mexico</a>
+													<p class="mb-0 small">Bachelor of computer science</p>
+												</div>
+											</div>
+											<!-- Dropdown item -->
+											<div class="d-flex mb-4 position-relative">
+												<img src="{{ asset('eduporttemplate/images/uni-logo-02.svg') }}" class="icon-md" alt="">
+												<div class="ms-3">
+													<a class="stretched-link h6 mb-0" href="#">Indiana College of - Bloomington</a>
+													<p class="mb-0 small">Masters of computer science</p>
+												</div>
+											</div>
+											<!-- Dropdown item -->
+											<div class="d-flex mb-4 position-relative">
+												<img src="{{ asset('eduporttemplate/images/uni-logo-03.svg') }}" class="icon-md" alt="">
+												<div class="ms-3">
+													<a class="stretched-link h6 mb-0" href="#">College of South Florida</a>
+													<p class="mb-0 small">Medical science college</p>
+												</div>
+											</div>
+											<!-- Dropdown item -->
+											<div class="d-flex mb-4 position-relative">
+												<img src="{{ asset('eduporttemplate/images/uni-logo-01.svg') }}" class="icon-md" alt="">
+												<div class="ms-3">
+													<a class="stretched-link h6 mb-0" href="#">Andeerson Campus</a>
+													<p class="mb-0 small">Bachelor of computer science</p>
+												</div>
+											</div>
+											<!-- Dropdown item -->
+											<div class="d-flex position-relative">
+												<img src="{{ asset('eduporttemplate/images/uni-logo-04.svg') }}" class="icon-md" alt="">
+												<div class="ms-3">
+													<a class="stretched-link h6 mb-0" href="#">University of South California</a>
+													<p class="mb-0 small">Masters of business development</p>
+												</div>
+											</div>
+										</div>
+
+										<!-- Dropdown column item -->
+										<div class="col-xl-6 col-xxl-4">
+											<h6 class="mb-0">Certificate</h6>
+											<hr> <!-- Divider -->
+											<!-- Dropdown item -->
+											<div class="d-flex mb-4 position-relative">
+												<h2 class="mb-0"><i class="fab fa-fw fa-google text-google-icon"></i></h2>
+												<div class="ms-2">
+													<a class="stretched-link h6 mb-0" href="#">Google SEO certificate</a>
+													<p class="mb-0 small">No prerequisites</p>
+												</div>
+											</div>
+											<!-- Dropdown item -->
+											<div class="d-flex mb-4 position-relative">
+												<h2 class="mb-0"><i class="fab fa-fw fa-linkedin-in text-linkedin"></i></h2>
+												<div class="ms-2">
+													<a class="stretched-link h6 mb-0" href="#">Business Development Executive(BDE)</a>
+													<p class="mb-0 small">No prerequisites</p>
+												</div>
+											</div>
+											<!-- Dropdown item -->
+											<div class="d-flex mb-4 position-relative">
+												<h2 class="mb-0"><i class="fab fa-fw fa-facebook text-facebook"></i></h2>
+												<div class="ms-2">
+													<a class="stretched-link h6 mb-0" href="#">Facebook social media marketing</a>
+													<p class="mb-0 small">Expert advice</p>
+												</div>
+											</div>
+											<!-- Dropdown item -->
+											<div class="d-flex mb-4 position-relative">
+												<h2 class="mb-0"><i class="fas fa-fw fa-basketball-ball text-dribbble"></i></h2>
+												<div class="ms-2">
+													<a class="stretched-link h6 mb-0" href="#">Creative graphics design</a>
+													<p class="mb-0 small">No prerequisites</p>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Advertisement -->
+									<div class="row">
+										<div class="col-12">
+											<div class="card bg-blue rounded-0 rounded-bottom p-3 position-relative overflow-hidden" style="background:url(assets/images/pattern/05.png) no-repeat center center; background-size:cover;">
+												<!-- SVG decoration -->
+												<figure class="position-absolute bottom-0 end-0 mb-n4 d-none d-md-block">
+													<svg width="92.6px" height="135.2px">	
+														<path class="fill-white" d="M71.5,131.4c0.2,0.1,0.4,0.1,0.6-0.1c0,0,0.6-0.7,1.6-1.9c0.2-0.2,0.1-0.5-0.1-0.7c-0.2-0.2-0.5-0.1-0.7,0.1 c-1,1.2-1.6,1.8-1.6,1.8c-0.2,0.2-0.2,0.5,0,0.7C71.4,131.3,71.4,131.4,71.5,131.4z"></path>
+														<path class="fill-white" d="M76,125.5c-0.2-0.2-0.3-0.5-0.1-0.7c1-1.4,1.9-2.8,2.8-4.2c0.1-0.2,0.4-0.3,0.7-0.2c0.2,0.1,0.3,0.4,0.2,0.7 c-0.9,1.4-1.8,2.9-2.8,4.2C76.6,125.6,76.3,125.6,76,125.5C76.1,125.5,76.1,125.5,76,125.5z M81.4,116.9 c-0.2-0.1-0.3-0.4-0.2-0.7c0.2-0.5,0.5-0.9,0.7-1.4c0.5-1.1,1-2.1,1.5-3.2c0.1-0.3,0.4-0.4,0.6-0.3c0.3,0.1,0.4,0.4,0.3,0.6 c-0.5,1.1-1,2.1-1.5,3.2c-0.2,0.5-0.5,0.9-0.7,1.4C81.9,117,81.6,117,81.4,116.9C81.4,116.9,81.4,116.9,81.4,116.9z M85.1,107.1 c0.5-1.6,1-3.2,1.3-4.8c0.1-0.3,0.3-0.4,0.6-0.4c0.3,0.1,0.4,0.3,0.4,0.6c-0.4,1.6-0.8,3.3-1.3,4.9c-0.1,0.3-0.4,0.4-0.6,0.3 c0,0,0,0-0.1,0C85.1,107.6,85,107.3,85.1,107.1z M47.3,83c-1.5-1.1-2.5-2.5-3.1-4.2c-0.1-0.3,0-0.5,0.3-0.6 c0.3-0.1,0.5,0,0.6,0.3c0.5,1.5,1.5,2.7,2.8,3.7c0.2,0.2,0.3,0.5,0.1,0.7C47.9,83.1,47.6,83.1,47.3,83C47.4,83,47.4,83,47.3,83z  M51.7,84.6c0-0.3,0.3-0.5,0.5-0.4c1.4,0.2,2.9-0.3,4.3-1.4c0.2-0.2,0.5-0.1,0.7,0.1c0.2,0.2,0.1,0.5-0.1,0.7 c-1.6,1.2-3.4,1.8-5,1.6c-0.1,0-0.1,0-0.2,0C51.8,85,51.7,84.8,51.7,84.6z M87.2,97.4c0.2-1.7,0.2-3.3,0.2-5 c0-0.3,0.2-0.5,0.5-0.5c0.3,0,0.5,0.2,0.5,0.5c0.1,1.7,0,3.4-0.2,5.1c0,0.3-0.3,0.5-0.5,0.4c-0.1,0-0.1,0-0.2,0 C87.3,97.8,87.1,97.6,87.2,97.4z M43.7,73.6c0.2-1.6,0.7-3.2,1.5-4.8l0.1-0.1c0.1-0.2,0.4-0.3,0.7-0.2c0,0,0,0,0,0 c0.2,0.1,0.3,0.4,0.2,0.7l-0.1,0.1c-0.7,1.5-1.2,3-1.4,4.5c0,0.3-0.3,0.5-0.6,0.4c-0.1,0-0.1,0-0.2,0 C43.8,74,43.7,73.8,43.7,73.6z M60,79.8c-0.2-0.1-0.3-0.5-0.1-0.7c0.4-0.6,0.8-1.3,1.1-2c0.4-0.8,0.7-1.6,1-2.4 c0.1-0.3,0.4-0.4,0.6-0.3c0.3,0.1,0.4,0.4,0.3,0.6c-0.3,0.9-0.7,1.7-1.1,2.5c-0.4,0.7-0.8,1.4-1.2,2.1C60.5,79.9,60.2,80,60,79.8 C60,79.9,60,79.8,60,79.8z M86.8,87.5c-0.3-1.6-0.7-3.2-1.2-4.8c-0.1-0.3,0.1-0.5,0.3-0.6c0.3-0.1,0.5,0.1,0.6,0.3 c0.5,1.6,1,3.3,1.2,4.9c0,0.3-0.1,0.5-0.4,0.6c-0.1,0-0.2,0-0.3,0C87,87.7,86.9,87.6,86.8,87.5z M48.2,65.1 c-0.2-0.2-0.2-0.5,0-0.7c1.2-1.3,2.5-2.4,3.9-3.4c0.2-0.1,0.5-0.1,0.7,0.1c0.1,0.2,0.1,0.5-0.1,0.7c-1.4,0.9-2.6,2-3.7,3.2 c-0.2,0.2-0.4,0.2-0.6,0.1C48.3,65.2,48.3,65.1,48.2,65.1z M63.3,70c0.3-1.6,0.5-3.3,0.5-4.9c0-0.3,0.2-0.5,0.5-0.5 c0.3,0,0.5,0.2,0.5,0.5c-0.1,1.7-0.2,3.4-0.5,5.1c0,0.3-0.3,0.4-0.6,0.4c0,0-0.1,0-0.1,0C63.3,70.4,63.2,70.2,63.3,70z M83.8,78 c-0.7-1.5-1.5-3-2.4-4.3c-0.1-0.2-0.1-0.5,0.1-0.7c0.2-0.1,0.5-0.1,0.7,0.2c0.9,1.4,1.7,2.9,2.5,4.4c0.1,0.2,0,0.5-0.2,0.7 c-0.1,0.1-0.3,0.1-0.4,0C83.9,78.2,83.8,78.1,83.8,78z M56.5,59.6c-0.1-0.3,0.1-0.5,0.4-0.6c1.7-0.4,3.4-0.5,5.2-0.3 c0.3,0,0.5,0.3,0.4,0.5c0,0.3-0.3,0.5-0.5,0.4c-1.7-0.2-3.3-0.1-4.8,0.3c-0.1,0-0.2,0-0.3,0C56.6,59.8,56.5,59.7,56.5,59.6z  M78.4,69.7c-1.1-1.3-2.2-2.5-3.4-3.6c-0.2-0.2-0.2-0.5,0-0.7c0.2-0.2,0.5-0.2,0.7,0c1.2,1.1,2.4,2.4,3.5,3.7 c0.2,0.2,0.1,0.5-0.1,0.7c-0.2,0.1-0.4,0.1-0.5,0.1C78.5,69.8,78.4,69.7,78.4,69.7z M63.6,60.1c-0.2-1.6-0.4-3.3-0.8-4.9 c-0.1-0.3,0.1-0.5,0.4-0.6c0.3-0.1,0.5,0.1,0.6,0.4c0.4,1.7,0.7,3.4,0.8,5c0,0.3-0.2,0.5-0.4,0.5c-0.1,0-0.2,0-0.3,0 C63.7,60.4,63.6,60.2,63.6,60.1z M71,63.1c-1.4-0.9-2.9-1.7-4.4-2.3c-0.3-0.1-0.4-0.4-0.3-0.6c0.1-0.3,0.4-0.4,0.6-0.3 c1.5,0.6,3.1,1.4,4.6,2.3c0.2,0.1,0.3,0.5,0.1,0.7C71.6,63.1,71.3,63.2,71,63.1C71.1,63.1,71.1,63.1,71,63.1z M61.3,50.4 c-0.6-1.5-1.3-3-2.1-4.5c-0.1-0.2-0.1-0.5,0.2-0.7c0.2-0.1,0.5-0.1,0.7,0.2c0.9,1.5,1.6,3.1,2.2,4.6c0.1,0.3,0,0.5-0.3,0.6 c-0.1,0.1-0.3,0-0.4,0C61.5,50.6,61.4,50.5,61.3,50.4z M56.5,41.8c-1-1.3-2.1-2.6-3.2-3.8c-0.2-0.2-0.2-0.5,0-0.7 c0.2-0.2,0.5-0.2,0.7,0c1.2,1.3,2.3,2.6,3.3,3.9c0.2,0.2,0.1,0.5-0.1,0.7c-0.2,0.1-0.4,0.1-0.5,0C56.6,41.9,56.5,41.8,56.5,41.8z  M49.7,34.5c-1.2-1.1-2.5-2.1-3.9-3.2c-0.2-0.2-0.3-0.5-0.1-0.7c0.2-0.2,0.5-0.3,0.7-0.1c1.4,1,2.7,2.1,3.9,3.2 c0.2,0.2,0.2,0.5,0,0.7c-0.2,0.2-0.4,0.2-0.6,0.1C49.7,34.6,49.7,34.5,49.7,34.5z M41.7,28.5c-1.4-0.9-2.8-1.8-4.3-2.6 c-0.2-0.1-0.3-0.4-0.2-0.7c0.1-0.2,0.4-0.3,0.7-0.2c1.5,0.8,2.9,1.7,4.3,2.6c0.2,0.1,0.3,0.5,0.1,0.7 C42.2,28.6,42,28.6,41.7,28.5C41.7,28.5,41.7,28.5,41.7,28.5z"></path>
+														<path class="fill-white" d="M30.7,22.6C30.7,22.6,30.7,22.6,30.7,22.6c0,0,0.9,0.4,2.3,1c0.2,0.1,0.5,0,0.7-0.2c0.1-0.2,0-0.5-0.2-0.7 c0,0,0,0,0,0c-1.4-0.7-2.2-1-2.3-1c-0.3-0.1-0.5,0-0.6,0.3C30.3,22.2,30.4,22.5,30.7,22.6z"></path>
+														<path class="fill-warning" d="M22.6,23.6l-1.1-4.1c0,0-11.7-7.5-11.9-7.6c-0.1-0.2-4.9-6.5-4.9-6.5l8.2,3.5l12.2,8.4L22.6,23.6z"></path>
+														<polygon class="fill-warning opacity-6" points="31.2,12.3 4.7,5.4 25.1,17.2"></polygon>
+														<polygon class="fill-warning opacity-6" points="21.5,19.5 15,24.8 4.7,5.4 "></polygon>
+													</svg>
+												</figure>
+												<!-- Body -->
+												<div class="card-body">
+													<!-- Title -->
+													<h5 class="card-title text-white mb-2">Access 25K Online courses from 120 institutions, Start today!</h5>
+													<p class="text-white text-opacity-75">Here is the description of premium features which will allow users to get benefits and save a lot of money</p>
+													<!-- Button -->
+													<a href="#" class="btn btn-sm btn-dark mb-0">Purchase Premium</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<!-- Nav category menu END -->
+
+				<!-- Nav Main menu START -->
+				<ul class="navbar-nav navbar-nav-scroll me-auto">
+					<!-- Nav item 1 Demos -->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="pagesMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Formations</a>
+						<ul class="dropdown-menu" aria-labelledby="pagesMenu">
+
+							{% for formation in liste_formation %}
+								{% set cours_formation = formation.produitformations %}
+								{% if cours_formation|length > 2 %}
+								<!-- Dropdown submenu -->
+								<li class="dropdown-submenu dropend">
+									<a class="dropdown-item dropdown-toggle" href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}" style="width: 90%; overflow: hidden; text-overflow: ellipsis;">{{ formation.nom }}</a>
+									<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+										{% for produitfor in cours_formation %}
+										<li> <a class="dropdown-item" href="{{ path('produit_produit_detail_produit_market', {'id': produitfor.produit.id }) }}"> {{ produitfor.produit.titre }} <!-- span class="badge bg-success ms-2 smaller">New</span --></a></li>
+										{% endfor %}
+									</ul>
+								</li>
+								{% else %}
+								<li> <a class="dropdown-item" href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}">{{ formation.nom }}</a></li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					</li>
+
+					<!-- Nav item 2 Pages -->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="pagesMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
+						<ul class="dropdown-menu" aria-labelledby="pagesMenu">
+							<!-- Dropdown submenu -->
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#">Course</a>
+								<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+									<li> <a class="dropdown-item" href="course-categories.html">Course Categories <span class="badge bg-success ms-2 smaller">New</span></a></li>
+									<li> <hr class="dropdown-divider"></li>
+									<li> <a class="dropdown-item" href="course-grid.html">Course Grid Classic</a></li>
+									<li> <a class="dropdown-item" href="course-grid-2.html">Course Grid Minimal</a></li>
+									<li> <hr class="dropdown-divider"></li>
+									<li> <a class="dropdown-item" href="course-list.html">Course List Classic</a></li>
+									<li> <a class="dropdown-item" href="course-list-2.html">Course List Minimal</a></li>
+									<li> <hr class="dropdown-divider"></li>
+									<li> <a class="dropdown-item" href="course-detail.html">Course Detail Classic</a></li>
+									<li> <a class="dropdown-item" href="course-detail-min.html">Course Detail Minimal</a></li>
+									<li> <a class="dropdown-item" href="course-detail-adv.html">Course Detail Advance</a></li>
+									<li> <a class="dropdown-item" href="course-video-player.html">Course Full Screen Video</a></li>
+								</ul>
+							</li>
+
+							<!-- Dropdown submenu -->
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#">About</a>
+								<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+									<li> <a class="dropdown-item" href="about.html">About Us</a></li>
+									<li> <a class="dropdown-item" href="contact-us.html">Contact Us</a></li>
+									<li> <a class="dropdown-item" href="blog-grid.html">Blog Grid</a></li>
+									<li> <a class="dropdown-item" href="blog-masonry.html">Blog Masonry</a></li>
+									<li> <a class="dropdown-item" href="blog-detail.html">Blog Detail</a></li>
+									<li> <a class="dropdown-item" href="pricing.html">Pricing</a></li>
+								</ul>
+							</li>
+
+							<li> <a class="dropdown-item" href="instructor-list.html">Instructor List</a></li>
+							<li> <a class="dropdown-item" href="instructor-single.html">Instructor Single</a></li>
+							<li> <a class="dropdown-item" href="become-instructor.html">Become an Instructor</a></li>
+							<li> <a class="dropdown-item" href="abroad-single.html">Abroad Single <span class="badge bg-success ms-2 smaller">New</span></a></li>
+
+							<!-- Dropdown submenu -->
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#">Shop
+									<span class="badge bg-success ms-2 smaller">New</span>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+									<li> <a class="dropdown-item" href="shop.html">Shop grid</a></li>
+									<li> <a class="dropdown-item" href="shop-product-detail.html">Product detail</a></li>
+								</ul>
+							</li>
+
+							<!-- Dropdown submenu -->
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#">Help
+									<span class="badge bg-success ms-2 smaller">New</span>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+									<li> <a class="dropdown-item" href="help-center.html">Help Center</a></li>
+									<li> <a class="dropdown-item" href="help-center-detail.html">Help Center Single</a></li>
+								</ul>
+							</li>
+
+							<!-- Dropdown submenu -->
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#">Authentication</a>
+								<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+									<li> <a class="dropdown-item" href="sign-in.html">Sign In</a></li>
+									<li> <a class="dropdown-item" href="sign-up.html">Sign Up</a></li>
+									<li> <a class="dropdown-item" href="forgot-password.html">Forgot Password</a></li>
+								</ul>
+							</li>
+
+							<li> <a class="dropdown-item" href="faq.html">FAQs</a></li>
+							<li> <a class="dropdown-item" href="error-404.html">Error 404</a></li>
+							<li> <a class="dropdown-item" href="coming-soon.html">Coming Soon</a></li>
+							<li> <a class="dropdown-item" href="cart.html">Cart</a></li>
+							<li> <a class="dropdown-item" href="checkout.html">Checkout</a></li>
+							<li> <a class="dropdown-item" href="empty-cart.html">Empty Cart</a></li>
+							<li> <a class="dropdown-item" href="wishlist.html">Wishlist</a></li>
+						</ul>
+					</li>
+
+					<!-- Nav item 3 Account -->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="accounntMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accounts</a>
+						<ul class="dropdown-menu" aria-labelledby="accounntMenu">
+							<!-- Dropdown submenu -->
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-user-tie fa-fw me-1"></i>Instructor</a>
+								<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+									<li> <a class="dropdown-item" href="instructor-dashboard.html"><i class="bi bi-grid-fill fa-fw me-1"></i>Dashboard</a> </li>
+									<li> <a class="dropdown-item" href="instructor-manage-course.html"><i class="bi bi-basket-fill fa-fw me-1"></i>Courses</a> </li>
+									<li> <a class="dropdown-item" href="instructor-create-course.html"><i class="bi bi-file-earmark-plus-fill fa-fw me-1"></i>Create Course</a> </li>
+									<li> <a class="dropdown-item" href="course-added.html"><i class="bi bi-file-check-fill fa-fw me-1"></i>Course Added</a> </li>
+									<li> <a class="dropdown-item" href="instructor-quiz.html"><i class="bi bi-question-diamond fa-fw me-1"></i>Quiz <span class="badge bg-success ms-2 smaller">New</span></a> </li>
+									<li> <a class="dropdown-item" href="instructor-earning.html"><i class="fas fa-chart-line fa-fw me-1"></i>Earnings</a> </li>
+									<li> <a class="dropdown-item" href="instructor-studentlist.html"><i class="fas fa-user-graduate fa-fw me-1"></i>Students</a> </li>
+									<li> <a class="dropdown-item" href="instructor-order.html"><i class="bi bi-cart-check-fill fa-fw me-1"></i>Orders</a> </li>
+									<li> <a class="dropdown-item" href="instructor-review.html"><i class="bi bi-star-fill fa-fw me-1"></i>Reviews</a> </li>
+									<li> <a class="dropdown-item" href="instructor-payout.html"><i class="fas fa-wallet fa-fw me-1"></i>Payout</a> </li>
+								</ul>
+							</li>
+
+							<!-- Dropdown submenu -->
+								<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-user-graduate fa-fw me-1"></i>Student</a>
+								<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+									<li> <a class="dropdown-item" href="student-dashboard.html"><i class="bi bi-grid-fill fa-fw me-1"></i>Dashboard</a> </li>
+									<li> <a class="dropdown-item" href="student-subscription.html"><i class="bi bi-card-checklist fa-fw me-1"></i>My Subscriptions</a> </li>
+									<li> <a class="dropdown-item" href="student-course-list.html"><i class="bi bi-basket-fill fa-fw me-1"></i>Courses</a> </li>
+									<li> <a class="dropdown-item" href="student-course-resume.html"><i class="far fa-fw fa-file-alt me-1"></i>Course Resume <span class="badge bg-success ms-2 smaller">New</span></a> </li>
+									<li> <a class="dropdown-item" href="student-quiz.html"><i class="bi bi-question-diamond fa-fw me-1"></i>Quiz <span class="badge bg-success ms-2 smaller">New</span></a> </li>
+									<li> <a class="dropdown-item" href="student-payment-info.html"><i class="bi bi-credit-card-2-front-fill fa-fw me-1"></i>Payment Info</a> </li>
+									<li> <a class="dropdown-item" href="student-bookmark.html"><i class="fas bi-cart-check-fill fa-fw me-1"></i>Wishlist</a> </li>
+								</ul>
+							</li>
+							
+							<li> <a class="dropdown-item" href="admin-dashboard.html"><i class="fas fa-user-cog fa-fw me-1"></i>Admin</a> </li>
+							<li> <hr class="dropdown-divider"></li>
+							<li> <a class="dropdown-item" href="instructor-edit-profile.html"><i class="fas fa-fw fa-edit me-1"></i>Edit Profile</a> </li>
+							<li> <a class="dropdown-item" href="instructor-setting.html"><i class="fas fa-fw fa-cog me-1"></i>Settings</a> </li>
+							<li> <a class="dropdown-item" href="instructor-delete-account.html"><i class="fas fa-fw fa-trash-alt me-1"></i>Delete Profile</a> </li>
+							
+							<li> <hr class="dropdown-divider"></li>
+							<!-- Dropdown Level -->
+							<li class="dropdown-submenu dropend">
+								<a class="dropdown-item dropdown-toggle" href="#">Dropdown levels</a>
+								<ul class="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+
+									<!-- dropdown submenu open right -->
+									<li class="dropdown-submenu dropend">
+										<a class="dropdown-item dropdown-toggle" href="#">Dropdown (end)</a>
+										<ul class="dropdown-menu" data-bs-popper="none">
+											<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+											<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+										</ul>
+									</li>
+									<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+
+									<!-- dropdown submenu open left -->
+									<li class="dropdown-submenu dropstart">
+										<a class="dropdown-item dropdown-toggle" href="#">Dropdown (start)</a>
+										<ul class="dropdown-menu dropdown-menu-end" data-bs-popper="none">
+											<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+											<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+										</ul>
+									</li>
+									<li> <a class="dropdown-item" href="#">Dropdown item</a> </li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+
+					<!-- Nav item 4 Megamenu-->
+					<li class="nav-item dropdown dropdown-fullwidth">
+						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">À propos</a>
+						<div class="dropdown-menu dropdown-menu-end pb-0" data-bs-popper="none">
+							<div class="row p-4 g-4">
+								<!-- Dropdown column item -->
+								<div class="col-xl-6 col-xxl-3">
+									<h6 class="mb-0">Get started</h6>
+									<hr>
+									<ul class="list-unstyled">
+										<li> <a class="dropdown-item" href="#">Market research</a> </li>
+										<li> <a class="dropdown-item" href="#">Advertising</a> </li>
+										<li> <a class="dropdown-item" href="#">Consumer behavior</a> </li>
+										<li> <a class="dropdown-item" href="#">Digital marketing</a> </li>
+										<li> <a class="dropdown-item" href="#">Marketing ethics</a> </li>
+										<li> <a class="dropdown-item" href="#">Social media marketing</a> </li>
+										<li> <a class="dropdown-item" href="#">Public relations</a> </li>
+										<li> <a class="dropdown-item" href="#">Advertising</a> </li>
+										<li> <a class="dropdown-item" href="#">Decision science</a> </li>
+										<li> <a class="dropdown-item" href="#">SEO</a> </li>
+										<li> <a class="dropdown-item" href="#">Business marketing</a> </li>
+									</ul>
+								</div>
+								
+								<!-- Dropdown column item -->
+								<div class="col-xl-6 col-xxl-3">
+									<h6 class="mb-0">Degree</h6>
+									<hr>
+									<!-- Dropdown item -->
+									<div class="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
+										<a class="stretched-link h6 mb-0" href="#">Contact management</a>
+										<p class="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
+									</div>
+									<!-- Dropdown item -->
+									<div class="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
+										<a class="stretched-link h6 mb-0" href="#">Sales pipeline</a>
+										<p class="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
+									</div>
+									<!-- Dropdown item -->
+									<div class="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
+										<a class="stretched-link h6 mb-0" href="#">Security & Permission</a>
+										<p class="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
+									</div>
+								</div>
+
+								<!-- Dropdown column item -->
+								<div class="col-xl-6 col-xxl-3">
+									<h6 class="mb-0">Certificate</h6>
+									<hr>
+									<!-- Dropdown item -->
+									<div class="d-flex mb-4 position-relative">
+										<h2 class="mb-0"><i class="fab fa-fw fa-google text-google-icon"></i></h2>
+										<div class="ms-2">
+											<a class="stretched-link h6 mb-0" href="#">Google SEO certificate</a>
+											<p class="mb-0 small">No prerequisites</p>
+										</div>
+									</div>
+									<!-- Dropdown item -->
+									<div class="d-flex mb-4 position-relative">
+										<h2 class="mb-0"><i class="fab fa-fw fa-linkedin-in text-linkedin"></i></h2>
+										<div class="ms-2">
+											<a class="stretched-link h6 mb-0" href="#">Business Development Executive(BDE)</a>
+											<p class="mb-0 small">No prerequisites</p>
+										</div>
+									</div>
+									<!-- Dropdown item -->
+									<div class="d-flex mb-4 position-relative">
+										<h2 class="mb-0"><i class="fab fa-fw fa-facebook text-facebook"></i></h2>
+										<div class="ms-2">
+											<a class="stretched-link h6 mb-0" href="#">Facebook social media marketing</a>
+											<p class="mb-0 small">Expert advice</p>
+										</div>
+									</div>
+									<!-- Dropdown item -->
+									<div class="d-flex mb-4 position-relative">
+										<h2 class="mb-0"><i class="fas fa-fw fa-basketball-ball text-dribbble"></i></h2>
+										<div class="ms-2">
+											<a class="stretched-link h6 mb-0" href="#">Creative graphics design</a>
+											<p class="mb-0 small">No prerequisites</p>
+										</div>
+									</div>
+								</div>
+
+								<!-- Dropdown column item -->
+								<div class="col-xl-6 col-xxl-3">
+									<h6 class="mb-0">Download Eduport</h6>
+									<hr>
+									<!-- Image -->
+									<img src="{{ asset('eduporttemplate/images/14.svg') }}" alt="">
+
+									<!-- Download button -->
+									<div class="row g-2 justify-content-center mt-3">
+										<!-- Google play store button -->
+										<div class="col-6 col-sm-4 col-xxl-6">
+											<a href="#"> <img src="{{ asset('eduporttemplate/images/google-play.svg') }}" class="btn-transition" alt="google-store"> </a>
+										</div>
+										<!-- App store button -->
+										<div class="col-6 col-sm-4 col-xxl-6">
+											<a href="#"> <img src="{{ asset('eduporttemplate/images/app-store.svg') }}" class="btn-transition" alt="app-store"> </a>
+										</div>
+									</div>
+								</div>
+
+								<!-- Action box -->
+								<div class="col-12">
+									<div class="alert alert-success alert-dismissible fade show mt-2 mb-0 rounded-3" role="alert">
+										<!-- Avatar -->
+										<div class="avatar avatar-xs me-2">
+											<img class="avatar-img rounded-circle" src="{{ asset('eduporttemplate/images/09.jpg') }}" alt="avatar">
+										</div>
+										<!-- Info -->
+										The personality development class starts at 2:00 pm, click to <a href="#" class="alert-link">Join Now</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<!-- Nav item 5 link-->
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="#" id="advanceMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-ellipsis-h"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end min-w-auto" data-bs-popper="none">
+							<li> 
+								<a class="dropdown-item" href="https://support.webestica.com/" target="_blank">
+									<i class="text-warning fa-fw bi bi-life-preserver me-2"></i>Support
+								</a> 
+							</li>
+							<li> 
+								<a class="dropdown-item" href="docs/index.html" target="_blank">
+									<i class="text-danger fa-fw bi bi-card-text me-2"></i>Documentation
+								</a> 
+							</li>
+							<li> <hr class="dropdown-divider"></li>
+							<li> 
+								<a class="dropdown-item" href="https://eduport.webestica.com/rtl/" target="_blank">
+									<i class="text-info fa-fw bi bi-toggle-off me-2"></i>RTL demo
+								</a> 
+							</li>
+							<li> 
+								<a class="dropdown-item" href="https://themes.getbootstrap.com/store/webestica/" target="_blank">
+									<i class="text-success fa-fw bi bi-cloud-download-fill me-2"></i>Buy Eduport!
+								</a> 
+							</li>
+							<li> <hr class="dropdown-divider"></li>
+							<li> 
+								<a class="dropdown-item" href="docs/alerts.html" target="_blank">
+									<i class="text-orange fa-fw bi bi-puzzle-fill me-2"></i>Components
+								</a> 
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<!-- Nav Main menu END -->
+
+				<!-- Nav Search START -->
+				<div class="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
+					<div class="nav-item w-100">
+						<form class="position-relative">
+							<input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+							<button class="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 "></i></button>
+						</form>
+					</div>
+				</div>
+				<!-- Nav Search END -->
+			</div>
+			<!-- Main navbar END -->
+
+			<!-- Profile START -->
+			<div class="dropdown ms-1 ms-lg-0">
+				<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+					<img class="avatar-img rounded-circle" src="{{ asset('eduporttemplate/images/01.jpg') }}" alt="avatar">
+				</a>
+				<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+					
+					{% if app.user != null %}
+					<!-- Profile info -->
+					<li class="px-3">
+						<div class="d-flex align-items-center">
+							<!-- Avatar -->
+							<div class="avatar me-3">
+								<img class="avatar-img rounded-circle shadow" src="{% if app.user.imgprofil.getwebpath != null %}{{ asset(app.user.imgprofil.getwebpath) }}{% else %}{{ asset('eduporttemplate/images/avatar/01.jpg') }}{% endif %}" alt="avatar">
+							</div>
+							<div>
+								<a class="h6" href="#">{{ app.user.name(30) }}</a>
+								<p class="small m-0">Inscript depuis le {{ app.user.dateins|date('Y') }}.{{ app.user.dateins|date('m') }}.{{ app.user.dateins|date('d') }}</p>
+							</div>
+						</div>
+						<hr/>
+					</li>
+					<!-- Links -->
+					<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Edit Profile</a></li>
+					<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Account Settings</a></li>
+					<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help</a></li>
+					<li><a class="dropdown-item bg-danger-soft-hover" href="{{ path('logout') }}"><i class="bi bi-power fa-fw me-2"></i>Déconnexion</a></li>
+					<li> <hr class="dropdown-divider"></li>
+					<!-- Dark mode switch START -->
+					<li>
+						<div class="modeswitch-wrap" id="darkModeSwitch">
+							<div class="modeswitch-item">
+								<div class="modeswitch-icon"></div>
+							</div>
+							<span>Dark mode</span>
+						</div>
+					</li> 
+					<!-- Dark mode switch END -->
+					{% else %}
+						<li>
+							<a href="{{ path('login') }}" class="dropdown-item">
+								Connexion
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('users_user_inscription_user') }}" class="dropdown-item">
+								Inscription
+							</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+			<!-- Profile START -->
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+
+{% elseif(position ==  'presentation') %}
+
+<style>
+	.icon-search-container {
+		display: inline-block;
+		border: 1px solid transparent;
+		border-radius: 8px;
+		height: 40px;
+		width: 100px;
+		position: relative;
+		transition: width 0.2s ease-in-out;
+		backface-visibility: hidden;
+		float: right;
+		background: #4f5867;
+		margin-left: 40px;
+	}
+
+	.icon-search-container.active {
+		width: 400px;
+	}
+
+	.icon-search-container.active .fa-times-circle {
+		opacity: 1;
+	}
+	.icon-search-container.active .search-input {
+		width: 200px;
+	}
+	.icon-search-container .fa-search-btn {
+		color: #2980b9;
+		font-size: 20px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		cursor: pointer;
+		padding: 7px; background: #739ee6; color: #fff; border-radius: 8px 0px 0px 8px;
+		border: 2px solid transparent;
+	}
+	.icon-search-container .fa-times-circle {
+		opacity: 0;
+		color: #d9d9d9;
+		font-size: 20px;
+		position: absolute;
+		top: 8px;
+		right: 12px;
+		transition: opacity 0.2s ease-out;
+		cursor: pointer;
+	}
+	.icon-search-container .search-input {
+		position: absolute;
+		cursor: default;
+		left: 45px;
+		top: 2px;
+		width: 0;
+		padding: 5px;
+		color: #fff;
+		border: none;
+		outline: none;
+		font-size: 18px;
+		line-height: 20px;
+		background-color: rgba(255, 255, 255, 0);
+		transition: width 0.2s ease-out;
+	}
+
+	/* #Navigation
+	================================================== */
+
+
+	.count_notif{
+		border-radius: 50%; text-align: center; position: absolute; top: -2px; z-index: 5; left: -2px; height: 15px; width: 15px; font-size: 9px; color: #fff; background: red;
+	}
+
+	/* #Navigation
+================================================== */
+
+.start-header {
+	opacity: 1;
+	transform: translateY(0);
+	padding: 20px 0;
+	box-shadow: 0 10px 30px 0 rgba(138, 155, 165, 0.15);
+	-webkit-transition : all 0.3s ease-out;
+	transition : all 0.3s ease-out;
+}
+.start-header.scroll-on {
+	box-shadow: 0 5px 10px 0 rgba(138, 155, 165, 0.15);
+	padding: 10px 0;
+	-webkit-transition : all 0.3s ease-out;
+	transition : all 0.3s ease-out;
+}
+.start-header.scroll-on .navbar-brand img{
+	height: 24px;
+	-webkit-transition : all 0.3s ease-out;
+	transition : all 0.3s ease-out;
+}
+.navigation-wrap{
+	position: relative;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	-webkit-transition : all 0.3s ease-out;
+	transition : all 0.3s ease-out;
+}
+.navbar{
+	padding: 0;
+}
+.navbar-brand img{
+	height: 28px;
+	width: auto;
+	display: block;
+  filter: brightness(10%);
+	-webkit-transition : all 0.3s ease-out;
+	transition : all 0.3s ease-out;
+}
+.navbar-toggler {
+	float: right;
+	border: none;
+	padding-right: 0;
+}
+.navbar-toggler:active,
+.navbar-toggler:focus {
+	outline: none;
+}
+.navbar-light .navbar-toggler-icon {
+	width: 24px;
+	height: 17px;
+	background-image: none;
+	position: relative;
+	border-bottom: 1px solid #000;
+    transition: all 300ms linear;
+}
+.navbar-light .navbar-toggler-icon:after, 
+.navbar-light .navbar-toggler-icon:before{
+	width: 24px;
+	position: absolute;
+	height: 1px;
+	background-color: #000;
+	top: 0;
+	left: 0;
+	content: '';
+	z-index: 2;
+    transition: all 300ms linear;
+}
+.navbar-light .navbar-toggler-icon:after{
+	top: 8px;
+}
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:after {
+	transform: rotate(45deg);
+}
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:before {
+	transform: translateY(8px) rotate(-45deg);
+}
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+	border-color: transparent;
+}
+.nav-link{
+	color: #212121 !important;
+	font-weight: 500;
+    transition: all 200ms linear;
+}
+.nav-item:hover .nav-link{
+	color: #092759 !important;
+}
+.nav-item.active .nav-link{
+	color: #777 !important;
+}
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover{
+	border: none!important;
+}
+.nav-link {
+	position: relative;
+	padding: 5px 0 !important;
+	display: inline-block;
+}
+.nav-item:after{
+	position: absolute;
+	bottom: -5px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	content: '';
+	background-color: #092759;
+	opacity: 0;
+    transition: all 200ms linear;
+}
+.nav-item:hover:after{
+	bottom: 0;
+	opacity: 1;
+}
+.nav-item.active:hover:after{
+	opacity: 0;
+}
+.nav-item{
+	position: relative;
+    transition: all 200ms linear;
+}
+
+/* #Primary style
+================================================== */
+
+.bg-light {
+	background-color: #fff !important;
+    transition: all 200ms linear;
+}
+.section {
+    position: relative;
+	width: 100%;
+	display: block;
+}
+.full-height {
+    height: 100vh;
+}
+.over-hide {
+    overflow: hidden;
+}
+.absolute-center {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+  margin-top: 40px;
+	transform: translateY(-50%);
+	z-index: 20;
+}
+h1{
+	font-size: 48px;
+	line-height: 1.2;
+	font-weight: 700;
+	color: #212112;
+	text-align: center;
+}
+p{
+	text-align: center;
+	margin: 0;
+	padding-top: 10px;
+	opacity: 1;
+	transform: translate(0);
+    transition: all 300ms linear;
+    transition-delay: 1700ms;
+}
+body.hero-anime p{
+	opacity: 0;
+	transform: translateY(40px);
+    transition-delay: 1700ms;
+}
+h1 span{
+	display: inline-block;
+    transition: all 300ms linear;
+	opacity: 1;
+	transform: translate(0);
+}
+body.hero-anime h1 span:nth-child(1){
+	opacity: 0;
+	transform: translateY(-20px);
+}
+body.hero-anime h1 span:nth-child(2){
+	opacity: 0;
+	transform: translateY(-30px);
+}
+body.hero-anime h1 span:nth-child(3){
+	opacity: 0;
+	transform: translateY(-50px);
+}
+body.hero-anime h1 span:nth-child(4){
+	opacity: 0;
+	transform: translateY(-10px);
+}
+body.hero-anime h1 span:nth-child(5){
+	opacity: 0;
+	transform: translateY(-50px);
+}
+body.hero-anime h1 span:nth-child(6){
+	opacity: 0;
+	transform: translateY(-20px);
+}
+body.hero-anime h1 span:nth-child(7){
+	opacity: 0;
+	transform: translateY(-40px);
+}
+body.hero-anime h1 span:nth-child(8){
+	opacity: 0;
+	transform: translateY(-10px);
+}
+body.hero-anime h1 span:nth-child(9){
+	opacity: 0;
+	transform: translateY(-30px);
+}
+body.hero-anime h1 span:nth-child(10){
+	opacity: 0;
+	transform: translateY(-20px);
+}
+h1 span:nth-child(1){
+    transition-delay: 1000ms;
+}
+h1 span:nth-child(2){
+    transition-delay: 700ms;
+}
+h1 span:nth-child(3){
+    transition-delay: 900ms;
+}
+h1 span:nth-child(4){
+    transition-delay: 800ms;
+}
+h1 span:nth-child(5){
+    transition-delay: 1000ms;
+}
+h1 span:nth-child(6){
+    transition-delay: 700ms;
+}
+h1 span:nth-child(7){
+    transition-delay: 900ms;
+}
+h1 span:nth-child(8){
+    transition-delay: 800ms;
+}
+h1 span:nth-child(9){
+    transition-delay: 600ms;
+}
+h1 span:nth-child(10){
+    transition-delay: 700ms;
+}
+body.hero-anime h1 span:nth-child(11){
+	opacity: 0;
+	transform: translateY(30px);
+}
+body.hero-anime h1 span:nth-child(12){
+	opacity: 0;
+	transform: translateY(50px);
+}
+body.hero-anime h1 span:nth-child(13){
+	opacity: 0;
+	transform: translateY(20px);
+}
+body.hero-anime h1 span:nth-child(14){
+	opacity: 0;
+	transform: translateY(30px);
+}
+body.hero-anime h1 span:nth-child(15){
+	opacity: 0;
+	transform: translateY(50px);
+}
+h1 span:nth-child(11){
+    transition-delay: 1300ms;
+}
+h1 span:nth-child(12){
+    transition-delay: 1500ms;
+}
+h1 span:nth-child(13){
+    transition-delay: 1400ms;
+}
+h1 span:nth-child(14){
+    transition-delay: 1200ms;
+}
+h1 span:nth-child(15){
+    transition-delay: 1450ms;
+}
+#switch,
+#circle {
+	cursor: pointer;
+	-webkit-transition: all 300ms linear;
+	transition: all 300ms linear; 
+} 
+#switch {
+	width: 60px;
+	height: 8px;
+	border: 2px solid #8167a9;
+	border-radius: 27px;
+	background: #000;
+	position: relative;
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	opacity: 1;
+	transform: translate(0);
+    transition: all 300ms linear;
+    transition-delay: 1900ms;
+}
+body.hero-anime #switch{
+	opacity: 0;
+	transform: translateY(40px);
+    transition-delay: 1900ms;
+}
+#circle {
+	position: absolute;
+	top: -11px;
+	left: -13px;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: #000;
+}
+.switched {
+	border-color: #000 !important;
+	background: #8167a9 !important;
+}
+.switched #circle {
+	left: 43px;
+	box-shadow: 0 4px 4px rgba(26,53,71,0.25), 0 0 0 1px rgba(26,53,71,0.07);
+	background: #fff;
+}
+.nav-item .dropdown-menu {
+    transform: translate3d(0, 10px, 0);
+    visibility: hidden;
+    opacity: 0;
+	max-height: 0;
+    display: block;
+	padding: 0;
+	margin: 0;
+    transition: all 200ms linear;
+}
+.nav-item.show .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+	max-height: 999px;
+    transform: translate3d(0, 0px, 0);
+}
+.dropdown-menu {
+	padding: 10px!important;
+	margin: 0;
+	font-size: 13px;
+	letter-spacing: 1px;
+	color: #212121;
+	background-color: #fcfaff;
+	border: none;
+	border-radius: 3px;
+	box-shadow: 0 5px 10px 0 rgba(138, 155, 165, 0.15);
+    transition: all 200ms linear;
+}
+.dropdown-toggle::after {
+	display: none;
+}
+
+.dropdown-item {
+	padding: 3px 15px;
+	color: #212121;
+	border-radius: 2px;
+    transition: all 200ms linear;
+}
+.dropdown-item:hover, 
+.dropdown-item:focus {
+	color: #fff;
+	background-color: #092759;
+}
+
+.dropdown-item:hover p{
+	color: #fff;
+}
+
+
+/* #Media
+================================================== */
+
+@media (max-width: 767px) { 
+	h1{
+		font-size: 38px;
+	}
+	.nav-item:after{
+		display: none;
+	}
+	.nav-item::before {
+		position: absolute;
+		display: block;
+		top: 15px;
+		left: 0;
+		width: 11px;
+		height: 1px;
+		content: "";
+		border: none;
+		background-color: #000;
+		vertical-align: 0;
+	}
+	.dropdown-toggle::after {
+		position: absolute;
+		display: block;
+		top: 10px;
+		left: -23px;
+		width: 1px;
+		height: 11px;
+		content: "";
+		border: none;
+		background-color: #000;
+		vertical-align: 0;
+		transition: all 200ms linear;
+	}
+	.dropdown-toggle[aria-expanded="true"]::after{
+		transform: rotate(90deg);
+		opacity: 0;
+	}
+	.dropdown-menu {
+		padding: 0 !important;
+		background-color: transparent;
+		box-shadow: none;
+		transition: all 200ms linear;
+	}
+	.dropdown-toggle[aria-expanded="true"] + .dropdown-menu {
+		margin-top: 10px !important;
+		margin-bottom: 20px !important;
+	}
+	body.dark .nav-item::before {
+		background-color: #fff;
+	}
+	body.dark .dropdown-toggle::after {
+		background-color: #fff;
+	}
+	body.dark .dropdown-menu {
+		background-color: transparent;
+		box-shadow: none;
+	}
+}
+
+/* #Link to page
+================================================== */
+
+.logo {
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	display: block;
+	z-index: 100;
+	transition: all 250ms linear;
+}
+.logo img {
+	height: 26px;
+	width: auto;
+	display: block;
+  filter: brightness(10%);
+	transition: all 250ms linear;
+}
+body.dark .logo img {
+  filter: brightness(100%);
+}
+
+.cd-dropdown-trigger {
+    background-color: #ffffff!important;
+    color: #092759!important;
+}
+.cd-dropdown-trigger::before, .cd-dropdown-trigger::after {
+    background: #092759!important;
+}
+ol, ul {
+	list-style: none;
+}
+.cd-dropdown-content > .has-children > a.is-active {
+    box-shadow: inset 2px 0 0 #092759;
+    color: #092759;
+}
+.cd-dropdown-content > .has-children > a, .cd-dropdown-content > .has-children > .cd-secondary-dropdown.is-active > li > ul, .other_list a{
+	font-size: 16px!important;
+	font-family: OpenSans-Regular!important;
+}
+.cd-dropdown-content .cd-secondary-dropdown > li > a, .cd-dropdown-content .see-all a {
+    color: #092759;
+}
+.cd-dropdown-content .cd-dropdown-icons .cd-dropdown-item h3{
+	color: #092759;
+	font-size: 14px;
+}
+.cd-dropdown-content .cd-secondary-dropdown a:hover, .other_list a:hover, .no-touch .cd-dropdown-content .cd-secondary-dropdown a:hover{
+	color: #092759;
+}
+.cd-dropdown-content .cd-dropdown-icons .cd-dropdown-item{
+	padding: 20px 0 0 85px;
+	height: auto;
+	line-height: 15px;
+}
+.cd-dropdown-content > .has-children > .cd-secondary-dropdown.is-active > li > ul {
+    padding-left: 10px!important;
+}
+.cd-dropdown-content .cd-secondary-dropdown ul {
+    margin-left: -10px!important;
+}
+.cd-dropdown-content .cd-secondary-dropdown .see-all{
+	left: 10px!important;
+}
+.cd-dropdown-content .cd-secondary-dropdown > li{
+	height: auto;
+	border: none;
+	margin: 0px;
+	padding: 0px;
+}
+.cd-dropdown-content .cd-dropdown-icons > li, .cd-dropdown-content .cd-secondary-dropdown > li{
+	width: 100%;
+}
+.cd-dropdown-content .cd-secondary-dropdown::before{
+	display: none;
+}
+.cd-dropdown-content .cd-dropdown-icons .cd-dropdown-item::before{
+	margin-top: -10px;
+}
+.cd-dropdown-content .cd-secondary-dropdown > .see-all, .cd-dropdown-content .cd-dropdown-gallery > .see-all, .cd-dropdown-content .cd-dropdown-icons > .see-all{
+	bottom: 0px;
+	width: 100%!important;
+}
+.cd-dropdown-content a, .cd-dropdown-content ul a{
+	border: none;
+}
+@media (min-width: 1024px){
+	.no-touch .cd-dropdown-trigger.dropdown-is-active:hover {
+		background-color: #ffffff!important;
+		color: #092759!important;
+	}
+}
+
+.img-dd-profil{
+	float: left;
+	margin-right: 7px;
+	border-radius: 20px;
+	height: 40px;
+}
+</style>
+
+
+<div class="navigation-wrap bg-light start-header start-style">
+	<div class="main-container" style="padding-top: 0px!important; padding-bottom: 0px!important;">
+		<div class="row">
+			<div class="col-12">
+				<nav class="navbar navbar-expand-md navbar-light">
+					
+					<a href="{{ path('users_user_acces_plateforme') }}">
+						<img src="{{ asset('template/images/logo.png') }}" alt="" style="height: 50px;"/>
+					</a>	
+
+					<div class="cd-dropdown-wrapper" style="margin: 0px;">
+						<a class="cd-dropdown-trigger" href="#0">Nos cours</a>
+						<nav class="cd-dropdown" style="margin-top: 20px;">
+							<h2>Title</h2>
+							<a href="#0" class="cd-close">Close</a>
+							<ul class="cd-dropdown-content" style="padding: 10px 0px 50px 0px;">
+								<li class="has-children" style="margin-top: 5px;">
+									<a href="#!">Cours</a>
+
+									<ul class="cd-secondary-dropdown is-hidden" style="padding: 0px 0px 50px 15px;">
+										<li class="go-back"><a href="#0">Menu</a></li>
+										<li class="see-all" style="left: 0px!important;"><a href="{{ path('produit_produit_accueil_boutique_produit') }}">Tous les cours</a></li>
+										
+										{% for cat in liste_categorie %}
+										<li class="has-children">
+											<a href="#!">{{ cat.nom }}</a>
+											<ul class="is-hidden" style="margin-bottom: 15px;">
+												<li class="go-back"><a href="#0">{{ cat.nom }}</a></li>
+												<li class="see-all"><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': cat.id }) }}" style="font-size: 10px;">Tous les cours {{ cat.nom }} <span class="fa fa-arrow-right"></span> </a></li>
+												{% for scat in cat.getScategories %}
+												<li class="has-children">
+													<a href="#0">{{ scat.nom }}</a>
+													<ul class="is-hidden" >
+														<li class="go-back" style="margin-bottom: 15px;"><a href="#0" style="color: #333;">Retourner</a></li>
+														<li class="see-all"><a href="#!" style="padding-left: 25px; font-size: 10px;;">Tous les cours {{ scat.nom }} <span class="fa fa-arrow-right"></span> </a></li>
+														{% for prod in scat.getProduitSouscategorie %}
+														<li><a href="{{ path('produit_produit_detail_produit_market', {'id': prod.id }) }}">{{ prod.titre }}</a></li>
+														{% endfor %}
+													</ul>
+												</li>
+												{% endfor %}
+											</ul>
+										</li>
+										{% endfor %}
+
+									</ul> <!-- .cd-secondary-dropdown -->
+								</li> <!-- .has-children -->
+			
+								<li class="has-children">
+									<a href="#!">Nos formations</a>
+									<ul class="cd-dropdown-icons is-hidden" style="padding: 0px 0px 50px 0px;">
+										<li class="go-back"><a href="#0">Menu</a></li>
+										<li class="see-all"><a href="{{ path('produit_service_visiter_notre_blog') }}">Toutes nos campagnes</a></li>
+										{% for formation in liste_formation %}
+										<li>
+											<a class="cd-dropdown-item item-7" href="{{ path('produit_service_assistance_entreprise', {'id': formation.id }) }}">
+												<h3>{{ formation.nom }}</h3>
+												<span style="font-size: 12px;">12 Cours</span>
+											</a>
+										</li>
+										{% endfor %}			
+									</ul> <!-- .cd-dropdown-icons -->
+								</li> <!-- .has-children -->
+			
+								<li class="has-children">
+									<a href="http://codyhouse.co/?p=748">Aide</a>
+									<ul class="cd-dropdown-icons is-hidden">
+										<li class="go-back"><a href="#0">Menu</a></li>
+										<li class="see-all"><a href="http://codyhouse.co/?p=748">Browse Services</a></li>
+										<li>
+											<a class="cd-dropdown-item item-1" href="http://codyhouse.co/?p=748">
+												<h3>Service #1</h3>
+												<p>This is the item description</p>
+											</a>
+										</li>
+			
+										<li>
+											<a class="cd-dropdown-item item-2" href="http://codyhouse.co/?p=748">
+												<h3>Service #2</h3>
+												<p>This is the item description</p>
+											</a>
+										</li>		
+			
+									</ul> <!-- .cd-dropdown-icons -->
+								</li> <!-- .has-children -->
+			
+								<li class="cd-divider" style="text-transform: capitalize;">Autres</li>
+			
+								<li class="other_list"><a href="{{ path('produit_service_forum_site') }}">Forum</a></li>
+								<li class="other_list"><a href="{{ path('produit_service_toute_actualite_entreprise') }}">Formateurs</a></li>
+								<li class="other_list"><a href="{{ path('produit_service_yourcv_recrutement') }}">Ajout de fond</a></li>
+							</ul> <!-- .cd-dropdown-content -->
+						</nav> <!-- .cd-dropdown -->
+					</div> <!-- .cd-dropdown-wrapper -->
+				
+					
+
+					<form class="icon-search-container form-recherche-product zone-etab-rechercher" value="0" name="" data-ic-class="search-trigger" method="post" action="#!">
+						<button class="fa fa-search fa-search-btn recherche-products"></button>
+						<input type="text" class="search-input form-products-plateforme" data-ic-class="search-input" placeholder="Rechercher"/>
+						<span class="fa fa-times-circle" data-ic-class="search-clear"></span>
+					</form>
+				    
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav ml-auto py-4 py-md-0">
+							<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+								{% set nb_notification = liste_notification|length %}
+								{% if nb_notification > 0 %}
+									<span class="count_notif">{{ nb_notification }}</span>
+								{% endif %}
+								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" type="button" aria-haspopup="true" aria-expanded="false">
+									<span class="fa fa-bell-o"></span> Notifications
+								</a>
+								<div class="dropdown-menu dropdown-menu-right lg-dropdownbt">
+
+									{% for notification in liste_notification %}
+										{% if notification.commentaireblog == null %}
+										<a href="{% if app.user != null %}{{ path('users_user_notifications_user', {'id': app.user.id }) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item preview-item">
+											<img src="{% if notification.user.imgprofil != null %}{{ asset(notification.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="img-dd-profil"/>
+											<div class="preview-item-content flex-grow text-left">
+												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{{ notification.user.name(30) }}
+													<span class="float-right font-weight-light small-text">{{ notification.getDuree }}</span>
+												</h6>
+												<div class="text-truncate text-left" >
+													{{ notification.titre }}
+												</div>
+											</div>
+										</a>
+										{% else %}
+										<a href="{% if notification.commentaireblog.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': notification.commentaireblog.produit.id, 'mess': notification.commentaireblog.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': notification.commentaireblog.chapitrecours.id, 'mess': notification.commentaireblog.id }) }}{% endif %}" class="dropdown-item preview-item">
+											<img src="{% if notification.user.imgprofil != null %}{{ asset(notification.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="img-dd-profil"/>
+											<div class="preview-item-content flex-grow text-left">
+												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{{ notification.user.name(30) }}
+													<span class="float-right font-weight-light small-text">{{ notification.getDuree }}</span>
+												</h6>
+												<div class="text-truncate text-left" >
+													{{ notification.titre }}
+												</div>
+											</div>
+										</a>
+										{% endif %}
+									{% else %}
+										{% if app.user == null %}
+											<a href="{{ path('login') }}" class="dropdown-item preview-item">
+												<img src="{{ asset('template/images/co.png') }}" alt="image" class="img-dd-profil"/>
+												<div class="preview-item-content flex-grow text-left">
+													<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">Anonyme
+														<span class="float-right font-weight-light small-text">À l'instant</span>
+													</h6>
+													<div class="text-truncate text-left" >
+														Veuillez vous connecter à votre compte 
+													</div>
+												</div>
+											</a>
+										{% else %}
+										    <a href="{{ path('users_user_notifications_user', {'id': app.user.id }) }}" class="dropdown-item preview-item">
+												<img src="{{ asset('template/images/co.png') }}" alt="image" class="img-dd-profil"/>
+												<div class="preview-item-content flex-grow text-left">
+													<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{{ app.user.name(40) }}
+														<span class="float-right font-weight-light small-text">À l'instant</span>
+													</h6>
+													<div class="text-truncate text-left" >
+														Aucune nouvelle notification
+													</div>
+												</div>
+											</a>
+										{% endif %}
+									{% endfor %}
+									<div class="dropdown-divider"></div>
+									<a href="{% if app.user != null %}{{ path('users_user_notifications_user', {'id': app.user.id }) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item">
+										<i class="mdi mdi-chevron-right-circle-outline text-primary"></i>
+										Liste complète
+									</a>
+
+								</div>
+							</li>
+							<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+								{% set nb_message = liste_message|length %}
+								{% if nb_message > 0 %}
+									<span class="count_notif">{{ nb_message }}</span>
+								{% endif %}
+								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" type="button" aria-haspopup="true" aria-expanded="false">
+									<span class="fa fa-envelope-o"></span> Messages
+								</a>
+								<div class="dropdown-menu dropdown-menu-right lg-dropdownbt">
+									{% for message in liste_message %}
+
+										<a href="{% if message.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': message.produit.id, 'mess': message.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': message.chapitrecours.id, 'mess': message.id }) }}{% endif %}" class="dropdown-item preview-item">
+											<img src="{% if message.user != null and message.user.imgprofil != null %}{{ asset(message.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="image" class="img-dd-profil"/>
+											<div class="preview-item-content flex-grow text-left">
+												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{% if message.user != null %}{{ message.user.name(30) }}{% else %}Anonyme{% endif %}
+													<span class="float-right font-weight-light small-text">{{ message.getDuree }}</span>
+												</h6>
+												<div class="text-truncate text-left" >
+													{{ message.contenu }}
+												</div>
+											</div>
+										</a>
+										
+									{% else %}
+										{% if app.user == null %}
+										<a href="{{ path('login') }}" class="dropdown-item preview-item">
+											<img src="{{ asset('template/images/co.png') }}" alt="image" class="img-dd-profil"/>
+											<div class="preview-item-content flex-grow text-left">
+												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">Anonyme
+													<span class="float-right font-weight-light small-text">À l'instant</span>
+												</h6>
+												<div class="text-truncate text-left" >
+													Veuillez vous connecter à votre compte
+												</div>
+											</div>
+										</a>
+
+										{% else %}
+										<a href="{{ path('produit_service_liste_message_user', {'id': app.user.id}) }}" class="dropdown-item preview-item">
+											<img src="{{ asset('template/images/co.png') }}" alt="image" class="img-dd-profil"/>
+											<div class="preview-item-content flex-grow text-left">
+												<h6 style="font-weight: bold; margin-bottom: 0px; padding-top: 3px;">{{ app.user.name(40) }}
+													<span class="float-right font-weight-light small-text">À l'instant</span>
+												</h6>
+												<div class="text-truncate text-left" >
+													Aucun nouveau message
+												</div>
+											</div>
+										</a>
+										{% endif %}
+									{% endfor %}
+									<div class="dropdown-divider"></div>
+									<a href="{% if app.user != null %}{{ path('produit_service_liste_message_user', {'id': app.user.id}) }}{% else %}{{ path('login') }}{% endif %}" class="dropdown-item">
+									<i class="mdi mdi-chevron-right-circle-outline text-primary"></i>
+									Liste complète
+									</a>
+								</div>
+							</li>
+							
+							{% if app.user != null %}
+							<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" type="button" aria-haspopup="true" aria-expanded="false">
+									<span class="fa fa-user-circle-o"></span> {{ app.user.name(25) }}
+								</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a href="{{ path('users_user_user_accueil', {'id': app.user.id}) }}" class="dropdown-item">
+										<i class="mdi mdi-account text-primary"></i>
+										{{ app.user.name(25) }}
+									  </a>
+									  
+									  <div class="dropdown-divider"></div>
+									  
+									  <a href="{{ path('users_user_modifier_profil', {'id': app.user.id}) }}" class="dropdown-item">
+										<i class="mdi mdi-settings text-primary"></i>
+										Paramètres
+									  </a>
+									  
+			  
+									  <a href="{{ path('produit_service_yourcv_recrutement') }}" class="dropdown-item">
+										<i class="mdi mdi-basket-fill text-primary"></i>
+										Créditer mon solde
+									  </a>
+									  
+									  {% if app.user.formateur == true and is_granted('ROLE_FORMATEUR') %}
+										  <a href="{{ path('produit_produit_ajouter_nouveau_produit') }}" class="dropdown-item">
+											  <i class="fa fa-plus text-primary"></i>
+											  Ajoutez un cours
+										  </a>
+										  
+										  <a href="{{ path('users_user_accueil_commande_user', {'id': app.user.id}) }}" class="dropdown-item">
+											  <i class="fa fa-eye text-primary"></i>
+											  Formations à suivre
+										  </a>
+									  {% endif %}
+									  <div class="dropdown-divider"></div>
+									  <a href="{{ path('logout') }}" class="dropdown-item">
+										<i class="mdi mdi-logout text-primary"></i>
+										Déconnexion
+									  </a>
+								</div>
+							</li>
+							{% else %}
+							<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+								<a class="nav-link dropdown-toggle signup_signin" data-toggle="dropdown" href="#" type="button" aria-haspopup="true" aria-expanded="false" style="display: inline-block; border: 1px solid #ddd;  border-radius: 40px;">
+									 <span style="display: inline-block; padding-left: 10px; padding-right: 10px;">Commencer</span>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a href="{{ path('login') }}" class="dropdown-item">
+										<i class="mdi mdi-settings text-primary"></i>
+										Connexion
+									</a>
+									<div class="dropdown-divider"></div>
+									<a href="{{ path('users_user_inscription_user') }}" class="dropdown-item">
+										<i class="mdi mdi-logout text-primary"></i>
+										Inscription
+									</a>
+								</div>
+							</li>
+							{% endif %}
+
+							
+							<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+								<a class="nav-link activator" href="#!">
+									<span class="fa fa-th"></span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					
+				</nav>		
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+(function($) { "use strict";
+
+$(function() {
+	var header = $(".start-style");
+	$(window).scroll(function() {    
+		var scroll = $(window).scrollTop();
+	
+		if (scroll >= 10) {
+			header.removeClass('start-style').addClass("scroll-on");
+		} else {
+			header.removeClass("scroll-on").addClass('start-style');
+		}
+	});
+});		
+	
+//Animation
+
+$(document).ready(function() {
+	$('body.hero-anime').removeClass('hero-anime');
+});
+
+//Menu On Hover
+	
+$('body').on('mouseenter mouseleave','.nav-item',function(e){
+		if ($(window).width() > 750) {
+			var _d=$(e.target).closest('.nav-item');_d.addClass('show');
+			setTimeout(function(){
+			_d[_d.is(':hover')?'addClass':'removeClass']('show');
+			},1);
+		}
+});	
+
+//Switch light/dark
+
+$("#switch").on('click', function () {
+	if ($("body").hasClass("dark")) {
+		$("body").removeClass("dark");
+		$("#switch").removeClass("switched");
+	}
+	else {
+		$("body").addClass("dark");
+		$("#switch").addClass("switched");
+	}
+});  
+
+})(jQuery); 
+
+
+/**
+			 ---------------- Search form,Js
+		**/
+		
+		var $searchTrigger = $('[data-ic-class="search-trigger"]'),
+		$searchInput = $('[data-ic-class="search-input"]'),
+		$searchClear = $('[data-ic-class="search-clear"]');
+		
+		$searchTrigger.click(function(){
+		
+		var $this = $('[data-ic-class="search-trigger"]');
+		$this.addClass('active');
+		$searchInput.focus();
+		
+		});
+		
+		$searchInput.blur(function(){
+		
+		if($searchInput.val().length > 0){
+		
+			return false;
+		
+		} else {
+		
+			$searchTrigger.removeClass('active');
+		
+		}
+		
+		});
+		
+		$searchClear.click(function(){
+			$searchInput.val('');
+		});
+		
+		$searchInput.focus(function(){
+			$searchTrigger.addClass('active');
+		});
+		
+		/*
+		End Search Form Js
+		*/
+		
+		function rechercheetab()
+		{
+			if($('.form-products-plateforme').val().length >= 2)// on vérifier si l'utilisateur a entré plus de 5 caractères
+			{
+				var libre = $('.zone-etab-rechercher').attr('value'); // on initialise la variable libre
+				var donnee = $('.form-products-plateforme').val();  //on récupère la donnée
+				if (libre == 0 && donnee != $('.zone-etab-rechercher').attr('name')){ // on vérifier si la requête précedente est rétournée et que la recherche ne corespnd pas à la dernière effectuée
+				$('.zone-etab-rechercher').attr('value',1); // on bloque d'autres recherches
+				$('.zone-etab-rechercher').attr('name',donnee); // on enregistre la recherche effectuer.
+				$('.recherche-products').removeClass('fa-search');
+				$('.recherche-products').html('<img src="{{ asset('template/images/attente.gif') }}" alt="" style="width: 15px; height: 15px; margin-top: 0px;"/>'); //attente du résultat
+				
+					$.get('{{ path('produit_produit_recherche_new_produit', {'position': 'home'}) }}', { donnee: $('.form-products-plateforme').val() }, function(data){
+						$('.recherche-products').html('');
+						$('.recherche-products').addClass('fa-search');
+						$('.content-recherche-products-market').html(data);
+						$('.content-manage-market').hide();
+						$('.content-recherche-products-market').show();
+						$('.content-manage-market').css('margin-top','0px');
+						$('.content-manage-market').css('padding-top','0px');
+						$('.zone-etab-rechercher').attr('value',0);
+						setTimeout(function() { rechercheetab(); }, 100);  // on relance la fonction après 200 ms.
+					});
+				}else{
+					setTimeout(function() { rechercheetab(); }, 100);
+				}
+			}else{
+				setTimeout(function() { rechercheetab(); }, 100);
+			}
+		}
+		
+		
+		$(".form-products-plateforme").focus(function(){
+		rechercheetab(); 
+		});
+		
+		$('.form-recherche-product').on('submit', function(){
+			if($('.form-products-plateforme').val().length < 2)// on vérifier si l'utilisateur a entré plus de 5 caractères
+			{
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Rentrez au moins 2 caractères !');
+				$('#infos-action-effectuer').modal('show');
+			}else{
+				$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Patientez ! Auto-recherche en cours !');
+				$('#infos-action-effectuer').modal('show');
+			}
+			return false;
+		});
+</script>
+{% else %}
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" style="box-shadow: 0 15px 15px -1px #f2f2f2 inset; background: #fff;">
+  <div style="box-shadow: 0px 6px 6px #CCC;">
+  <div class="container">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	  </button>
+	  <a class="navbar-brand" href="{{ path('users_user_acces_plateforme') }}" style="color: green;"><b>Az Corp</b></a>
+	</div>
+	<div class="navbar-collapse collapse">
+	  <ul class="nav navbar-nav">
+		<li><a href="{{ path('produit_service_visiter_notre_blog') }}" style="color: green;">Formations</a></li>
+		<li><a href="{{ path('produit_produit_module_deformation') }}" style="color: green;">Cours</a></li>
+		<li><a href="{{ path('produit_service_forum_site') }}" style="color: green;">Forum</a></li>
+		<li><a href="{{ path('produit_service_apropos_denous') }}" style="color: green;">À propos</a></li>
+		<li>
+		<div class="search zone-etab-rechercher" style="display: inline;" value="0" name="">
+			<form class="form-recherche-product" action="#!" method="post" style="display: inline;">
+				<input type="text" class="search-form form-products-plateforme" autocomplete= "off" placeholder="Lancez la recherche" style="color: #333; margin-top: 15px;"/>
+				<i class="glyphicon glyphicon-search recherche-products" style="color: green; z-index: 1000; position: absolute; margin-top: 20px;"></i>
+			</form>
+	   </div>
+		</li>
+	  </ul>
+	  <ul class="nav navbar-nav navbar-right">
+		
+		<li><a href="{{ path('produit_service_toute_actualite_entreprise') }}" style="color: green;">Formateurs</a></li>
+		<li>
+		<div class="btn-group" style="margin-top: 15px; margin-left: 5px;">
+		<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; color: green;">{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}<img src="{% if app.user.imgprofil != null %}{{ asset(app.user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" style="width: 20px; height:20px; border-radius: 15px; margin-top: -5px;"/> {{ app.user.name(15) }} {% else %}<img src="{{ asset('template/images/co.png') }}" alt="" style="width: 20px; height:20px; border-radius: 15px; margin-top: -5px;"/> Espace membre{% endif %} <span class="caret"></span></a>
+			<ul class="dropdown-menu" style="margin-top: 13px; border-radius: 0px;">
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+				<li><a href="{{ path('users_user_user_accueil', {'id': app.user.id }) }}"><span class="fa fa-user"></span> Mon compte utilisateur</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('users_user_modifier_profil', {'id': app.user.id }) }}"><span class="fa fa-edit"></span> Modifier mes paramètres</a></li>
+				{% if app.user.formateur == true and is_granted('ROLE_FORMATEUR') %}
+				<li class="divider"></li>
+				<li><a href="{{ path('produit_produit_ajouter_nouveau_produit') }}"><span class="fa fa-plus"></span> Ajoutez un cours</a></li>
+				{% endif %}
+				<li class="divider"></li>
+				<li><a href="{{ path('produit_service_yourcv_recrutement') }}"><span class="fa fa-external-link"></span> Créditez votre compte</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('logout') }}"><span class="fa fa-sign-out"></span> Déconnexion</a></li>
+				{% else %}
+				<li><a href="{{ path('users_user_inscription_user') }}"><span class="fa fa-hand-o-right"></span> Inscription</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('login') }}"><span class="fa fa-sign-in"></span> Connexion</a></li>
+				<li class="divider"></li>
+				<li><a href="#!"><span class="fa fa-bell-o"></span> Notifications</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('produit_service_yourcv_recrutement') }}"><span class="fa fa-external-link"></span> Créditez votre compte</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ path('produit_service_toute_actualite_entreprise') }}"><span class="fa fa-users"></span> Formateurs</a></li>
+				{% endif %}
+			</ul>
+		</div>
+		</li>
+	  </ul>
+	</div><!--/.nav-collapse -->
+  </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+function rechercheetab()
+{
+if($('.form-products-plateforme').val().length >= 2)// on vérifier si l'utilisateur a entré plus de 5 caractères
+{
+  var libre = $('.zone-etab-rechercher').attr('value'); // on initialise la variable libre
+  var donnee = $('.form-products-plateforme').val();  //on récupère la donnée
+  if (libre == 0 && donnee != $('.zone-etab-rechercher').attr('name')){ // on vérifier si la requête précedente est rétournée et que la recherche ne corespnd pas à la dernière effectuée
+  $('.zone-etab-rechercher').attr('value',1); // on bloque d'autres recherches
+  $('.zone-etab-rechercher').attr('name',donnee); // on enregistre la recherche effectuer.
+  $('.recherche-products').removeClass('glyphicon-search');
+  $('.recherche-products').html('<img src="{{ asset('template/images/attente.gif') }}" alt="" style="width: 15px; height: 15px; margin-top: -10px;"/>'); //attente du résultat
+  
+	  $.get('{{ path('produit_produit_recherche_new_produit') }}', { donnee: $('.form-products-plateforme').val() }, function(data){
+		  $('.recherche-products').html('');
+		  $('.recherche-products').addClass('glyphicon-search');
+		  $('.content-recherche-products-market').html(data);
+		  $('.content-manage-market').hide();
+		  $('.content-recherche-products-market').show();
+		  $('.content-manage-market').css('margin-top','0px');
+		  $('.content-manage-market').css('padding-top','0px');
+		  $('.zone-etab-rechercher').attr('value',0);
+		  setTimeout(function() { rechercheetab(); }, 100);  // on relance la fonction après 200 ms.
+	  });
+  }else{
+	setTimeout(function() { rechercheetab(); }, 100);
+  }
+}else{
+	setTimeout(function() { rechercheetab(); }, 100);
+    }
+}
+
+
+$(".form-products-plateforme").focus(function(){
+rechercheetab(); 
+});
+
+$('.form-recherche-product').on('submit', function(){
+    if($('.form-products-plateforme').val().length < 2)// on vérifier si l'utilisateur a entré plus de 5 caractères
+	{
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Echec ! Rentrez au moins 2 caractères !');
+		$('#infos-action-effectuer').modal('show');
+	}else{
+		$('.infos-action-effectuer').html('<span class="fa fa-warning"></span> Patientez ! Auto-recherche en cours !');
+		$('#infos-action-effectuer').modal('show');
+	}
+	return false;
+});
+</script>
+
+{% endif %}

@@ -143,9 +143,16 @@ users_adminuser_livraison_panier_commander:
     controller: App\Controller\Produit\Produit\PanierController::livraisonpanier
     requirements:
         id: \d+
+users_adminuser_reduction_montant_panier:
+    path: /reduction/montant/panier/{id}
+    controller: App\Controller\Produit\Produit\PanierController::reductionmontant
+    requirements:
+        id: \d+
 users_adminuser_tousles_panier_livrer:
-    path: /tousles/paniers/livrer
+    path: /tousles/paniers/livrer/{page}
     controller: App\Controller\Produit\Produit\PanierController::panierlivrer
+    defaults:
+        page: 1
     requirements:
         id: \d+
 users_adminuser_supprimer_courant_produit:
@@ -272,6 +279,9 @@ users_adminuser_about_us_supprimer:
 users_adminuser_liste_dossier_recrutement:
     path: /liste/dossier/recrutement/user
     controller: App\Controller\Produit\Service\RecrutementController::listedossier
+users_adminuser_liste_doc_and_candidature:
+    path: /liste/doc/and/candidature/user
+    controller: App\Controller\Produit\Service\RecrutementController::listedocandcandidature
 users_adminuser_gestion_info_entreprise:
     path: /gestion/information/entreprise/{page}
     controller: App\Controller\Produit\Service\InfoentrepriseController::infoentreprise
@@ -354,8 +364,15 @@ users_adminuser_supp_panier_produit_user:
     requirements:
         id: \d+
 users_adminuser_liste_all_user:
-    path: /liste/all/user
+    path: /liste/all/user/{typecompte}/{filtre}/{page}/{searchitem}
     controller: App\Controller\Users\User\UserController::listealluser
+    defaults:
+        page: 1
+        searchitem: ''
+        typecompte: 'general'
+        filtre: 0
+    requirements:
+        page: \d+
 users_adminuser_searching_courant_liste:
     path: /searching/courant/liste/{page}/{searchitem}
     controller: App\Controller\Users\User\UserController::searchinguser
@@ -445,3 +462,54 @@ users_adminuser_localisation_supprimer_continent:
         id: 0
     requirements:
         id: \d+
+users_adminuser_parametres_administration:
+    path: /parametres/admin
+    controller: App\Controller\Users\Adminuser\ParametreadminController::parametresadmin
+users_adminuser_update_parameters_admin:
+    path: /update/parameters/admin/{id}
+    controller: App\Controller\Users\Adminuser\ParametreadminController::updateParameter
+    requirements:
+        id: \d+
+
+users_adminuser_liste_produit:
+    path: /liste/produit
+    controller: App\Controller\Pricing\Offre\OffreController:listeproduitadmin
+    requirements:
+        id: \d+
+users_adminuser_ajouter_caracteristique:
+    path: /ajouter/caracteristique
+    controller: App\Controller\Pricing\Offre\CaracteristiqueController:ajoutercaracteristique
+    requirements:
+        id: \d+
+users_adminuser_mofication_produit:
+    path: /mofication/produit/{id}
+    controller: App\Controller\Pricing\Offre\OffreController::modificationproduit
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_delete_produit:
+    path: /admin/delete/produit/{id}
+    controller: App\Controller\Pricing\Offre\OffreController::deleteproduit
+    requirements:
+        id: \d+
+users_adminuser_update_caracteristique:
+    path: /update/caracteristique/{id}
+    controller: App\Controller\Pricing\Offre\CaracteristiqueController::updatecaracteristique
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_remove_caracteristique:
+    path: /remove/caracteristique/{id}
+    controller: App\Controller\Pricing\Offre\CaracteristiqueController::removecaracteristique
+    defaults:
+        id: 0
+    requirements:
+        id: \d+
+users_adminuser_update_caracteristique_produit:
+    path: /update/caracteristique/produit/{idproduit}/{idoffre}
+    controller: App\Controller\Pricing\Offre\CaracteristiqueController:updatecaracteristiqueproduit
+    defaults:
+        idproduit: 0
+        idoffre: 0

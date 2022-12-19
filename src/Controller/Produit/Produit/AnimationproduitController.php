@@ -1,5 +1,6 @@
 <?php
-/*(c) Noel Kenfack <noel.kenfack@yahoo.fr> Février 2015
+/*
+	(c) Noel Kenfack <noel.kenfack@yahoo.fr> Février 2015
 */
 namespace App\Controller\Produit\Produit;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -7,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Produit\Partiecours;
 use App\Entity\Produit\Produit\Produit;
-use App\Entity\Produit\Chapitrecours;
+use App\Entity\Produit\Produit\Chapitrecours;
 use App\Entity\Produit\Produit\Animationproduit;
 use App\Form\Produit\Produit\PartiecoursType;
 use App\Service\Servicetext\GeneralServicetext;

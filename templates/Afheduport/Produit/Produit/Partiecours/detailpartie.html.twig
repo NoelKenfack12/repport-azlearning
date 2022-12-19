@@ -1,0 +1,182 @@
+{% if addform == 0 %}
+
+<div class="accordion__item {% if partie.id == idpartie %}is-open{% endif %}">
+	<div class="accordion__title" style="{% if partie.id == idpartie %}color: #1d61d8;{% endif %} padding: 7px 0px;">
+		<h5 style="margin-top: -10px; border-bottom: 1px solid #ddd; padding-bottom: 7px;"> 
+			{{ partie.name(80) }} <span class="badge"><span class="fa fa-clock-o"></span> {{ partie.getDureePartie }}</span>
+		</h5>
+	</div>
+
+	<div class="accordion__body" style="{% if partie.id == idpartie %}height: auto;{% endif %}">
+	  <div class="accordion__content">
+		  
+		<div class="list-group">
+			  {% for chapitre in partie.getRessources %}
+			  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="list-group-item list-group-item-action item-chapter-cour-{{ chapitre.id }}" style="border: none; {% if chapitre.id == idchapitre %}color: #1d61d8; font-weight: bold;{% endif %}">
+				  <span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+				  {{ chapitre.titre }} <br/>
+				  <span style="font-size: 11px; margin-left: 15px;"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			  </a>
+			  {% endfor %}
+
+			  {% for chapitre in partie.getChapitres %}
+			  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="list-group-item list-group-item-action item-chapter-cour-{{ chapitre.id }}" style="border: none; {% if chapitre.id == idchapitre %}color: #1d61d8; font-weight: bold;{% endif %}">
+				  
+				  {% if produitpanier != null %}
+				  	{% set vue = chapitre.getNoteQuestionnaire(produitpanier, 'voir') %}
+					{% if vue == true %}
+						<span class="fa fa-check-circle" style="color: 11px; color: green;"></span>
+						<strong>{{ chapitre.titre }}</strong>
+					{% else %}
+						<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+						{{ chapitre.titre }}
+					{% endif %}
+				  {% else %}
+					<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+					{{ chapitre.titre }}
+				  {% endif %}
+
+				  <br/>
+				  <span style="font-size: 11px; margin-left: 15px;"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			  </a>
+			  {% endfor %}
+
+			  {% for chapitre in partie.getConclusion %}
+			  <a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="list-group-item list-group-item-action item-chapter-cour-{{ chapitre.id }}" style="border: none; {% if chapitre.id == idchapitre %}color: #1d61d8; font-weight: bold;{% endif %}">
+				  <span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+				  {{ chapitre.titre }}<br/>
+				  <span style="font-size: 11px; margin-left: 15px;"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			  </a>
+			  {% endfor %}
+
+			  {% if partie.getRessources|length + partie.getChapitres|length + partie.getConclusion|length ==0 %}
+			  <a href="#!" class="list-group-item list-group-item-action" style="border: none;">
+				  <span class="fa fa-circle" style="color: 11px; color: #ddd;"></span>
+				  Aucune leçon ! <br/>
+				  <span class="float-right">00 min 00 s</span>
+			  </a>
+			  {% endif %}	  
+		  </div>
+		  {% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+		  <div style="margin: 15px 0px; border: 1px solid #092759; padding: 15px;">
+			<strong>Mise à jour de la partie</strong>
+			
+				<div style="display: block; width: 100%;">
+					<a href="{{ path('produit_produit_add_new_chapter', {'id': partie.id }) }}" class="btn " style="width: 30%; border: 1px solid #092759; color: #092759;" title="Ajouter une leçon"><em class="fa fa-plus"></em> </a>
+					<a href="#!" class="btn modifier-partiecours-{{ partie.id }}" style="width: 30%; border: 1px solid #092759; color: #092759;" title="Modifier cette partie"><em class="fa fa-edit"></em> </a>
+					<a href="{{ path('produit_produit_supprimer_partie_cours', {'id': partie.id}) }}" class="btn " style="width: 30%; border: 1px solid #092759; color: #092759;" title="Supprimer cette partie"><span class="fa fa-times"></span> </a>
+				</div>
+			
+		  </div>
+		  {% endif %}
+	  </div>
+	</div>
+</div>
+
+
+{% elseif addform == 1 %}
+
+<div class="modal fade" id="infos-action-modifpartie-{{ partie.id }}" style="margin-top: 100px;">
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+<div class="modal-content text-left">
+<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+	<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+		<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+		<span class="fa fa-edit"></span> Modification de la partie
+	</h4>
+</div>
+	
+<div class="modal-body" style="background: #fff; color: #333;">
+
+	{{ form_start(formedit, {'attr': {'id': 'modif_new_part_course_'~partie.id, 'class': 'col s12','action': path('produit_produit_modification_partie_cours', {'id': partie.id}) }}) }}
+		<div class="form-group champ2{{ partie.id }}">
+		{{ form_widget(formedit.titre, {'attr': {'class': 'form-control titre_partie_course_modif_'~partie.id}}) }}
+		</div>
+		<div class="alert alertnotif2{{ partie.id }} alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
+		<h4 style="margin-bottom: 0px;">Erreur </h4>
+		Taille invalide !!! <span class="label label-info pull-right control-info-champ2{{ partie.id }}"></span>
+		</div>
+		<div class="form-group champ3{{ partie.id }}">
+		{{ form_widget(formedit.rang, {'attr': {'class': 'form-control number_partie_course_modif_'~partie.id}}) }}
+		</div>
+		<div class="alert alertnotif3{{ partie.id }} alert-block alert-danger alert-dismissable" style="display:none; padding: 3px; text-align: left;">
+		<h4 style="margin-bottom: 0px;">Erreur </h4>
+		Entier positif !!! <span class="label label-info pull-right control-info-champ3{{ partie.id }}"></span>
+		</div>
+		<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+		{{ form_end(formedit) }}
+</div>
+<div class="modal-footer" style="display: block!important; text-align: right;">
+<span class="pull-left">&copy; {{ site }}</span>
+{% include 'Theme/General/Template/Menu/social.html.twig' %}
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+maxchamp1 = 70;
+minchamp1 = 3;
+
+$('.modifier-partiecours-{{ partie.id }}').click(function(){
+	$('#infos-action-modifpartie-{{ partie.id }}').appendTo("body").modal('show');
+});
+
+$("#modif_new_part_course_{{ partie.id }}").on("submit", function(){
+	if($('.titre_partie_course_modif_{{ partie.id }}').val().length < minchamp1 || $('.titre_partie_course_modif_{{ partie.id }}').val().length > maxchamp1){
+		$("div.champ2{{ partie.id }}").addClass("has-error");
+		$("div.alertnotif2{{ partie.id }}").show("slow").delay(6000).hide("slow");
+		$('.control-info-champ2{{ partie.id }}').html($('.titre_partie_course_modif_{{ partie.id }}').val().length+'/'+maxchamp1);
+		$('.titre_partie_course_modif_{{ partie.id }}').focus();
+		return false;
+	}
+	if(!is_int($('.number_partie_course_modif_{{ partie.id }}').val()) || $('.number_partie_course_modif_{{ partie.id }}').val() < 0){
+		$("div.champ3{{ partie.id }}").addClass("has-error");
+		$("div.alertnotif3{{ partie.id }}").show("slow").delay(6000).hide("slow");
+		$('.control-info-champ3{{ partie.id }}').html('Not Int');
+		$('.number_partie_course_modif_{{ partie.id }}').focus();
+		return false;
+	}
+});
+
+</script>
+
+{% else %}
+
+<section class="accordion-audience">
+	<input type="checkbox" name="accordion-audience" id="handle{{ partie.id }}" {% if number <= 2 %}checked=""{% endif %}>
+	<h2 class="handle">
+		<label for="handle{{ partie.id }}">{{ partie.titre }}
+		<span class="float-right label-rappel label-r3 "><span class="fa fa-clock-o"></span> {{ partie.getDureePartie }}</span>
+		</label>
+	</h2>
+	<div class="content">
+		<div class="list-group">
+		{% for chapitre in partie.getChapitres %}
+			<a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %}  item-chapter-cours item-chapter-cour-{{ chapitre.id }} list-group-item list-group-item-action" style="color: #333;">
+				<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span> {{ chapitre.titre }}
+				<span class="float-right"><span class="fa fa-clock-o"></span> {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			</a>
+		{% endfor %}
+
+		{% for chapitre in partie.getConclusion %}
+			<a href="{{ path('produit_produit_presentation_chapter', {'id': chapitre.id, 'codeadmin': codeadmin }) }}" class="{% if chapitre.id == idchapitre %}active-item-cours{% endif %} item-chapter-cours item-chapter-cour-{{ chapitre.id }} list-group-item list-group-item-action" style="color: #333;">
+				<span class="fa fa-circle" style="color: 11px; color: #ddd;"></span> {{ chapitre.titre }}
+				<span class="float-right"><span class="fa fa-clock-o"></span>  {% if chapitre.dureeminute != null and chapitre.dureeseconde != null %}{{ chapitre.dureeminute }} mins {{ chapitre.dureeseconde }} s{% else %}4 mins 2s{% endif %}</span>
+			</a>
+		{% endfor %}
+		
+		</div>
+		<div style="border-top: 1px solid #ddd; margin-top: 15px;">
+			{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+				<div style="display: block; width: 100%;">
+					<a href="{{ path('produit_produit_add_new_chapter', {'id': partie.id }) }}" class="btn btn-primary"title=""><em class="fa fa-plus"></em> Ajouter une leçon</a>
+				</div>
+			{% endif %}
+		  </div>
+	</div>
+</section>
+
+
+
+{% endif %}

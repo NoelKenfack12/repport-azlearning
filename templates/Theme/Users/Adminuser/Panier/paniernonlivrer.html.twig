@@ -11,6 +11,73 @@
 {% endblock %}
 
 {% block userblog_body %}
+
+<style>
+.input-group .btn,
+.input-group .form-control {
+  -moz-transition: none 1s;
+  -o-transition: none 1s;
+  -webkit-transition: none 1s;
+  transition: none 1s;
+}
+.input-group.default-input-group .form-control {
+  border-right: 0;
+}
+.input-group.default-input-group .form-control + .input-group-btn .btn {
+  border-left: 0;
+}
+.input-group.default-input-group .form-control:focus {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.input-group.default-input-group .form-control:focus + .input-group-btn .btn {
+  outline: 0;
+  border-color: #66afe9;
+}
+.input-group.prev-input-group {
+  width: 100%;
+}
+.input-group.prev-input-group .form-control {
+  float: right;
+  width: 87%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-left: 0;
+}
+.input-group.prev-input-group .form-control + span .btn {
+  border-top-left-radius: 4px;
+  border-width: 1px 0 1px 1px;
+  border-bottom-left-radius: 4px;
+}
+.input-group.prev-input-group .form-control:focus {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.input-group.prev-input-group .form-control:focus + .input-group-btn .btn {
+  outline: 0;
+  border-color: #66afe9;
+}
+.input-group.prev-input-group .input-group-btn {
+  float: left;
+  width: 13%;
+}
+.input-group.prev-input-group .input-group-btn .btn {
+  margin: 0;
+  width: 100%;
+  border-left: 1px solid #ccc;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group .input-group-btn .btn:hover {
+  border-color: #ccc;
+  background-color: inherit;
+}
+
+</style>
 <hr style="margin-top: 45px; margin-bottom: 0px;"/>
 <div  style="background: rgba(83, 101, 240, 1); height: 10px;">
 
@@ -58,7 +125,7 @@
 				<div class="alert alert-warning">
 					<strong style="color: red;"><span class="fa fa-warning"></span> Êtes vous certain de vouloir valider la commande N°: {{ infos|lower }} </strong>
 					<form action="{{ path('users_adminuser_livraison_panier_commander',{'id': idp }) }}" method="post">
-					<input type="submit" value="Supprimer" style="background: red;"/>
+					<input type="submit" value="Valider" style="background: green;"/>
 					</form>
 				</div>
 				{% else %}
@@ -75,6 +142,20 @@
 				<div class="row row-gutter-42" style="margin: 30px 0px 0px 0px;">
 
             <div class="col-md-12">
+
+				<div style="margin-bottom: 15px;">
+					<form action="{{ path('users_adminuser_liste_panier_non_livrer') }}" method="post">
+						<div class="form-group">
+							<div class="search-box">
+								<input type="text" class="search-input" placeholder="Search.. " name="donnee" value="{{ donnee }}">
+						  
+								<button type="submit" class="search-button">
+								  <i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
               <section class="section-card">
 				{% for panier in liste_panier %}
                 <details>
@@ -89,7 +170,7 @@
                         </svg>
                       </span>
                       <h3>
-                        <strong>Commandes N°: {{ panier.numFacture }}</strong>
+                        <strong>{{ panier.user.name(25) }} <i class="fa fa-angle-right"></i> N°: {{ panier.numFacture }}</strong>
                         <small>du {{ panier.date|date('d') }}-{{ panier.date|date('m') }}-{{ panier.date|date('Y') }}</small>
                       </h3>
                       <span>{{ panier.montantttc }} {{ devise }}</span>
@@ -104,17 +185,47 @@
               
                       <div>
                         <dt>Réduction</dt>
-                        <dd>0 {{ devise }}</dd>
+                        <dd>{{ panier.montantReduction }} {{ devise }}</dd>
                       </div>
               
                       <div>
-                        <dt>Etat</dt>
-                        <dd>En cours ..</dd>
+                        <dt>Validité</dt>
+                        <dd>{% if panier.valide == false %}<span style="color: red;">Invalide</span>{% else %}<span style="color: green;">Valide</span>{% endif %}</dd>
                       </div>
 					  <div>
-                        <dt>Opérations</dt>
-                        <dd>Paiement reçu</dd>
+                        <dt>Paiement</dt>
+                        <dd>{% if panier.payer == true %}<span style="color: green;">Payé</span>{% else %}<span style="color: red;">Non payé</span> {% endif %}</dd>
                       </div>
+					  <div>
+                        <dt>Livraison</dt>
+                        <dd>{% if panier.livrer == true %}<span style="color: green;">Livré</span>{% else %}<span style="color: red;">Non livré</span> {% endif %}</dd>
+                      </div>
+					  
+					  <div>
+                        <dt>Opération</dt>
+                        <dd>
+							{% if panier.payer == true %}
+								<a href="#!" class="btn btn-primary">Archiver</a>
+							{% else %}
+								<a href="{{ path('users_adminuser_livraison_panier_commander', {'id': panier.id }) }}" class="btn btn-primary">Demander le paiement</a>
+							{% endif %}
+						</dd>
+                      </div>
+
+					  <div>
+						<form method="post" action="{{ path('users_adminuser_reduction_montant_panier', {'id': panier.id }) }}">
+							<dt>Appliquer une réduction</dt>
+							<dd>
+								<div class="input-group default-input-group ">
+									<input type="text" class="form-control" placeholder="Montant" name="montant" aria-label="Montant" aria-describedby="basic-addon2" required=""/>
+									<span class="input-group-btn">
+									  <button class="btn btn-default" type="submit">Enregistrer</button>
+									</span>
+								</div><!-- /input-group -->
+							</dd>
+						</form>
+					  </div>
+
                     </dl>
                   </div>
                 </details>
@@ -239,6 +350,5 @@ controlScroll();
 {% endblock %}
 
 {% block javascripttemplate %}
-$('.active').removeClass('active');
-$('.reservation-immo').addClass('position-user');
+	$('#panier-nonlivrer').addClass('position-user');
 {% endblock %}

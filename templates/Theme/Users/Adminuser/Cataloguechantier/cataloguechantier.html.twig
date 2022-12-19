@@ -1,4 +1,4 @@
-{% extends "UsersAdminuserBundle::layoutadmin.html.twig" %}
+{% extends "Theme/Users/Adminuser/layoutadmin.html.twig" %}
 
 {% block meta %}
 
@@ -37,7 +37,7 @@
 		<div class="col-lg-12 animecourant-panel">
 		</div>
 		<div class="col-md-4 product-bottom">
-		{{ render(controller("UsersAdminuserBundle:Accueil:menuadmin")) }}
+		{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController::menuadmin")) }}
 		<!---->
 		</div>
 		
@@ -128,8 +128,7 @@
 <div class="modal-body">
 <div class="row">
 
-<form class="col-md-12" action="{{ path('users_adminuser_catalogue_chantier_pro') }}" method="post" {{ form_enctype(form) }}>
-  
+  {{ form_start(form, {'attr': {'action': path('users_adminuser_catalogue_chantier_pro') }}) }}	
   <div class="form-group">
 	 {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'style': 'width: 100%;'}}) }}
 	 {{ form_label(form.nom, 'Nom du catalogue'|trans) }}
@@ -161,14 +160,13 @@
   </div>
  
   
-{{ form_rest(form) }}
-</form>
+{{ form_end(form) }}
 
 </div>
 </div>
 
 <div class="modal-footer" style="padding-top: 15px; z-index: 1;">
-	{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+	{% include 'Theme/General/Template/Menu/social.html.twig' %}
 </div>
 
 </div>
@@ -199,7 +197,7 @@
   </div>
 </div>
 <div class="modal-footer" style="padding-top: 15px; z-index: 1;">
-	{% include 'GeneralTemplateBundle:Menu:social.html.twig' %}
+	{% include 'Theme/General/Template/Menu/social.html.twig' %}
   </div>
 </div>
 </div>

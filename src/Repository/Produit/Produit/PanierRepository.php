@@ -142,14 +142,78 @@ public function getPanierCinqGagnant($id)
 
 public function listepanierinvalide($page, $nombreParPage)
 {
-	if($page < 1){
-		throw new \InvalidArgumentException('Page inexistant');
+		if($page < 1){
+			throw new \InvalidArgumentException('Page inexistant');
 		}
 		$query = $this->createQueryBuilder('p')
 					  ->leftJoin('p.user', 'u')
 					  ->addSelect('u')
-					  ->where('p.valide = 1')
-					  ->andWhere('p.livrer = 0')
+					  ->where('p.valide = 1 AND p.livrer = 0')
+					  ->orderBy('p.date','DESC')
+					  ->getQuery();
+		// On définit l'établissemnt à partir duquel commencer la liste
+		$query->setFirstResult(($page-1) * $nombreParPage)
+		// Ainsi que le nombre d'établissement à afficher
+			  ->setMaxResults($nombreParPage);
+		// Enfin, on retourne l'objet Paginator correspondant à la requête construite
+	return new Paginator($query);
+}
+
+public function searchpanierinvalide($page, $nombreParPage, $search)
+{
+		if($page < 1){
+			throw new \InvalidArgumentException('Page inexistant');
+		}
+		$query = $this->createQueryBuilder('p')
+					  ->leftJoin('p.user', 'u')
+					  ->addSelect('u')
+					  ->orWhere('p.valide = 1 AND p.livrer = 0 AND u.nom LIKE :n')
+					  ->orWhere('p.valide = 1 AND p.livrer = 0 AND u.prenom LIKE :n')
+					  ->orWhere('p.valide = 1 AND p.livrer = 0 AND u.username LIKE :n')
+					  ->orWhere('p.valide = 1 AND p.livrer = 0 AND u.username LIKE :n')
+					  ->setParameter('n','%'.$search.'%')
+					  ->orderBy('p.date','DESC')
+					  ->getQuery();
+		// On définit l'établissemnt à partir duquel commencer la liste
+		$query->setFirstResult(($page-1) * $nombreParPage)
+		// Ainsi que le nombre d'établissement à afficher
+			  ->setMaxResults($nombreParPage);
+		// Enfin, on retourne l'objet Paginator correspondant à la requête construite
+	return new Paginator($query);
+}
+
+public function searchpanierlivrer($page, $nombreParPage, $search)
+{
+		if($page < 1){
+			throw new \InvalidArgumentException('Page inexistant');
+		}
+		$query = $this->createQueryBuilder('p')
+					  ->leftJoin('p.user', 'u')
+					  ->addSelect('u')
+					  ->orWhere('p.valide = 1 AND p.livrer = 1 AND u.nom LIKE :n')
+					  ->orWhere('p.valide = 1 AND p.livrer = 1 AND u.prenom LIKE :n')
+					  ->orWhere('p.valide = 1 AND p.livrer = 1 AND u.username LIKE :n')
+					  ->orWhere('p.valide = 1 AND p.livrer = 1 AND u.username LIKE :n')
+					  ->setParameter('n','%'.$search.'%')
+					  ->orderBy('p.date','DESC')
+					  ->getQuery();
+		// On définit l'établissemnt à partir duquel commencer la liste
+		$query->setFirstResult(($page-1) * $nombreParPage)
+		// Ainsi que le nombre d'établissement à afficher
+			  ->setMaxResults($nombreParPage);
+		// Enfin, on retourne l'objet Paginator correspondant à la requête construite
+	return new Paginator($query);
+}
+
+public function listepanierlivrer($page, $nombreParPage)
+{
+		if($page < 1){
+			throw new \InvalidArgumentException('Page inexistant');
+		}
+		$query = $this->createQueryBuilder('p')
+					  ->leftJoin('p.user', 'u')
+					  ->addSelect('u')
+					  ->where('p.valide = 1 AND p.livrer = 1')
 					  ->orderBy('p.date','DESC')
 					  ->getQuery();
 		// On définit l'établissemnt à partir duquel commencer la liste

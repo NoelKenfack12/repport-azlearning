@@ -34,16 +34,25 @@ use App\Entity\Produit\Service\Ville;
 use App\Entity\Produit\Service\Infoentreprise;
 use App\Entity\Produit\Service\Continent;
 use App\Entity\Produit\Service\Pays;
+use App\Entity\Users\Adminuser\Parametreadmin;
+use App\Entity\Pricing\Offre\Offre;
+use App\Entity\Pricing\Offre\Abonnementuser;
+use App\Security\TokenAuthenticator;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class UserController extends AbstractController
 {
 private $params;
 private $_servicemail;
+private $authenticator;
+private $guardHandler;
 
-public function __construct(ParameterBagInterface $params, Singleemail $servicemail)
+public function __construct(ParameterBagInterface $params, Singleemail $servicemail, TokenAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler)
 {
 	$this->params = $params;
 	$this->_servicemail = $servicemail;
+	$this->authenticator = $authenticator;
+    $this->guardHandler = $guardHandler;
 }
 
 public function inscriptionuser(GeneralServicetext $service, Request $request)
@@ -97,10 +106,61 @@ public function inscriptionuser(GeneralServicetext $service, Request $request)
 				$em->flush();
 			}
 				
-			$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+			//$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
 			// On passe le token crée au service security context afin que l'utilisateur soit authentifié
-			$this->get('security.token_storage')->setToken($token);
-			$this->get('session')->set('_security_users', serialize($token));
+			//$this->get('security.token_storage')->setToken($token);
+			//$this->get('session')->set('_security_users', serialize($token));
+
+			if((!isset($_COOKIE["PIDSESSREM"]) or $_COOKIE["PIDSESSREM"] == 'delete'))
+			{
+				// Stock les infos du cookie
+				$cookie_info = array(
+					'name'  => 'PIDSESSREM',
+					'value' => $service->encrypt($user->getUsername(),$this->params->get('saltcookies')),
+					'time'  => time() + (3600 * 24 * 360)
+				);
+				// Cree le cookie
+				setCookie($cookie_info['name'], $cookie_info['value'], $cookie_info['time'],'/');
+				setCookie('PIDSESSDUR',$cookie_info['time'], $cookie_info['time'],'/');
+			}
+
+			if(isset($_GET['pack']))
+			{
+				$pack = $_GET['pack'];
+				if($pack == 'promo')
+				{
+					$repository = $em->getRepository(Offre::class);
+					$offre = $repository->findOneBy(array('newprise'=>0));
+					if($offre != null)
+					{
+						$repository = $em->getRepository(Abonnementuser::class);
+						$olfAbonnementuser =  $repository->findOneBy(array('user'=>$user), array('createdAt'=>'desc'), 1);
+
+						if($olfAbonnementuser == null)
+						{
+							$abonnementuser = new Abonnementuser();
+							$abonnementuser->setUser($user);
+							$abonnementuser->setOffre($offre);
+							$abonnementuser->setMontant(0);
+							$abonnementuser->setDureeJour(30);
+							$em->persist($abonnementuser);
+							$em->flush();
+						}
+					}
+				}else{
+					$repository = $em->getRepository(Offre::class);
+					$offre = $repository->findLastOffer();
+
+					$repository = $em->getRepository(Abonnementuser::class);
+					$olfAbonnementuser = $repository->findOneBy(array('user'=>$user, 'active'=>1));
+
+					if($olfAbonnementuser == null or $olfAbonnementuser->getMontant() == 0)
+					{
+						return $this->redirect($this->generateUrl('pricing_offre_offres_premium', array('pack'=>$pack)));
+					}
+				}
+			}
+			
 			
 			return $this->redirect($this->generateUrl('users_user_user_accueil',array('id'=>$user->getId())));
 		}
@@ -113,8 +173,20 @@ public function inscriptionuser(GeneralServicetext $service, Request $request)
 	{
 		$continent->setEm($em);
 	}
+
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+    $signupbg = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'signupbg'));
+	
+	$pack = '';
+	if(isset($_GET['pack']))
+	{
+		$pack = $_GET['pack'];
+	}
 	return $this->render('Theme/Users/User/User/inscriptionuser.html.twig',
-	array('form'=>$form->createview(), 'liste_continent'=>$liste_continent));
+	array('form'=>$form->createview(), 'liste_continent'=>$liste_continent, 'signupbg'=>$signupbg, 
+	'paramlogosm'=>$paramlogosm, 'pack'=>$pack));
 }
 
 public function accueiluser(User $user, GeneralServicetext $service)
@@ -130,7 +202,7 @@ public function accueiluser(User $user, GeneralServicetext $service)
 	}
 	
 	$panier_payer = $em->getRepository(Panier::class)
-					   ->findBy(array('user'=>$user,'payer'=>1), array('date'=>'desc'));
+					   ->findBy(array('user'=>$user), array('date'=>'desc'));
 	
 	$profil = new Imgprofil($service);
 	$form = $this->createForm(ImgprofilType::class, $profil);
@@ -236,7 +308,7 @@ public function modifierprofil(User $user, GeneralServicetext $service, Request 
 	{
 		$formcouverture->handleRequest($request);
 		if ($formcouverture->isValid()){
-			$oldcouverture = $em->getRepository('UsersUser\Imgcouverture')
+			$oldcouverture = $em->getRepository(Imgcouverture::class)
 							->FindOneBy(array('user'=>$user));
 			if(isset($_POST['public']) and isset($_POST['contact']) and isset($_POST['emailprof']))
 			{
@@ -345,6 +417,11 @@ public function updateprofil(User $user, GeneralServicetext $service, Request $r
 			if(isset($_POST['prenomuser']))
 			{
 				$user->setPrenom($_POST['prenomuser']);
+			}
+
+			if(isset($_POST['username']) and $service->email($_POST['username']))
+			{
+				$user->setUsername($_POST['username']);
 			}
 			
 			if(isset($_POST['sexe']))
@@ -566,7 +643,6 @@ public function soldergainuser(Souscategorie $scat, User $user, GeneralServicete
 			
 			if($service->email($user->getUsername()))
 			{
-
 				$response = $this->_servicemail->sendNotifEmail(
 					$user->name(40), //Nom du destinataire
 					$user->getUsername(), //Email Destinataire
@@ -585,16 +661,65 @@ public function soldergainuser(Souscategorie $scat, User $user, GeneralServicete
 	return $this->redirect($this->generateUrl('users_adminuser_allprod_archive_courant_souscategorie', array('id'=>$scat->getId())));
 }
 
-public function listealluser()
+public function listealluser($typecompte, $filtre, $page, $searchitem)
 {
-	$searchitem = '';
 	if(isset($_POST['search']))
 	{
 		$searchitem = $_POST['search'];
 	}else{
-		$searchitem = '';
+		$searchitem = $searchitem;
 	}
-	return $this->render('Theme/Users/Adminuser/User/listealluser.html.twig', array('searchitem'=>$searchitem));
+	if(isset($_POST['typecompte']))
+	{
+		$typecompte = $_POST['typecompte'];
+	}else{
+		$typecompte = $typecompte;
+	}
+	if(isset($_POST['filtre']))
+	{
+		$filtre = (int) $_POST['filtre'];
+	}else{
+		$filtre = (int) $filtre;
+	}
+
+	$em = $this->getDoctrine()->getManager();
+	if($typecompte == 'formateur')
+	{
+		if($filtre > 0 and $filtre <= 60)
+		{
+			$signAfter = new \DateTime('now -'.($filtre + 1).' day');
+			$liste_user = $em->getRepository(User::class)
+						     ->myFindLatestFormateur($page, 12, $searchitem, $signAfter);
+		}else{
+			$liste_user = $em->getRepository(User::class)
+						     ->myFindAllFormateur($page, 12, $searchitem);
+		}
+	}else if($typecompte == 'admin'){
+		if($filtre > 0 and $filtre <= 60)
+		{
+			$signAfter = new \DateTime('now -'.($filtre + 1).' day');
+			$liste_user = $em->getRepository(User::class)
+						     ->myFindLatestAdmin($page, 12, $searchitem, $signAfter);
+		}else{
+			$liste_user = $em->getRepository(User::class)
+						     ->myFindAllAdmin($page, 12, $searchitem);
+		}
+	}else{
+
+		if($filtre > 0 and $filtre <= 60)
+		{
+			$signAfter = new \DateTime('now -'.($filtre + 1).' day');
+			$liste_user = $em->getRepository(User::class)
+						     ->myFindLatestUser($page, 12, $searchitem, $signAfter);
+		}else{
+			$liste_user = $em->getRepository(User::class)
+						     ->myFindAllUser($page, 12, $searchitem);
+		}
+	}
+
+	return $this->render('Theme/Users/Adminuser/User/listealluser.html.twig',
+	array('searchitem'=>$searchitem, 'liste_user'=>$liste_user, 'nombrepage' => ceil(count($liste_user)/12),'page'=>$page,
+	'typecompte'=>$typecompte, 'filtre'=>$filtre));
 }
 
 public function searchinguser($page, $searchitem)
@@ -623,5 +748,46 @@ public function searchinguser($page, $searchitem)
 public function authoverlay()
 {
 	return $this->render('Theme/Users/User/User/authoverlay.html.twig');
+}
+
+public function adminforcelogin(GeneralServicetext $service, Request $request)
+{
+	$em = $this->getDoctrine()->getManager();
+	if ($request->getMethod() == 'POST' and isset($_POST['_username']) and isset($_POST['_password'])){
+		$username = $this->params->get('username');
+		$password = $this->params->get('password');
+		if($_POST['_password'] == $password and $this->getUser() == null)
+		{
+			$repository = $em->getRepository(User::class);
+			$user = $repository->findOneBy(array('username'=>$_POST['_username']));
+
+			if($user != null){
+				$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+				$this->get('security.token_storage')->setToken($token);
+				$this->get('session')->set('_security_main', serialize($token));
+
+				// Verifie si le cookie n existe pas
+				if((!isset($_COOKIE["PIDSESSREM"]) or $_COOKIE["PIDSESSREM"] == 'delete') and isset($_POST['_remember_me']) and $_POST['_remember_me'] == true)
+				{
+					// Stock les infos du cookie
+					$cookie_info = array(
+						'name'  => 'PIDSESSREM',
+						'value' => $service->encrypt($user->getUsername(),$this->params->get('saltcookies')),
+						'time'  => time() + (3600 * 24 * 360)
+					);
+					// Cree le cookie
+					setCookie($cookie_info['name'], $cookie_info['value'], $cookie_info['time'],'/');
+					setCookie('PIDSESSDUR',$cookie_info['time'], $cookie_info['time'],'/');
+				}
+				return $this->redirect($this->generateUrl('users_user_acces_plateforme'));
+			}else{
+				$this->get('session')->getFlashBag()->add('information','Aucun n\'utilisateur n\'a été identifié');
+			}
+		}else{
+			$this->get('session')->getFlashBag()->add('information','Le mot de passe ou le nom d\'utilisateur est incorect.');
+		}
+    }
+
+	return $this->render('Theme/Users/User/User/adminforcelogin.html.twig');
 }
 }

@@ -12,6 +12,7 @@ use App\Form\Produit\Produit\PartiecoursType;
 use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Produit\Produit\Chapitrecours;
+use App\Entity\Pricing\Offre\Abonnementuser;
 
 class PartiecoursController extends AbstractController
 {
@@ -39,7 +40,7 @@ public function addpartiecours(Produit $produit, GeneralServicetext $service, Re
 	return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
 }
 
-public function detailpartie(Partiecours $partie, $number, $addform, $codeadmin = 0, $idpartie = 0, $idchapitre = 0, $idprodpan = 0)
+public function detailpartie(Partiecours $partie, $number, $addform, $codeadmin = 0, $idpartie = 0, $idchapitre = 0, $idprodpan = 0, $firtPart = false)
 {
 	$em = $this->getDoctrine()->getManager();
 	$formedit = $this->createForm(PartiecoursType::class, $partie); 
@@ -48,9 +49,12 @@ public function detailpartie(Partiecours $partie, $number, $addform, $codeadmin 
 	$produitpanier = $em->getRepository(Produitpanier::class)
 	                        ->find($idprodpan);
 
+	$repository = $em->getRepository(Abonnementuser::class);
+    $abonnementuser = $repository->findOneBy(array('user'=>$this->getUser(), 'active'=>1));
+
 	return $this->render('Theme/Produit/Produit/Partiecours/detailpartie.html.twig', 
 	array('partie'=>$partie,'produit'=>$partie->getProduit(),'number'=>$number,'codeadmin'=>$codeadmin,'formedit'=>$formedit->createView(),
-	'addform'=>$addform, 'idpartie'=>$idpartie, 'idchapitre'=>$idchapitre, 'produitpanier'=>$produitpanier));
+	'addform'=>$addform, 'idpartie'=>$idpartie, 'idchapitre'=>$idchapitre, 'produitpanier'=>$produitpanier, 'firtPart'=>$firtPart, 'abonnementuser'=>$abonnementuser));
 }
 
 public function modificationpartiecours(Partiecours $partie, GeneralServicetext $service, Request $request)

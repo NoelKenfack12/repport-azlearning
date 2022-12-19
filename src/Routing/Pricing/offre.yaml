@@ -1,0 +1,11 @@
+pricing_offre_offres_premium:
+    path: /offres/premium
+    controller: App\Controller\Pricing\Offre\OffreController::offrespremium
+pricing_offre_souscription_abonnement:
+    path: /souscription/abonnement
+    controller: App\Controller\Pricing\Offre\OffreController::abonnementUser
+pricing_offre_validation_souscription_premium:
+    path: /validation/souscription/premium/{id}
+    controller: App\Controller\Pricing\Offre\OffreController::validationsouscription
+    requirements:
+        id: \d+

@@ -3,6 +3,7 @@
 namespace App\Service\Email;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class Singleemail
 {
@@ -15,11 +16,9 @@ class Singleemail
       $this->params = $params;
   }
 
-  
   public function sendNotifEmail($recipientName, $recipientEmail, $subject, $title, $content, $emailLink=null)
   {
     $headers = ['Accept' => 'application/json'];
-
     $sender = array();
     $sender['username'] = $this->params->get('sitename');
     $sender['useremail'] = $this->params->get('emailadmin');
@@ -35,19 +34,24 @@ class Singleemail
     $emailContent['linkaction'] = $emailLink;
 
     $tab = array();
-    $tab["clientAuth"] = 'code-client-api';
+    $tab["clientAuth"] = '2KK0ZLXCCQYV6EJ9J9U424R1316N1X';
     $tab["sender"] = $sender;
     $tab["recipient"] = $recipient;
     $tab["emailContent"] = $emailContent;
 
     $data = json_encode($tab);
 
-    $response = $this->client->request('POST', $this->params->get('url_single_email'),
-                                      [
-                                        'headers' => $headers,
-                                        'body' => $data
-                                      ]
-                                    );
-    return $response->getContent();
+    try {
+
+      $response = $this->client->request('POST', $this->params->get('url_single_email'),
+                                        [
+                                          'headers' => $headers,
+                                          'body' => $data
+                                        ]
+                                      );
+      return $response->getContent();
+      } catch (TransportExceptionInterface $e) {
+          return '{"error": "Unauthorized"}';
+    }
   }
 }

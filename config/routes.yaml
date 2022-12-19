@@ -10,6 +10,9 @@ app_directory_produit:
 app_directory_users:
     resource: '../src/Routing/Users/'
     type: directory
+app_directory_offre:
+    resource: '../src/Routing/Pricing/'
+    type: directory
 login:
     path: /login/{id}/{position}
     controller: App\Controller\Users\User\SecurityController::login

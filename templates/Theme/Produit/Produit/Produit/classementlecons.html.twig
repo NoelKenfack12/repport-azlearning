@@ -1,0 +1,198 @@
+{% extends "Theme/Users/User/layouthome.html.twig" %}
+{% block meta %}
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}"/>
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} | {{ produit.user.name(20) }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+<style>
+/* Details Styling
+---------------------------- */
+details, summary {
+	margin-bottom: 0 !important; /* for WordPress theme Blocksy */
+}
+details summary::-webkit-details-marker {
+	display: none;
+}
+details summary {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding: 1rem 1.5rem;
+	outline: none;
+	cursor: pointer;
+	font-size: 1.35rem;
+	font-weight: 400;
+	line-height: 1.2;
+	border-bottom: 1px solid #000;
+}
+details[open] summary {
+	/*background: #000;
+	color: #fff;*/
+}
+details summary:before,
+details summary:after {
+	font-family: "FontAwesome";
+}
+details summary:before {
+  content:"\f107"; 
+	padding-right: 1.5rem;
+}
+details[open] summary:before {
+	content:"\f106";
+}
+details[open] {
+	border-bottom: 1px solid #000;
+}
+details > div {
+	padding: 1.5rem 1.5rem .5rem;
+	background: #f2f2f2;
+}
+details > div > * {
+	margin-top: 0;
+	margin-bottom: 1rem;
+}
+
+
+/* Accordion Details Img + Text elements
+------------------------------*/
+
+/* Reset previous styles */
+details.accordion-details-img summary:before,
+details.accordion-details-img[open] summary:before {
+	display: none;
+}
+
+details.accordion-details-img summary {
+	justify-content: space-between;
+}
+details.accordion-details-img summary:after {
+	content:"\f107";
+}
+details.accordion-details-img[open] summary:after {
+	content:"\f106";
+}
+
+details.accordion-details-img > div {
+	display: flex;
+	flex-wrap: wrap;
+	overflow: auto;
+}
+details.accordion-details-img > div > a {
+	width: 25%;
+}
+details.accordion-details-img > div > a > img {
+	width: 100%;
+}
+details.accordion-details-img > div > div {
+	flex: 1;
+	margin: 0;
+	padding-left: 1.5rem;
+}
+details.accordion-details-img > div > div p {
+	margin: 0 0 1rem 0;
+}
+
+@media (max-width:600px) {
+	details summary {
+		font-size: 1.5rem;
+	}
+	details.accordion-details-img > div > a {
+		width: 100%;
+	}
+	details.accordion-details-img > div > div {
+		padding: 0;
+		padding-top: .5rem;
+	}
+}
+</style>
+
+{% endblock %}
+{% block userblog_body %}
+
+
+<div class="container" style="min-height: 10px;">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{% include "Theme/General/Template/Menu/contacts.html.twig" %}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!"> {{ produit.user.name(30) }}</a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!"> Formation</a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="{{ path('produit_produit_detail_produit_market', {'id': produit.id }) }}"> {{ produit.titre[:50] }}</a></li>
+		</ol>
+		
+	</div>
+</div>
+</div>
+</div>
+
+<div class="container">
+	<div class="row" style="margin-bottom: 0px;">
+		<div class="col-lg-12" style="margin-bottom: 15px; border-radius: 0px;">
+            <div class="alert alert-warning text-left alert-dismissable">
+                 <h3>Rassurez-vous de créer un pas de 50 entre les chaiptres</h3><button type="button" class="close" data-dismiss="alert">&times;</button>
+                 <div>Toutes les leçons du chapitre prochain doivent avoir un numéro suppérieur au numéro de toutes les leçons du chapitre précédent.</div>
+            </div>
+        </div>
+
+		<div class="col-md-12">
+			<section style="background: #fff; min-height: 500px; padding: 7px; margin-top: 15px;">
+
+				<h3>{{ produit.titre }}</h3>
+                <section>
+                    {% for partie in liste_part %}
+                    <details class="accordion-details-img" open>
+                        <summary>
+                            <span>
+                                <form action="{{ path('produit_produit_classement_lecons_chapitres', {'id': produit.id }) }}" method="post">
+                                    <input type="text" name="rang" style="width: 70px;" value="{{ partie.rang }}" style="margin-top: 5px; float: left; display: inline-block;"/>
+                                    <input type="hidden" name="partie" value="{{ partie.id }}"/>
+                                    {{ partie.titre }}
+                                    <button type="submit" style="border: none; float: right;"><span class="fa fa-pencil"></span> Modifier</button>
+                                </form>
+                            </span>
+                        </summary>
+                        <div>
+                            {% for chapitre in partie.getAllChapitre %}
+                                <div style="display: block; margin-bottom: 7px; width: 100%; flex: none;">
+                                    <form action="{{ path('produit_produit_classement_lecons_chapitres', {'id': produit.id }) }}" method="post">
+                                        <input type="text" name="rang" style="width: 70px;" value="{{ chapitre.rang }}" style="margin-top: 5px;"/>
+                                        <input type="hidden" name="chapitre" value="{{ chapitre.id }}"/>
+                                        {{ chapitre.titre }}
+                                        <button type="submit" style="border: none; float: right;"><span class="fa fa-pencil"></span> Modifier</button>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </details>
+                    {% endfor %}
+                </section>
+
+			  </section>
+		</div>
+	
+	</div>
+</div>
+<hr>
+
+{% endblock %}
+
+
+{% block javascripttemplate %}
+
+{% endblock %}

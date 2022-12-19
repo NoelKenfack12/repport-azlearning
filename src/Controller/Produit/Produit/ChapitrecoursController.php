@@ -12,6 +12,7 @@ use App\Entity\Produit\Produit\Pratiquechapitre;
 use App\Entity\Produit\Produit\Exercicepartie;
 use App\Entity\Produit\Produit\Chapitrecours;
 use App\Form\Produit\Produit\ChapitrecoursType;
+use App\Form\Produit\Produit\ChapitrecourseditType;
 use App\Form\Produit\Produit\PartiecoursType;
 use App\Form\Produit\Produit\SupportchapitreType;
 use App\Form\Produit\Produit\ExercicepartieType;
@@ -27,15 +28,15 @@ use App\Service\AfMail\fileAttachment;
 
 use App\Entity\Produit\Service\Produitformation;
 use App\Entity\Produit\Service\Commentaireblog;
-
+use App\Entity\Produit\Produit\Animationproduit;
 use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Email\Singleemail;
+use App\Entity\Pricing\Offre\Abonnementuser;
 
 class ChapitrecoursController extends AbstractController
 {
-
 private $params;
 private $_servicemail;
 
@@ -117,249 +118,396 @@ public function presentationchapter(Chapitrecours $chapitre, $mess, GeneralServi
 	
 	if($produit->getValide() == true or ($produit->getValide() == false and $produit->getUser() == $this->getUser()) or ($produit->getValide() == false and $this->isGranted('ROLE_GESTION')) or (isset($_GET['codeadmin']) and $_GET['codeadmin'] == 10001))
 	{
-	if(isset($_GET['codeadmin']))
-	{
-		$codeadmin = $_GET['codeadmin'];
-	}else{
-		$codeadmin = 0;
-	}
-	$liste_part = $em->getRepository(Partiecours::class)
-	                      ->findBy(array('produit'=>$produit), array('rang'=>'asc'));
-	$ranglecon = 0;
-	$trouver = false;
-	foreach($liste_part as $part)
-	{
-		$part->setEm($em);
-		$all_chapter = $part->getAllChapitre();
-		foreach($all_chapter as $chapter)
+		if(isset($_GET['codeadmin']))
 		{
-			if($trouver == false)
+			$codeadmin = $_GET['codeadmin'];
+		}else{
+			$codeadmin = 0;
+		}
+		$liste_part = $em->getRepository(Partiecours::class)
+							->findBy(array('produit'=>$produit), array('rang'=>'asc'));
+		$ranglecon = 0;
+		$trouver = false;
+		$precedentchapter = null;
+		$suivantchapter = null;
+
+		$i = 0; 
+		$tabIdChapterFirstPart = array();
+		foreach($liste_part as $part)
+		{
+			$part->setEm($em);
+			$all_chapter = $part->getAllChapitre();
+			foreach($all_chapter as $chapter)
 			{
-				$ranglecon = $ranglecon + 1;
-				if($chapter == $chapitre)
+				if($i == 0){
+					$tabIdChapterFirstPart[] = $chapter->getId();
+				}
+				
+
+				if($trouver == false)
 				{
-					$trouver = true;
+					$ranglecon = $ranglecon + 1;
+					if($chapter == $chapitre)
+					{
+						$trouver = true;
+					}else{
+						$precedentchapter = $chapter;
+					}
+				}else{
+					if($suivantchapter == null)
+					{
+						$suivantchapter = $chapter;
+					}
+					break;
+				}
+			}
+			if($trouver == true and $suivantchapter != null)
+			{
+				break;
+			}
+			$i++;
+		}
+
+		$bestpanier = null;
+		$prodpan = null;
+		if($this->getUser() != null)
+		{
+		$liste_oldpanier = $em->getRepository(Panier::class)
+							->findBy(array('user'=>$this->getUser(),'valide'=>1));
+		//on cherche à retenir le bon panier .
+		foreach($liste_oldpanier as $panier)  //uno    -    le panier lié à un service (une offre de formation) est prio
+		{
+			$trouve = false;
+			foreach($panier->getProduitpaniers() as $propan)
+			{
+				if($propan->getProduit() == $produit)
+				{
+					$trouve = true;
+					break;
+				}
+			}
+			if($panier->getservice() != null and $trouve == true)
+			{
+				$bestpanier = $panier;
+				break;
+			}
+		}
+		
+		if($bestpanier == null)
+		{
+			foreach($liste_oldpanier as $panier)  // secondo    -    Le panier lié à un produit est bon, s'il ya aucun lié à un service
+			{
+				$trouve = false;
+				foreach($panier->getProduitpaniers() as $propan)
+				{
+					if($propan->getProduit() == $produit)
+					{
+						$trouve = true;
+						break;
+					}
+				}
+				if($panier->getservice() == null and $panier->getChapitrecours() == null and $trouve == true)
+				{
+					$bestpanier = $panier;
+					break;
+				}
+			}
+		}
+		
+		if($bestpanier == null)
+		{
+			foreach($liste_oldpanier as $panier)  // tertio    -    Le panier lié à un chapitre est bon, s'il ya aucun lié à un service ou un produit l'est
+			{
+				$trouve = false;
+				foreach($panier->getProduitpaniers() as $propan)
+				{
+					if($propan->getProduit() == $produit)
+					{
+						$trouve = true;
+						break;
+					}
+				}
+				if($panier->getservice() == null and $panier->getChapitrecours() == $chapitre and $trouve == true)
+				{
+					$bestpanier = $panier;
+					break;
+				}
+			}
+		}
+		}
+		
+		if($bestpanier != null)
+		{
+			foreach($bestpanier->getProduitpaniers() as $propan)
+			{
+				if($propan->getProduit() == $produit)
+				{
+					$prodpan = $propan;
+					break;
+				}
+			}
+		}
+
+		$chapitre->setEm($em);		
+		$liste_chapter = $em->getRepository(Chapitrecours::class)
+							->listechapitrecours($produit->getId());
+
+		$newpartie = new Partiecours();
+		$form = $this->createForm(PartiecoursType::class, $newpartie); 
+		
+		$session = $this->get('session');
+
+		/*
+		if($this->getUser() != null)
+		{
+			$listelikes = $produit->getUserlikes();
+			$trouve = false;
+			foreach($listelikes as $ser)
+			{
+				if($this->getUser() == $ser)
+				{
+					$trouve = true;
+					break;
+				}
+			}
+			
+			if($trouve == false)
+			{
+				$produit->addUserlike($this->getUser());
+			}
+		}else{
+			$liste_prod = $session->get('like_produit');
+			if($liste_prod != null)
+			{
+
+				$tabprod = explode('-',$liste_prod);
+				$addlike = true;
+				for($i = 0; $i < count($tabprod); $i++)
+				{
+					if($tabprod[$i] == $produit->getId())
+					{
+						$addlike = false;
+						break;
+					}
+				}
+				
+				if($addlike == true)
+				{
+					$session->set('like_produit',$session->get('like_produit').'-'.$produit->getId());
+				}
+			
+			}else{
+				$session->set('like_produit',$produit->getId());
+				$addlike = true;
+			}
+			
+			if($addlike == true)
+			{
+				$produit->setNblike($produit->getNblike() + 1);
+			}
+		}
+		$em->flush();*/
+		
+		if($this->isGranted('ROLE_GESTION') or $produit->getUser() == $this->getUser())
+		{
+
+		}else{
+			if($this->getUser() == null or $bestpanier == null or ($bestpanier->getValide() == 1 AND $bestpanier->getLivrer() == 1))
+			{
+				$repository = $em->getRepository(Abonnementuser::class);
+				$oldAbonnementuser = $repository->findOneBy(array('user'=>$this->getUser(), 'active'=>1));
+
+				$liste_oldpanier_current = $em->getRepository(Panier::class)
+								->findBy(array('user'=>$this->getUser(),'valide'=>1));
+				$souscriptionactive = true;
+				$panierSouscription = null;
+				foreach($liste_oldpanier_current as $panier_current)
+				{
+					$produitpaniers_current = $panier_current->getProduitpaniers();
+					foreach($produitpaniers_current as $propan_current)
+					{
+						if($propan_current->getProduit() == $produit and $panier_current->getChapitrecours() == null)
+						{
+							$souscriptionactive = false;
+							$panierSouscription = $propan_current->getPanier();
+							break;
+						}
+					}
+					if($souscriptionactive == false)
+					{
+						break;
+					}
+				}
+
+				if($oldAbonnementuser != null and $souscriptionactive == true)
+				{
+					$liste_oldpanier_invalide = $em->getRepository(Panier::class)
+									->findBy(array('user'=>$this->getUser(),'valide'=>0));
+					$lastpanier_invalide = null;
+					foreach($liste_oldpanier_invalide as $panier_invalide)
+					{
+						$produitpaniers = $panier_invalide->getProduitpaniers();
+						foreach($produitpaniers as $propan_invalide)
+						{
+							if($propan_invalide->getProduit() == $produit and $panier_invalide->getChapitrecours() == null)
+							{
+								$lastpanier_invalide = $panier_invalide;
+								break;
+							}
+						}
+						if($lastpanier_invalide != null)
+						{
+							break;
+						}
+					}
+
+					$dateCurrent = new \Datetime();
+					$dureeFormationEnJour =  $oldAbonnementuser->getCreatedAt()->diff($dateCurrent)->days;   
+
+					if($lastpanier_invalide == null or $lastpanier_invalide->getService() != null) //s'il n'a jamais été inscrit à cour ou bien il a été inscrit à une formation contenant ce cours et d'autres cours, il recrait la formation
+					{
+						$panier = new Panier();
+						$panier->setUser($this->getUser());
+						$panier->setValide(true);
+						$panier->setMontantttc($oldAbonnementuser->getMontant());
+						$panier->setDureeFormation($dureeFormationEnJour);
+						$panier->setAbonnementuser($oldAbonnementuser);
+
+						$em->persist($panier);
+						$produitpanier = new Produitpanier();
+						$produitpanier->setPanier($panier);
+						$produitpanier->setProduit($produit);
+						$produitpanier->setQuantite(1);
+						$em->persist($produitpanier);
+						$produit->setNbcertificat($produit->getNbcertificat() + 1);
+						
+						if($produit->getTypecours() == 'coursspecialise')
+						{
+							$panier->setMontantspecial($produit->getNewprise());
+						}
+						$prodpan = $produitpanier;
+					}else{
+						$lastpanier_invalide->setDate(new \Datetime());
+						$lastpanier_invalide->setValide(true);
+						$lastpanier_invalide->setMontantttc($oldAbonnementuser->getMontant());
+						$lastpanier_invalide->setDureeFormation($dureeFormationEnJour);
+						$lastpanier_invalide->setAbonnementuser($oldAbonnementuser);
+
+						foreach($lastpanier_invalide->getProduitpaniers() as $propan)
+						{
+							if($propan->getProduit() == $produit)
+							{
+								$prodpan = $propan;
+								break;
+							}
+						}
+					}
+					$em->flush();
+				}else{
+					//Vérifier aussi que le chapitre est dans la liste des chapitre free pour l'offre free
+					if($souscriptionactive == false and $panierSouscription != null and $panierSouscription->getAbonnementuser()->getActive() == true and (in_array($chapitre->getId(),$tabIdChapterFirstPart) or $panierSouscription->getAbonnementuser()->getMontant() > 0)){
+						$bestpanier = $panierSouscription;
+
+						foreach($bestpanier->getProduitpaniers() as $propan)
+						{
+							if($propan->getProduit() == $produit)
+							{
+								$prodpan = $propan;
+								break;
+							}
+						}
+					}else{
+						$this->get('session')->getFlashBag()->add('information','Echec, Vous n\'avez pas une inscription valide à cette formation.');
+						return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
+					}
 				}
 			}else{
-				break;
-			}
-		}
-	}
-
-	$bestpanier = null;
-	$prodpan = null;
-	if($this->getUser() != null)
-	{
-	$liste_oldpanier = $em->getRepository(Panier::class)
-						  ->findBy(array('user'=>$this->getUser(),'valide'=>1));
-	//on cherche à retenir le bon panier .
-	foreach($liste_oldpanier as $panier)  //uno    -    le panier lié à un service (une offre de formation) est prio
-	{
-		$trouve = false;
-		foreach($panier->getProduitpaniers() as $propan)
-		{
-			if($propan->getProduit() == $produit)
-			{
-				$trouve = true;
-				break;
-			}
-		}
-		if($panier->getservice() != null and $trouve == true)
-		{
-			$bestpanier = $panier;
-			break;
-		}
-	}
-	
-	if($bestpanier == null)
-	{
-		foreach($liste_oldpanier as $panier)  // secondo    -    Le panier lié à un produit est bon, s'il ya aucun lié à un service
-		{
-			$trouve = false;
-			foreach($panier->getProduitpaniers() as $propan)
-			{
-				if($propan->getProduit() == $produit)
+				if($prodpan != null and $prodpan->getPanier()->getAbonnementuser() != null and $prodpan->getPanier()->getAbonnementuser()->getMontant() == 0 and !in_array($chapitre->getId(),$tabIdChapterFirstPart))
 				{
-					$trouve = true;
-					break;
+					$this->get('session')->getFlashBag()->add('information','Echec, Vous n\'avez pas accès à cette leçon.');
+					return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
 				}
 			}
-			if($panier->getservice() == null and $panier->getChapitrecours() == null and $trouve == true)
-			{
-				$bestpanier = $panier;
-				break;
-			}
 		}
-	}
-	
-	if($bestpanier == null)
-	{
-		foreach($liste_oldpanier as $panier)  // tertio    -    Le panier lié à un chapitre est bon, s'il ya aucun lié à un service ou un produit l'est
-		{
-			$trouve = false;
-			foreach($panier->getProduitpaniers() as $propan)
-			{
-				if($propan->getProduit() == $produit)
-				{
-					$trouve = true;
-					break;
-				}
-			}
-			if($panier->getservice() == null and $panier->getChapitrecours() == $chapitre and $trouve == true)
-			{
-				$bestpanier = $panier;
-				break;
-			}
-		}
-	}
-	}
-	
-	if($bestpanier != null)
-	{
-		foreach($bestpanier->getProduitpaniers() as $propan)
-		{
-			if($propan->getProduit() == $produit)
-			{
-				$prodpan = $propan;
-				break;
-			}
-		}
-	}
 
-	$chapitre->setEm($em);		
-	$liste_chapter = $em->getRepository(Chapitrecours::class)
-						->listechapitrecours($produit->getId());
+		$supportchapitres = new \Doctrine\Common\Collections\ArrayCollection();
+		$pratiquechapitres = new \Doctrine\Common\Collections\ArrayCollection();
+		$exerciceparties = new \Doctrine\Common\Collections\ArrayCollection();
 
-	$newpartie = new Partiecours();
-	$form = $this->createForm(PartiecoursType::class, $newpartie); 
-	
-	$session = $this->get('session');
-
-	if($this->getUser() != null)
-	{
-	$listelikes = $produit->getUserlikes();
-	$trouve = false;
-	foreach($listelikes as $ser)
-	{
-		if($this->getUser() == $ser)
+		foreach($chapitre->getSupportchapitres() as $support)
 		{
-			$trouve = true;
-			break;
+			$supportchapitres[] = $support;
 		}
-	}
-	
-	if($trouve == false)
-	{
-		$produit->addUserlike($this->getUser());
-	}
-	}else{
-		$liste_prod = $session->get('like_produit');
-		if($liste_prod != null)
+		foreach($chapitre->getPratiquechapitres() as $pratique)
 		{
-		$tabprod = explode('-',$liste_prod);
-		$addlike = true;
-		for($i = 0; $i < count($tabprod); $i++)
+			$pratiquechapitres[] = $pratique;
+		}
+		foreach($chapitre->getExerciceparties() as $exercice)
 		{
-			if($tabprod[$i] == $produit->getId())
-			{
-				$addlike = false;
-				break;
-			}
+			$exerciceparties[] = $exercice;
 		}
 		
-		if($addlike == true)
+		$oldservice =  null; //On cherche à obtenir le service approprié auquel ce cours est associé pour affichier la liste des cours.
+		if($bestpanier == null)
 		{
-			$session->set('like_produit',$session->get('like_produit').'-'.$produit->getId());
-		}
-		
-		}else{
-			$session->set('like_produit',$produit->getId());
-			$addlike = true;
-		}
-		
-		if($addlike == true)
-		{
-			$produit->setNblike($produit->getNblike() + 1);
-		}
-	}
-	$em->flush();
-	
-	
-	$supportchapitres = new \Doctrine\Common\Collections\ArrayCollection();
-	$pratiquechapitres = new \Doctrine\Common\Collections\ArrayCollection();
-	$exerciceparties = new \Doctrine\Common\Collections\ArrayCollection();
-
-	foreach($chapitre->getSupportchapitres() as $support)
-	{
-		$supportchapitres[] = $support;
-	}
-	foreach($chapitre->getPratiquechapitres() as $pratique)
-	{
-		$pratiquechapitres[] = $pratique;
-	}
-	foreach($chapitre->getExerciceparties() as $exercice)
-	{
-		$exerciceparties[] = $exercice;
-	}
-	
-	$oldservice =  null; //On cherche à obtenir le service approprié auquel ce cours est associé pour affichier la liste des cours.
-	if($bestpanier == null)
-	{
-		$produitformation = $em->getRepository(Produitformation::class)
-	                           ->findOneBy(array('produit'=>$chapitre->getPartiecours()->getProduit()), array('date'=>'desc'));
-		if($produitformation != null)
-		{
-			$oldservice = $produitformation->getService();
-		}
-	}else{
-		if($bestpanier->getservice() != null)
-		{
-			$oldservice = $bestpanier->getservice();
-		}else if($panier->getChapitrecours() != null)
-		{
-			
 			$produitformation = $em->getRepository(Produitformation::class)
-								   ->findOneBy(array('produit'=>$panier->getChapitrecours()->getPartiecours()->getProduit()), array('date'=>'desc'));
+								->findOneBy(array('produit'=>$chapitre->getPartiecours()->getProduit()), array('date'=>'desc'));
 			if($produitformation != null)
 			{
 				$oldservice = $produitformation->getService();
 			}
 		}else{
-			$produitformation = $em->getRepository(Produitformation::class)
-								   ->findOneBy(array('produit'=>$prodpan->getProduit()), array('date'=>'desc'));
-			if($produitformation != null)
+			if($bestpanier->getservice() != null)
 			{
-				$oldservice = $produitformation->getService();
+				$oldservice = $bestpanier->getservice();
+			}else if($panier->getChapitrecours() != null)
+			{
+				
+				$produitformation = $em->getRepository(Produitformation::class)
+									->findOneBy(array('produit'=>$panier->getChapitrecours()->getPartiecours()->getProduit()), array('date'=>'desc'));
+				if($produitformation != null)
+				{
+					$oldservice = $produitformation->getService();
+				}
+
+			}else{
+				$produitformation = $em->getRepository(Produitformation::class)
+									->findOneBy(array('produit'=>$prodpan->getProduit()), array('date'=>'desc'));
+				if($produitformation != null)
+				{
+					$oldservice = $produitformation->getService();
+				}
 			}
 		}
-	}
-	$cours_formation = new \Doctrine\Common\Collections\ArrayCollection();
-	if($oldservice != null)
-	{
-		$cours_formation = $em->getRepository(Produitformation::class)
-	                           ->findBy(array('service'=>$oldservice), array('rang'=>'asc'));
-		foreach($cours_formation as $forma)
-		{
-			$forma->getProduit()->setEm($em);
-		}
-	}
-	
-	$messages_cours = new \Doctrine\Common\Collections\ArrayCollection();
-	if($this->getUser() != null)
-	{
-		$messages_cours = $em->getRepository(Commentaireblog::class)
-							 ->findBy(array('user'=>$this->getUser(), 'chapitrecours'=>$chapitre), array('date'=>'desc'));
-	}
-	
-	return $this->render('Theme/Produit/Produit/Chapitrecours/presentationchapter.html.twig', 
-	array('chapitre'=>$chapitre, 'partie'=>$partie,'prodpan'=>$prodpan,'codeadmin'=>$codeadmin,'bareme'=>$service->getBareme(),
-	'liste_chapter'=>$liste_chapter,'produit'=>$produit,'liste_part'=>$liste_part,'form'=>$form->createView(),'supportchapitres'=>$supportchapitres,'oldservice'=>$oldservice,
-	'pratiquechapitres'=>$pratiquechapitres,'exerciceparties'=>$exerciceparties,'mess'=>$mess,'cours_formation'=>$cours_formation,
-	'messages_cours'=>$messages_cours, 'ranglecon'=>$ranglecon));
-	}else{
-	
-	$this->get('session')->getFlashBag()->add('alertnewsletter','<span class="fa fa-warning"></span> Echec ! vous n\\\'avez pas le droit d\\\'accéder à cette ressource !');
 
+		$cours_formation = new \Doctrine\Common\Collections\ArrayCollection();
+		if($oldservice != null)
+		{
+			$cours_formation = $em->getRepository(Produitformation::class)
+								->findBy(array('service'=>$oldservice), array('rang'=>'asc'));
+			foreach($cours_formation as $forma)
+			{
+				$forma->getProduit()->setEm($em);
+			}
+		}
+		
+		$messages_cours = new \Doctrine\Common\Collections\ArrayCollection();
+		if($this->getUser() != null)
+		{
+			$messages_cours = $em->getRepository(Commentaireblog::class)
+								->findBy(array('user'=>$this->getUser(), 'chapitrecours'=>$chapitre), array('date'=>'desc'));
+		}
+		
+		$liste_questionnaire = $em->getRepository(Questionnaire::class)
+	                              ->findBy(array('chapitrecours'=>$chapitre,'valide'=>true), array('date'=>'asc'));
+		$bareme = $this->params->get('bareme');
+		return $this->render('Theme/Produit/Produit/Chapitrecours/presentationchapter.html.twig', 
+		array('chapitre'=>$chapitre, 'partie'=>$partie, 'prodpan'=>$prodpan,'codeadmin'=>$codeadmin,'bareme'=>$bareme,'notemin'=>$this->params->get('notemin'),
+		'liste_chapter'=>$liste_chapter,'produit'=>$produit,'liste_part'=>$liste_part,'form'=>$form->createView(),'supportchapitres'=>$supportchapitres,'oldservice'=>$oldservice,
+		'pratiquechapitres'=>$pratiquechapitres,'exerciceparties'=>$exerciceparties,'mess'=>$mess,'cours_formation'=>$cours_formation,
+		'messages_cours'=>$messages_cours,'liste_questionnaire'=>$liste_questionnaire,'ranglecon'=>$ranglecon,'precedentchapter'=>$precedentchapter,'suivantchapter'=>$suivantchapter));
+	}else{
+		$this->get('session')->getFlashBag()->add('alertnewsletter','<span class="fa fa-warning"></span> Echec ! vous n\\\'avez pas le droit d\\\'accéder à cette ressource !');
 	}
 	return $this->redirect($this->generateUrl('users_user_acces_plateforme'));
 }
@@ -368,7 +516,7 @@ public function modifierchapter(Chapitrecours $chapitre, GeneralServicetext $ser
 {
 	$em = $this->getDoctrine()->getManager();
 	$partie = $chapitre->getPartiecours();
-	$formchap = $this->createForm(ChapitrecoursType::class, $chapitre); 
+	$formchap = $this->createForm(ChapitrecourseditType::class, $chapitre); 
 	
 	$question = new Questionnaire();
 	$formquestion = $this->createForm(QuestionnaireType::class, $question);
@@ -446,13 +594,36 @@ public function supprimerchapter(Chapitrecours $chapitre)
 	$em = $this->getDoctrine()->getManager();
 	$partie = $chapitre->getPartiecours();
 	$produit = $partie->getProduit();
-	if($produit->getUser() == $this->getUser())
+
+	$liste_questionnaire = $em->getRepository(Questionnaire::class)
+								->findBy(array('chapitrecours'=>$chapitre));
+	$nbsupport = count($chapitre->getSupportchapitres());
+	$nbpratique = count($chapitre->getPratiquechapitres());
+	$nbexercice = count($chapitre->getExerciceparties());
+	$total = $nbsupport + $nbpratique + $nbexercice + count($liste_questionnaire);
+	if(($total == 0 and $produit->getUser() == $this->getUser()) or ($total == 0 and $this->isGranted('ROLE_GESTION')))
 	{
+		$liste_commentaire = $em->getRepository(Commentaireblog::class)
+								->findBy(array('chapitrecours'=>$chapitre));
+		foreach($liste_commentaire as $commentaire){
+			$em->remove($commentaire);
+		}
+		$liste_animation = $em->getRepository(Animationproduit::class)
+								->findBy(array('chapitrecours'=>$chapitre));
+		foreach($liste_animation as $animation){
+			$em->remove($animation);
+		}
+		
 		$em->remove($chapitre);
 		$em->flush();
 		$this->get('session')->getFlashBag()->add('information','Votre cours a été mis à jour avec succès.');
 	}else{
-		$this->get('session')->getFlashBag()->add('information','Echec !! Vous n\'avez pas le droit d\'effectuer cette action.');
+		if($total != 0)
+		{
+			$this->get('session')->getFlashBag()->add('information','Echec !! Vous devez supprimer au préalable tous les ressources de cette leçons.');
+		}else{
+			$this->get('session')->getFlashBag()->add('information','Echec !! Vous n\'avez pas le droit d\'effectuer cette action.');
+		}
 	}
 	return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
 }
@@ -525,7 +696,7 @@ public function supprimersupport(Supportchapitre $support)
 	$chapitre = $support->getChapitrecours();
 	$partie = $chapitre->getPartiecours();
 	$produit = $partie->getProduit();
-	if($produit->getUser() == $this->getUser())
+	if($produit->getUser() == $this->getUser() or $this->isGranted('ROLE_GESTION'))
 	{
 		$em->remove($support);
 		$em->flush();
@@ -632,13 +803,13 @@ public function telechargertp(Pratiquechapitre $tp)
 	}
 }
 
-public function suppressiontpAction(Pratiquechapitre $tp)
+public function suppressiontp(Pratiquechapitre $tp)
 {
 	$em = $this->getDoctrine()->getManager();
 	$chapitre = $tp->getChapitrecours();
 	$partie = $chapitre->getPartiecours();
 	$produit = $partie->getProduit();
-	if($produit->getUser() == $this->getUser())
+	if($produit->getUser() == $this->getUser() or $this->isGranted('ROLE_GESTION'))
 	{
 		$em->remove($tp);
 		$em->flush();
@@ -806,7 +977,7 @@ public function supprimeexercice(Exercicepartie $exercice)
 	$chapitre = $exercice->getChapitrecours();
 	$partie = $chapitre->getPartiecours();
 	$produit = $partie->getProduit();
-	if($produit->getUser() == $this->getUser())
+	if($produit->getUser() == $this->getUser() or $this->isGranted('ROLE_GESTION'))
 	{
 		$em->remove($exercice);
 		$em->flush();
@@ -834,7 +1005,6 @@ public function ajouterpanier(Chapitrecours $chapitre, GeneralServicetext $servi
 			
 			if($_POST['_password'] == $service->decrypt($this->getUser()->getPassword(),$this->getUser()->getSalt()))
 			{
-				
 				$liste_oldpanier = $em->getRepository(Panier::class)
 									  ->findBy(array('user'=>$this->getUser(),'valide'=>1));
 				$souscription = true;
@@ -886,6 +1056,7 @@ public function ajouterpanier(Chapitrecours $chapitre, GeneralServicetext $servi
 						$panier = new Panier();
 						$panier->setUser($this->getUser());
 						$panier->setChapitrecours($chapitre);
+						$panier->setValide(true);
 						$panier->setMontantttc($montant);
 
 						if($produit->getTypecours() == 'coursspecialise')

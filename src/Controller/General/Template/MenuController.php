@@ -21,17 +21,25 @@ use App\Entity\Produit\Produit\Souscategorie;
 use App\Entity\Produit\Produit\Produit;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use App\Entity\Users\Adminuser\Parametreadmin;
+use Symfony\Component\HttpFoundation\Request;
+use App\Security\TokenAuthenticator;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class MenuController extends AbstractController
 {
 private $params;
+private $authenticator;
+private $guardHandler;
 
-public function __construct(ParameterBagInterface $params)
+public function __construct(ParameterBagInterface $params, TokenAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler)
 {
 	$this->params = $params;
+	$this->authenticator = $authenticator;
+    $this->guardHandler = $guardHandler;
 }
 
-public function menubare(GeneralServicetext $service, $position='accueil')
+public function menubare(GeneralServicetext $service, Request $request, $position='accueil')
 {
 	$em = $this->getDoctrine()->getManager();
 	$session = $this->get('session');
@@ -47,25 +55,50 @@ public function menubare(GeneralServicetext $service, $position='accueil')
 		
 		if($user != null)
 		{
-			$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-			// On passe le token crée au service security context afin que l'utilisateur soit authentifié
-			$this->get('security.token_storage')->setToken($token);
-			$this->get('session')->set('_security_users', serialize($token));
+			$response = $this->guardHandler->authenticateUserAndHandleSuccess(
+				$user,          // the User object you just created
+				$request,
+				$this->authenticator, // authenticator whose onAuthenticationSuccess you want to use
+				'main'          // the name of your firewall in security.yaml
+			);
 		}
 	}
 
 	if($this->getUser() != null and $actualiseformation != 100)
 	{
 		$liste_oldpanier = $em->getRepository(Panier::class)
-							  ->findBy(array('user'=>$this->getUser(),'valide'=>1));
+							  ->findBy(array('user'=>$this->getUser()));
 		foreach($liste_oldpanier as $panier)
 		{
+			if($panier->getService() != null and ($panier->getDureeFormation() == null || $panier->getDureeFormation() == 0)){
+				$panier->setDureeFormation($panier->getService()->getDureeacces());
+			}else if($panier->getChapitrecours() != null)
+			{
+				$panier->setDureeFormation($panier->getChapitrecours()->getPartiecours()->getProduit()->getDureeacces());
+			}else if($panier->getChapitrecours() == null and $panier->getService() == null)
+			{
+				$produit = null;
+				foreach($panier->getProduitpaniers() as $propan)
+				{
+					$produit = $propan->getProduit();
+					break;
+				}
+				
+				if($produit != null)
+				{
+					$panier->setDureeFormation($produit->getDureeacces());
+				}
+			}
+
+			///
+			/*
 			if($panier->getService() != null)
 			{
 				$periode = ($panier->getService()->getDureeacces() - $panier->getDate()->diff(new \Datetime())->days);
 				if($periode <= 0)
 				{
-					$panier->setValide(false);
+					$panier->setValide(true);
+					$panier->setLivrer(true);
 				}
 			}
 			if($panier->getChapitrecours() != null)
@@ -73,7 +106,8 @@ public function menubare(GeneralServicetext $service, $position='accueil')
 				$periode = ($panier->getChapitrecours()->getPartiecours()->getProduit()->getDureeacces() - $panier->getDate()->diff(new \Datetime())->days);
 				if($periode <= 0)
 				{
-					$panier->setValide(false);
+					$panier->setValide(true);
+					$panier->setLivrer(true);
 				}
 			}
 			if($panier->getChapitrecours() == null and $panier->getService() == null)
@@ -89,10 +123,11 @@ public function menubare(GeneralServicetext $service, $position='accueil')
 				$periode = ($produit->getDureeacces() - $panier->getDate()->diff(new \Datetime())->days);
 				if($periode <= 0)
 				{
-					$panier->setValide(false);
+					$panier->setValide(true);
+					$panier->setLivrer(true);
 				}
 				}
-			}
+			}*/
 		}
 		$em->flush();
 		$session->set('actualiseformation',100);
@@ -124,12 +159,39 @@ public function menubare(GeneralServicetext $service, $position='accueil')
 		$liste_message = $em->getRepository(Commentaireblog::class)
 							->findBy(array('dest'=>$this->getUser(),'lut'=>0));
 	}
+
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+    $paramlogomd = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logomd'));
+
+	if($this->isGranted('ROLE_GESTION'))//Mise à jour des formations expirées
+	{
+		$liste_panier = $em->getRepository(Panier::class)
+					       ->searchpanierinvalide(1, 500, '');
+		foreach($liste_panier as $panier)
+		{
+			$periode = ($panier->getDureeFormation() - $panier->getDate()->diff(new \Datetime())->days);
+			if($periode <= 0)
+			{
+				$panier->setValide(true);
+				$panier->setLivrer(true);
+
+				if($panier->getAbonnementuser() != null)
+				{
+					$panier->getAbonnementuser()->setActive(false);
+				}
+			}
+		}
+		$em->flush();
+	}
+	//$service->getThemeDirectory()
 	return $this->render('Theme/General/Template/Menu/menubare.html.twig',
 	array('liste_notification'=>$liste_notification,'position'=>$position,'liste_categorie'=>$liste_categorie,
-	'liste_formation'=>$liste_formation, 'liste_message'=>$liste_message));
+	'liste_formation'=>$liste_formation, 'liste_message'=>$liste_message, 'paramlogosm'=>$paramlogosm, 'paramlogomd'=>$paramlogomd));
 }
 
-public function footer($position='accueil')
+public function footer(GeneralServicetext $service, $position = 'accueil')
 {
 	$em = $this->getDoctrine()->getManager();
 	$topcat = $em->getRepository(Souscategorie::class)
@@ -147,53 +209,59 @@ public function footer($position='accueil')
 	if($this->getUser() != null)
 	{
 		$panier = $em->getRepository(Panier::class)
-	                      ->findOneBy(array('user'=>$this->getUser(),'payer'=>0));
-			if($panier != null)
+						->findOneBy(array('user'=>$this->getUser(),'payer'=>0));
+		if($panier != null)
+		{
+			$produitpanier = $panier->getProduitpaniers();
+			foreach($produitpanier as $prodpan)
 			{
-				$produitpanier = $panier->getProduitpaniers();
-				foreach($produitpanier as $prodpan)
-				{
-					$nbprod = $nbprod + $prodpan->getQuantite();
-				}
+				$nbprod = $nbprod + $prodpan->getQuantite();
 			}
+		}
 	}
 	
 	$liste_categorie = $em->getRepository(Categorie::class)
 	                      ->myFindAll();
-						  
+	
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+	$aproposfooter = $em->getRepository(Parametreadmin::class)
+	                    ->findOneBy(array('type'=>'aproposfooter'));
+	$paramtel = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'telprincipal'));
+	$paramemail = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'emailprincipal'));
+
+	$telwhatsapp = $em->getRepository(Parametreadmin::class)
+	                  ->findOneBy(array('type'=>'telwhatsapp'));
+	$adresse = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'adresse'));
+
+	$paramlogomd = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logomd'));
+	//$service->getThemeDirectory()
 	return $this->render('Theme/General/Template/Menu/footer.html.twig',
 	array('topcat'=>$topcat,'plus_vendu'=>$plus_vendu,'plus_like'=>$plus_like,'nbprod'=>$nbprod,
-	'topservice'=>$topservice,'position'=>$position,'liste_categorie'=>$liste_categorie,'form'=>$form->createView()));
+	'topservice'=>$topservice,'position'=>$position,'liste_categorie'=>$liste_categorie,
+	'form'=>$form->createView(), 'paramlogosm'=>$paramlogosm, 'aproposfooter'=>$aproposfooter,'paramlogomd'=>$paramlogomd, 
+	'paramtel'=>$paramtel, 'paramemail'=>$paramemail, 'telwhatsapp'=>$telwhatsapp, 'adresse'=>$adresse));
 }
 
-public function testinscriptionnewsletter()
+public function testinscriptionnewsletter(GeneralServicetext $service)
 {
-	$session = $this->get('session');
-	$envoi = $session->get('test_newsletter');
-
-	if($envoi !== 100)
-	{
-		$newsletter = new Newsletter();
-		$form = $this->createForm(NewsletterType::class, $newsletter);
-		
-		return $this->render('Theme/General/Template/Menu/testinscriptionnewsletter.html.twig',
-		array('form'=>$form->createView()));
-	}
-	return new Response(' ');
+	return $this->render($service->getThemeDirectory().'/General/Template/Menu/testinscriptionnewsletter.html.twig');
 }
 
-public function parametreuser()
+public function parametreuser(GeneralServicetext $service)
 {
-
 	$em = $this->getDoctrine()->getManager();
 	$liste_message = $em->getRepository(Commentaireblog::class)
 						->findBy(array('dest'=>$this->getUser(),'lut'=>0), array('date'=>'desc'));
 						
 	$liste_notification = $em->getRepository(Notification::class)
 						         ->findBy(array('user'=>$this->getUser(),'lut'=>0), array('date'=>'desc'));
-	return $this->render('Theme/General/Template/Menu/parametreuser.html.twig',
+	return $this->render($service->getThemeDirectory().'/General/Template/Menu/parametreuser.html.twig',
 	array('liste_message'=>$liste_message, 'liste_notification'=>$liste_notification));
-
 }
 
 public function stopAlertNewletterAction()
@@ -204,11 +272,20 @@ public function stopAlertNewletterAction()
 	exit;
 }
 
-public function headermodal($title)
+public function headermodal(GeneralServicetext $service, $title)
 {
 	$em = $this->getDoctrine()->getManager();
 					   
-	return $this->render('Theme/General/Template/Menu/headermodal.html.twig', array('title'=>$title));
+	return $this->render($service->getThemeDirectory().'/General/Template/Menu/headermodal.html.twig', array('title'=>$title));
 }
 
+public function relicon(GeneralServicetext $service, $position = 'ficon')
+{
+	$em = $this->getDoctrine()->getManager();
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+
+	return $this->render($service->getThemeDirectory().'/General/Template/Menu/relicon.html.twig',
+	 array('paramlogosm'=>$paramlogosm,'position'=>$position));
+}
 }

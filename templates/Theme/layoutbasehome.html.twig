@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <meta name="author" content="Noel Martial Kenfack @NoelKenfack12 - noel.kenfack@yahoo.fr"/>
     <link rel="shortcut icon" href="{{ asset('template/images/logo.png') }}"/>
 	
 	<title>
@@ -25,6 +25,7 @@
 	<link rel="stylesheet" href="{{ asset('templatehome/css/vendor.bundle.base.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('templatehome/css/vendor.bundle.addons.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('template/css/bootstrap.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('template/css/fontsaps.css') }}" type="text/css" />
 	<!-- endinject -->
 	<!-- plugin css for this page -->
 	<!-- End plugin css for this page -->
@@ -61,7 +62,6 @@
 	
   <link href="https://fonts.googleapis.com/css2?family=Vollkorn&display=swap" rel="stylesheet"/>
 <style>
-
 
 a {
 	color: #092759;
@@ -1934,9 +1934,9 @@ ul {
 }
 
 .card-img-top {
-  height: 180px;
-  width: auto;
-  text-align: center;
+    height: auto;
+    width: 100%;
+    text-align: center;
 }
 
 .card-top-text {
@@ -2250,38 +2250,273 @@ p span{
 	font-size: 25px!important;	
 }
 
+
+.breadcrumb-dash {
+border-radius: 0.25em;
+overflow: hidden;
+position: relative;
+transition: all 0.3s ease-in-out;
+z-index: 1;
+padding-bottom: 10px;margin-bottom: 15px;
+}
+.breadcrumb-dash a {
+display: block;
+padding: 0.7em 1.4em;
+}
+.breadcrumb-dash a:hover{
+	text-decoration: underline!important;
+	color: #fff;
+}
+.breadcrumb-dash:target {
+max-height: 20em;
+}
+.breadcrumb-dash:target .breadcrumb-link {
+opacity: 1;
+position: static;
+visibility: visible;
+}
+.breadcrumb-dash:target .breadcrumb--active:after {
+content: none;
+}
+
+.breadcrumb-dash:target .breadcrumb-close:after {
+visibility: visible;
+}
+
+.breadcrumb-link {
+color: #fff;
+opacity: 0;
+visibility: hidden;
+position: absolute;
+transition: all 0.2s;
+z-index: 0;
+}
+
+.breadcrumb--active {
+color: #fff;
+font-weight: 700;
+position: relative;
+}
+.breadcrumb--active:after {
+content: "▾";
+position: absolute;
+right: 22px;
+z-index: 1;
+}
+
+.breadcrumb-close {
+position: absolute;
+right: 0;
+bottom: 0;
+visibility: hidden;
+z-index: 10;
+}
+.breadcrumb-close:after {
+	content: "▴";
+	color: #fff;
+}
+
+@media (min-width: 700px) {
+.breadcrumb-dash {
+	border: none;
+}
+.breadcrumb-dash a {
+	display: inline;
+	padding: 0.5em;
+}
+
+.breadcrumb-link {
+	display: inline;
+	opacity: 1;
+	visibility: visible;
+	position: static;
+}
+.breadcrumb-link:after {
+	content: "/";
+	margin-left: 0.5em;
+	margin-right: -0.75em;
+}
+.breadcrumb--active {
+	pointer-events: none;
+}
+.breadcrumb--active:after {
+	content: none;
+}
+
+.breadcrumb-close {
+	display: none !important;
+}
+}
+
+
+/*
+---------------------------------------------
+Start Modal SPP
+-------------------------------------------------
+*/
+html.sppmodal-active, body.sppmodal-active {
+  overflow: hidden;
+}
+.sppmodal-container{
+  position: fixed;  /*Mettre à fixed si la classe sppmodal-active est appliqué à l'élément body*/
+  display: table;
+  height:100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transform: scale(0);
+  z-index: 100000;
+}
+.sppmodal-container.one{
+  transform: scaleY(0.01) scaleX(0);
+  animation: unfoldIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.sppmodal-container.one .sppmodal-background .sppmodal {
+  transform: scale(0);
+  animation: zoomIn 0.5s 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.sppmodal-container.one.out {
+  transform: scale(1);
+  animation: unfoldOut 1s 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.sppmodal-container.one.out .sppmodal-background .sppmodal {
+  animation: zoomOut 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.sppmodal-container .sppmodal-background {
+  display: table-cell;
+  background: rgba(247, 248, 251,0.8)!important;
+  text-align: center;
+  vertical-align: middle;
+}
+.sppmodal-container .sppmodal-background .sppmodal {
+  padding: 10px;
+  display: inline-block;
+  position: relative;
+	width: 450px!important;
+  height: auto!important;
+  max-height: 750px!important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: 400;
+	text-align: center;
+	line-height: 18px;
+	color:  #FFFFFF;
+	background-color: #FFFFFF;
+	background-repeat: repeat;
+	background-position: left top;
+	border: 1px solid  #F1F3F9;
+	border-radius: 4px;
+	box-shadow: 0px 2px 5px 1px  #999999;
+}
+
+.sppmodal-container .sppmodal-background .sppmodal h2 {
+  font-size: 25px;
+  line-height: 25px;
+  margin-bottom: 15px;
+}
+.sppmodal-container .sppmodal-background .sppmodal p {
+  font-size: 18px;
+  line-height: 22px;
+}
+.sppmodal-container .sppmodal-background .sppmodal .sppmodal-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+}
+.sppmodal-container .sppmodal-background .sppmodal .sppmodal-svg rect {
+  stroke: #fff;
+  stroke-width: 2px;
+  stroke-dasharray: 778;
+  stroke-dashoffset: 778;
+}
+
+@keyframes unfoldIn {
+  0% {
+    transform: scaleY(0.005) scaleX(0);
+  }
+  50% {
+    transform: scaleY(0.005) scaleX(1);
+  }
+  100% {
+    transform: scaleY(1) scaleX(1);
+  }
+}
+@keyframes unfoldOut {
+  0% {
+    transform: scaleY(1) scaleX(1);
+  }
+  50% {
+    transform: scaleY(0.005) scaleX(1);
+  }
+  100% {
+    transform: scaleY(0.005) scaleX(0);
+  }
+}
+@keyframes zoomIn {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+/*
+--------------------------------------
+End Modal SPP
+--------------------------------------
+*/
+
+.field-icon {
+	margin-top: 10px;
+	position: absolute;
+	z-index: 2;
+	right: 15px;
+	cursor: pointer;
+}
 </style>
 </head>
 
   <body class="mince-scroll-spp">
-  <div class="container-scroller">
-	  {{ render(controller("App\\Controller\\General\\Template\\MenuController:menubare"
-	, {'position': 'home' })) }}
 
+	<div class="container-scroller">
+		{{ render(controller("App\\Controller\\General\\Template\\MenuController:menubare"
+		,{'position': 'home' })) }}
 
-	  <div class="container-fluid page-body-wrapper">
-		  <div class="main-panel" style="background: #f7f7f7;">
-		  
-		  <div class="content-manage-market variation-contenu" value="0">
-			{% block body %}
+		<div class="container-fluid page-body-wrapper">
+			<div class="main-panel" style="background: #f7f7f7;">
+			
+				<div class="content-manage-market variation-contenu" value="0">
+					{% block body %}
+						
+					{% endblock %}
+				</div>
+
+				<div class="content-recherche-products-market" style="display: none;">
+
+				</div>
 				
-			{% endblock %}
-		  </div>
-		  
+				{{ render(controller("App\\Controller\\General\\Template\\MenuController:footer"
+				,{'position': currentposition|default('home') })) }}
 
-		  
-		  <div class="content-recherche-products-market" style="display: none;">
-
-		  </div>
-		  
-		  {{ render(controller("App\\Controller\\General\\Template\\MenuController:footer"
-	      , {'position': currentposition|default('home') })) }}
-
-		  </div>
-	  </div>
-  </div>
+			</div>
+		</div>
+	</div>
  
-  
 	<div class="content-alert-action-elearning-user" value="0" name="0" style="display: none;"></div>
 
 	<div class="panel-result-action-elearning-user" style="display: none; position: fixed; z-index: 900000; width: 100%; text-align: center; top: 40%;">
@@ -2289,8 +2524,7 @@ p span{
 			<div data-w-id="bdd6bb74-6a76-cc2b-93ad-7ae71601b802" data-animation-type="lottie" data-src="{{ asset('template/js/dataloader.json') }}" data-loop="1" data-direction="1" data-autoplay="1" data-is-ix2-target="0" data-renderer="svg" data-default-duration="26.2" data-duration="0" style="height: 100px;"></div>
 		</span>
 	</div>
-	
-  
+
 	<div class="modal fade modal-alter" id="modal-infos-action-connexion" style="margin-top: 100px;">
 	<div class="modal-dialog modal-md" style="border-radius: 10px;">
 	<div class="modal-content text-left">
@@ -2304,10 +2538,14 @@ p span{
 	<div class="modal-body">
 		<div class="row">
 		<div class="col-md-12 text-left">
-			<form action="{# { path('login_check') } #}" method="post" style="margin-top: 15px;">
+			<form action="{{ path('login') }}" method="post" style="margin-top: 15px;">
 			<div class="form-group">
 				<input type="email" placeholder="E-mail" id="username" name="_username" value="" required class="form-control" style="width: 100%;">
-				<input type="password" placeholder="Mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%;">
+				
+			</div>
+			<div class="form-group" style="position: sticky;">
+				<input type="password" placeholder="Mot de passe" id="password-field" name="_password" required class="form-control" style="margin-top: 15px; width: 100%;">
+				<span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
 			</div>
 			<div style="margin-top: 15px;">
 				<a class="news-letter " href="#" style="color: #333;">
@@ -2327,10 +2565,10 @@ p span{
 		</div>
 	</div>
 	
-		<div class="modal-footer" style="display: block!important; text-align: right;">
+	<div class="modal-footer" style="display: block!important; text-align: right;">
 		<span class="pull-left">&copy; {{ site }}</span>
 		{% include 'Theme/General/Template/Menu/social.html.twig' %}
-		</div>
+	</div>
 
 	</div>
 	</div>
@@ -2374,7 +2612,8 @@ p span{
 	</aside>
 
 	<!-- //here ends scrolling icon -->
-	{# { render(controller("GeneralTemplateBundle:Menu:testinscriptionnewsletter")) } #}
+	{{ render(controller("App\\Controller\\General\\Template\\MenuController:testinscriptionnewsletter"
+	      , {'position': currentposition|default('home') })) }}
 	
 	{% block srcjavascript %}
 
@@ -2382,6 +2621,17 @@ p span{
 	
 	<div id="devtool-status"></div>
 	<script type="text/javascript">
+		$(".toggle-password").click(function() {
+			$(this).toggleClass("fa-eye fa-eye-slash");
+			var input = $($(this).attr("toggle"));
+			if (input.attr("type") == "password") {
+				input.attr("type", "text");
+			} else {
+				input.attr("type", "password");
+			}
+		});
+
+
 		$('a').tooltip();
 		
 		$(".dropdown-btn").click(function(){
@@ -2519,9 +2769,9 @@ p span{
 			//document.querySelector('#devtool-status').innerHTML = checkStatus;
 		}, 1000);*/
 		
-		{% if app.user == null %}
+		{# % if app.user == null %}
 			openArticleOverlay();
-		{% endif %}
+		{% endif % #}
 		
 	  });
 	  
@@ -2556,5 +2806,28 @@ p span{
 	  }
 	</script>	
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N5EBXELPMS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-N5EBXELPMS');
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+	(function(){
+	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+	s1.async=true;
+	s1.src='https://embed.tawk.to/61b4e958c82c976b71c0f420/1fnhan0et';
+	s1.charset='UTF-8';
+	s1.setAttribute('crossorigin','*');
+	s0.parentNode.insertBefore(s1,s0);
+	})();
+	</script>
+	<!--End of Tawk.to Script-->
 </body>
 </html>

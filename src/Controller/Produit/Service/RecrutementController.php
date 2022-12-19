@@ -93,8 +93,8 @@ public function votredossier(GeneralServicetext $service, Request $request)
 			$pdf->SetFont('Times','',12);
 
 			$pdf->contactstruct($bp,$tel);
-			$pdf->contenutransfert($recrutement->numFacture(),$recrutement->getUsername(),$recrutement->getTel().' / '.$recrutement->getMail(),' - ',$banquecheck[1],$banquecheck[2],$banquecheck[3],$_POST['montantransfert'].'FCFA');
-			$pdf->completeBorder('Az Corp',$recrutement->getUsername());
+			$pdf->contenutransfert($recrutement->numFacture(),$service->retireAccent($recrutement->getUsername()),$recrutement->getTel().' / '.$recrutement->getMail(),' - ',$banquecheck[1],$banquecheck[2],$banquecheck[3],$_POST['montantransfert'].'FCFA');
+			$pdf->completeBorder('Az Corporation',$service->retireAccent($recrutement->getUsername()));
 			$pdf->SetAuthor('Noel Kenfack');
 			
 			if(!file_exists ($recrutement->getUploadDossierRootDir()))
@@ -159,7 +159,14 @@ public function getArrayBanque()
 {
 	$orangemoney = $this->params->get('orangemoney');
 	$mtnmobile = $this->params->get('mtnmobile');
-	return array(array('1','Orange Money','Az Corp',$orangemoney),array('2','MTN Mobile','Az Corp',$mtnmobile));
+	return array(
+		array('1','Paiement direct à notre bureau','Service Comptable','Az Corporation Cameroun'),
+		array('2', 'Afriland FirstBank','AZ CORPORATION','IBAN : CM21 10005 00034 04978021001-48'),
+		array('3','Paypal','AZ Corporation','gaielbleriot@gmail.com'),
+		array('4','Orange Money','Az Corporation',$orangemoney),
+		array('5','MTN Mobile','Az Corporation',$mtnmobile), 
+		array('6', ' Autre moyen (MoneyGram, Ria, Western Union,...)','Vous serez contacté','Vous serez contacté')
+	);
 }
 
 public function affichedossieruser(Recrutement $dossier)
@@ -203,6 +210,16 @@ public function listedossier()
 	array('liste_dossier'=>$liste_dossier,'formsupp'=>$formsupp->createView()));
 }
 
+public function listedocandcandidature()
+{
+	$em = $this->getDoctrine()->getManager();
+	$formsupp = $this->createFormBuilder()->getForm(); 
+	$liste_dossier = $em->getRepository(Recrutement::class)
+	                          ->myfindAll();
+	return $this->render('Theme/Users/Adminuser/Recrutement/listedocandcandidature.html.twig',
+	array('liste_dossier'=>$liste_dossier,'formsupp'=>$formsupp->createView()));
+}
+
 public function supprimerdossier(Recrutement $recrut, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
@@ -233,38 +250,52 @@ public function validerdossier(Recrutement $recrut, Request $request, GeneralSer
 	
 	if ($request->getMethod() == 'POST'){
     $formsupp->handleRequest($request);
-    if ($formsupp->isValid() and $recrut->setValide(false)){
-		$recrut->setValide(true);
-		$recrut->getUser()->setSoldeprincipal($recrut->getUser()->getSoldeprincipal() + $recrut->getMontantransfert());
-		
-		//envoie d'email
-		$siteweb = $this->params->get('siteweb');
-		$sitename = $this->params->get('sitename');
-		$emailadmin = $this->params->get('emailadmin');
-		
-		$notif = new Notification();
-		$notif->setTitre('Votre compte a été crédité avec succès.');
-		$notif->setContenu('Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commandes sur '.$sitename);
-		$notif->setUser($recrut->getUser());
-		$em->persist($notif);
-		$em->flush();
+		if ($formsupp->isValid()){
 
-		if($service->email($recrut->getUser()->getUsername()))
-		{
+			if($recrut->getValide() == false)
+			{
+				$recrut->setValide(true);
+				$recrut->getUser()->setSoldeprincipal($recrut->getUser()->getSoldeprincipal() + $recrut->getMontantransfert());
+				
+				//envoie d'email
+				$siteweb = $this->params->get('siteweb');
+				$sitename = $this->params->get('sitename');
+				$emailadmin = $this->params->get('emailadmin');
+				
+				$notif = new Notification();
+				$notif->setTitre('Votre compte a été crédité avec succès.');
+				$notif->setContenu('Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commandes sur '.$sitename);
+				$notif->setUser($recrut->getUser());
+				$em->persist($notif);
+				$em->flush();
 
-			$response = $this->_servicemail->sendNotifEmail(
-				$recrut->getUser()->name(40), //Nom du destinataire
-				$recrut->getUser()->getUsername(), //Email Destinataire
-				'Votre compte a été crédité avec succès.', //Objet de l'email
-				$this->getUser()->name(30).' vient de déposer un montant de '.$recrut->getMontantransfert().' FCFA sur votre compte '.$sitename, //Grand Titre de l'email
-				'Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commande sur '.$sitename,  //Contenu de l'email
-				 ''  //Lien à suivre
-			);
+				if($service->email($recrut->getUser()->getUsername()))
+				{
+					$response = $this->_servicemail->sendNotifEmail(
+						$recrut->getUser()->name(40), //Nom du destinataire
+						$recrut->getUser()->getUsername(), //Email Destinataire
+						'Votre compte a été crédité avec succès.', //Objet de l'email
+						$this->getUser()->name(30).' vient de déposer un montant de '.$recrut->getMontantransfert().' FCFA sur votre compte '.$sitename, //Grand Titre de l'email
+						'Un montant de '.$recrut->getMontantransfert().'FCFA a été déposé sur votre compte via '.$recrut->getMoyentransfert().' pour vos futur commande sur '.$sitename,  //Contenu de l'email
+						''  //Lien à suivre
+					);
+				}
+					
+				$this->get('session')->getFlashBag()->add('information','Solde mis à jour avec succès');
+				return $this->redirect($this->generateUrl('users_adminuser_liste_dossier_recrutement'));
+			}else{
+				if(($recrut->getUser()->getSoldeprincipal() - $recrut->getMontantransfert()) >= 0)
+				{
+					$recrut->setValide(false);
+					$recrut->getUser()->setSoldeprincipal($recrut->getUser()->getSoldeprincipal() - $recrut->getMontantransfert());
+					$em->flush();
+					$this->get('session')->getFlashBag()->add('information','Solde mis à jour avec succès');
+				}else{
+					$this->get('session')->getFlashBag()->add('information','Echec, Le compte ne peut être négatif');
+				}
+				return $this->redirect($this->generateUrl('users_adminuser_liste_dossier_recrutement'));				
+			}			
 		}
-			
-		$this->get('session')->getFlashBag()->add('information','Solde mis à jour avec succès');
-		return $this->redirect($this->generateUrl('users_adminuser_liste_dossier_recrutement'));
-	}
 	}
     $this->get('session')->getFlashBag()->add('valider_dossier',$recrut->getId());
 	$this->get('session')->getFlashBag()->add('valider_dossier',$recrut->getUser()->name(20));
@@ -273,13 +304,13 @@ public function validerdossier(Recrutement $recrut, Request $request, GeneralSer
 
 public function telechargercv(Recrutement $recrut)
 {
-	$namefile = '/../../../Symfony/web/'.$recrut->getYourcv()->getWebPath();
+	$namefile = '/../../../elearning/public/'.$recrut->getYourcv()->getWebPath();
 	return $this->redirect($namefile);
 }
 
 public function telechargerlettre(Recrutement $recrut)
 {
-	$namefile = '/../../../Symfony/web/'.$recrut->getDossierWebPath();
+	$namefile = '/../../../elearning/public/'.$recrut->getDossierWebPath();
 	return $this->redirect($namefile);
 }
 

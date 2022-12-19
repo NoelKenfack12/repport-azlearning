@@ -6,7 +6,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 use General\ServiceBundle\AfMail\Afmail;
 use General\ServiceBundle\AfMail\fileAttachment;
-
+use App\Entity\Users\Adminuser\Parametreadmin;
 use App\Entity\Users\User\Imgslide;
 use App\Entity\Users\User\User;
 use App\Entity\Produit\Produit\Produit;
@@ -18,17 +18,25 @@ use App\Service\Servicetext\GeneralServicetext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Email\Singleemail;
+use App\Security\TokenAuthenticator;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use App\Entity\Pricing\Offre\Offre;
+use App\Entity\Pricing\Offre\Abonnementuser;
 
 class SecurityController extends AbstractController
 {
 
 private $params;
 private $_servicemail;
+private $authenticator;
+private $guardHandler;
 
-public function __construct(ParameterBagInterface $params, Singleemail $servicemail)
+public function __construct(ParameterBagInterface $params, Singleemail $servicemail, TokenAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler)
 {
 	$this->params = $params;
 	$this->_servicemail = $servicemail;
+	$this->authenticator = $authenticator;
+    $this->guardHandler = $guardHandler;
 }
 
 public function login(GeneralServicetext $service, Request $request)
@@ -51,9 +59,16 @@ public function login(GeneralServicetext $service, Request $request)
 			{
 				if($_POST['_password'] == $service->decrypt($user->getPassword(),$user->getSalt()))
 				{
-					$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-					$this->get('security.token_storage')->setToken($token);
-					$this->get('session')->set('_security_main', serialize($token));
+					$response = $this->guardHandler->authenticateUserAndHandleSuccess(
+						$user,          // the User object you just created
+						$request,
+						$this->authenticator, // authenticator whose onAuthenticationSuccess you want to use
+						'main'          // the name of your firewall in security.yaml
+					);
+
+					//$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+					//$this->get('security.token_storage')->setToken($token);
+					//$this->get('session')->set('_security_main', serialize($token));
 
 					// Verifie si le cookie n existe pas
 					if((!isset($_COOKIE["PIDSESSREM"]) or $_COOKIE["PIDSESSREM"] == 'delete') and isset($_POST['_remember_me']) and $_POST['_remember_me'] == true)
@@ -71,6 +86,45 @@ public function login(GeneralServicetext $service, Request $request)
 
 					$session = $this->get('session');
 					$target_link = $session->get('_security.welcome.target_path');
+
+					if(isset($_GET['pack']))
+					{
+						$pack = $_GET['pack'];
+						if($pack == 'promo')
+						{
+							$repository = $em->getRepository(Offre::class);
+							$offre = $repository->findOneBy(array('newprise'=>0));
+
+							if($offre != null)
+							{
+								$repository = $em->getRepository(Abonnementuser::class);
+								$olfAbonnementuser = $repository->findOneBy(array('user'=>$user), array('createdAt'=>'desc'), 1);
+
+								if($olfAbonnementuser == null)
+								{
+									$abonnementuser = new Abonnementuser();
+									$abonnementuser->setUser($user);
+									$abonnementuser->setOffre($offre);
+									$abonnementuser->setMontant(0);
+									$abonnementuser->setDureeJour(30);
+									$em->persist($abonnementuser);
+									$em->flush();
+								}
+							}
+						}else{
+							$repository = $em->getRepository(Offre::class);
+							$offre = $repository->findLastOffer();
+
+							$repository = $em->getRepository(Abonnementuser::class);
+							$olfAbonnementuser = $repository->findOneBy(array('user'=>$user, 'active'=>1));
+
+							if($olfAbonnementuser == null or $olfAbonnementuser->getMontant() == 0)
+							{
+								return $this->redirect($this->generateUrl('pricing_offre_offres_premium', array('pack'=>$pack)));
+							}
+						}
+					}
+
 					if($target_link != null and strlen($target_link) > 5)
 					{
 						return $this->redirect($target_link);
@@ -86,8 +140,21 @@ public function login(GeneralServicetext $service, Request $request)
 			}
 		}
 	}
+
+	$paramlogosm = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'logosm'));
+
+	$loginbg = $em->getRepository(Parametreadmin::class)
+	                   ->findOneBy(array('type'=>'loginbg'));
+
+	$pack = '';
+	if(isset($_GET['pack']))
+	{
+		$pack = $_GET['pack'];
+	}
 	return $this->render('Theme/Users/User/Security/login.html.twig',
-	array('last_username' => $last_username,'error'=> $error_login));
+	array('last_username' => $last_username,'error'=> $error_login, 'loginbg'=>$loginbg,
+	'paramlogosm'=>$paramlogosm, 'pack'=>$pack));
 }
 
 
@@ -108,17 +175,12 @@ public function accueilsite(GeneralServicetext $service)
 	                      ->findSlideAccueil();
 	$slide_bg = $em->getRepository(Imgslide::class)
 	                      ->findSlideConnexion();
-	
-	
 	$liste_formateur = $em->getRepository(User::class)
 	                      ->findFormateurs();
-	
 	$liste_produit = $em->getRepository(Produit::class)
 	                    ->findBy(array('valide'=>1,'avant'=>1), array('rang'=>'desc'));	
-	
 	$article_faq = $em->getRepository(Infoentreprise::class)
 	                   ->findBy(array('type'=>'article-faq'), array('rang'=>'desc'));
-					   
 	$article_avantage = $em->getRepository(Infoentreprise::class)
 	                   ->findBy(array('type'=>'nos-avantage'), array('rang'=>'desc'));
 					   
@@ -145,7 +207,6 @@ public function accueilsite(GeneralServicetext $service)
 			array_push($tabproduit,$produit->getId());
 		}
 	}
-	
 	$produit_enregistrer = $em->getRepository(Animationproduit::class)
 	                          ->findBy(array('user'=>$this->getUser(), 'enregistrer'=>1), array('date'=>'desc'),3);	
 							  
@@ -164,7 +225,8 @@ public function accueilsite(GeneralServicetext $service)
 	$liste_categorie = $em->getRepository(Categorie::class)
 	                      ->myFindAll();
 	$liste_formation = $em->getRepository(Service::class)
-	                      ->listeformation(1,8);
+	                      ->listeformation(1,30);
+	$liste_formation = $service->selectEntities($liste_formation, 2);
 	foreach($liste_formation as $formation)
 	{
 		$formation->setEm($em);
@@ -172,8 +234,8 @@ public function accueilsite(GeneralServicetext $service)
 	
 	$liste_recommandation = $em->getRepository(Animationproduit::class)
 					           ->findBy(array('recommander'=>1,'user'=>$this->getUser()));
-						
-	return $this->render('Theme\Users\User\Security\accueilsite.html.twig',
+	//$service->getThemeDirectory()	
+	return $this->render('Theme/Users/User/Security/accueilsite.html.twig',
 	array('slideaccueil'=>$slideaccueil,'article_faq'=>$article_faq,'liste_formation'=>$liste_formation,
 	'liste_formateur'=>$liste_formateur,'liste_produit'=>$liste_produit,'slidebg'=>$slidebg,
 	'produit_enregistrer'=>$produit_enregistrer,'produit_aime'=>$produit_aime,'produit_visite'=>$produit_visite,

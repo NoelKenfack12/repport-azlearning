@@ -89,7 +89,6 @@ public function validationpayement(User $user, GeneralServicetext $service)
 			$emailadmin = $this->params->get('emailadmin');
 			if($service->email($panier->getUser()->getUsername()))
 			{
-
 				$response = $this->_servicemail->sendNotifEmail(
 					$panier->getUser()->name(40), //Nom du destinataire
 					$panier->getUser()->getUsername(), //Email Destinataire
@@ -120,12 +119,21 @@ public function validationpayement(User $user, GeneralServicetext $service)
 
 public function paniernonlivrer($page)
 {
+	$donnee = '';
 	$em = $this->getDoctrine()->getManager();
-	$liste_panier = $em->getRepository(Panier::class)
+	if(isset($_POST['donnee']))
+	{
+		$donnee = $_POST['donnee'];
+		$liste_panier = $em->getRepository(Panier::class)
+					   ->searchpanierinvalide($page, 10, $donnee);
+	}else{
+		$liste_panier = $em->getRepository(Panier::class)
 					   ->listepanierinvalide($page, 10);
+	}
+	
 	$formsupp = $this->createFormBuilder()->getForm();
 	return $this->render('Theme/Users/Adminuser/Panier/paniernonlivrer.html.twig',
-	array('liste_panier'=>$liste_panier,'formsupp'=>$formsupp->createView(), 'nombrepage' => ceil(count($liste_panier)/10),'page'=>$page));
+	array('liste_panier'=>$liste_panier,'formsupp'=>$formsupp->createView(), 'donnee'=> $donnee, 'nombrepage' => ceil(count($liste_panier)/10),'page'=>$page));
 }
 
 public function contenupanier(Panier $panier)
@@ -218,28 +226,48 @@ public function livraisonpanier(Panier $panier, Request $request)
 	if ($request->getMethod() == 'POST'){
 		if($panier->getLivrer() == false)
 		{
-			$panier->setLivrer(true);
-			foreach($panier->getProduitpaniers() as $propan)
-			{
-				$propan->getProduit()->setActive(false);
-			}
+			$panier->setPayer(true);
 			$em->flush();
 			$this->get('session')->getFlashBag()->add('information','Validation effectuée avec succès !');
 		}
 	}else{
 		$this->get('session')->getFlashBag()->add('valide_prod',$panier->getId());
 	    $this->get('session')->getFlashBag()->add('valide_prod',$panier->numFacture());
-		}
+	}
 	return $this->redirect($this->generateUrl('users_adminuser_liste_panier_non_livrer'));
 }
 
-public function panierlivrer()
+public function reductionmontant(Panier $panier, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
-	$liste_panier = $em->getRepository(Panier::class)
-				       ->findBy(array('payer'=>1,'livrer'=>1),array('date'=>'desc'));
-	return $this->render('Theme/Users/Adminuser/Panier/panierlivrer.html.twig', 
-	array('liste_panier'=>$liste_panier));
+
+	if(isset($_POST['montant']))
+	{
+		$montant = (float) $_POST['montant'];
+		if($panier->getMontantttc() < $montant)
+		{
+			$panier->setMontantReduction($montant);
+			$em->flush();
+		}
+	}
+	return $this->redirect($this->generateUrl('users_adminuser_liste_panier_non_livrer'));
+}
+
+public function panierlivrer($page)
+{
+	$em = $this->getDoctrine()->getManager();
+	$donnee = '';
+	if(isset($_POST['donnee']))
+	{
+		$donnee = $_POST['donnee'];
+		$liste_panier = $em->getRepository(Panier::class)
+					   ->searchpanierlivrer($page, 10, $donnee);
+	}else{
+		$liste_panier = $em->getRepository(Panier::class)
+					   ->listepanierlivrer($page, 10);
+	}
+	return $this->render('Theme/Users/Adminuser/Panier/panierlivrer.html.twig',
+	array('liste_panier'=>$liste_panier, 'nombrepage' => ceil(count($liste_panier)/10),'page'=>$page, 'donnee'=>$donnee));
 }
 
 public function detailpanieruser(Panier $panier, Produit $produit, Generalservicetext $service)
@@ -275,7 +303,7 @@ public function detailpanieruser(Panier $panier, Produit $produit, Generalservic
 			break;
 		}
 	}
-	
+
 	return $this->render('Theme/Produit/Produit/Panier/detailpanieruser.html.twig',
 	array('liste_produit'=>$liste_produit,'prodpan'=>$prodpan,'user'=>$panier->getUser(),
 	'bareme'=>$bareme,'produit'=>$produit,'panier'=>$panier,'liste_part'=>$liste_part,'liste_chapter'=>$liste_chapter,

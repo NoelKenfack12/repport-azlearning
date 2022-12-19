@@ -15,7 +15,7 @@
 	{% if panier.user == app.user %}
 		<span class="fa fa-lock"></span> Accès Interdit
 	{% else %}
-		<a href="{{ asset(compospratique.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ compospratique.alt[:20 ] }}</a>
+		{% if compospratique != null %}<a href="{{ asset(compospratique.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ compospratique.alt[:20 ] }}</a>{% else %}Vide{% endif %}
 	{% endif %}
 {% endif %}
 </td>

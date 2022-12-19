@@ -21,10 +21,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Table("imgslide")
  * @ORM\Entity(repositoryClass=ImgslideRepository::class)
- * @ApiResource(
- *    normalizationContext={"groups"={"imgslide:read"}},
- *    denormalizationContext={"groups"={"imgslide:write"}}
- * )
  ** @ORM\HasLifecycleCallbacks
  */
 class Imgslide

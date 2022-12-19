@@ -1,6 +1,5 @@
 
 {% if position == 'home' %}
-
 <style>
 .footer-top ul {
 	margin: 0;
@@ -73,7 +72,7 @@ footer a {
     color: #fff;
 }
 
-footer a:hover {
+footer a:hover { 
    color: blue;
 }
 .footer-title {
@@ -173,6 +172,10 @@ footer hr {
   background: #fff;
   padding: 2px;
 }
+.footer-top ul a:hover{
+    color: #739ee6!important;
+    font-weight: bold;
+}
 </style>
 
 
@@ -184,7 +187,7 @@ footer hr {
 					<h4 style="margin-bottom: 15px;">{{ site }}</h4>
 					<h6 style="margin: 0px;">Téléphones</h6>
 					<ul style="margin: 0px;">
-						<li><a href="https://wa.me/237699934926" target="_blank">Whatsapp: 237699934926</a></li>
+						<li><a href="https://wa.me/237697279770" target="_blank">Whatsapp: +237 697 27 97 70</a></li>
 						<li><a href="tel:(237) 222 31 46 62">Ligne 1: (237) 222 31 46 62</a></li>
 						<li><a href="tel:(237) 697 27 97 70">Ligne 2: (237) 697 27 97 70</a></li>
 						<li><a href="tel:(237) 676 26 40 27">Ligne 3: (237) 676 26 40 27</a></li>
@@ -226,6 +229,7 @@ footer hr {
                             <li><a href="http://facebook.com/AZcorpAfrica" target="_blank"><i class="fa fa-facebook-f"></i></a></li>
                             <li><a href="https://twitter.com/gaielbleriot?lang=en" target="_blank"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="https://wa.me/237699934926" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+                            <li><a href="https://www.youtube.com/channel/UCvlgTzTAw1tABaOXhDM7U8g" target="_blank"><i class="fa fa-youtube"></i></a></li>
                         </ul>
                     </div>
                     <table class="table">
@@ -286,13 +290,13 @@ footer hr {
 <div class="clearfix"></div>
 <div class="footer-container" style="background: transparent;">
     <div class="row">
-		<div class="col-sm-6">
+		<div class="col-sm-6 col-md-6">
 			<p class="text-left" style="color: #333;">
 			Copyright © 2020 <a href="http://azcorporation.net/" target="_blank">AZ Corporation</a>. All rights reserved.  {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('users_adminuser_accueil_administration') }}"> Administration</a> {% endif %}
 			</p>
 		</div>
-		<div class="col-sm-6 text-right">
-			<p><a href="">Confidentialité</a> | <a href="">Conditions générales d'utilisation</a></p>
+		<div class="col-sm-6 col-md-6">
+			<p class="text-right"><a href="">Confidentialité</a> | <a href="">Conditions générales d'utilisation</a></p>
 		</div>
 	</div>
 </div></footer>
@@ -333,7 +337,6 @@ footer hr {
 			<div><a href="http://azcorporation.net" style="color: #fff;" target="_blank"> azcorporation.net</a></div>
 			
 			<div>{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('users_adminuser_accueil_administration') }}" style="color: #fff;"> Administration</a> {% endif %} {% if is_granted('ROLE_FORMATEUR') %}| <a href="{{ path('produit_produit_ajouter_nouveau_produit') }}" style="color: #fff;"> Créez un cours</a>{% endif %}</div>
-			
 		</div>
 		<div class="col-lg-3">
 			<div><strong><span class="mdi-action-perm-phone-msg"></span> Nous Contactez</strong></div>	

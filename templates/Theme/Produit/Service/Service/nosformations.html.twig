@@ -100,5 +100,10 @@
 
 
 {% block javascripttemplate %}
-
+{% for infos in app.session.flashbag.get('information') %}
+	{% if loop.first %}
+		resetNotif();
+		alertify.alert("{{ infos|raw }}");	  
+	{% endif %}
+{% endfor %}
 {% endblock %}

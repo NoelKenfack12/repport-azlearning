@@ -1,5 +1,6 @@
 <?php
 namespace App\Entity\Produit\Produit;
+use App\Entity\Pricing\Offre\Abonnementuser;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToArrayTransformer;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -131,20 +132,36 @@ class Panier
      * @ORM\Column(type="float", nullable=true)
      */
     private $montantspecial;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $dureeFormation;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $montantReduction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Abonnementuser::class)
+     */
+    private $abonnementuser;
 	
 	public function __construct()
-    {
-        $this->produitpaniers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->date = new \Datetime();
-        $this->payer = false;
-        $this->livrer = false;
-        $this->valide = false;
-        $this->livraisonpayer = false;
-        $this->coastlivraison = 0;
-        $this->messadmin = false;
-        $this->montantttc = 0;
-        $this->montantspecial = 0;
-    }
+                {
+                    $this->produitpaniers = new \Doctrine\Common\Collections\ArrayCollection();
+                    $this->date = new \Datetime();
+                    $this->payer = false;
+                    $this->livrer = false;
+                    $this->valide = false;
+                    $this->livraisonpayer = false;
+                    $this->coastlivraison = 0;
+                    $this->messadmin = false;
+                    $this->montantttc = 0;
+                    $this->montantspecial = 0;
+                    $this->montantReduction = 0;
+                }
 	
     /**
      * Get id
@@ -337,36 +354,36 @@ class Panier
         return $this->ville;
     }
 	
-	public function numFacture()
-                  	{
-                  		$datetransform = new DateTimeToArrayTransformer();
-                  		$dt = $datetransform->transform($this->getDate());
-                  		return ''.$dt['day'].''.$this->getId().''.$dt['month'].''.$dt['year'];
-                  	}
-	
-	public function dateFacture()
-                  	{
-                  		$datetransform = new DateTimeToArrayTransformer();
-                  		$dt = $datetransform->transform($this->getDate());
-                  		return $dt['day'].'-'.$dt['month'].'-'.$dt['year'];
-                  	}
-	
-	public function getUploadDir()
-                  	{
-                  	// On retourne le chemin relatif vers l'image pour un navigateur
-                  	return 'bundles/produit/produit/facture/panier';
-                  	}
-	
-	public function getUploadRootDir()
-                  	{
-                  	// On retourne le chemin relatif vers l'image pour notre codePHP
-                  	return  __DIR__.'/../../../../public/'.$this->getUploadDir();
-                  	}
-	
-	public function getWebPath()
-                  	{
-                  	return $this->getUploadDir().'/'.$this->numFacture().'.pdf';
-                  	}
+    public function numFacture()
+    {
+        $datetransform = new DateTimeToArrayTransformer();
+        $dt = $datetransform->transform($this->getDate());
+        return ''.$dt['day'].''.$this->getId().''.$dt['month'].''.$dt['year'];
+    }
+
+    public function dateFacture()
+    {
+        $datetransform = new DateTimeToArrayTransformer();
+        $dt = $datetransform->transform($this->getDate());
+        return $dt['day'].'-'.$dt['month'].'-'.$dt['year'];
+    }
+
+    public function getUploadDir()
+    {
+        // On retourne le chemin relatif vers l'image pour un navigateur
+        return 'bundles/produit/produit/facture/panier';
+    }
+
+    public function getUploadRootDir()
+    {
+        // On retourne le chemin relatif vers l'image pour notre codePHP
+        return  __DIR__.'/../../../../public/'.$this->getUploadDir();
+    }
+
+    public function getWebPath()
+    {
+        return $this->getUploadDir().'/'.$this->numFacture().'.pdf';
+    }
 
     /**
      * Set messadmin
@@ -459,6 +476,42 @@ class Panier
     public function setMontantspecial(?float $montantspecial): self
     {
         $this->montantspecial = $montantspecial;
+
+        return $this;
+    }
+
+    public function getDureeFormation(): ?int
+    {
+        return $this->dureeFormation;
+    }
+
+    public function setDureeFormation(?int $dureeFormation): self
+    {
+        $this->dureeFormation = $dureeFormation;
+
+        return $this;
+    }
+
+    public function getMontantReduction(): ?float
+    {
+        return $this->montantReduction;
+    }
+
+    public function setMontantReduction(?float $montantReduction): self
+    {
+        $this->montantReduction = $montantReduction;
+
+        return $this;
+    }
+
+    public function getAbonnementuser(): ?Abonnementuser
+    {
+        return $this->abonnementuser;
+    }
+
+    public function setAbonnementuser(?Abonnementuser $abonnementuser): self
+    {
+        $this->abonnementuser = $abonnementuser;
 
         return $this;
     }

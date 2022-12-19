@@ -1,0 +1,90 @@
+{% extends "UsersUserBundle::layoutuser.html.twig" %}
+{% block meta %}
+{{ parent() }}
+<meta name="keywords" content="{{ site }}, Business, Innovation,Administration, blog {{  site }}"/>
+<meta name="author" content="Noel Kenfack"/>
+<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }} | service | blog {{  site }}" />
+{% endblock %}
+{% block title %}
+{{ parent() }} | Accueil
+{% endblock %}
+
+{% block userblog_body %}
+<section id="about-us">
+        <div class="container">
+			<div class="center wow fadeInDown">
+				<h2>{{ service.nom }}</h2>
+				<p class="lead">{{ service.description }}</p>
+			</div>
+			
+			<div class="row">	
+			<div class="col-xs-12 col-md-7 animated wow fadeInRight variation-contenu" data-wow-delay=".5s" value="0">
+						{% for even in liste_envent %}
+							<div class="col-sm-12   simpleCart_shelfItem" style="margin-bottom: 7px;">
+								<div class="grid-pro">
+									<div class="women" style="text-align: left;">
+										<h6 class="left">{{ even.nom }}</h6>
+										<h6 class="lead" style="text-align: justify;">{{ even.description }}</h6>
+									</div>
+								</div>
+							</div>
+						{% endfor %}	
+						
+						<!-- about us slider -->
+			
+			<div class="clearfix"></div>
+			</div>
+			<div id="about-slider" style="" class="col-xs-12 col-md-5" >
+				<div id="carousel-slider" class="carousel slide" data-ride="carousel">
+					<!-- Indicators -->
+				  	<ol class="carousel-indicators visible-xs">
+					{% for imgeven in service.imgevenements %}
+					    <li data-target="#carousel-slider" data-slide-to="{{ loop.index0 }}" class="{% if loop.index0 == 0 %}active{% endif %}" style="background: red;"></li>
+					{% endfor %}
+				  	</ol>
+
+					<div class="carousel-inner">
+					{% for imgeven in service.imgevenements %}
+						<div class="item {% if loop.index == 1 %}active{% endif %}" style="padding-top: 0px;">
+							<img src="{{ asset(imgeven.getWebPath) }}" class="img-responsive img-thumbnail" alt="" style="height: 336px; width: 100%;"> 
+					   </div>
+					{% endfor %}
+					</div>
+					
+					<a class="left carousel-control" href="#carousel-slider" data-slide="prev">
+						<i class="fa fa-angle-left"></i> 
+					</a>
+					
+					<a class=" right carousel-control"href="#carousel-slider" data-slide="next">
+						<i class="fa fa-angle-right"></i> 
+					</a>
+				</div> <!--/#carousel-slider-->
+			</div><!--/#about-slider-->
+			</div>
+			<div class="clearfix"></div>
+			
+			<div class="clients-area center wow fadeInDown">
+                <h2>Ce que nos clients disent</h2>
+                <p class="lead">Description</p>
+            </div>
+
+            <div class="row">
+			{% for mess in team_select %}
+                <div class="col-md-4 wow fadeInDown">
+                    <div class="clients-comments text-center">
+                        <img src="{{ asset(mess.getWebPath) }}" class="img-circle" alt="">
+                        <h3>{{ mess.contenu }}</h3>
+                        <h4><span>-{{ mess.nom }} /</span>  {{ mess.poste }}</h4>
+                    </div>
+                </div>
+			{% endfor %}
+           </div>	
+		</div><!--/.container-->
+    </section><!--/about-us-->
+     
+{% endblock %}
+
+{% block javascripttemplate %}
+$('.accueil').removeClass('active');
+$('.service').addClass('active');
+{% endblock %}

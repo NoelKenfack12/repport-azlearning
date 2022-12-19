@@ -2,18 +2,19 @@
 
 {% extends "Theme/Users/Adminuser/layoutadmin.html.twig" %}
 {% block meta %}
-{{ parent() }}
-<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
-<meta name="author" content="Noel Kenfack"/>
-<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
 {% endblock %}
+
 {% block title %}
 {{ parent() }} | Accueil Admin
-<style>
-.box{
-background-color:#fff;border-top:1px solid #f0f0f0;-webkit-box-shadow:0 1px 2px 0 rgba(0,0,0,0.1);box-shadow:0 1px 2px 0 rgba(0,0,0,0.1);padding:10px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;
-}
-</style>
+	<style>
+	.box{
+		background-color:#fff;border-top:1px solid #f0f0f0;-webkit-box-shadow:0 1px 2px 0 rgba(0,0,0,0.1);box-shadow:0 1px 2px 0 rgba(0,0,0,0.1);padding:10px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;
+	}
+	</style>
 {% endblock %}
 
 {% block userblog_body %}
@@ -35,35 +36,117 @@ background-color:#fff;border-top:1px solid #f0f0f0;-webkit-box-shadow:0 1px 2px 
 				{{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
 				<!---->
 				</div>
-				<div class="col-md-8 panel panel-widget" style="padding: 0px;">
+				<div class="col-md-8" style="padding: 0px;">
+					<div class="panel panel-widget" style="margin-bottom: 15px;">
 					<div class="header-card" style="margin-bottom: 7px;">
+						<form action="{{ path('users_adminuser_liste_all_user') }}" method="post">
+						<div class="row">
+							<div class="col-md-12">
+								<h2 style="color: #fff;">Appliquez un filtre sur les utilisateurs</h2>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="typecompte" id="" class="form-control">
+												<option value="autres">Type de compte</option>
+												<option value="eleve">Elèves</option>
+												<option value="formateur">Formteurs</option>
+												<option value="administrateur">Administrateurs</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<select name="filtre" id="" class="form-control">
+												<option value="0">Filtres</option>
+												<option value="30">Inscrit ce mois</option>
+												<option value="60">Inscrit il y'a deux mois</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
 
-					<div class="row">
-						<div class="col-md-6">
-							<div style="padding: 7px; color: #fff;">Liste d'utilisateurs</div>	
-						</div>
-
-						<div class="col-md-6">
-
-							<form action="{{ path('users_adminuser_liste_all_user') }}" method="post">
+							<div class="col-md-6">
 								<div class="file-field input-field">
 								<input class="file-path validate" type="text" name="search" style="height: 40px;" placeholder="Nom ou email">
 								<button class="btn" type="submit">
 									<span class="fa fa-search"></span> Rechercher
 								</button>
 								</div>
-						    </form>
-							  
+							</div>
 						</div>
+						</form>
 					</div>
-				</div>
 
 				<div class="content-article variation-contenu" value="0" id="">
 
-					{{ render(controller("App\\Controller\\Users\\User\\UserController:searchinguser", { 'page': 1, 'searchitem': searchitem|default('') })) }}
+					{# { render(controller("App\\Controller\\Users\\User\\UserController:searchinguser", { 'page': 1, 'searchitem': searchitem|default('') })) } #}
 
+					{% for user in liste_user %}
+					<div class="col-md-6 photoday-grid" style="padding: 3px 7px;">
+						<div id="profile-card" class="card">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="{% if user.imgcouverture != null %}{{ asset(user.imgcouverture.getwebpath) }}{% else %}{{ asset('template/images/user-bg.jpg') }}{% endif %}" alt="user background" style="height: 220px;">
+							</div>
+							<div class="card-content">
+								<img src="{% if user.imgprofil != null %}{{ asset(user.imgprofil.getwebpath) }}{% else %}{{ asset('template/images/co.png') }}{% endif %}" alt="" class="circle responsive-img activator card-profile-image z-depth-2 shadow-demo" style="height: 60px; width: 60px; border-radius: 30px; position: absolute; top: 180px; left: 10px; z-index: 1;"/>
+								<a class="btn-floating activator btn-move-up waves-effect waves-light darken-2 right" style="position: absolute; top: 190px; right: 10px; z-index: 1;">
+									<i class="mdi-action-account-circle" style="margin-left: 0px; margin-top: -10px;"></i>
+								</a>
+
+								<a href="{{ path('users_user_user_accueil', {'id': user.id }) }}"><span class="card-title grey-text text-darken-4">{{ user.name(25) }}</span></a>
+								<p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> {% if user.formateur == true %}Formateur: {{ user.poste[:40] }}{% else %}Elèves{% endif %}</p>
+								<p><a href="#!" class="affichephone" value="{{ user.name(30) }}" name="{{ user.tel }}"><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> {{ user.tel }}</a></p>
+								<p>
+									<i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> Solde: 
+									{{ user.soldeprincipal }} {{ devise }}
+									<a href="#!" onclick="openTransactions({{ user.id }})"> 
+										<span style="float: right;">Modifier</span>
+									</a>
+								</p>
+								<p><a href="mailto:{{ user.username }}"><i class="mdi-communication-email cyan-text text-darken-2"></i> {{ user.username }}</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4"><a href="{{ path('users_user_user_accueil', {'id': user.id }) }}">{{ user.name(25) }}</a> <i class="mdi-navigation-close right"></i></span>
+								<p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> {% if user.poste != null %} {{ user.poste }}{% else %}Formateur Az{% endif %}</p>
+								<p><a href="#!" class="affichephone" value="{{ user.name(30) }}" name="{{ user.tel }}"><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> {{ user.tel }}</a></p>
+								<p><a href="mailto:{{ user.username }}"><i class="mdi-communication-email cyan-text text-darken-2"></i> {{ user.username }}</a></p>
+								<p><i class="mdi-communication-email cyan-text text-darken-2"></i> Inscrit le: {{ user.dateins|date('d') }}.{{ user.dateins|date('m') }}.{{ user.dateins|date('Y') }}</p>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
 				</div>
-			
+			</div>
+			<div class="clearfix"></div>
+				<div style="padding: 15px; background: #fff; margin-top: 15px;">
+					{% if nombrepage > 0  %}
+
+					{% if page > 1 and page <= nombrepage %}
+					{% set pagepre = page - 1 %}
+					{% else %}
+					{% set pagepre = nombrepage %}
+					{% endif %}
+
+					{% if page < nombrepage %}
+					{% set pagesuiv = page + 1 %}
+					{% else %}
+					{% set pagesuiv =  1 %}
+					{% endif %}
+					
+					<div class="pagination" style="margin-top: 15px;">
+						<li class="waves-effect"><a href="{{ path('users_adminuser_liste_all_user', {'page': pagepre, 'typecompte': typecompte, 'filtre': filtre, 'searchitem': searchitem }) }}" ><<</a></li>
+						{% for p in 1..nombrepage %}
+						<li class="waves-effect {% if p == page %}active{% endif %}"><a href="{{ path('users_adminuser_liste_all_user', {'page': p, 'typecompte': typecompte, 'filtre': filtre, 'searchitem': searchitem }) }}">{{ p }}</a></li>
+						{% endfor %}
+						<li class="waves-effect"><a href="{{ path('users_adminuser_liste_all_user', {'page': pagesuiv, 'typecompte': typecompte, 'filtre': filtre, 'searchitem': searchitem }) }}">>></a></li>
+					</div>
+					
+					{% endif %}
+				</div>
+
 				<div class="clearfix"></div>
 
 				</div>

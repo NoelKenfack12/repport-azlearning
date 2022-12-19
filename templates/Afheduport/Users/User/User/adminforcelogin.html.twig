@@ -1,0 +1,47 @@
+<html>
+<head>
+  <link rel="icon" href="{{ asset('template/images/logo.png') }}" sizes="32x32">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" integrity="sha256-wT6CFc7EKRuf7uyVfi+MQNHUzojuHN2pSw0YWFt2K5E=" crossorigin="anonymous" />
+  
+</head>
+<body style="background-color: purple">
+<div class="ui stackable centered page grid">
+<div class="ui raised very padded center aligned text container segment">
+ <img src="{{ asset('template/images/logo.png') }}" alt="Logo {{ site }}" style="height: 70px;">
+  <h5>Identifier le super administrateur configurer dans le système et connectez-vous en tantque surper admin!</h5>
+  <h4>
+	<span style="color: red;">
+	{% for infos in app.session.flashbag.get('information') %}
+	{% if loop.first %}
+	{{ infos|raw }}
+	{% endif %}
+	{% endfor %}
+	</span>
+  </h4>
+  <form action="{{ path('users_user_admin_force_login') }}" method="post">
+  <div class="field">
+   <div class="ui left icon input">
+    <i class="mail icon"></i>
+    <input type="text" placeholder="User name" id="username" name="_username" value="" required autofocus="true">
+  </div>
+  </div>
+  <br>
+  <div class="field">
+  <div class="ui left icon input">
+    <i class="lock icon"></i>
+    <input type="password" placeholder="Password" id="password" name="_password" required>
+  </div>
+  </div>
+  <br>
+  
+
+  <div class="actions">
+    <button class="ui large violet button" type="submit">Try to login</button>
+  </div>
+  </form>
+  <br>
+  <p>Vous n'avez pas encore un compte ? <a href="{{ path('login') }}">Connexion</a></p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+
+{{ form_start(formpro, {'attr': {'action': path('users_adminuser_mofication_produit', {'id': produit.id }) }}) }}
+
+    <div class="form-group">
+      {{ form_errors(formpro.nom) }}
+      {{ form_label(formpro.nom,'Nom du produit') }}
+      {{ form_widget(formpro.nom) }}
+    </div>
+    <div class="form-group">
+      {{ form_errors(formpro.contenu) }}
+      {{ form_label(formpro.contenu,'Description du produit') }}
+      {{ form_widget(formpro.contenu) }}
+    </div>
+    <div class="form-group">
+      {{ form_errors(formpro.rapport) }}
+      {{ form_label(formpro.rapport,'Période') }}
+      {{ form_widget(formpro.rapport) }}
+    </div>
+    <div class="form-group">
+      {{ form_errors(formpro.newprise) }}
+      {{ form_label(formpro.newprise,'Prix du produit') }}
+      {{ form_widget(formpro.newprise) }}
+    </div>
+    <div class="form-group">
+      {{ form_errors(formpro.rang) }}
+      {{ form_label(formpro.rang,'Rang dans le classement') }}
+      {{ form_widget(formpro.rang) }}
+    </div>
+    <div class="form-group">
+      {{ form_errors(formpro.choixauteur) }}
+      {{ form_label(formpro.choixauteur,'Produit le plus commandé') }}
+      {{ form_widget(formpro.choixauteur) }}
+    </div>
+    <div class="form-group">
+      {{ form_errors(formpro.imgoffre) }}
+      {{ form_label(formpro.imgoffre,'Joindre une image') }}
+      {{ form_widget(formpro.imgoffre) }}
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary btn-lg">Enregistrer</button>
+    </div>
+
+{{ form_end(formpro) }}
+

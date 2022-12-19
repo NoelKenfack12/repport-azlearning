@@ -34,7 +34,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use App\Entity\Produit\Service\Produitformation;
 use App\Service\Servicetext\GeneralServicetext;
 use App\Entity\Produit\Service\Commentaireblog;
-
+use App\Entity\Produit\Produit\Chapitrecours;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Email\Singleemail;
@@ -53,7 +53,7 @@ public function __construct(ParameterBagInterface $params, Singleemail $servicem
 public function ajouterproduit(GeneralServicetext $service, Request $request)
 {
 	$em = $this->getDoctrine()->getManager();
-	$produit = new Produit($service);
+	$produit = new Produit($service, $em);
 	$formpro = $this->createForm(ProduitType::class, $produit); 
 
 	if($request->getMethod() == 'POST' and $this->getUser() != null){
@@ -691,7 +691,7 @@ if(isset($_POST['_password']))
 				}
 			}
 			
-			if($souscription == true and ($this->getUser()->getSoldeprincipal() > $produit->getNewprise()))
+			if($souscription == true and ($this->getUser()->getSoldeprincipal() >= $produit->getNewprise()))
 			{
 				$this->getUser()->setSoldeprincipal($this->getUser()->getSoldeprincipal() - $produit->getNewprise());
 				
@@ -721,7 +721,9 @@ if(isset($_POST['_password']))
 				{
 					$panier = new Panier();
 					$panier->setUser($this->getUser());
+					$panier->setValide(true);
 					$panier->setMontantttc($produit->getNewprise());
+					$panier->setDureeFormation($produit->getDureeacces());
 
 					$em->persist($panier);
 					$produitpanier = new Produitpanier();
@@ -754,7 +756,6 @@ if(isset($_POST['_password']))
 					
 					if($service->email($produit->getUser()->getUsername()))
 					{
-
 						$response = $this->_servicemail->sendNotifEmail(
 							$produit->getUser()->name(50), //Nom du destinataire
 							$produit->getUser()->getUsername(), //Email Destinataire
@@ -768,7 +769,6 @@ if(isset($_POST['_password']))
 					
 					if($service->email($this->getUser()->getUsername()))
 					{
-
 						$response = $this->_servicemail->sendNotifEmail(
 							$this->getUser()->name(50), //Nom du destinataire
 							$this->getUser()->getUsername(), //Email Destinataire
@@ -827,14 +827,14 @@ if(isset($_POST['_password']))
 				$this->get('session')->getFlashBag()->add('information','Inscription au cours effectuée avec succès !');
 				$em->flush();
 			}else{
-				$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous êtes déjà inscrit à une formation contennant ce cours ou vous n\'avez pas assez de fond');
+				$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous êtes déjà inscrit(e) à une formation contenant ce cours ou vous n\'avez pas assez de fonds');
 			}
 				 
 		}else{
 			$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Le mot de passe que vous avez entré est invalide.');
 		}
 	}else{
-		$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous n\'avez pas assez de fond pour souscrire à cette formation.');
+		$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Vous n\'avez pas assez de fonds pour souscrire à cette formation.');
 	}
 }else{
 	$this->get('session')->getFlashBag()->add('information','Echec d\'enregistrement !! Toutes les données n\'ont pas été reçu.');
@@ -1284,5 +1284,97 @@ public function downloadvideocours(Produit $produit)
 public function guideformateur(Produit $produit)
 {
 	return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId(),'codeadmin'=>10001)));
+}
+
+public function positionnementchapter(Produit $produit, Produitpanier $prodpan)
+{
+	$em = $this->getDoctrine()->getManager();
+	$liste_part = $em->getRepository(Partiecours::class)
+					 ->findBy(array('produit'=>$produit), array('rang'=>'asc'));
+
+	$trouver = false;
+	$firstchapter = null;
+	$nextchapter = null;
+	$lastchapter  = null;
+	foreach($liste_part as $part)
+	{
+		if($trouver == false){
+			$part->setEm($em);
+			$all_chapter = $part->getAllChapitre();
+			foreach($all_chapter as $chapter)
+			{
+				$firstchapter = $chapter;
+				$oldanimation = $em->getRepository(Animationproduit::class)
+								->findOneBy(array('user'=>$this->getUser(),'chapitrecours'=>$chapter,'produitpanier'=>$prodpan,'voir'=>1));
+				if($oldanimation != null){ //Tant que la leçon est lu, on continue.
+					$lastchapter  = $chapter;
+				}else{  //Si ce n'est pas lu, c'est ce qu'on va lire.
+					$nextchapter = $chapter;
+					$trouver = true;//On dit qu'on a trouvé et on sort, ça suppose qu'on a un cours nons lu dans la partie
+					break;
+				}
+			}
+		}else{
+			break;
+		}
+	}
+	
+	if($nextchapter != null){
+		return $this->redirect($this->generateUrl('produit_produit_presentation_chapter', array('id'=>$nextchapter->getId())));
+	}else{
+		if($firstchapter != null and $lastchapter != null)
+		{
+			//go to $lastchapter
+			return $this->redirect($this->generateUrl('produit_produit_presentation_chapter', array('id'=>$lastchapter->getId())));
+		}else if($firstchapter != null)
+		{
+			//go to  $firstchapter
+			return $this->redirect($this->generateUrl('produit_produit_presentation_chapter', array('id'=>$firstchapter->getId())));
+		}else{
+			//Go to présentation course
+			return $this->redirect($this->generateUrl('produit_produit_detail_produit_market', array('id'=>$produit->getId())));
+		}
+	}
+}
+
+public function classementlecons(Produit $produit, Generalservicetext $service)
+{
+	$em = $this->getDoctrine()->getManager();		 
+	$liste_part = $em->getRepository(Partiecours::class)
+	                      ->findBy(array('produit'=>$produit), array('rang'=>'asc'));
+	foreach($liste_part as $part)
+	{
+		$part->setEm($em);
+	}
+	
+	$liste_chapter = $em->getRepository(Chapitrecours::class)
+						->listechapitrecours($produit->getId());
+
+	foreach($liste_chapter as $chap)
+	{
+		$chap->setEm($em);
+	}
+
+	if(isset($_POST['partie']) and isset($_POST['rang']))
+	{
+		$partie = $em->getRepository(Partiecours::class)
+	                      ->find($_POST['partie']);
+		if($partie != null){
+			$partie->setRang($_POST['rang']);
+			$em->flush();
+		}
+	}
+	if(isset($_POST['chapitre']) and isset($_POST['rang']))
+	{
+		$chapitre = $em->getRepository(Chapitrecours::class)
+	                      ->find($_POST['chapitre']);
+		if($chapitre != null){
+			$chapitre->setRang($_POST['rang']);
+			$em->flush();
+		}
+	}
+
+	return $this->render('Theme/Produit/Produit/Produit/classementlecons.html.twig',
+	array('liste_part'=>$liste_part,'liste_chapter'=>$liste_chapter,'produit'=>$produit));
 }
 }

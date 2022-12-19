@@ -1,0 +1,363 @@
+
+{% extends "Theme/Users/User/layouthome.html.twig" %}
+
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, Inscription, Connexion, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} - {{ metier }} - Cours diplômant en ligne."/>
+	
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - {{ user.name(20) }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	
+	
+<style>
+	.tags {
+	  list-style: none;
+	  margin: 0;
+	  overflow: hidden; 
+	  padding: 0;
+	}
+
+	.tags li {
+	  float: left; 
+	}
+
+	.tag {
+	  background: #eee;
+	  border-radius: 3px 0 0 3px;
+	  color: #999;
+	  display: inline-block;
+	  height: 26px;
+	  line-height: 26px;
+	  padding: 0 20px 0 23px;
+	  position: relative;
+	  margin: 0 10px 10px 0;
+	  text-decoration: none;
+	  -webkit-transition: color 0.2s;
+	}
+
+	.tag::before {
+	  background: #fff;
+	  border-radius: 10px;
+	  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+	  content: '';
+	  height: 6px;
+	  left: 10px;
+	  position: absolute;
+	  width: 6px;
+	  top: 10px;
+	}
+
+	.tag::after {
+	  background: #fff;
+	  border-bottom: 13px solid transparent;
+	  border-left: 10px solid #eee;
+	  border-top: 13px solid transparent;
+	  content: '';
+	  position: absolute;
+	  right: 0;
+	  top: 0;
+	}
+
+	.tag:hover {
+	  background-color: crimson;
+	  color: white;
+	}
+
+	.tag:hover::after {
+	   border-left-color: crimson; 
+	}
+</style>
+{% endblock %}
+
+{% block userblog_body %}
+
+<div class="container" style="min-height: 10px;">	
+	<div class="row">	
+	<div class="col-md-12 text-left">
+		<div aria-label="breadcrumb">
+			<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+				Allez à
+				<i class="fa fa-caret-down"></i>
+			</button>
+			
+			{# % include "GeneralTemplateBundle:Menu:contacts.html.twig" % #}
+			
+			<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+				<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+				<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">Compte utilisateur</a></li>
+				<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!">{{ user.name(30) }}</a></li>
+			</ol>
+		</div>
+	</div>
+	</div>
+</div>
+
+
+<div class="container">
+	{% if user.formateur == true %}
+		{{ render(controller("App\\Controller\\Users\\User\\UserController:banniereuser", {'user': user.id })) }}
+	{% endif %}
+	
+	<div class="row mt centered" style="margin-bottom: 10px;">
+	{% if user.formateur == true %}
+		<div class="col-md-12" id="cours-courant-user">
+			<h2 style="margin-top: 15px; border-bottom: 1px solid #ddd; margin-bottom: 7px;">Tous les cours de {{ user.name(30) }}</h2>
+			<ul class="tags">
+				{% for scat in liste_scat %}
+					<li><a href="#!" class="tag">{{ scat.nom }} ({{ scat.nbprodinval }})</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		{% for produit in liste_produit %}
+			<div class="col-md-3" style="margin-bottom: 15px;">
+				{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
+			</div>
+		{% else %}
+			<div class="col-md-12">
+			<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+				<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+				<hr style="width: 100px; border-bottom: 1px solid red;">
+			</div>
+			</div>
+		{% endfor %}
+	{% endif %}
+	
+
+	{% if app.user == user or is_granted('ROLE_GESTION') %}
+	
+	{% set nbservice = 0 %}
+	{% set nbcours = 0 %}
+	
+	{% for panier in panier_payer %}
+		{% if panier.service != null %}
+			{% set nbservice = nbservice + 1 %}
+		{% else %}
+			{% if panier.chapitrecours == null %}
+				{% set nbcours = nbcours + 1 %}
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+	
+	<div class="col-md-12">
+		<div class="four-grids row" style="padding: 50px 5px 20px 5px; margin: 0px;">
+			<div class="col-md-3 four-grid" style="margin-bottom: 7px;">
+				<div class="four-grid1">
+					<div class="icon">
+						<i class="fa fa-flag" aria-hidden="true" style="width: 80px; height: 80px; border-radius: 40px;"></i>
+					</div>
+					<div class="four-text">
+						<h3>Formations</h3>
+						<h4> {{ nbservice }}  </h4>
+					</div>
+					<a href="{{ path('produit_service_visiter_notre_blog') }}">Sur {{ liste_formation|length }} <span class=" fa fa-angle-double-right"></span></a>
+				</div>
+			</div>
+			<div class="col-md-3 four-grid" style="margin-bottom: 7px;">
+				<div class="four-grid2">
+					<div class="icon">
+						<i class="fa fa-book" aria-hidden="true" style="width: 80px; height: 80px; border-radius: 40px;"></i>
+					</div>
+					<div class="four-text">
+						<h3>Cours</h3>
+						<h4>{{ nbcours }}</h4>
+					</div>
+					<a href="{{ path('produit_produit_module_deformation') }}">Sur {{ liste_cours|length }} <span class=" fa fa-angle-double-right"></span></a>
+				</div>
+			</div>
+			<div class="col-md-3 four-grid" style="margin-bottom: 7px;">
+				<div class="four-grid3">
+					<div class="icon">
+						<i class="fa fa-list-alt" aria-hidden="true" style="width: 80px; height: 80px; border-radius: 40px;"></i>
+					</div>
+					<div class="four-text">
+						<h3>Forum</h3>
+						<h4>{{ sujet_forum|length }} </h4>
+					</div>
+					<a href="{{ path('produit_service_forum_site') }}">Sur {{ all_forum|length }} <span class=" fa fa-angle-double-right"></span></a>
+				</div>
+			</div>
+			<div class="col-md-3 four-grid" style="margin-bottom: 7px;">
+				<div class="four-grid4">
+					<div class="icon">
+						<i class="fa fa-shopping-cart" aria-hidden="true" style="width: 80px; height: 80px; border-radius: 40px;"></i>
+					</div>
+					<div class="four-text">
+						<h3>Solde</h3>
+						<h4>{{ user.soldeprincipal|numberFormat }} {{ devise }}</h4>
+					</div>
+					<a href="{{ path('produit_service_yourcv_recrutement') }}">Créditer <span class=" fa fa-angle-double-right"></span></a>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	{% if panier_payer|length  == 0 %}
+	<div class="col-md-12">
+		<div class="alert alert-info" style="background: #092759; margin-top: 15px;">
+
+			<a href="{{ path('produit_produit_accueil_boutique_produit') }}" class="btn btn-secondary float-right">C'est parti <span class="fa fa-angle-right"></span> </a>
+			<h2 class="text-left" style="color: #fff;">
+				Boostez vos compétences pour un emploi décent
+			</h2>
+			<span style="background: #739ee6; color: #fff;">Accédez à 1000+ cours vidéo avec assistance individuelle par un formateur expérimenté.</span>
+
+		</div>
+	</div>
+	{% endif %}
+		
+	<div class="clearfix"></div>
+	<div class="col-md-12 text-left" style="margin-top: 15px;">
+		<div style="background: #fff; padding: 10px;">
+			<h4 style="text-align: left; border-bottom: 1px solid #f2dede;"><span class="mdi-communication-textsms" style="font-size: 18px;"></span> Formations suivie par {{ user.name(30) }}</h4>
+			<table>
+			  <thead>
+				<tr style="background: red!impoartant;">
+				  <th>Date d'inscription</th>
+				  <th>Type</th>
+				  <th>Intitutlé</th>
+				  <th>Progression</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  {% for panier in panier_payer %}
+				<tr>
+				  <td data-column="Date d'inscription">
+					{{ panier.date|date('d') }}/{{ panier.date|date('m') }}/{{ panier.date|date('Y') }} <a href="#!" class="label label-warning pull-right" title="Durée de formation" style="">{% if panier.service != null %}{% set duree = panier.service.dureeacces/30 %}{{ duree }}Mois{% else %} {% if panier.chapitrecours != null %} {% set duree = panier.chapitrecours.partiecours.produit.dureeacces/30 %}{{ duree }}Mois {% else %} {% for prodpan in panier.produitpaniers %}{% if loop.first %}{% set duree = prodpan.produit.dureeacces/30 %}{{ duree }}Mois{% endif %}{% endfor %}{% endif %}{% endif %}</a>
+				  </td>
+				  <td data-column="Type">
+					{% if panier.service != null %}Parcours{% else %}{% if panier.chapitrecours != null %}Chapitre{% else %}Cours{% endif %}{% endif %}
+				  </td>
+				  <td data-column="Intitutlé">
+					{% if panier.service != null %}{{ panier.service.nom }}
+						<div class="btn-group pull-right" style="margin-top: 0px; padding: 0px;">
+						<a href="{{ path('produit_service_assistance_entreprise', {'id': panier.service.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a>
+						<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; display: inline-block; width: 40px;"><i class="mdi-hardware-keyboard-arrow-down" style="padding: 0px; margin: 0px;"></i></a>
+							<ul class=" dropdown-menu pull-right" style="padding: 0px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); width: 250px;">
+								<li style="background: #f4f4f4; padding: 7px;"><a href="#!"><span class="fa fa-info-circle"></span> Liste de cours à suivre</a></li>
+								<li class="divider"></li>
+								{% for product in panier.service.produits %}
+
+									{% for prodpan in panier.produitpaniers %}
+										{% if prodpan.produit == product %}
+											<a href="{{ path('produit_produit_positionnement_chapter_cours', {'id': product.id, 'prodpan': prodpan.id }) }}"  class="list-group-item">{{ product.titre }}</a>
+										{% endif %}
+									{% endfor %} 
+									
+								{% endfor %}
+							</ul>
+						</div>
+					{% else %}
+						{% if panier.chapitrecours != null %}
+							{{ panier.chapitrecours.titre }} <span style="float: right;"><a href="{{ path('produit_produit_presentation_chapter', {'id': panier.chapitrecours.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': panier.chapitrecours.partiecours.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>
+						{% else %}  
+							{% for prodpan in panier.produitpaniers %}
+								{% if loop.first %}{{ prodpan.produit.titre }} <span style="float: right;"><a href="{{ path('produit_produit_positionnement_chapter_cours', {'id': prodpan.produit.id, 'prodpan': prodpan.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': prodpan.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>{% endif %}
+							{% endfor %}  
+						{% endif %}
+					{% endif %}
+				  </td>
+				  <td data-column="Progression">
+					{% if panier.chapitrecours != null %}
+					{% for prodpan in panier.produitpaniers %}
+						{% if loop.first %}
+							{% set notechap = panier.chapitrecours.getNoteQuestionnaire(prodpan) %}
+							{% if notemin <= notechap %}
+								{% set moy = 100 %}
+							{% else %}
+								{% if bareme != 0 %} {% set moy = ((notechap/bareme)*100)|round %} {% else %} {% set moy = 0 %} {% endif %}
+							{% endif %}
+							<div class="progress progress-striped active" style="margin-bottom: 0px;">
+								<div class="progress-bar progress-bar-warning" style="width: {{ moy }}%;"></div>
+							</div>
+						{% endif %}
+					{% endfor %} 
+				    {% else %}
+					{% if panier.chapitrecours == null and panier.service == null %}
+						{% set chapitreval = 0 %}
+						{% for prodpan in panier.produitpaniers %}
+							{% if loop.first %}
+								{% for chapitre in prodpan.produit.getChapitreCours %}
+									{% set notechap = chapitre.getNoteQuestionnaire(prodpan) %}
+									{% if notemin <= notechap %}
+										{% set chapitreval = chapitreval + 1 %}
+									{% endif %}
+								{% endfor %}
+								
+								{% if prodpan.produit.getChapitreCours|length != 0 %} {% set moy = ((chapitreval/prodpan.produit.getChapitreCours|length)*100)|round %} {% else %} {% set moy = 0 %} {% endif %}
+								<div class="progress progress-striped active" style="margin-bottom: 0px;">
+									<div class="progress-bar progress-bar-warning" style="width: {{ moy }}%;"></div>
+								</div>
+							{% endif %}
+						{% endfor %} 
+					{% else %}
+						{% if panier.service != null %}
+							{% set chapitreval = 0 %}
+							{% set nbchapitre = 0 %}
+							
+							{% for prodpan in panier.produitpaniers %}
+								{% for chapitre in prodpan.produit.getChapitreCours %}
+
+									{% set notechap = chapitre.getNoteQuestionnaire(prodpan) %}
+									{% if notemin <= notechap %}
+										{% set chapitreval = chapitreval + 1 %}
+									{% endif %}
+									{% set nbchapitre = nbchapitre + 1 %}
+									
+								{% endfor %}
+							{% endfor %}
+							
+							{% if nbchapitre != 0 %} {% set moy = ((chapitreval/nbchapitre)*100)|round %} {% else %} {% set moy = 0 %} {% endif %}
+							<div class="progress progress-striped active" style="margin-bottom: 0px;">
+								<div class="progress-bar progress-bar-warning" style="width: {{ moy }}%;"></div>
+							</div>
+							
+						{% endif %}
+					{% endif %}
+				    {% endif %}
+				  </td>
+				</tr>
+			  {% else %}
+				<tr>
+					<td data-column="Date d'inscription">-</td>
+					<td data-column="Type">-</td>
+					<td data-column="Intitutlé">-</td>
+					<td data-column="Progression">-</td>
+				</tr>
+			  {% endfor %}
+			  </tbody>
+			</table>
+
+		</div>
+	</div>
+	{% endif %}
+	
+</div>
+</div><!-- /container -->
+{% endblock %}
+
+
+{% block javascripttemplate %}
+
+$('.open-content').click(function(){
+	$('.content-panel-'+$(this).attr('name')).toggle('slow');
+	if($(this).attr('value') == 'down')
+	{
+		$(this).attr('value','up');
+		$('.open-content[name='+$(this).attr('name')+']').html('<span class="mdi-hardware-keyboard-arrow-right"></span>');
+	}else{
+		$(this).attr('value','down');
+		$('.open-content[name='+$(this).attr('name')+']').html('<span class="mdi-hardware-keyboard-arrow-down"></span>');
+	}
+});
+{% endblock %}

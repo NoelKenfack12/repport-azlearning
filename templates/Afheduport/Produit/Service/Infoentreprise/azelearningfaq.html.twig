@@ -1,0 +1,617 @@
+{% extends "Theme/Users/User/layouthome.html.twig" %}
+{% block meta %}
+
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, formateurs, enseignants, éducateurs, travaux pratiques, exercices corrigés, formations"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} - {{ metier }} - liste des formateurs {{ site }}."/>
+
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - Liste des Formateurs {{ site }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+
+	<link rel="stylesheet" href="{{ asset('template/css/jquery.expandable.css') }}">
+    <script type="text/javascript" src="{{ asset('template/js/jquery.expandable.js') }}"></script>
+	<style>
+		
+        
+    main {
+      margin: 2rem auto;
+      max-width: 48rem;
+      padding: 0 1rem;
+    }
+
+    .my-div {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 1em;
+    }
+    @media (max-width: 700px) {
+      .my-div {
+        width: auto;
+        margin: 0 auto;
+        border-radius: 0;
+        padding: 1em;
+      }
+    }
+        
+
+    #cover{
+      display:flex;
+      height: 280px;
+      min-height:150px;
+      align-items:center;
+      background:#fff;
+      box-shadow:0 9px 16px -6px #0005;
+      position:relative;
+      overflow:hidden
+    }
+    #cover .cover-image, #cover .cover-text{
+      width:50%;
+      box-sizing:border-box
+    }
+    #cover .cover-image{
+      object-fit:cover;
+      height:100%;
+    }
+    #cover .cover-text{
+      text-align:center;
+      padding:1em
+    }
+    #cover h2{
+      font-family: 'Playfair Display', serif;
+      font-size:3em;
+      font-weight:400;
+      line-height:1em
+    }
+    #cover h4{
+      font-weight:400
+    }
+    /* Top heading */
+
+      #cover.top {
+        flex-direction:column;
+      }
+    #cover.top .cover-text, #cover.top .cover-image{
+      width:100%
+      }
+    #cover.top .cover-image{
+      height:100px;
+    }
+    #cover.top h2{
+      font-size:2em
+    }
+
+    /* Heading Over */
+
+    #cover.over:after{
+      content:"";
+      display:block;
+      width:100%;
+      height:100%;
+      background:#0004;
+      position:absolute;
+      z-index:1;
+      top:0;
+      left:0;
+    }
+    #cover.over .cover-text, #cover.over .cover-image{
+      width:100%
+    }
+    #cover.over .cover-text{
+      color:#fff;
+      align-self:flex-end;
+      position:relative;
+      z-index:2
+    }
+    #cover.over .cover-image{
+      position:absolute;
+      z-index:0
+    }
+
+    @media (max-width:500px){
+
+      #cover:not(.over) {
+        flex-direction:column;
+        height:fit-content
+      } 
+      #cover h2{
+      font-size:2em
+      }
+      #cover .cover-text, #cover .cover-image{
+      width:100%
+      }
+    }
+
+    /* Article */
+
+    article{
+      width:80vw;
+      min-width:350px;
+      max-width:900px;
+      margin:30px auto;
+      box-shadow:0 19px 16px -16px #0005;
+    }
+
+    #by{
+      display:flex;
+      align-items:center;
+      margin-bottom:25px
+    }
+    #by img{
+      width:40px;
+      border-radius:50%;
+    }
+    #by i, #by a{
+      display:inline-block;
+      padding-left:10px;
+      color:#999;
+      font-size:0.8em
+    }
+    article p{
+      line-height:1.5em;
+      text-align:justify
+    }
+    article cite{
+      background:#ddd;
+      padding:25px 15px;
+      box-sizing:border-box;
+      display:block;
+      width:fit-content;
+      float:right;
+      margin:0 0 15px 15px;
+      font-family: 'Playfair Display', serif;
+      font-size:0.8em
+    }
+    article cite b{
+      font-size:1.6em;
+      font-style:normal;
+      display:block
+    }
+    article footer{
+      display:block;
+      border-top:1px solid #bbb;
+      margin:35px 15px;
+      padding:25px 5px;
+      color:#666;
+      font-size: 0.8em
+    }
+
+    article footer a{
+      background:#667;
+      padding:5px 10px;
+      border-radius:5px;
+      color:#ddd;
+      text-decoration:none;
+      margin-right:5px
+    }
+    article footer a:hover{
+      background:#334;
+    }
+    /* Just for demo */
+
+    #select{
+      position:fixed;
+      right:5px;
+      bottom:5px;
+      background:#0006;
+      padding:5px 15px;
+      border-radius:5px
+    }
+    #select a{
+      color:#fff;
+      font-family:sans-serif;
+      font-size:12px;
+      text-decoration:none
+    }
+    #select .active, #select a:hover{
+      text-decoration:underline
+    }
+
+	</style>
+{% endblock %}
+
+{% block userblog_body %}
+	
+<div class="container" style="min-height: 10px;">	
+<div class="row">	
+<div class="col-md-12 text-left">
+	<div aria-label="breadcrumb">
+		<button type="button" class="btn btn-outline-secondary breadcrumb-toggle" data-toggle="collapse" data-target="#nav" aria-expanded="false" aria-controls="nav">
+			Allez à
+			<i class="fa fa-caret-down"></i>
+		</button>
+		
+		{% include "Theme/General/Template/Menu/contacts.html.twig" %}
+		
+		<ol id="nav" class="breadcrumb collapse" style="background: #fff;">
+			<li class="breadcrumb-item"><a href=""><span class="fa fa-home"></span> Accueil </a></li>
+			<li class="breadcrumb-item" data-toggle="tooltip" data-trigger="manual"><a href="#!"> À propos de {{ site }}</a></li>
+		</ol>
+	</div>
+</div>
+</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+		
+		
+		<div id="slider" class="beer-slider" data-start="75">
+		  {% for article in article_slide %}
+			{% if loop.first %}
+				<div class="ctnr ctnr-winter" style="margin-top: -15px;">
+				<svg class="winter" width="100%" height="100%" viewBox="0 0 600 361" preserveAspectRatio="xMidYMid slice" data-beer-src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/74321/original-baltic.jpg" aria-labelledby="title1" aria-role="img">
+				 
+				  <image xlink:href="{% if article.imginfoentreprise != null %}{{ asset(article.imginfoentreprise.getwebpath) }}{% else %}https://s3-us-west-2.amazonaws.com/s.cdpn.io/74321/winter.jpg{% endif %}" x="0" y="0" width="100%" height="100%"></image>
+				</svg>
+				<section class="b b2">
+				  <h2>{{ article.titre }}</h2>
+				  <p>{{ article.description }}</p>
+				</section>
+				</div>
+			{% else %}
+				<div class="beer-reveal" style="margin-top: -15px;">
+				<div class="ctnr ctnr-summer">
+				  <svg width="100%" height="100%" viewBox="0 0 600 361" preserveAspectRatio="xMidYMid slice" data-beer-src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/74321/warmsphere-baltic.jpg" aria-labelledby="title2" aria-role="img">
+					<image xlink:href="{% if article.imginfoentreprise != null %}{{ asset(article.imginfoentreprise.getwebpath) }}{% else %}https://s3-us-west-2.amazonaws.com/s.cdpn.io/74321/warmsphere-baltic.jpg{% endif %}" x="0" y="0" width="100%" height="100%"></image>
+				  </svg>
+				  <section class="b b1">
+					<h2>{{ article.titre }}</h2>
+				  <p>{{ article.description }}</p>
+				  </section>
+				</div>
+				</div>
+		    {% endif %}
+		 {% endfor %}
+		 
+		  <svg>
+		  <defs>
+			<clipPath id="svgPath" clipPathUnits="objectBoundingBox" transform="scale(0.00083 0.0075)">
+			  <path d="M1397,490H204c263,0,160-32,371-33,191.52-.91,150.49-135.14,225-92C990,475,1144,490,1397,490Z" transform="translate(-178 -350.46)" />
+			</clipPath>
+		  </defs>
+		  </svg>
+		</div>
+
+		
+		<div class="my-div" style="margin-top: 10px;">
+		<section class="row" >
+			<div class="col-md-12">
+			<h3>
+				Foire aux questions
+			</h3>
+			
+				{% for article in article_faq %}
+				<div class="accordion-faq">
+				  <h4 class="accordion__title">
+					{{ article.titre }}
+					<i class="accordion__icon">
+					  <div class="line-01"></div>
+					  <div class="line-02"></div>
+					</i>
+				  </h4><!-- end .accordion__title -->
+				  <div class="accordion__content">
+					<p>{{ article.description }}</p>
+				  </div><!-- end .accordion__content -->
+				</div><!-- end .accordion 01 -->
+				{% else %}
+					<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+						<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+						<hr style="width: 100px; border-bottom: 1px solid red;">
+					</div>
+				{% endfor %}
+				
+			</div>
+				
+			
+		</section>
+		</div>
+		
+		
+		<div>
+		
+		<div class="product__resources ">
+			  <div class="product__cont">
+				<h2>Encore plus de contenu pour vous aidé</h2>
+				<!--- START ITEM ---->
+				<div class="row">
+				<div class="col-md-4">
+				<div class="product__resources__item">
+				  <div style="background: url('https://www.desertfinancial.com//-/media/desert-financial/lc-test/lc-800x300-5-golden-rules-to-buying-a-new-car.ashx') no-repeat center left;" class="product__resources__item__img"></div>
+				  <h3>Galerie </h3>
+				  <p>What you should know before visiting a showroom or going on a test drive.</p>
+				  <a href="{{ path('produit_service_gallery_struct') }}" class="article-Button">Consultez</a>
+				</div>
+				</div>
+				<!--- EMD ITEM ---->
+				<!--- START ITEM ---->
+				<div class="col-md-4">
+				<div class="product__resources__item">
+				  <div style="background: url('https://www.desertfinancial.com/-/media/desert-financial/lc-test/lc-800x300-whats-the-best-deal--a-new-car-or-a-used-car.ashx') no-repeat center center;" class="product__resources__item__img"></div>
+				  <h3>Vidéos</h3>
+				  <p>Choosing a new or used car depends upon what you consider important. </p>
+				  <a href="{{ path('produit_service_videos_struct') }}" class="article-Button">Consultez</a>
+				</div>
+				</div>
+				<!--- EMD ITEM ---->
+				<!--- START ITEM ---->
+				<div class="col-md-4">
+				<div class="product__resources__item">
+				  <div style="background: url('https://www.desertfinancial.com/-/media/desert-financial/learning-center-banner/paid4sweepstakes-lca-707x230-refi2-v1.ashx') no-repeat center center;" class="product__resources__item__img"></div>
+				  <h3>À propos de nous</h3>
+				  <p>Refinancing your car, truck or SUV could have some sweet benefits.</p>
+				  <a href="{{ path('produit_service_apropos_denous') }}" class="article-Button">Consultez</a>
+				</div>
+				</div>
+				<!--- EMD ITEM ---->
+				</div>
+			  </div>
+			  <div class="clear"></div>
+		</div>
+
+		</div>
+
+
+		{#
+		<div class="panel panel-widget" style="padding: 7px;">
+			
+			<!--Slider-->
+			<section id="slide-show">
+			<div id="slider" class="sl-slider-wrapper" style="height: 300px;">
+				<!--Slider Items-->    
+				<div class="sl-slider">
+					{% set compt = 1 %}
+					{% for diapo in liste_diapo %}
+						{% if diapo.imginfoentreprise != null %}
+						<!--Slider Item1-->
+						<div class="sl-slide item{{ compt }}" {% if compt == 1 %}data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2"{% else %}data-orientation="vertical" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5"{% endif %} >
+							<div class="sl-slide-inner" style="border: 1px solid #ddd; width: 100%; height: 300px;"> 
+								<div class="container" style="width: 100%; height: 300px; padding: 0px;">
+									<img class="pull-right" src="{{ asset(diapo.imginfoentreprise.getwebpath) }}" alt="" style="width: 100%; height: 300px;"/>
+								</div>
+							</div>
+							<h2 style="color: #fff; top: -150px; position: absolute; z-index: 1;margin: 5px;">{{ diapo.titre }}</h2>
+							<h2 style="color: #fff; top: -90px; position: absolute; z-index: 1; font-size: 30px;margin: 5px;">{{ diapo.description }}</h2>
+						</div>
+						<!--/Slider Item1-->
+						{% set compt = compt + 1 %}
+						{% endif %}
+					{% endfor %}
+				</div>
+				<!--/Slider Items-->
+
+				<!--Slider Next Prev button-->
+				<nav id="nav-arrows" class="nav-arrows">
+					<span class="nav-arrow-prev"><i class="icon-angle-left"></i></span>
+					<span class="nav-arrow-next"><i class="icon-angle-right"></i></span> 
+				</nav>
+				<!--/Slider Next Prev button-->
+			
+			</div>
+			<!-- /slider-wrapper -->           
+			</section>
+			<div style="margin-bottom: 20px; border-top: 5px solid #428bca;"><a href="{{ path('produit_service_gallery_struct') }}" style="float: right;"><span class="mdi-image-loupe" style="font-size: 15px;"></span> Plus d'images <span class="badge">{{ all_diapo|length }}</span> <span class=" fa fa-angle-double-right"></span></a></div>
+		</div>
+		
+		<div style="text-align:left;">
+			<div class="skill-wrap clearfix" style="margin: 15px 0px;">
+			<ul class="list-group">
+			{% for info in allinfo %}
+			<a href="#!" class="list-group-item">
+			<h4 class="list-group-item-heading" style="border-bottom: 2px solid #ddd; margin-bottom: 7px;">{{ info.titre }}</h4>
+			<p class="list-group-item-text" style="text-align: justify">{{ info.description }}</p>
+			<div style="text-align: center;">{{ info.linkvideo|raw }}</div>
+			</a>
+			{% endfor %}
+			</ul>
+
+			</div>
+		</div>
+		<div class="row mt centered" style="margin-bottom: 10px; margin-top: 10px;">
+		  <div class="col-lg-12"  style="padding: 3px 15px 3px 10px;">
+		  <div style="border-top: 1px dashed #999; text-align: left;"><a href="{{ path('produit_produit_accueil_boutique_produit') }}" style="padding: 0px; margin: 0px;"><span class="fa fa-list"></span> Tous les cours <span class="fa fa-arrow-circle-right"></span></a> <a href="{{ path('produit_service_visiter_notre_blog') }}" class="pull-right"><span class="fa fa-arrow-circle-left"></span> Formations <span class=" fa fa-bookmark-o"></span></a> </div>
+		  </div>
+		</div>
+	   <div class="clearfix"> </div>
+		
+		#}
+		</div>
+		
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.open-content').click(function(){
+			$('.content-panel-'+$(this).attr('name')).toggle('slow');
+			if($(this).attr('value') == 'down')
+			{
+				$(this).attr('value','up');
+				$('.open-content[name='+$(this).attr('name')+']').html('<span class="mdi-hardware-keyboard-arrow-right"></span>');
+			}else{
+				$(this).attr('value','down');
+				$('.open-content[name='+$(this).attr('name')+']').html('<span class="mdi-hardware-keyboard-arrow-down"></span>');
+			}
+		});
+	});
+	</script>
+	</div><!-- /row -->
+	
+</div><!-- /container -->
+
+<hr>
+<script type="text/javascript"> 
+
+class BeerSlider {
+  constructor(element, { start = "50" } = {}) {
+    this.start = parseInt(start) ?
+    Math.min(100, Math.max(0, parseInt(start))) :
+    50;
+    this.element = element;
+    this.revealContainer = this.element.children[1];
+    this.revealElement = this.revealContainer.children[0];
+    this.range = this.addElement("input", {
+      type: "range",
+      class: `beer-range`,
+      "aria-label": "Percent of revealed content",
+      "aria-valuemin": "0",
+      "aria-valuemax": "100",
+      "aria-valuenow": this.start,
+      value: this.start,
+      min: "0",
+      max: "100" });
+
+    this.handle = this.addElement("span", {
+      class: `beer-handle` });
+
+    this.onImagesLoad();
+  }
+  init() {
+    this.element.classList.add(`beer-ready`);
+    this.move();
+    this.addListeners();
+  }
+  loadingImg(src) {
+    return new Promise((resolve, reject) => {
+      if (!src) {
+        resolve();
+      }
+      const img = new Image();
+      img.onload = () => resolve();
+      img.onerror = () => reject();
+      img.src = src;
+    });
+  }
+  loadedBoth() {
+    const mainImageSrc =
+    this.element.children[0].src ||
+    this.element.children[0].getAttribute(`data-beer-src`);
+    const revealImageSrc =
+    this.revealElement.src ||
+    this.revealElement.getAttribute(`data-beer-src`);
+    return Promise.all([
+    this.loadingImg(mainImageSrc),
+    this.loadingImg(revealImageSrc)]);
+
+  }
+  onImagesLoad() {
+    if (!this.revealElement) {
+      return;
+    }
+    this.loadedBoth().then(
+    () => {
+      this.init();
+    },
+    () => {
+      console.error("Some errors occurred and images are not loaded.");
+    });
+
+  }
+  addElement(tag, attributes) {
+    const el = document.createElement(tag);
+    Object.keys(attributes).forEach(key => {
+      el.setAttribute(key, attributes[key]);
+    });
+    this.element.appendChild(el);
+    return el;
+  }
+  addListeners() {
+    const eventTypes = ["input", "change"];
+    eventTypes.forEach(i => {
+      this.range.addEventListener(i, () => {
+        this.move();
+      });
+    });
+  }
+  move() {
+    this.revealContainer.style.setProperty("--width", `${this.range.value}%`);
+    this.handle.style.left = `${this.range.value}%`;
+    this.range.setAttribute("aria-valuenow", this.range.value);
+    if (this.range.value > 55) {
+      this.element.classList.add("more");
+    } else {
+      this.element.classList.remove("more");
+      if (this.range.value < 45) {
+        this.element.classList.add("less");
+      } else {
+        this.element.classList.remove("less");
+      }
+    }
+  }}
+
+
+new BeerSlider(document.getElementById("slider"), { start: 30 });
+
+
+
+
+$(function() {
+
+	$('.description2').expandable({
+		height: 300,
+		expand_responsive : 960,
+		offset: 30
+	});
+
+
+    var Page = (function() {
+
+        var $navArrows = $( '#nav-arrows' ),
+        slitslider = $( '#slider' ).slitslider( {
+            autoplay : true
+        } ),
+
+        init = function() {
+            initEvents();
+        },
+        initEvents = function() {
+            $navArrows.children( ':last' ).on( 'click', function() {
+                slitslider.next();
+                return false;
+            });
+
+            $navArrows.children( ':first' ).on( 'click', function() {
+                slitslider.previous();
+                return false;
+            });
+        };
+
+        return { init : init };
+
+    })();
+
+    Page.init();
+});
+</script>
+<!-- /SL Slider -->
+
+{% endblock %}
+
+
+{% block javascripttemplate %}
+
+// When any accordion title is clicked...
+$(".accordion__title").click(function() {
+  const $accordion_wrapper = $(this).parent();
+  const $accordion_content = $(this).parent().find(".accordion__content");
+  const $accordion_open = "accordion--open";
+
+  // If this accordion is already open
+  if ($accordion_wrapper.hasClass($accordion_open)) {
+    $accordion_content.slideUp();                     // Close the content.
+    $accordion_wrapper.removeClass($accordion_open);  // Remove the accordionm--open class.
+  }
+  // If this accordion is not already open
+  else {
+    $accordion_content.slideDown();                 // Show this accordion's content.
+    $accordion_wrapper.addClass($accordion_open);   // Add the accordion--open class.
+  }
+});
+{% endblock %}
+

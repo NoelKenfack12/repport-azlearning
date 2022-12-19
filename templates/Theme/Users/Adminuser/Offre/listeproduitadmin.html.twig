@@ -1,0 +1,445 @@
+{% extends "Theme/Users/Adminuser/layoutadmin.html.twig" %}
+
+{% block meta %}
+	{{ parent() }}
+	<meta name="author" content="Sprint-pay"/>
+	<meta name="description" content="{{ site }} - Connexion"/>
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} | Connexion
+{% endblock %}
+
+{% block userblog_body %}
+
+
+<style>
+  .hidden-but-relevant, .pricing__title {
+    position: absolute;
+    top: auto;
+    left: -99999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .currency.currency--dollar:before {
+    content: "$";
+  }
+
+.button,
+.button:visited,
+.button:active {
+  display: block;
+  padding: 1em;
+  font-size: 0.875em;
+  text-align: center;
+  color: #FFF;
+  background-color: #2196F3;
+  border-radius: 0.3em;
+}
+.button:hover,
+.button:visited:hover,
+.button:active:hover {
+  background-color: #0c7cd5;
+  text-decoration: none;
+}
+
+/**/
+.pricing {
+  width: 100%;
+  border: 1px solid #E0E0E0;
+  border-radius: 0.5em;
+  background: #fff;
+}
+.pricing ~ .pricing {
+  margin-top: 1em;
+}
+
+.pricing__data--package {
+  padding: 0.7272727273em 1.0909090909em;
+  font-size: 1.375em;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.pricing__data--price {
+  padding: 0.4210526316em 0.6315789474em 0;
+  font-size: 2.375em;
+  font-weight: 300;
+}
+
+.pricing__data--overview {
+  padding: 0.7142857143em 1.7142857143em 0;
+}
+
+.pricing__data--offer {
+  padding: 1.1428571429em 1.7142857143em;
+  margin: 1.1428571429em 0 0;
+  background-color: #F5F5F5;
+}
+
+.pricing__data--action {
+  padding: 1.5em;
+  border-top: 1px solid #e5e5e5;
+}
+
+.pricing__data--overview,
+.pricing__data--offer {
+  font-size: 0.875em;
+}
+
+.pricing__data--package,
+.pricing__data--price,
+.pricing__data--overview,
+.pricing__data--offer,
+.pricing__data--action {
+  line-height: 1.4em;
+}
+
+</style>
+
+
+<hr style="margin-top: 45px; margin-bottom: 0px;"/>
+<div  style="background: rgba(83, 101, 240, 1); height: 10px;">
+</div>
+<div style="background: #BDC3C7;">
+	<div class="container" style="color: #fff;">
+	Accueil <span class="mdi-av-play-arrow" style="font-size: 10px;"></span>  Administration
+	</div>	
+</div>	
+<hr style="margin-bottom: 0px;"/>
+<!--content-->
+<div class="product" style="padding-top: 20px; margin-bottom: 20px;">
+	<div class="container" style="padding: 0px;">
+	<div class="col-lg-12 animecourant-panel">
+	</div>
+		<div class="col-md-4 product-bottom">
+      {{ render(controller("App\\Controller\\Users\\Adminuser\\AccueilController:menuadmin")) }}
+		<!---->
+		</div>
+		<div class="col-md-8" style="padding: 0px;">
+
+      <div class="panel panel-widget">
+
+        <div>
+          <span style="float: right;">
+            <a href="#!" id="add_offert" class="btn btn-primary mt-2">Ajouter un produit</a>
+            <a href="#!" class="btn btn-primary mt-2" id="add_caracteristique">Ajouter une caractéristique</a>
+          </span>
+  
+          <h3>Nos plans</h3>
+          <div>caractéristique des packs</div>
+        </div>
+        
+        <div>
+          {% for infos in app.session.flashbag.get('information') %}
+            {% if loop.last %}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  {{ infos }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+      </div>
+      
+
+      <div class="row">
+        {% for produit in liste_produit %}
+        <div class="col-md-6">
+            <div class="pricing">
+                <div class="pricing__title">Package Type</div>
+                <div class="pricing__data pricing__data--package">
+                    {{ produit.nom }}
+
+                    <div class="dropdown" style="float: right;">
+                        <button type="button" class="btn dropdown-toggle" id="dropdownMenuIconButton8" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa fa-ellipsis-h"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton8" x-placement="bottom-end" style="padding: 3px 7px;">
+                          <h6 class="dropdown-header">Opérations</h6>
+                          <div>
+                            <a class="dropdown-item update-content-article" href="#!" value="{{ produit.id }}"><span class="fa fa-pencil"></span> Modifier</a>
+                          </div>
+                          <div>
+                            <a class="dropdown-item suppression_current_article" href="#!" value="{{ path('users_adminuser_delete_produit', {'id': produit.id}) }}"><span class="fa fa-times"></span> Supprimer</a>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing__title">Prix par {{ produit.rapport }}</div>
+                <div class="pricing__data pricing__data--price"><span class="currency">{{ devise }} {{ produit.newprise }}</span> <span class="hidden-but-relevant">{{ devise }}</span></div>
+                <div class="pricing__title">Package Overview</div>
+                <div class="pricing__data pricing__data--overview">{{ produit.contenu }}</div>
+                <div class="pricing__title">Package Offers</div>
+                {% if produit.choixauteur == true %}
+                  <div class="pricing__data pricing__data--offer">Ce produit a été marqué comme le plus cmmandé <a href="#">Désactivé cette option</a></div>
+                {% else %}
+                <div class="pricing__data pricing__data--offer">Ce produit n'est pas le plus commandé <a href="#">Marqué comme plus commandé</a></div>
+                {% endif  %}
+                <div class="pricing__title">Package Action</div>
+                <div class="pricing__data pricing__data--action"><a href="#" class="button">Partager l'offre</a></div>
+
+                <ul class="list-group list-group-flush">
+                  {% for caract in liste_caract %}
+                  {% set caracteristiqueProduit = produit.getCaracteristiqueProduit(caract) %}
+                  <li class="list-group-item">
+                      <div class="d-flex w-100 justify-content-between">
+                          <stong class="mb-1">{{ caract.nom }}</stong>
+                          <small style="font-size: 12px;">
+                              {% if caracteristiqueProduit != null %} {{ caracteristiqueProduit.valeur }} {% endif %} <a href="#!" class="update-caracteristique-produit" value="{{ caract.id }}" name="{{ produit.id }}"><span class="fa fa-pencil"></span></a>
+                          </small>
+                      </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>   
+
+    <div class="mt-3" style="background: #fff;">
+        <ul class="list-group list-group-flush">
+            {% for caract in liste_caract %}
+            <li class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <h3 class="mb-1">{{ caract.nom }}</h3>
+                    <small>
+                        <div class="dropdown" style="float: right;">
+                            <button type="button" class="btn dropdown-toggle" id="dropdownMenuIconButton8" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-ellipsis-h"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton8" x-placement="bottom-end" style="padding: 3px 7px;">
+                              <h6 class="dropdown-header">Opérations</h6>
+                              <div>
+                                <a class="dropdown-item update-content-caracteristique" href="#!" value="{{ caract.id }}"><span class="fa fa-pencil"></span> Modifier</a>
+                              </div>
+                              <div>
+                                <a class="dropdown-item suppression_current_article" href="#!" value="{{ path('users_adminuser_remove_caracteristique', {'id': caract.id }) }}"><span class="fa fa-times"></span> Supprimer</a>
+                              </div>
+                            </div>
+                        </div>
+                    </small>
+                </div>
+                <p class="mb-1">{{ caract.description }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+		</div>
+	</div class="clearfix"></div>
+	</div>
+
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="false"  id="articleModalCenter" tabindex="-1" role="dialog" aria-labelledby="articleModalCenter" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    {{ form_start(formpro, {'attr': {'action': path('users_adminuser_liste_produit') }}) }}	
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ajouter un nouveau produit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">	
+        <div class="row">
+          <div class="col-md-12">
+            {{ form_errors(formpro) }}
+          </div>
+          <div class="col-md-12 mt-3">
+            {{ form_errors(formpro.nom) }}
+            {{ form_label(formpro.nom,'Nom du produit') }}
+            {{ form_widget(formpro.nom) }}
+          </div>
+          <div class="col-md-12 mt-3">
+            {{ form_errors(formpro.contenu) }}
+            {{ form_label(formpro.contenu,'Description du produit') }}
+            {{ form_widget(formpro.contenu) }}
+          </div>
+          <div class="col-md-12 mt-3">
+            {{ form_errors(formpro.rapport) }}
+            {{ form_label(formpro.rapport,'Période') }}
+            {{ form_widget(formpro.rapport) }}
+          </div>
+          <div class="col-md-12 mt-3">
+            {{ form_errors(formpro.newprise) }}
+            {{ form_label(formpro.newprise,'Prix du produit') }}
+            {{ form_widget(formpro.newprise) }}
+          </div>
+          <div class="col-md-12 mt-3">
+            {{ form_errors(formpro.rang) }}
+            {{ form_label(formpro.rang,'Rang dans le classement') }}
+            {{ form_widget(formpro.rang) }}
+          </div>
+          <div class="col-md-12 mt-3">
+            {{ form_errors(formpro.choixauteur) }}
+            {{ form_label(formpro.choixauteur,'Produit le plus commandé') }}
+            {{ form_widget(formpro.choixauteur) }}
+          </div>
+          <div class="col-md-12 mt-3">
+            {{ form_errors(formpro.imgoffre) }}
+            {{ form_label(formpro.imgoffre,'Joindre une image') }}
+            {{ form_widget(formpro.imgoffre) }}
+          </div>
+         <div class="clear"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+    {{ form_end(formpro) }}
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="false"  id="caracteristiqueModalCenter" tabindex="-1" role="dialog" aria-labelledby="caracteristiqueModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      {{ form_start(formcarac, {'attr': {'action': path('users_adminuser_ajouter_caracteristique') }}) }}	
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Ajouter une caractériqtique</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">	
+          <div class="row">
+            <div class="col-md-12 col-12">
+              {{ form_errors(formcarac) }}
+            </div>
+            <div class="col-md-12 col-12 mt-3">
+              {{ form_errors(formcarac.nom) }}
+              {{ form_label(formcarac.nom,'Nom du produit') }}
+              {{ form_widget(formcarac.nom) }}
+            </div>
+            <div class="col-md-12 col-12 mt-3">
+              {{ form_errors(formcarac.description) }}
+              {{ form_label(formcarac.description,'Description du produit') }}
+              {{ form_widget(formcarac.description) }}
+            </div>
+            <div class="col-md-12 col-12 mt-3">
+              {{ form_errors(formcarac.rang) }}
+              {{ form_label(formcarac.rang,'Rang dans le classement') }}
+              {{ form_widget(formcarac.rang) }}
+            </div>
+           <div class="clear"></div>
+          </div>
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+      </div>
+      {{ form_end(formcarac) }}
+    </div>
+  </div>
+
+
+<div class="modal fade" id="modalGestionCatalogueSelect" tabindex="-1" role="dialog" aria-labelledby="modalGestionCatalogueSelect" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h2 class="modal-title" id="exampleModalLongTitle">Mise à jour de l'article</h2>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="wait-chargement-content-module" style="text-align: center;">
+            Patientez un moment pendant le chargement de l'article</br>
+            <img src="{{ asset('template/images/loader1.gif') }}" alt="image" style="height: 40px; width: 40px;">
+          </div>
+      
+          <div class="content-module-loading" style="display: none;">
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="display: block;">
+      {% include "Theme/General/Template/Menu/social.html.twig" %}
+    </div>
+  </div>
+  </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripttemplate %}
+
+$('#add_caracteristique').click(function(){
+  $('#caracteristiqueModalCenter').modal('show');
+});
+
+$("#add_offert").click(function(){
+  $("#articleModalCenter").modal('show');
+});
+
+$('#add_caracteristique').click(function(){
+  $('#caracteristiqueModalCenter').modal('show');
+});
+
+$('.update-content-article').click(function(){
+	var id = $(this).attr('value');
+	$('#modalGestionCatalogueSelect').modal('show');
+	$('.wait-chargement-content-module').show();
+	$('.content-module-loading').hide();
+	$.get('{{ path('users_adminuser_mofication_produit') }}',{ id: id }, function(data){
+		$('.wait-chargement-content-module').hide();
+		$('.content-module-loading').show();
+		$('.content-module-loading').html(data);
+	});
+});
+
+$('.suppression_current_article').click(function(){
+	id = $(this).attr('value');
+	resetNotif();
+	alertify.confirm("Êtes-vous certain de vouloir supprimer ce produit ?</br></br>", function (e) {
+		if(e){
+			  document.location.href= ''+id;
+		} else {
+			alertify.success("Opération annulée avec succès !");
+		}
+	});
+});
+
+$('.update-content-caracteristique').click(function(){
+	var id = $(this).attr('value');
+	$('#modalGestionCatalogueSelect').modal('show');
+	$('.wait-chargement-content-module').show();
+	$('.content-module-loading').hide();
+	$.get('{{ path('users_adminuser_update_caracteristique') }}',{ id: id }, function(data){
+		$('.wait-chargement-content-module').hide();
+		$('.content-module-loading').show();
+		$('.content-module-loading').html(data);
+	});
+});
+
+$('.update-caracteristique-produit').click(function(){
+	var idoffre = $(this).attr('value');
+	var idproduit = $(this).attr('name');
+	$('#modalGestionCatalogueSelect').modal('show');
+	$('.wait-chargement-content-module').show();
+	$('.content-module-loading').hide();
+	$.get('{{ path('users_adminuser_update_caracteristique_produit') }}',{ idproduit: idproduit, idoffre: idoffre }, function(data){
+		$('.wait-chargement-content-module').hide();
+		$('.content-module-loading').show();
+		$('.content-module-loading').html(data);
+	});
+});
+
+{% endblock %}

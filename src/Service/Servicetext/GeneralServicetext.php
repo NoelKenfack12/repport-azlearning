@@ -1,30 +1,43 @@
 <?php
 //(c) Noel Kenfack   Novembre 2016
 namespace App\Service\Servicetext;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Users\Adminuser\Parametreadmin;
+use App\Entity\Produit\Produit\Panier;
 
 class GeneralServicetext
 {
+	
+private $em;
+private $bareme;
+
+public function __construct(EntityManagerInterface $em, $bareme=100)
+{
+	$this->em = $em;
+	$this->bareme = $bareme;
+}
+
 public function normaliseText($text)
 {
- $text = trim($text); //retire les caractères vide en début et en fin du text.
- $text = $this->retireAccent($text);
- $text =  strtolower($text);
- $text = str_replace("'", "-", $text);
- $text = str_replace(" ", "-", $text); 
- $text = str_replace("_", "-", $text);
-return $text; 
+	$text = trim($text); //retire les caractères vide en début et en fin du text.
+	$text = $this->retireAccent($text);
+	$text =  strtolower($text);
+	$text = str_replace("'", "-", $text);
+	$text = str_replace(" ", "-", $text); 
+	$text = str_replace("_", "-", $text);
+	return $text; 
 }
 
 public function chaineValide($text,$valmin,$valmax)
 {
-$text = trim($text);
-$tail = strlen($text);
-if ($valmin <= $tail and $valmax >= $tail)
-{
-return true;
-}else{
-return false; 
-}
+	$text = trim($text);
+	$tail = strlen($text);
+	if ($valmin <= $tail and $valmax >= $tail)
+	{
+		return true;
+	}else{
+		return false; 
+	}
 }
 
 public function codepays($text)
@@ -41,8 +54,8 @@ public function codepays($text)
 // cette fonction recherche les éléments de tab1 dans la variable texte et remplace par les éléments de tab2 de la même position.
 public function retireAccent($text)
 {
-	$tab1 = array('é','è','à','ù','ç','_','ô','ê','î');
-	$tab2 = array('e','e','a','u','c','-','o','e','i');
+	$tab1 = array('é','è','à','ù','ç','_','ô','ê','î','ï','ö','ë');
+	$tab2 = array('e','e','a','u','c','-','o','e','i','i','o','e');
 	$text = str_ireplace($tab1, $tab2, $text);
 	return $text;
 }
@@ -50,7 +63,7 @@ public function retireAccent($text)
 public function email($text)
 {
 	$regex ='#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}#i';
-	if (preg_match($regex, $text) || $text == null)
+	if(preg_match($regex, $text) || $text == null)
 	{
 		return true;
 	}else{
@@ -74,9 +87,9 @@ public function tel($text)
 	$regex ='#^[0-9][0-9]{6,20}$#';
 	if (preg_match($regex, $text))
 	{
-	return true;
+		return true;
 	}else{
-	return false; 
+		return false; 
 	}	
 }
 
@@ -108,15 +121,15 @@ cette fonction prend une liste d'élément et choisi d'une manière aléatoire n
 public function selectEntities($liste_entity, $nbre_max)
 {
 	$nb_entity = count($liste_entity);
-	if ($nb_entity <= $nbre_max)
+	if($nb_entity <= $nbre_max)
 	{
-	 $tail = $nb_entity;
+		$tail = $nb_entity;
 	}else{
-	 $tail = $nbre_max;
+		$tail = $nbre_max;
 	}
 	if($nb_entity > 0){
-	$tab = range(0,$nb_entity - 1);
-	$cle = array_rand($tab,$tail);
+		$tab = range(0,$nb_entity - 1);
+		$cle = array_rand($tab,$tail);
 	}
 	$etab_aleatoires = new \Doctrine\Common\Collections\ArrayCollection();
 	$collection = 0;
@@ -144,19 +157,19 @@ public function selectEntity($entites)
 {
     $nbreetab = count($entites);
 	if ($nbreetab == 0){
-	$nbreetab = 1;
-	$etabaleatoire = null;
+		$nbreetab = 1;
+		$etabaleatoire = null;
 	}
 	$numero = mt_rand(0, ($nbreetab - 1));
 	$compteur = 0;
 	foreach($entites as $entite)
 	{
-	if ( $compteur == $numero )
-	{ 
-	$etabaleatoire = $entite;
-	break;
-	}
-	$compteur = $compteur + 1;
+		if ( $compteur == $numero )
+		{ 
+			$etabaleatoire = $entite;
+			break;
+		}
+		$compteur = $compteur + 1;
 	}
 	return $etabaleatoire;
 }
@@ -197,7 +210,7 @@ public function normaliseDate($text)
 	$tableau = null;
 	for ($i = 0; $i < $tail; $i++)
 	{
-	$tableau[$i] = $tab[$tail - 1 - $i];
+		$tableau[$i] = $tab[$tail - 1 - $i];
 	}
 	$text = implode('/',$tableau);
 	$text = str_replace("/", "-", $text);
@@ -206,7 +219,7 @@ public function normaliseDate($text)
 
 public function getBareme()
 {
-	return 10;
+	return $this->bareme;
 }
 
 public function decrypt($message, $key)
@@ -221,6 +234,62 @@ public function encrypt($message, $key)
 {
   $encrypted = Cryptor::Encrypt($message.'AbcDefGhiJKlmNoP', $key);//Nous avons injecté ces caractères pour faire en sorte que toute mot à cripter ai plus de 16 caractère.
   return $encrypted;
+}
+
+public function getThemeDirectory()
+{
+	$templatewebsite = $this->em->getRepository(Parametreadmin::class)
+						    ->findOneBy(array('type'=>'templatewebsite'));
+	if($templatewebsite == null or $templatewebsite->getValeur() == 'defaultbrand')
+	{
+		$currentTheme = 'Afheduport'; //'Theme';
+	}else{
+		$currentTheme = ucwords($templatewebsite->getValeur());
+	}
+	return $currentTheme;
+}
+
+
+/*
+Use
+setInterval(function(){
+    echo "hi!\n";
+}, 10
+---------OR----------
+$a=1; 
+$b=2;
+
+setInterval(function() use($a, $b) {
+    echo 'a='.$a.'; $b='.$b."\n";
+}, 1000);
+*/
+function setInterval($f, $seconds)
+{
+    while(true)
+    {
+        $f();
+        sleep($seconds);
+    }
+}
+
+public function asyncPanier()
+{
+	$em = $this->em;
+	$this->setInterval(function() use($em){
+		$liste_panier = $em->getRepository(Panier::class)
+					       ->searchpanierinvalide(1, 500, '');
+		foreach($liste_panier as $panier)
+		{
+			$periode = ($panier->getDureeFormation() - $panier->getDate()->diff(new \Datetime())->days);
+			if($periode <= 0)
+			{
+				$panier->setValide(true);
+				$panier->setLivrer(true);
+			}
+		}
+		$em->flush();
+	}, 5);
+	return "SUCCES";
 }
 
 }

@@ -73,6 +73,11 @@ users_user_ajout_super_admin:
     controller: App\Controller\Users\User\UserController::ajouteradmin
     requirements:
         id: \d+
+users_user_admin_force_login:
+    path: /admin/force/login
+    controller: App\Controller\Users\User\UserController::adminforcelogin
+    requirements:
+        id: \d+
 users_user_presentation_service_even:
     path: /presentation/service/evenement/{id}
     controller: App\Controller\Produit\Service\ServiceController::presentation

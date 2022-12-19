@@ -20,13 +20,16 @@ use Doctrine\Common\Collections\Collection;
 use App\Entity\Produit\Produit\Souscategorie;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Entity\Produit\Produit\Composquestionnaire;
+use App\Entity\Produit\Produit\Questionnaire;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
  * Chapitrecours
  *
  * @ORM\Table("chapitrecours")
  * @ORM\Entity(repositoryClass=ChapitrecoursRepository::class)
- *  @ApiResource(
+ * @ApiResource(
  *    normalizationContext={"groups"={"chapitrecours:read"}},
  *    denormalizationContext={"groups"={"chapitrecours:write"}}
  * )
@@ -56,7 +59,7 @@ class Chapitrecours
      * @var string
      *
      * @ORM\Column(name="contenu", type="text", nullable=true)
-     *@Taillemax(valeur=100000, message="Au plus 100000 caractès")
+     * @Taillemax(valeur=100000, message="Au plus 100000 caractès")
     */
     private $contenu;
 
@@ -130,15 +133,26 @@ class Chapitrecours
     private $exerciceparties;
 	
 	private $em;
+
+    private $helperService;
 	
-	public function __construct()
+	public function __construct(GeneralServicetext $service = null)
 	{
 		$this->date = new \Datetime();
 		$this->supportchapitres = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->pratiquechapitres = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->exerciceparties = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->type = 0;
+        $this->helperService = $service;
 	}
+
+    public function postLoad(LifecycleEventArgs $args)
+     {
+         $entity = $args->getEntity();
+         if(method_exists($entity, 'setGeneralServicetext')) {
+             $entity->setGeneralServicetext($this->helperService);
+         }
+     }
 	
 	public function getEm()
 	{
@@ -149,6 +163,21 @@ class Chapitrecours
 	{
 		$this->em = $em;
 	}
+
+    public function setGeneralServicetext(GeneralServicetext $service)
+     {
+        $this->helperService = $service;
+     }
+
+     public function setHelperService(GeneralServicetext $service)
+     {
+        $this->helperService = $service;
+     }
+
+     public function getHelperService()
+     {
+        return $this->helperService;
+     }
 
     /**
      * Get id
@@ -256,12 +285,12 @@ class Chapitrecours
 	{
 		if(strlen($this->titre) <= $tail)
 		{
-		return $this->titre;
+		    return $this->titre;
 		}else{
-		$text = wordwrap($this->titre,$tail,'~',true);
-		$tab = explode('~',$text);
-		$text = $tab[0];
-		return $text.'..';
+            $text = wordwrap($this->titre,$tail,'~',true);
+            $tab = explode('~',$text);
+            $text = $tab[0];
+            return $text.'..';
 		}
 	}
 
@@ -376,46 +405,73 @@ class Chapitrecours
     {
         return $this->type;
     }
+
+    public function getQuestionnaires()
+    {
+        $liste_questionnaire = $this->em->getRepository(Questionnaire::class)
+	                                ->findBy(array('chapitrecours'=>$this), array('date'=>'asc'));
+        return $liste_questionnaire;
+    }
+
+    public function getLectureVideo($user)
+    {
+        $animationproduit = $this->em->getRepository(Animationproduit::class)
+	                                ->findOneBy(array('chapitrecours'=>$this, 'user'=>$user, 'voir'=>1), array('date'=>'asc'), 1);
+        if($animationproduit != null)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
 	
 	public function getNoteQuestionnaire($prodpan, $op='voir')
 	{
-		/*
-		$liste_compos_user = $this->em->getRepository('ProduitProduitBundle:Composquestionnaire')
-							      ->myfindComposquestionnaire($prodpan->getId(),$this->getId());
-							
-		$liste_questionnaire = $this->em->getRepository('ProduitProduitBundle:Questionnaire')
-	                                ->findBy(array('chapitrecours'=>$this), array('date'=>'asc'));
-		$nbrequestion = count($liste_compos_user);
-		$servicetext = new GeneralServicetext();
-		$trouver = 0;
-		foreach($liste_questionnaire as $question)
-		{
-			$oldcompos = $this->em->getRepository('ProduitProduitBundle:Composquestionnaire')
-							  ->findOneBy(array('produitpanier'=>$prodpan,'questionnaire'=>$question));
-			if($oldcompos != null and $oldcompos->getProposition() != null)
-			{
-				$bestpro = null;
-				foreach($question->getPropositions() as $prop)
-				{
-					if($prop->getReponse() == true)
-					{
-						$bestpro = $prop;
-					}
-				}
-				
-				if($bestpro == $oldcompos->getProposition())
-				{
-					$trouver = $trouver + 1;
-				}
-			}
-		}
-		if($nbrequestion > 0)
-		{
-			return ($servicetext->getBareme()*$trouver)/$nbrequestion;
-		}else{
-			return 0;
-		}*/
+        $oldanimation = $this->em->getRepository(Animationproduit::class)
+					         ->findOneBy(array('user'=>$prodpan->getPanier()->getUser(),'chapitrecours'=>$this,'produitpanier'=>$prodpan,'voir'=>1));
+
+        if($oldanimation == null or $oldanimation->getNotechapter() == null)//Si n'a pas encore vue la vidéo ou que ça note est non définie
+        {
+            $liste_compos_user = $this->em->getRepository(Composquestionnaire::class)
+                                    ->myfindComposquestionnaire($prodpan->getId(),$this->getId());
+                                
+            $liste_questionnaire = $this->em->getRepository(Questionnaire::class)
+                                        ->findBy(array('chapitrecours'=>$this, 'valide'=>true), array('date'=>'asc'));
+            $nbrequestion = count($liste_questionnaire);
+            $servicetext = $this->helperService;
+            $trouver = 0;
+            foreach($liste_questionnaire as $question)
+            {
+                $oldcompos = $this->em->getRepository(Composquestionnaire::class)
+                                  ->findOneBy(array('produitpanier'=>$prodpan,'questionnaire'=>$question));
+                if($oldcompos != null and $oldcompos->getProposition() != null)
+                {
+                    $bestpro = null;
+                    foreach($question->getPropositions() as $prop)
+                    {
+                        if($prop->getReponse() == true)
+                        {
+                            $bestpro = $prop;
+                        }
+                    }
+                    
+                    if($bestpro == $oldcompos->getProposition())
+                    {
+                        $trouver = $trouver + 1;
+                    }
+                }
+            }
+            if($nbrequestion > 0)
+            {
+                return ($servicetext->getBareme()*$trouver)/$nbrequestion;
+            }else{
+                return 0;
+            }
+        }else{
+            return $oldanimation->getNotechapter();
+        }
 		
+		/*
 		if($op == "voir")
 		{
 			$oldlecture = $this->em->getRepository(Animationproduit::class)
@@ -426,7 +482,7 @@ class Chapitrecours
 			}else{
 				return 0;
 			}
-		}
+		}*/
 	}
 	
 	public function getNoteExercice($prodpan)
@@ -464,7 +520,6 @@ class Chapitrecours
 							      ->myfindCompospratique($prodpan->getId(),$this->getId());
 								  
 		$nbrequestion = count($this->getPratiquechapitres());
-		$servicetext = new GeneralServicetext();
 		$point = 0;
 		foreach($liste_compos_user as $compos)
 		{

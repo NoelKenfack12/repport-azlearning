@@ -1,0 +1,1465 @@
+{% set currentposition = 'presentation' %}
+{% extends "Theme/Users/User/layoutlearning.html.twig" %}
+
+{% block meta %}
+	{{ parent() }}
+	<meta name="keywords" content="{{ site }}, E-learning, cours en ligne, Connexion,{{ produit.souscategorie.categorie.nom }}, {{ produit.souscategorie.nom }},{{ produit.titre }}."/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} {{ produit.souscategorie.categorie.nom }}, {{ produit.souscategorie.nom }},{{ produit.titre }} - Annonce Cameroun, Annonce gratuite."/>
+{% endblock %}
+
+{% block title %}
+	{{ parent() }} - {{ produit.souscategorie.categorie.nom }}, {{ produit.souscategorie.nom }},{{ produit.titre }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<style>
+		.wrapper { margin: 0 auto; position:relative; z-index:1;overflow:hidden;}
+		.accordion {
+			max-width: 600px;
+			margin: 0px auto 0;
+		}
+		.accordion__item {
+			margin-bottom: 5px;
+		}
+		.accordion__title {
+			background: #fff;
+			padding: 20px 0px;
+			border-radius: 4px;
+			cursor: pointer;
+			display: flex;
+			justify-content: space-between;
+			font-weight: bold;
+			color: #333;
+		}
+		.accordion__title::after {
+			font-family: "FontAwesome";
+			content: "\f107";
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 900;
+			text-rendering: auto;
+			-webkit-font-smoothing: antialiased;
+			width: 1em;
+			height: 1em;
+			transition: transform 0.3s ease-in;
+		}
+		.is-open .accordion__title::after {
+			transform: rotate(180deg);
+		}
+		.accordion__body {
+			border-radius: 5px;
+			height: 0;
+			overflow: hidden;
+			transition: height 0.3s ease-in-out;
+		}
+		.accordion__content {
+			border-radius: 4px;
+			margin-top: 5px;
+		}
+
+		.btn-video-article{
+			border-radius: 4px;
+			height: 40px;
+			display: inline-block;
+			background: rgba(255,255,255,0.2);
+			padding: 0px 7px 2px 7px;
+		}
+		.btn-video-article:hover{
+			background: rgba(255,255,255,0.7);
+		}
+		.btn-video-article a{
+			padding: 5px;
+			display: inline-block!important;
+			border-radius: 100%;
+		}
+		.btn-video-article a:hover{
+			background: #092759!important;
+		}
+		.sub-item-left-sidebar{
+		background: rgba(255,255,255,0.1);
+		color: #fff;
+		border-left: 4px solid transparent;
+		}
+		.sub-item-left-sidebar:hover{
+			background: rgba(255,255,255,0.2); 
+			color: #fff!important;
+			border-left: 4px solid #fff!important;
+		}
+
+		.active-item-cours{
+			background: rgba(255,255,255,0.2); 
+			color: #fff!important;
+			border-left: 4px solid #fff!important;
+		}
+
+		.item-link-tabs{
+			padding: 7px 15px;
+			background: #f7f7f7;
+			border: 1px solid #ddd;
+			border-radius: 7px 7px 0px 0px;
+		}
+		.item-link-tabs.active{
+			background: #092759;
+		}
+		.item-link-tabs.active a{
+			color: #fff!important;
+		}
+		.modal-title {
+			color: #333;
+		}
+
+		.panel-text {
+		margin-bottom: 20px;
+		width: 100%;
+		padding: 20px;
+		background-color: #fff;
+		box-shadow: 0px 0px 1px #c9c9c9;
+		padding: 15px;
+		border-radius: 7px;
+		color: #333;
+		}
+
+		.panel-text:hover{
+			box-shadow: 0px 0px 2px #c9c9c9;
+			cursor: pointer;
+		}
+
+		.panel-text strong{
+			font-size: 24px;
+		}
+
+		.content-panel-1,.content-panel-3,.content-panel-2{
+			margin-top: 15px;
+			color: #333;
+		}
+
+		.alert{
+			border-radius: 5px!important;
+		}
+
+		.btn-primary, .btn-video-article{
+			background-color: #092759!important;
+			border: 1px solid #092759!important;
+		}
+
+
+		.feature_box_col_one{
+			display: inline-block;
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.btn-video-article{
+			border-radius: 4px;
+			height: 35px;
+			display: inline-block;
+			background: rgba(255,255,255,0.2);
+			padding: 0px 7px 2px 7px;
+		}
+		.btn-video-article:hover{
+			background: rgba(255,255,255,0.7);
+		}
+		.btn-video-article a{
+			padding: 5px;
+			display: inline-block!important;
+			border-radius: 100%;
+		}
+		.btn-video-article a:hover{
+			background: #092759!important;
+		}
+		.sub-item-left-sidebar{
+		background: rgba(255,255,255,0.1);
+		color: #fff;
+		border-left: 4px solid transparent;
+		}
+		.sub-item-left-sidebar:hover{
+			background: rgba(255,255,255,0.2); 
+			color: #fff!important;
+			border-left: 4px solid #fff!important;
+		}
+
+		.active-item-cours{
+			background: rgba(255,255,255,0.2); 
+			color: #fff!important;
+			border-left: 4px solid #fff!important;
+		}
+		.my-fixed-nav{
+			position: fixed;
+			top: 0px;
+			width: 100%;
+			z-index: 100;
+		}
+
+
+		.container-fostrap {
+			display: table-cell;
+			padding: 1em;
+			text-align: center;
+			vertical-align: middle;
+		}
+		.fostrap-logo {
+			width: 100px;
+			margin-bottom:15px
+		}
+		h1.heading {
+			color: #fff;
+			font-size: 1.15em;
+			font-weight: 900;
+			margin: 0 0 0.5em;
+			color: #505050;
+		}
+		@media (min-width: 450px) {
+		h1.heading {
+			font-size: 3.55em;
+		}
+		}
+		@media (min-width: 760px) {
+		h1.heading {
+			font-size: 3.05em;
+		}
+		}
+		@media (min-width: 900px) {
+		h1.heading {
+			font-size: 3.25em;
+			margin: 0 0 0.3em;
+		}
+		} 
+		.card {
+		display: block; 
+			margin-bottom: 20px;
+			line-height: 1.42857143;
+			background-color: #fff;
+			border-radius: 2px;
+			box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12); 
+			transition: box-shadow .25s; 
+		}
+		.card:hover {
+		box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+		}
+		.card:hover a{
+			text-decoration: underline!important;
+			color: #092759;
+		}
+		.img-card {
+		width: 100%;
+		height:200px;
+		border-top-left-radius:2px;
+		border-top-right-radius:2px;
+		display:block;
+			overflow: hidden;
+		}
+		.img-card img{
+		width: 100%;
+		height: 200px;
+		object-fit:cover; 
+		transition: all .25s ease;
+		} 
+		.card-content {
+		padding:15px;
+		text-align:left;
+		}
+		.card-title {
+		margin-top:0px;
+		font-weight: 700;
+		font-size: 1.65em;
+		}
+		.card-title a {
+		color: #000;
+		text-decoration: none !important;
+		}
+		.card-read-more {
+		border-top: 1px solid #D4D4D4;
+		}
+		.card-read-more a {
+		text-decoration: none !important;
+		padding:10px;
+		font-weight:600;
+		text-transform: uppercase
+		}
+
+		.star-ratings-css {
+			unicode-bidi: bidi-override;
+			color: #c5c5c5;
+			font-size: 22px;
+			height: 25px;
+			width: 100px;
+			margin: 0 auto;
+			position: relative;
+			padding: 0;
+			text-shadow: 0px 1px 0 #a2a2a2;
+		}
+		.star-ratings-css-top {
+			color: #e7711b;
+			padding: 0;
+			position: absolute;
+			z-index: 0;
+			display: block;
+			top: 0;
+			left: 0;
+			overflow: hidden;
+		}
+		.star-ratings-css-bottom {
+			padding: -1;
+			display: block;
+			z-index: 0;
+		}
+		.star-ratings-sprite {
+			background: url("{{ asset('template/images/star-rating-sprite.png') }}") repeat-x;
+			font-size: 0;
+			height: 21px;
+			line-height: 0;
+			overflow: hidden;
+			text-indent: -999em;
+			width: 110px;
+			margin: 0 auto;
+		}
+
+		.star-ratings-sprite-rating {
+			background: url("{{ asset('template/images/star-rating-sprite.png') }}") repeat-x;
+			background-position: 0 100%;
+			float: left;
+			height: 21px;
+			display: block;
+		}
+		.content-panel-1, .content-panel-1 p, .content-panel-2, .content-panel-2 p, .content-panel-3 p{
+			text-align: left!important;
+		}
+
+		.disabled-btn {
+			cursor: not-allowed;
+			text-decoration: none;
+			text-align: center;
+			background: #d6d9e4 !important;
+			pointer-events: none;
+		}
+		.btnlogic{
+			white-space: nowrap;
+		}
+
+		.card-horizontal {
+			display: flex;
+			flex: 1 1 auto;
+		}
+	</style>
+{% endblock %}
+
+{% block userblog_body %}
+
+<header class="header-learning" role="header" style="background: #092759; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+transition: all 0.3s cubic-bezier(.25,.8,.25,1);">
+	<div class="top-bar " role="navigation" style="background: transparent;">
+		<div class="title-area name" style="padding-bottom: 0px; margin-bottom: 0px;">
+			<i class="show-for-large-down icon-tasks" onclick="opennav()"  title="Click to view menu"></i>
+			<div class="row" style="padding: 15px 0px;">
+				<div class="col-md-2">
+					{% if precedentchapter != null %}
+					<a href="{{ path('produit_produit_presentation_chapter', {'id': precedentchapter.id }) }}" class="btnlogic" style="margin-bottom: -15px;">
+						<span class="fa fa-chevron-circle-left"></span>
+						Retourner
+					</a>
+					{% else %}
+					<a href="#!" class="btnlogic disabled-btn" style="margin-bottom: -15px;">
+						<span class="fa fa-chevron-circle-left"></span>
+						Retourner
+					</a>
+					{% endif %}
+				</div>
+				<div class="col-md-8" style="color: #fff;">
+					<h2 style="padding: 0px; margin: 0px;">{{ chapitre.titre }}</h2>
+					<div>Leçon {{ ranglecon }} / {{ liste_chapter|length }}</div>
+				</div>
+				<div class="col-md-2 text-right">
+					{% if suivantchapter != null %}
+					<a href="{{ path('produit_produit_presentation_chapter', {'id': suivantchapter.id }) }}" class="btnlogic" style="margin-bottom: -15px;">
+						Avancer
+						<span class="fa fa-chevron-circle-right"></span>
+					</a>
+					{% else %}
+					<a href="#!" class="btnlogic disabled-btn" style="margin-bottom: -15px;">
+						Avancer
+						<span class="fa fa-chevron-circle-right"></span>
+					</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+<script>
+	$(window).bind('scroll', function(){
+		var largeur = ($(window).width());
+		dimension = 100;
+		/*if (largeur < 768)
+		{
+			dimension = 800;
+		}*/
+		// The value of where the "scoll" is.
+		if($(window).scrollTop() > dimension){
+			$('.header-learning').addClass('my-fixed-nav');
+		}else{
+			$('.header-learning').removeClass('my-fixed-nav');
+		}
+	});
+</script>
+<section style="background: #f4f4f4; border-bottom: 1px solid #ddd;">
+	<div class="main-container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="animecourant-panel" style="display: block;">
+						
+				</div>
+			</div>
+		</div>
+	
+		<nav aria-label="breadcrumb" style="margin-top: 0px;">
+			{% if prodpan != null %}
+				{% set note = chapitre.getNoteQuestionnaire(prodpan) %}
+			{% else %}
+				{% set note = 0 %}
+			{% endif %}
+
+			{% if app.user == chapitre.partiecours.produit.user or is_granted('ROLE_GESTION') %}
+			<span class="float-right">
+				<a href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}"><span class="fa fa-edit"></span> Modifier</a>
+				<a href="{{ path('produit_produit_user_supprimer_chapter', {'id': chapitre.id }) }}"><span class="fa fa-times"></span> Supprimer</a>
+			</span>
+			{% elseif(note > 0) %}
+				<span class="float-right">
+					<img src="{{ asset('template/images/exclusive_icons.png') }}" alt="" style="width: 15px;"/> 
+					<span class="badge badge-info">Note:</span> 
+					{% if prodpan != null %}
+						<strong>{{ note }}/{{ bareme }}</strong>
+					{% else %}
+						<strong>_/{{ bareme }}</strong>
+					{% endif %}
+				</span>
+			{% endif %}
+			
+			<ol class="breadcrumb" style="padding: 0px;border: none; margin: 0px;">
+			  <li class="breadcrumb-item"><a href="{{ path('users_user_acces_plateforme') }}"><span class="fa fa-home"></span> Accueil</a></li>
+			  <li class="breadcrumb-item"><a href="{{ path('produit_produit_accueil_boutique_produit') }}">Cours</a></li>
+			  <li class="breadcrumb-item"><a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': produit.souscategorie.categorie.id }) }}">{{ produit.souscategorie.categorie.nom }}</a></li>
+			  <li class="breadcrumb-item">{{ produit.souscategorie.nom }}</li>
+			  <li class="breadcrumb-item active" aria-current="page">{{ chapitre.partiecours.titre }}</li>
+			</ol>
+		</nav>
+	</div>
+</section>
+<div class="main-container">
+	<div class="row" style="margin-top: 7px;">
+		<div class="col-md-4">
+			<div class="toutleblock">
+				<div style="border-radius: 5px; padding: 7px;">
+					<div class="mince-scroll-spp" style="height: calc(100vh - 30px); overflow-y: auto; padding-right: 10px;">
+						{% if prodpan == null %}
+							{% set idprodpan = 0 %}
+						{% else %}
+							{% set idprodpan = prodpan.id %}
+						{% endif %}
+						<div class="accordion">
+							
+							{% for partie in liste_part %}
+								{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 0, 'codeadmin': codeadmin,'idpartie': chapitre.partiecours.id, 'idchapitre': chapitre.id, 'idprodpan': idprodpan })) }}
+							{% endfor %}
+						
+						</div>
+
+						{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+						<div>
+							<a href="#!" class="add-new-part" style="text-align: left!important;"><em class="fa fa-plus"></em> Ajoutez une nouvelle partie</a>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 stop-courant-panel">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-8  text-left">
+			<div class="img-thumbnail" style="min-height: 300px; padding: 7px; border-radius: 0px; max-width: 100%; background: #739ee6;">
+				{% if chapitre.partiecours.produit.user == app.user %}
+					
+				{% elseif(is_granted('ROLE_GESTION')) %}
+					
+				{% else %}
+					{% if prodpan == null %}
+						<div class="souscription-cours-online" value="0" style="position: absolute; z-index: 9; cursor: pointer;  background: url({{ asset('template/images/bghide6.png') }}); height: 520px; width: 105%; top: 0px; left: -3%; padding-right: 50px; padding-top: 30px;"><img src="{{ asset('template/images/lockb.png') }}" title="Accès non autorisé" class="pull-right" style="margin-top: 20px; width: 100px; height: 100px;"/></div>
+					{% else %}
+						{% if precedentchapter != null %}
+							{% set note = precedentchapter.getNoteQuestionnaire(prodpan) %}
+							{% set nbquestion = liste_questionnaire|length %}
+							{% if note < notemin and nbquestion > 0 %}
+								<div class="note-precedente-invalide" value="0" style="position: absolute; z-index: 9; cursor: pointer;  background: url({{ asset('template/images/bghide6.png') }}); height: 520px; width: 105%; top: 0px; left: -3%; padding-right: 50px; padding-top: 30px;"><img src="{{ asset('template/images/lockb.png') }}" title="Accès non autorisé" class="pull-right" style="margin-top: 20px; width: 100px; height: 100px;"/></div>
+							{% endif %}
+						{% endif %}
+					{% endif %}
+				{% endif %}
+						
+				<div class="variation-contenu-ressource" style="padding-top: 50px; min-height: 290px; background: #fff;">
+					<div class="loader-wrap">
+						<div class="loader">
+							<div class="box-1 box" style="background: #fff;"></div>
+							<div class="box-2 box" style="background: #fff;"></div>
+							<div class="box-3 box" style="background: #fff;"></div>
+							<div class="box-4 box" style="background: #fff;"></div>
+							<div class="box-5 box" style="background: #fff;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$.ajax({
+						url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'chapitre', 'id': chapitre.id, 'idprodpan': idprodpan, 'mess': mess }) }}',
+						type : 'POST',
+						dataType : 'html',
+						success : function(code_html, statut){ // success est toujours en place, bien sûr !
+							$('.variation-contenu-ressource').replaceWith(code_html);
+						},	
+						error : function(resultat, statut, erreur){
+							alert("Echec");
+						}
+					});
+				});
+			</script>
+
+			<div id="target_details" class="panel-text" style="background: #739ee6; border-radius: 0px; box-shadow:0px 0px 10px #888888; border: none;">
+				<div style="border-bottom: 1px solid #ddd;">
+					<span style="float: right;">
+						<span class="btn-video-article">
+							<a href="#!" class="like-current-product" name="aimer" style="font-size: 14px; color: #fff;" title="Ajouter une mention j'aime" value="{{ produit.id }}"><span class="fa fa-thumbs-up"></span></a>
+							<a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nblike }}</a>
+						</span>
+						<span class="btn-video-article">
+							<a href="#!"  class="like-current-product" name="enregistrer" style="font-size: 14px; color: #fff;" title="Enregistrer la vidéo" value="{{ produit.id }}"><span class="fa fa-bookmark"></span></a>
+							<a href="#!"  style="font-size: 14px; color: #fff;">{{ produit.nbenregistrer }}</a>
+						</span>
+					</span>
+					<strong>À propos de cette leçon</strong>
+				</div>
+				<div style="font-size: 13px;"><span style="font-weight: bold;">Auteur:</span> <a href="{{ path('users_user_user_accueil', {'id': produit.user.id}) }}" style="color: #fff;">{{ produit.user.name(50) }}</a>
+					<a href="#!" class="text-left" style="text-decoration: none; color: #333;" data-original-title="" title="">
+						<span style="font-weight: bold;">4,7</span>
+						<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+							<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+							<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+						</div>
+						<span style="font-weight: bold;"> (1 614 notes)</span> <span>6 692 participants</span>
+					</a>
+				</div>
+			</div>
+
+					
+			<div  style="margin-top: 20px;">
+				<input id="tab-1" class="input-tabs" type="radio" name="tabs" checked=""/>
+				<label for="tab-1" class="label-tab">Description</label>
+					
+				<input id="tab-2" class="input-tabs" type="radio" name="tabs"/>
+				<label for="tab-2" class="label-tab">Fichiers sources</label>
+					
+				<input id="tab-3" class="input-tabs" type="radio" name="tabs"/>
+				<label for="tab-3" class="label-tab">Posez questions ?</label>
+					
+				<input id="tab-4" class="input-tabs" type="radio" name="tabs"/>
+				<label for="tab-4" class="label-tab">Exercices</label>
+				
+				<input id="tab-5" class="input-tabs" type="radio" name="tabs"/>
+				<label for="tab-5" class="label-tab">QCM</label>
+					
+				<div class="section-tabs" id="content1">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel-text">
+								<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-communication-textsms"></span> {{ produit.titre }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+								<div class="content-panel-1">{{ produit.description|raw }}</div>
+							</div>
+							
+							<div class="panel-text text-left" style="margin-top: 15px;">
+							<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-action-question-answer"></span> Objectifs de ce cours <a href="#!" class="open-content pull-right" value="down" name="2"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+								<div class="content-panel-2">{{ produit.objectif|raw }}</div>
+							</div>
+							
+							<div class="panel-text" style="margin-top: 15px;">
+							<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-action-announcement"></span> Pré-requis <a href="#!" class="open-content pull-right" value="down" name="3"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+								<div class="content-panel-3">{{ produit.prerequis|raw }}</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+					
+				<div class="section-tabs" id="content2">
+					<div style="margin-top: 10px;"><h2>Support du cours</h2></div><hr/>
+					
+					
+					<div class="list-group">
+						{% for support in supportchapitres %}
+						<div class="list-group-item">
+							
+							<a href="{{ path('produit_produit_presentation_chapter', {'id': support.chapitrecours.id }) }}">{{ support.chapitrecours.titre }}</a> 
+							<span class="fa fa-angle-right"> </span>
+							Support Numéro: {{ support.num }}
+
+							<div class="dropdown-btn float-right" style="position: relative; margin: 0px 20px 0px 0px;">
+								<a href="javascript:void(0)">
+									 Supports <span class=" fa fa-angle-down"></span>
+								</a>
+					  
+								<div class="dropdown__menu" style="margin-top: 10px;">
+								  {% if prodpan != null %}
+									<a href="{{ path('produit_produit_telecharger_support_chapter', {'id': support.id}) }}" class="dropdown__option">
+										<span class="fa fa-arrow-circle-o-down"></span> Télchargez le support
+								    </a>
+									{% else %}
+									<a href="#!" class="dropdown__option souscription-cours-online">
+										<span class="fa fa-arrow-circle-o-down"></span> Télchargez le support
+									</a>
+								  {% endif %}
+								  
+								  {% if app.user == produit.user %}
+								  <a href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" class="dropdown__option">
+									<span class="fa fa-file-text-o"></span> Ajouter un support
+								  </a>
+								  {% endif %}
+								</div>
+							</div>
+						</div>
+						{% else %}	  
+							<div class="alert panel-text">
+								<strong>Aucune donnée pour cette section</strong>
+							</div>
+						{% endfor %}	  
+					</div>
+					
+					<div style="margin-top: 10px;"><h2>Travaux pratiques</h2></div><hr/>
+					<ul class="list-group">
+						{% for pratique in pratiquechapitres %}
+						<div class="list-group-item">
+							
+							<a href="{{ path('produit_produit_presentation_chapter', {'id': pratique.chapitrecours.id }) }}">{{ pratique.chapitrecours.titre }}</a> 
+							<span class="fa fa-angle-right"> </span>
+							TP N°: {{ pratique.num }}
+
+							<div class="dropdown-btn float-right" style="position: relative; margin: 0px 20px 0px 0px;">
+								<a href="javascript:void(0)">
+									 Supports <span class=" fa fa-angle-down"></span>
+								</a>
+					  
+								<div class="dropdown__menu" style="margin-top: 10px;">
+
+									{% if prodpan != null %}
+										<a href="#!" target="_blank" class="dropdown__option"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a>
+										<li class="divider"></li>
+										{% if prodpan.produit != null %}
+										<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a>
+										{% else %}
+											{% if prodpan.panier.chapitrecours != null %}
+											<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a>
+											{% endif %}
+										{% endif %}
+									{% else %}
+										<a href="#!" class="souscription-cours-online dropdown__option"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a>
+									{% endif %}
+									
+									<li class="divider"></li>
+									{% if app.user == produit.user %}
+										<a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" class="dropdown__option"><span class="fa fa-file-text-o"></span> Ajouter un Tp</a>
+									{% endif %}
+
+
+								  {% if prodpan != null %}
+									<a href="{{ path('produit_produit_download_travaux_pratique', {'id': pratique.id }) }}" class="dropdown__option">
+										<span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici
+								    </a>
+									{% else %}
+									<a href="#!" class="dropdown__option souscription-cours-online">
+										<span class="fa fa-arrow-circle-o-down"></span> Télchargez le support
+									</a>
+								  {% endif %}
+								  
+								  {% if app.user == produit.user %}
+								  <a href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" class="dropdown__option">
+									<span class="fa fa-file-text-o"></span> Ajouter un support
+								  </a>
+								  {% endif %}
+								</div>
+							</div>
+						</div>
+						{% else %}	  
+							<div class="alert panel-text">
+								<strong>Aucune donnée pour cette section</strong>
+							</div>
+						{% endfor %}
+					</ul>
+				</div>
+					
+				<div class="section-tabs" id="content3">
+					<div class="row">
+					<div class="col-md-12">
+
+					<!--- \\\\\\\Post-->
+					<div class="card gedf-card">
+						<div class="card-header">
+							<ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">
+										Vous avez une question ?
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="true">
+										Mes messages
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="card-body" style="border: none;">
+							<div class="tab-content" id="myTabContent" style="border: none; padding: 0px;">
+								<div class="tab-pane active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+									<div class="form-group">
+										<textarea class="form-control open-panel-chat-message" id="message" rows="1" placeholder="Demandez de l'aide à {{ produit.user.name(30) }}" style="border: 2px dashed  #092759; cursor: pointer; font-size: 18px;"></textarea>
+									</div>
+								</div>
+								
+								<div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+									<div class="form-group">
+										Liste des messages
+									</div>
+									
+									<div class="list-group">
+									{% for message in messages_cours %}
+									<a href="{% if message.produit != null %}{{ path('produit_produit_detail_produit_market', {'id': message.produit.id, 'mess': message.id }) }}{% else %}{{ path('produit_produit_presentation_chapter', {'id': message.chapitrecours.id, 'mess': message.id }) }}{% endif %}" class="list-group-item list-group-item-action flex-column align-items-start">
+										<div class="d-flex w-100 justify-content-between">
+										<h5 class="mb-1">{{ message.titre }}</h5>
+										<small>{{ message.getDuree }}</small>
+										</div>
+										<p class="mb-1">{{ message.contenu|raw }} </p>
+										<small>Cliquez pour consulter | <span class="badge badge-primary badge-pill">{{ message.interventions|length }}</span> Intervantion(s)</small>
+									</a>
+									{% else %}
+										<div class="col-md-12">
+											<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+												<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+												<hr style="width: 100px; border-bottom: 1px solid red;">
+											</div>
+										</div>
+									{% endfor %}
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					<!-- Post /////-->
+					</div>
+					</div>
+				</div>
+					
+				<div class="section-tabs" id="content4">
+					<div style="margin-top: 10px;"><h2>Exercices</h2></div><hr/>
+					<ul class="list-group">
+						{% for exercice in exerciceparties %}
+						<div class="list-group-item">
+							
+							<a href="{{ path('produit_produit_presentation_chapter', {'id': exercice.chapitrecours.id }) }}">{{ exercice.chapitrecours.titre }}</a> 
+							<span class="fa fa-angle-right"> </span>
+							Exervice N°: {{ exercice.num }}
+
+							<div class="dropdown-btn float-right" style="position: relative; margin: 0px 20px 0px 0px;">
+								<a href="javascript:void(0)">
+									 Supports <span class=" fa fa-angle-down"></span>
+								</a>
+					  
+								<div class="dropdown__menu" style="margin-top: 10px;">
+
+									{% if prodpan != null %}
+									<a href="{{ path('produit_produit_telecharge_exercice', {'id': exercice.id }) }}" target="_blank" class="dropdown__option"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a>
+									
+									{% if prodpan.produit != null %}
+									<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a>
+									{% else %}
+										{% if prodpan.panier.chapitrecours != null %}
+										<a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}" class="dropdown__option"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre travail ici</a>
+										{% endif %}
+									{% endif %}
+								{% else %}
+									<a href="#!" class="souscription-cours-online dropdown__option"><span class="fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a>
+								{% endif %}
+								
+								{% if app.user == produit.user %}
+									<a  href="{{ path('produit_produit_user_modif_chapter', {'id': chapitre.id }) }}" class="dropdown__option"><span class="fa fa-file-text-o"></span> Ajouter un Exercice</a>
+								{% endif %}
+								</div>
+							</div>
+						</div>
+						{% else %}	  
+							<div class="alert panel-text">
+								<strong>Aucune donnée pour cette section</strong>
+							</div>
+						{% endfor %}
+					</ul>
+				</div> 
+				<div class="section-tabs" id="content5">
+					{% if prodpan != null %}
+						{% set idpropan = prodpan.id %}
+					{% else %}
+						{% set idpropan = 0 %}
+					{% endif %}
+
+					<div style="margin-top: 10px;"><h2>QCM: Questionnaire à choix multiples</h2></div><hr/>
+					
+					<div class="variation-sub-contenu" value="0" style="margin-bottom: 40px; position: sticky;">
+						{{ render(controller("App\\Controller\\Produit\\Produit\\QuestionnaireController:composquestionnaire", {'id': chapitre.id,'idpropan': idpropan, 'src': 0})) }}
+					</div>
+				</div> 
+			</div>
+
+
+
+			<div class="row text-left" style="margin-bottom: 50px;">
+				<div class="col-md-12">
+					<div class="panel-text">
+						<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-communication-textsms"></span> Cours de la même famille</strong></div>
+						<div class="content-panel-1">
+							<div>Ce cours partage les 5 formations avec les cours ci-dessous.</div>
+						</div>
+					</div>
+				</div>
+				
+				{% for oderproduct in cours_formation|slice(0,6) %}
+				{% set produit = oderproduct.produit %}
+				<div class="col-12">
+					<div class="card" style="box-shadow: none;">
+						<div class="card-horizontal">
+							<div class="img-square-wrapper">
+								<img class="" src="{% if oderproduct.produit.imgproduit != null %}{{ asset(oderproduct.produit.imgproduit.getwebpath) }}{% else %}{{ asset('template/images/annonce.png') }}{% endif %}" alt="Card image cap" style="max-width: 150px;">
+							</div>
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}"> {{ oderproduct.produit.titre }}
+									</a>
+									<div style="font-size: 11px;">{{ oderproduct.produit.souscategorie.nom }} <span class="float-right">{{ oderproduct.produit.getDureeCours }}</span></div>
+								</h4>
+								<div style="width: 100%; font-size: 9px;">
+									<div style="color: #6a6f73;">{{ produit.user.name(25) }} | {% if produit.user.diplome != null %} {{ produit.user.diplome }}{% else %}Formateur Az{% endif %}</div>
+								</div>
+								<div class="text-left">
+									<strong>4,7</strong>
+									<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+										<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+										<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+									</div>
+									<a href="{{ path('produit_produit_detail_produit_market', {'id': oderproduct.produit.id }) }}" class="btn btn-primary float-right" style="color: #fff;">
+										En savoir plus <span class="fa fa-angle-right"></span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<strong>{{ produit.newprise }} {{ devise|raw }}</strong> - <span style="text-decoration: line-through; color: #ddd;">{{ produit.ancienPrixProduit }} {{ devise|raw }}</span>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+{% for partie in liste_part %}
+{{ render(controller("App\\Controller\\Produit\\Produit\\PartiecoursController:detailpartie", {'partie': partie.id, 'number': loop.index, 'addform': 1, 'codeadmin': codeadmin })) }}
+{% endfor %}
+		
+
+<div id="sppmodal-container" class="sppmodal-container" style="color: #333;">
+	<div class="sppmodal-background">
+		<div class="sppmodal ">
+			<div class="row">
+			<div class="col-md-12">
+				<a href="#!" class="float-right close-sppmodal">
+					<img src="{{ asset('template/images/close.svg') }}" class="img-size-15"/>
+				</a>
+				<h3 class="text-left" style="font-family: OpenSans-Bold; color: #333; padding: 0px;margin: 0px;">Bravo !!!</h3>
+			</div>
+			<div class="col-md-12">
+				<hr>
+			</div>
+			<div class="col-md-12">
+					
+				<div class="text-left">
+					<div class="col-sm-12 col-md-12 text-center" style="margin-bottom: 20px;">
+						<h3 style="font-family: OpenSans-Bold; color: #333;">
+							<div>
+								<img src="{{ asset('template/images/messagefin.png') }}" alt="" style="height: 100px;">
+							</div>
+							 Vous êtes allé(e) jusqu'au bout de cette leçon.
+						</h3>
+						
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+				<div style="margin: 30px 0px 15px 0px;">
+					<h4 style="color: #333;">Auriez-vous une question à poser au Formateur ?</h4>
+				</div>
+
+				<div>
+					<div class="btn-group" role="group" aria-label="Basic example">
+					<button type="button" class="btn btn-primary open-panel-chat-message" style="white-space: normal;">Oui, écrire à mon formateur</button>
+					<button type="button" class="btn btn-secondary" onclick="validationAquis();" style="white-space: normal;">Tout va plutôt bien pour l'instant</button>
+					</div>
+				</div>
+
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade" id="infos-action-new-part" style="margin-top: 100px;">
+<div class="modal-dialog modal-md" style="border-radius: 10px; margin-top: 70px;">
+	<div class="modal-content text-left">
+	<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+		<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+			<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+			<span class="fa fa-plus"></span> Ajouter une nouvelle partie
+		</h4>
+	</div>
+		
+	<div class="modal-body" style="background: #fff; color: #333;">
+		{{ form_start(form, {'attr': {'id': 'add_new_part_course','action': path('produit_produit_add_new_partie_cours', {'id': produit.id}) }}) }}
+			<div class="form-group champ10">
+			{{ form_widget(form.titre, {'attr': {'class': 'titre_partie_course_add form-control'}}) }}
+			</div>
+			<div class="alert alertnotif10 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+			<h4 style="margin-bottom: 0px;">Erreur </h4>
+			Taille invalide !!! <span class="label label-info pull-right control-info-champ10"></span>
+			</div>
+			<div class="form-group champ11">
+			{{ form_widget(form.rang, {'attr': {'class': 'number_partie_course_add form-control'}}) }}
+			</div>
+			<div class="alert alertnotif11 alert-block alert-danger alert-dismissable" style="display:none; padding: 3px;">
+			<h4 style="margin-bottom: 0px;">Erreur </h4>
+			Entier positif !!! <span class="label label-info pull-right control-info-champ11"></span>
+			</div>
+			<button class="btn btn-primary btn-block btn-lg" style="margin-top: 15px;">Enregistrez <span class="glyphicon glyphicon-send"></span></button>
+		{{ form_end(form) }}
+	</div>
+	
+	<div class="modal-footer" style="display: block!important; text-align: right;">
+	<span class="pull-left">&copy; {{ site }}</span>
+	{% include 'Theme/General/Template/Menu/social.html.twig' %}
+	</div>
+	
+	</div>
+</div>
+</div>
+	
+	
+<div class="modal fade preview-modal" data-backdrop="true" role="dialog" aria-labelledby="preview-modal" aria-hidden="true"  id="modal-inscription-cours" style="margin-top: 100px;">
+<div class="modal-dialog modal-md" style="border-radius: 10px;">
+	<div class="modal-content text-left">
+	
+	<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+		<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+			<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+			<span class="fa fa-plus"></span> Inscrivez-vous pour suivre ce cours
+		</h4>
+	</div>
+	
+	<div class="modal-body" style="background: #fff; color: #333;">
+	<div class="row">
+	<div class="col-md-12">
+	
+	<ul class="nav nav-tabs">
+	  <li class="active item-link-tabs" value="1"><a data-toggle="tab" href="#Offres-formation">Offres de formation <span class="fa fa-chevron-circle-right"></span></a></li>
+	  
+	  <li class="item-link-tabs" value="3"><a href="#!">Souscription</a></li>
+	  <li class="item-link-tabs" value="2" style="opacity: 0; width: 1px; overflow: hidden; position; relative; z-index: -1;"><a data-toggle="tab" href="#souscription-product">Souscription</a></li>
+	</ul>
+	
+	<div class="tab-content" style="min-width: 100%; display: block;">
+	  <div id="Offres-formation" class="tab-pane  active" style="min-width: 100%;">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title" style="margin-bottom: 5px;">{{ produit.name(60) }}</h5>
+				<h6 class="card-subtitle mb-2 text-muted"><span class="fa fa-angle-right"></span> Ce cours uniquement</h6>
+				<p class="card-text">{{ produit.description|raw }}</p>
+				<a href="#!" class="card-link"><strong>{{ produit.newprise }} {{ devise }}</strong></a>
+				<a href="#!" class="card-link btn btn-primary souscription-cours-btn" style="float: right;">Souscription</a>
+			</div>
+		</div>
+		{% if oldservice != null %}
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title" style="margin-bottom: 5px;">{{ oldservice.nom }}</h5>
+				<h6 class="card-subtitle mb-2 text-muted"><span class="fa fa-angle-right"></span> Ce cours et {{ oldservice.produitformations|length }} autres cours</h6>
+				<p class="card-text">{{ oldservice.pubinline[:150] }}</p>
+				<a href="#!" class="card-link"><strong>{{ oldservice.nprix }} {{ devise }}</strong></a>
+				<a href="#!" class="card-link btn btn-primary souscription-formation-btn" style="float: right;">Souscription</a>
+			</div>
+		</div>
+		{% endif %}
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title" style="margin-bottom: 5px;">{{ chapitre.name(60) }}</h5>
+				<h6 class="card-subtitle mb-2 text-muted"><span class="fa fa-angle-right"></span> Cette leçon uniquement</h6>
+				<p class="card-text">{{ chapitre.contenu|raw }}</p>
+				<a href="#!" class="card-link"><strong>{% set prise = (produit.newprise/liste_chapter|length)|round(0,'ceil') %}{{ prise }} {{ devise }}</strong></a>
+				<a href="#!" class="card-link btn btn-primary souscription-chapter-btn" style="float: right;">Souscription</a>
+			</div>
+		</div>
+	  </div>
+	  <div id="souscription-product" class="tab-pane fade" style="min-width: 100%;">
+		<div class="row">
+			<div class="col-md-12">
+			<div class="text-left form-souscription-user pass-souscription-cours" style="border: 1px solid #ddd; border-radius: 7px; padding: 20px; margin-top: 15px; background: #f7f7f7;">
+				<h3>Prix unique de souscription au cours {{ produit.name(60) }}</h3>
+				<div>
+					<span class="badge badge-primary">{{ produit.newprise }} {{ devise }}</span>
+				</div>
+				<div style="border-top: 1px solid #ddd; margin-top: 15px;">
+				Pour souscrire, veuillez rentrer votre mot de passe.
+				</div>
+				
+				<div class="clearfix"></div>
+				<form action="{{ path('produit_produit_ajouter_product_panier', {'id': produit.id }) }}" method="post" style="margin-top: 15px;">
+				<div class="form-group">
+					<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+					<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+				</div>
+				<div style="margin-top: 15px;">
+					<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le payement avec votre compte</button>
+				</div>
+				</form>
+			</div>
+			
+			{% if oldservice != null %}
+				<div class="text-left form-souscription-user pass-souscription-formation" style="border: 1px solid #ddd; border-radius: 7px; padding: 20px; margin-top: 15px; background: #f7f7f7;">
+					<h3>Prix unique de souscription à la formation {{ oldservice.nom }}</h3>
+					<div>
+						<span class="badge badge-primary">{{ oldservice.nprix }} {{ devise }}</span>
+					</div>
+					<div style="border-top: 1px solid #ddd; margin-top: 15px;">
+						Pour souscrire, veuillez rentrer votre mot de passe.
+					</div>
+					
+					<div class="clearfix"></div>
+					<form action="{{ path('produit_service_add_formation_panier', {'id': oldservice.id }) }}" method="post" style="margin-top: 15px;">
+						<div class="form-group">
+							<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px; border: 3px solid #ddd;"/>
+							<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 0px;">
+						</div>
+						<div style="margin-top: 15px;">
+							<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte</button>
+						</div>
+					</form>
+				</div>
+			{% endif %}
+			
+			<div class="text-left form-souscription-user pass-souscription-chapter" style="border: 1px solid #ddd; border-radius: 7px; padding: 20px; margin-top: 15px; background: #f7f7f7;">
+				<h3>Prix unique de souscription à la leçon {{ chapitre.name(60) }}</h3>
+				<div>
+					<span class="badge badge-primary">{% set prise = (produit.newprise/liste_chapter|length)|round(0,'ceil') %}{{ prise }} {{ devise }}</span>
+				</div>
+				<div style="border-top: 1px solid #ddd; margin-top: 15px;">
+				Pour souscrire, veuillez rentre votre mot de passe.
+				</div>
+				
+				<div class="clearfix"></div>
+	
+				<form action="{{ path('produit_produit_add_chapitre_panier_user', {'id': chapitre.id }) }}" method="post" style="margin-top: 15px;">
+				<div class="form-group">
+					<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+					<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+				</div>
+				<div style="margin-top: 15px;">
+					<button type="submit" class="btn btn-primary btn-lg btn-block" style="border-radius: 0px;">Confirmez le payement avec votre compte </button>
+				</div>
+				</form>
+		
+			</div>
+			
+			</div>
+		</div>
+	  </div>
+	</div>
+	
+	</div>
+	
+	<div class="clearfix"></div>
+	</div>
+	</div>
+	
+	<hr style="margin-bottom: 15px;"/>
+	<div class="modal-footer" style="display: block!important; text-align: right;">
+		<span class="pull-left">&copy; {{ site }}</span>
+		{% include 'Theme/General/Template/Menu/social.html.twig' %}
+	</div>
+	
+	</div>
+</div>
+</div>
+
+<script src="{{ asset('template/js/onvisible.js') }}" type="text/javascript"></script>
+
+{% endblock %}
+
+{% block srcjavascripttemplate %}
+
+{% endblock %}
+
+{% block javascripttemplate %}
+
+$('.close-sppmodal').click(function(){
+	closemodalAlert();
+});
+function closemodalAlert()
+{
+	$('#sppmodal-container').addClass('out');
+	$('body').removeClass('sppmodal-active');
+}
+function validationAquis()
+{
+	closemodalAlert();
+	setTimeout(function(){ $('#tab-5').trigger('click'); }, 1000);
+	var target = $('#target_details');
+	$('body,html').animate({
+		scrollTop: target.offset().top
+	}, 800);
+}
+
+
+const accordion = document.querySelector('.accordion');
+const items = accordion.querySelectorAll('.accordion__item');
+
+items.forEach((item) => {
+  const title = item.querySelector('.accordion__title');
+  
+  title.addEventListener('click', (e) => {
+    const opened_item = accordion.querySelector('.is-open');
+    
+    // Toggle current item
+    toggle_item(item); 
+    
+    // Close earlier opened item if exists
+    if (opened_item && opened_item !== item) {
+      toggle_item(opened_item);
+    }
+    
+    
+  });
+});
+
+const toggle_item = (item) => {
+  const body = item.querySelector('.accordion__body');
+  const content = item.querySelector('.accordion__content');
+        
+  if (item.classList.contains('is-open')) {
+    body.removeAttribute('style');
+    item.classList.remove('is-open');
+  }else {
+    body.style.height = body.scrollHeight+80 + 'px';
+    item.classList.add('is-open');
+  }
+}
+  
+
+
+var bouge = 1;
+var dimension1 = 200;
+function activateelement()
+{
+	var visibility = visibleElement('.animecourant-panel');
+
+	if(visibility && bouge == 0){
+		bouge = 1;
+		$('.toutleblock').css('position','relative');
+		$('.toutleblock').css('bottom','0px');
+		$('.toutleblock').css('margin-bottom','0px');
+	}
+}
+
+function stopelement()
+{
+	var visibility = visibleElement('.stop-courant-panel');
+
+	if(visibility && bouge == 1){
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+
+		}else{
+			bouge = 0;
+			
+			$('.toutleblock').css('position','fixed');
+			$('.toutleblock').css('width',dimension1+'px');
+			$('.toutleblock').css('bottom','80px');
+			$('.toutleblock').css('margin-bottom','0px');
+		}
+	}
+}
+
+function controlScroll()
+{
+	var largeur = ($(window).width());
+	dimension1 = $('.toutleblock').width();
+	
+	if(largeur >= 768)
+	{
+		if(visibleElement('.animecourant-panel') && visibleElement('.stop-courant-panel'))
+		{
+			$('.toutleblock').css('position','fixed');
+			$('.toutleblock').css('width',dimension1+'px');
+		}else{
+			window.setInterval(function() { stopelement(); }, 100);
+			window.setInterval(function() { activateelement(); }, 100);
+		}
+	}
+}
+controlScroll();
+
+
+jQuery(function($){
+$(".sidebar-dropdown > a").click(function(){
+  $(".sidebar-submenu").slideUp(200);
+  if (
+    $(this)
+      .parent()
+      .hasClass("active")
+    ) {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this)
+      .parent()
+      .removeClass("active");
+  } else {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this)
+      .next(".sidebar-submenu")
+      .slideDown(200);
+    $(this)
+      .parent()
+      .addClass("active");
+  }
+});
+
+$('.souscription-cours-btn').click(function(){
+	$('.form-souscription-user').hide();
+	$('.pass-souscription-cours').show();
+	$('.item-link-tabs[value="2"]').find('a').trigger("click");
+	$('.item-link-tabs[value="3"]').addClass('active');
+});
+$('.souscription-chapter-btn').click(function(){
+	$('.form-souscription-user').hide();
+	$('.pass-souscription-chapter').show();
+	$('.item-link-tabs[value="2"]').find('a').trigger("click");
+	$('.item-link-tabs[value="3"]').addClass('active');
+});
+$('.souscription-formation-btn').click(function(){
+	$('.form-souscription-user').hide();
+	$('.pass-souscription-formation').show();
+	$('.item-link-tabs[value="2"]').find('a').trigger("click");
+	$('.item-link-tabs[value="3"]').addClass('active');
+});
+$('.item-link-tabs a').click(function(){
+	$('.item-link-tabs').removeClass('active');
+	$(this).parent().addClass('active');
+});
+
+/*
+------------------------------
+Début du code de gestion du responsive
+------------------------------
+*/
+
+$("#close-sidebar").click(function(){
+  $(".page-wrapper").removeClass("toggled");
+});
+
+$("#show-sidebar").click(function(){
+  $(".page-wrapper").addClass("toggled");
+});
+
+$('.detail-courant-product').css('width',($(window).width()+360)+'px');
+$('.detail-courant-product').show();
+
+$('#close-sidebar').click(function(){
+	$('.inner-detail-product').css('margin-right','15px');
+});
+
+$('#show-sidebar').click(function(){
+	$('.inner-detail-product').css('margin-right','380px');
+});
+
+$(window).bind('scroll', function(){
+	taillescroll = 60;
+
+	if($(window).scrollTop() > taillescroll){
+	  $('.sidebar-wrapper').css('top','65px');
+	}else{
+	  $('.sidebar-wrapper').css('top','125px');
+	}
+});
+/*
+------------------------------
+Fin du code de gestion du responsive
+------------------------------
+*/
+
+$('.like-current-product').click(function(){
+	var id = $(this).attr('value');
+	var position = $(this).attr('name');
+	{% if app.user != null %}
+		var height = ($(window).height() + $(window).scrollTop());
+		var width = $(window).width() + 100;
+		var scrolltop = $(window).scrollTop();
+		$('.panel-result-action-elearning-user').show();
+		$('.content-alert-action-elearning-user').show();
+		$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 15000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+	  
+		$.post('{{ path('produit_produit_add_mention_animation_produit', {'id': app.user.id}) }}',{ id: id, position: position }, function(data){
+		  if(data != 0)
+		  {
+			  $('.panel-result-action-elearning-user').hide();
+			  $('.content-alert-action-elearning-user').hide();
+			
+			  resetNotif();
+			  alertify.alert('<div style="margin-bottom: 20px;">Excellent !!! <br/>Action sauvegardée avec succès</div>');
+		  }else{
+			  resetNotif();
+			  alertify.alert("Echec, Une erreur a été rencontrée lors de l\'enregistrement de la commande.");
+			  $('.panel-result-action-elearning-user').hide();
+			  $('.content-alert-action-elearning-user').hide();
+		  }
+		});
+	{% else %}
+		$('#modal-infos-action-connexion').modal('show');
+		$('#modal-infos-action-connexion').appendTo("body").modal('show');
+	{% endif %}
+});
+
+$('.add-new-part').click(function(){
+	$('#infos-action-new-part').modal('show');
+	$('#infos-action-new-part').appendTo("body").modal('show');
+});
+
+{% for infos in app.session.flashbag.get('information') %}
+	{% if loop.first %}
+		resetNotif();
+		alertify.alert("{{ infos|raw }}");	  
+	{% endif %}
+{% endfor %}
+
+{% if precedentchapter != null %}
+$('.note-precedente-invalide').click(function(){
+	resetNotif();
+	alertify.alert("Echec, Vous devez avoir une note supérieur ou égale à {{ notemin }}/{{ bareme }} à la leçon précédente pour continuer !</br><a href='{{ path('produit_produit_presentation_chapter',{'id': precedentchapter.id }) }}'>Reéssayez le QCM de la leçon précédente en cliquant ici</a>");	  
+});
+{% endif %}
+
+$('.souscription-cours-online').click(function(){
+	
+	var id = $(this).attr('value');
+	{% if app.user == null %}
+		$('#modal-infos-action-connexion').modal('show');
+		$('#modal-infos-action-connexion').appendTo("body").modal('show');
+	{% else %}
+		if(id == 1)
+		{
+			$('#modal-inscription-cours').modal('show');
+			$('#modal-inscription-cours').appendTo("body").modal('show');
+		}else{
+			$('#modal-inscription-chapter').modal('show');
+			$('#modal-inscription-cours').appendTo("body").modal('show');
+		}
+	{% endif %}
+});
+
+
+maxchamp1 = 70;
+minchamp1 = 3;
+
+$("#add_new_part_course").on("submit", function(){
+	if($('.titre_partie_course_add').val().length < minchamp1 || $('.titre_partie_course_add').val().length > maxchamp1){
+		$("div.champ10").addClass("has-error");
+		$("div.alertnotif10").show("slow").delay(6000).hide("slow");
+		$('.control-info-champ10').html($('.titre_partie_course_add').val().length+'/'+maxchamp1);
+		$('.titre_partie_course_add').focus();
+		return false;
+	}
+
+	if(!is_int($('.number_partie_course_add').val()) || $('.number_partie_course_add').val() < 0){
+		$("div.champ11").addClass("has-error");
+		$("div.alertnotif11").show("slow").delay(6000).hide("slow");
+		$('.control-info-champ11').html('Not Int');
+		$('.number_partie_course_add').focus();
+		return false;
+	}
+});
+
+function is_int(value){
+  if((parseFloat(value) == parseInt(value)) && !isNaN(value)){ 
+      return true;
+  }else{
+      return false;
+  }
+}
+
+$('.open-panel-chat-message').click(function(){
+
+  closemodalAlert();
+  openPanelMessage();
+
+});
+
+{% if mess > 0 %}
+	openPanelMessage();
+{% endif %}
+
+});
+
+
+function openPanelMessage()
+{
+	var height = ($(window).height() + $(window).scrollTop());
+	var width = $(window).width() + 100;
+	var scrolltop = $(window).scrollTop();
+	$('.panel-result-action-elearning-user').show();
+	$('.content-alert-action-elearning-user').show();
+	$('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 9000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+	setTimeout(function(){ 
+		$.post('{{ path('produit_service_post_message_produit_formateur', {'id': chapitre.id, 'type': 'chapitre','idmessage': mess}) }}', function(data){
+		  if(data != 0)
+		  {
+			  $('.panel-result-action-elearning-user').hide();
+			  $('.content-alert-action-elearning-user').hide();
+			  
+			  $('.content-article-tech').html(data);
+			  $('aside').toggleClass('open');
+		  }else{
+			  resetNotif();
+			  alertify.alert("Echec, Une erreur a été rencontrée lors de l\'enregistrement de la commande.");
+			  $('.panel-result-action-elearning-user').hide();
+			  $('.content-alert-action-elearning-user').hide();
+		  }
+		});
+	}, 500);
+}
+
+{% endblock %}
+

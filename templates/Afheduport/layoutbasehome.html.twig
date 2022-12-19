@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Noel Martial Kenfack @NoelKenfack12 - noel.kenfack@yahoo.fr"/>
+    <link rel="shortcut icon" href="{{ asset('template/images/logo.png') }}"/>
+	
+	<title>
+		{% block title %}{{ site }}{% endblock %}
+	</title>
+	
+	{% block meta %} {% endblock %}
+
+    {% block stylesheets %}
+	
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="{{ asset('eduporttemplate/font-awesome/css/all.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('eduporttemplate/css/bootstrap-icons.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('eduporttemplate/css/tiny-slider.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('eduporttemplate/css/glightbox.css') }}">
+
+	<!-- Theme CSS -->
+	<link id="style-switch" rel="stylesheet" type="text/css" href="{{ asset('eduporttemplate/css/style.css') }}">
+
+	<script src="{{ asset('template/js/jquery.min.js') }}"></script>
+	<script src="{{ asset('template/js/lottieflow.min.js') }}" type="text/javascript"></script>
+
+
+	{% endblock %}
+	
+	<link rel="stylesheet" href="{{ asset('template/notify/themes/alertify.core.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('template/notify/themes/alertify.default.css') }}" id="toggleCSS"/>
+    <script src="{{ asset('template/notify/lib/alertify.min.js') }}"></script>
+	<script>
+		function resetNotif(){
+			$("#toggleCSS").attr("href", "{{ asset('template/notify/themes/alertify.default.css') }}");
+			alertify.set({
+				labels : {
+					ok     : "OK",
+					cancel : "Cancel"
+				},
+				delay : 5000,
+				buttonReverse : false,
+				buttonFocus   : "ok"
+			});
+		}
+	</script>
+</head>
+
+  <body>
+
+		{{ render(controller("App\\Controller\\General\\Template\\MenuController:menubare"
+		,{'position': 'home' })) }}
+
+		<main>
+			<div class="content-manage-market variation-contenu" value="0">
+				{% block body %}
+					
+				{% endblock %}
+			</div>
+
+			<div class="content-recherche-products-market" style="display: none;">
+
+			</div>
+		<main>
+
+		{{ render(controller("App\\Controller\\General\\Template\\MenuController:footer"
+		,{'position': currentposition|default('home') })) }}
+
+
+	<div class="content-alert-action-elearning-user" value="0" name="0" style="display: none;"></div>
+
+	<div class="panel-result-action-elearning-user" style="display: none; position: fixed; z-index: 900000; width: 100%; text-align: center; top: 40%;">
+		<span style="display: inline-block; width: 80px; height: 80px; background: transparent; text-align: center; padding-top: 25px;">
+			<div data-w-id="bdd6bb74-6a76-cc2b-93ad-7ae71601b802" data-animation-type="lottie" data-src="{{ asset('template/js/dataloader.json') }}" data-loop="1" data-direction="1" data-autoplay="1" data-is-ix2-target="0" data-renderer="svg" data-default-duration="26.2" data-duration="0" style="height: 100px;"></div>
+		</span>
+	</div>
+
+	<div class="modal fade modal-alter" id="modal-infos-action-connexion" style="margin-top: 100px;">
+	<div class="modal-dialog modal-md" style="border-radius: 10px;">
+	<div class="modal-content text-left">
+	<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+		<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+			<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+			<span class="fa fa-lock"></span> Connexion nécessaire 
+		</h4>
+	</div>
+	
+	<div class="modal-body">
+		<div class="row">
+		<div class="col-md-12 text-left">
+			<form action="{{ path('login') }}" method="post" style="margin-top: 15px;">
+			<div class="form-group">
+				<input type="email" placeholder="E-mail" id="username" name="_username" value="" required class="form-control" style="width: 100%;">
+				
+			</div>
+			<div class="form-group" style="position: sticky;">
+				<input type="password" placeholder="Mot de passe" id="password-field" name="_password" required class="form-control" style="margin-top: 15px; width: 100%;">
+				<span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
+			</div>
+			<div style="margin-top: 15px;">
+				<a class="news-letter " href="#" style="color: #333;">
+				 <label class="checkbox1"><input type="checkbox" id="remember_me" name="_remember_me" checked /><i> </i>Garder ma session ouverte</label>
+				</a>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary">Se connecter</button>
+			</div>
+			</form>
+		</div>
+		<div class="col-md-12">
+			<div class="alert alert-info">
+				 Si vous n'avez pas encore un compte, <a href="{{ path('users_user_inscription_user') }}">Inscrivez-vous ici.</a>
+			</div>
+		</div>
+		</div>
+	</div>
+	
+	<div class="modal-footer" style="display: block!important; text-align: right;">
+		<span class="pull-left">&copy; {{ site }}</span>
+		{% include 'Theme/General/Template/Menu/social.html.twig' %}
+	</div>
+
+	</div>
+	</div>
+	</div>
+
+	<div class="modal fade modal-alter" id="infos-action-effectuer" style="margin-top: 100px;">
+	
+	<div class="modal-dialog modal-md" style="border-radius: 10px;">
+	<div class="modal-content text-left">
+		<div class="modal-header text-left" style="height: 60px; padding-top: 10px;">
+			<h4 class="modal-title" style="padding: 7px; display: block; width: 100%;">
+				<button type="button" class="close" data-dismiss="modal" style="float: right!important; margin-top: -15px;">&times;</button>
+				<span class="fa fa-file-text-o"></span> Traitement de votre action
+			</h4>
+		</div>
+
+		<div class="modal-body" style="background: #fff; color: #333;">
+			<div class="alert-warning infos-action-effectuer" style="margin-top: 15px; padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px;"></div>
+		</div>
+
+		<div class="modal-footer" style="display: block!important; text-align: right;">
+			<span class="pull-left">&copy; {{ site }}</span>
+			{% include 'Theme/General/Template/Menu/social.html.twig' %}
+		</div>
+	</div>
+	</div>
+	</div>
+	
+	<aside>
+	  <div class="outer-close toggle-overlay">
+		<a class="close-nav text-center open-scroll-bar-body" style="background: #fff; color: #333; display: inline-block; height: 40px; width: 40px; border-radius: 20px; padding-top: 10px;"><i class="fa fa-arrow-left"></i></a> 
+	  
+	  <div style="position: fixed; z-index: 3; bottom: 0px; width: 100%; left: 0px; background: #fff; padding: 7px 10px;">
+		<div style="font-size: 12px;">© 2014 - {{ "now"|date('Y') }} - {{ site }}</div>
+	  </div>
+	  </div>
+	  
+	  <div class="row content-article-tech">
+		
+	  </div>
+	</aside>
+
+	<!-- //here ends scrolling icon -->
+	{{ render(controller("App\\Controller\\General\\Template\\MenuController:testinscriptionnewsletter"
+	      , {'position': currentposition|default('home') })) }}
+	
+	{% block srcjavascript %}
+
+	{% endblock %}
+	
+	<div id="devtool-status"></div>
+
+
+	<!-- Bootstrap JS -->
+	<script src="{{ asset('eduporttemplate/js/bootstrap.bundle.min.js') }}"></script>
+
+	<!-- Vendors -->
+	<script src="{{ asset('eduporttemplate/js/tiny-slider.js') }}"></script>
+	<script src="{{ asset('eduporttemplate/js/glightbox.js') }}"></script>
+	<script src="{{ asset('eduporttemplate/js/purecounter_vanilla.js') }}"></script>
+	<script type="text/javascript">
+		$(".toggle-password").click(function() {
+			$(this).toggleClass("fa-eye fa-eye-slash");
+			var input = $($(this).attr("toggle"));
+			if (input.attr("type") == "password") {
+				input.attr("type", "text");
+			} else {
+				input.attr("type", "password");
+			}
+		});
+
+
+		$('a').tooltip();
+		
+		$(".dropdown-btn").click(function(){
+		   var menu = $(this).find('.dropdown__menu');
+		  if (menu) {
+			menu.toggleClass("dropdown__menu--active");
+		  }
+		});
+		
+		{% for infos in app.session.flashbag.get('alertnewsletter') %}
+			{% if loop.first %}
+				$('.infos-action-effectuer').html('{{ infos|raw }}');
+				$('#infos-action-effectuer').modal('show');
+			{% endif %}
+		{% endfor %}
+		
+		{% block javascript %}
+
+		{% endblock %}
+		
+		/*$('.dropdown-toggle').mouseover(function() {
+		$(this).dropdown('toggle');
+		});
+
+		$(function () {
+		$('[data-toggle=tooltip]').tooltip();
+		});
+		
+		$(".close").click(function() {
+		$(".alert").hide("slow");
+		});*/
+		
+		
+		$(function() {
+		var body = $('body');
+		var contentWrapper = $('.content-wrapper');
+		var scroller = $('.container-scroller');
+		var footer = $('.footer');
+		var sidebar = $('.sidebar');
+
+		//Add active class to nav-link based on url dynamically
+		//Active class can be hard coded directly in html file also as required
+
+		function addActiveClass(element) {
+		  
+		}
+
+		var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
+		$('.nav li a', sidebar).each(function() {
+		  var $this = $(this);
+		  addActiveClass($this);
+		})
+
+		$('.horizontal-menu .nav li a').each(function() {
+		  var $this = $(this);
+		  addActiveClass($this);
+		})
+
+		//Close other submenu in sidebar on opening any
+
+		sidebar.on('show.bs.collapse', '.collapse', function() {
+		  sidebar.find('.collapse.show').collapse('hide');
+		});
+
+
+		//Change sidebar and content-wrapper height
+		applyStyles();
+
+		function applyStyles() {
+		  //Applying perfect scrollbar
+		  if (!body.hasClass("rtl")) {
+			if ($('.settings-panel .tab-content .tab-pane.scroll-wrapper').length) {
+			  const settingsPanelScroll = new PerfectScrollbar('.settings-panel .tab-content .tab-pane.scroll-wrapper');
+			}
+			if ($('.chats').length) {
+			  const chatsScroll = new PerfectScrollbar('.chats');
+			}
+			if (body.hasClass("sidebar-fixed")) {
+			  var fixedSidebarScroll = new PerfectScrollbar('#sidebar .nav');
+			}
+		  }
+		}
+
+		$('[data-toggle="minimize"]').on("click", function() {
+		  if ((body.hasClass('sidebar-toggle-display')) || (body.hasClass('sidebar-absolute'))) {
+			body.toggleClass('sidebar-hidden');
+		  } else {
+			body.toggleClass('sidebar-icon-only');
+		  }
+		});
+
+		//checkbox and radios
+		$(".form-check label,.form-radio label").append('<i class="input-helper"></i>');
+
+		//Horizontal menu in mobile
+		$('[data-toggle="horizontal-menu-toggle"]').on("click", function() {
+		  $(".horizontal-menu .bottom-navbar").toggleClass("header-toggled");
+		});
+		// Horizontal menu navigation in mobile menu on click
+		var navItemClicked = $('.horizontal-menu .page-navigation >.nav-item');
+		navItemClicked.on("click", function(event) {
+		  if(window.matchMedia('(max-width: 991px)').matches) {
+			if(!($(this).hasClass('show-submenu'))) {
+			  navItemClicked.removeClass('show-submenu');
+			}
+			$(this).toggleClass('show-submenu');
+		  }        
+		})
+
+		/* Fix the bottom navbar to top on scrolling */
+		var navbarStickyPoint = $('.bottom-navbar').offset().top;
+		$(window).scroll(function() {
+		  if(window.matchMedia('(min-width: 992px)').matches) {
+			var header = $('.horizontal-menu');
+			if ($(window).scrollTop() > navbarStickyPoint) {
+			  $(header).addClass('fixed-on-scroll');
+			} else {
+			  $(header).removeClass('fixed-on-scroll');
+			}
+		  }
+		});
+		
+		/*
+		var checkStatus;
+		var element = new Image();
+		element.__defineGetter__('id', function(){
+			checkStatus = 'Debug on';
+			$('.container-scroller').html('<div style="width: 900px;margin-right: auto;margin-left: auto;padding-top: 50px; text-align: center; font-size: 30px;">L\'inspection de la page est interdit.<br/><br/><br/><a href="#!" class="btn btn-primary" onclick="location.reload();">Revenir en arrière</a></div>');
+		});
+		 
+		setInterval(function(){
+			checkStatus = 'Debug off';
+			console.log(element);
+			console.clear();
+			//document.querySelector('#devtool-status').innerHTML = checkStatus;
+		}, 1000);*/
+		
+		{# % if app.user == null %}
+			openArticleOverlay();
+		{% endif % #}
+		
+	  });
+	  
+	  function openArticleOverlay()
+	  {
+		  var height = ($(window).height() + $(window).scrollTop());
+		  var width = $(window).width() + 100;
+		  var scrolltop = $(window).scrollTop();
+		  $('.panel-result-action-elearning-user').show();
+		  $('.content-alert-action-elearning-user').show();
+		  $('.content-alert-action-elearning-user').html('<div style="position: fixed; top: 0px; margin-bottom: '+scrolltop+'px; left: 0px; z-index: 9000; width: '+width+'px; height: '+height+'px; background: rgba(0,0,0,0.5);"></div>');
+
+		  setTimeout(function(){ 
+		  
+				$.post('{{ path('users_user_auth_overlay') }}', function(data){
+				  if(data != 0)
+				  {
+					  $('.panel-result-action-elearning-user').hide();
+					  $('.content-alert-action-elearning-user').hide();
+					  
+					  $('.content-article-tech').html(data);
+					  $('aside').toggleClass('open');
+				  }else{
+					  resetNotif();
+					  alertify.alert("Echec, Une erreur a été rencontrée lors de l\'enregistrement de la commande.");
+					  $('.panel-result-action-elearning-user').hide();
+					  $('.content-alert-action-elearning-user').hide();
+				  }
+				});
+		  
+		  }, 500);
+	  }
+	</script>	
+
+</body>
+</html>

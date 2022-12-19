@@ -7,16 +7,16 @@
 		{% if composexercice == null %}<a href="#!" class="add-copie-courant-exercice-{{ exercice.id }}"><span class="fa fa-cloud-upload"></span> Déposez votre copie ici</a>{% else %} <a href="{{ asset(composexercice.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ composexercice.alt[:20 ] }}</a><a href="#!" class="alter-copie-courant-exercice-{{ exercice.id }} pull-right"><span class="fa fa-edit"></span></a> {% endif %}
 	{% else %}
 		{% if composexercice != null %}
-		<a href="{{ asset(composexercice.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ composexercice.alt[:20 ] }}</a>
+			<a href="{{ asset(composexercice.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ composexercice.alt[:20 ] }}</a>
 		{% else %}
-		<a href="#!"><span class="fa fa-info-circle"></span> Aucune proposition de correction</a>
+			<a href="#!"><span class="fa fa-info-circle"></span> Aucune proposition de correction</a>
 		{% endif %}
 	{% endif %}
 {% else %}
 	{% if panier.user == app.user %}
 		<span class="fa fa-lock"></span> Accès Interdit
 	{% else %}
-		<a href="{{ asset(composexercice.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ composexercice.alt[:20 ] }}</a>
+		{% if composexercice != null %}<a href="{{ asset(composexercice.getwebpath) }}" target="_blank"><span class="fa fa-download"></span> {{ composexercice.alt[:20 ] }}</a>{% else %} vide {% endif %}
 	{% endif %}
 {% endif %}
 </td>

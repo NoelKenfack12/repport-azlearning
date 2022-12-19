@@ -17,65 +17,64 @@
 {% block stylesheets %}
 	{{ parent() }}
 	
-	
-<style>
-	.tags {
-	  list-style: none;
-	  margin: 0;
-	  overflow: hidden; 
-	  padding: 0;
-	}
+	<style>
+		.tags {
+			list-style: none;
+			margin: 0;
+			overflow: hidden; 
+			padding: 0;
+		}
 
-	.tags li {
-	  float: left; 
-	}
+		.tags li {
+			float: left; 
+		}
 
-	.tag {
-	  background: #eee;
-	  border-radius: 3px 0 0 3px;
-	  color: #999;
-	  display: inline-block;
-	  height: 26px;
-	  line-height: 26px;
-	  padding: 0 20px 0 23px;
-	  position: relative;
-	  margin: 0 10px 10px 0;
-	  text-decoration: none;
-	  -webkit-transition: color 0.2s;
-	}
+		.tag {
+			background: #eee;
+			border-radius: 3px 0 0 3px;
+			color: #999;
+			display: inline-block;
+			height: 26px;
+			line-height: 26px;
+			padding: 0 20px 0 23px;
+			position: relative;
+			margin: 0 10px 10px 0;
+			text-decoration: none;
+			-webkit-transition: color 0.2s;
+		}
 
-	.tag::before {
-	  background: #fff;
-	  border-radius: 10px;
-	  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
-	  content: '';
-	  height: 6px;
-	  left: 10px;
-	  position: absolute;
-	  width: 6px;
-	  top: 10px;
-	}
+		.tag::before {
+			background: #fff;
+			border-radius: 10px;
+			box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+			content: '';
+			height: 6px;
+			left: 10px;
+			position: absolute;
+			width: 6px;
+			top: 10px;
+		}
 
-	.tag::after {
-	  background: #fff;
-	  border-bottom: 13px solid transparent;
-	  border-left: 10px solid #eee;
-	  border-top: 13px solid transparent;
-	  content: '';
-	  position: absolute;
-	  right: 0;
-	  top: 0;
-	}
+		.tag::after {
+			background: #fff;
+			border-bottom: 13px solid transparent;
+			border-left: 10px solid #eee;
+			border-top: 13px solid transparent;
+			content: '';
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
 
-	.tag:hover {
-	  background-color: crimson;
-	  color: white;
-	}
+		.tag:hover {
+			background-color: crimson;
+			color: white;
+		}
 
-	.tag:hover::after {
-	   border-left-color: crimson; 
-	}
-</style>
+		.tag:hover::after {
+			border-left-color: crimson; 
+		}
+	</style>
 {% endblock %}
 
 {% block userblog_body %}
@@ -124,10 +123,10 @@
 			</div>
 		{% else %}
 			<div class="col-md-12">
-			<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
-				<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
-				<hr style="width: 100px; border-bottom: 1px solid red;">
-			</div>
+				<div class="text-center" style="height: 400px; padding-top: 100px; background: #fff; display: block; width: 100%!important; border: 1px solid #f4f4f4; border-radius: 5px;">
+					<span class="fa fa-frown-o"></span> Aucune données disponible pour cette requête.</br>
+					<hr style="width: 100px; border-bottom: 1px solid red;">
+				</div>
 			</div>
 		{% endfor %}
 	{% endif %}
@@ -193,7 +192,7 @@
 					</div>
 					<div class="four-text">
 						<h3>Solde</h3>
-						<h4>{{ user.soldeprincipal }} {{ devise }}</h4>
+						<h4>{{ user.soldeprincipal|numberFormat }} {{ devise }}</h4>
 					</div>
 					<a href="{{ path('produit_service_yourcv_recrutement') }}">Créditer <span class=" fa fa-angle-double-right"></span></a>
 				</div>
@@ -224,7 +223,7 @@
 			  <thead>
 				<tr style="background: red!impoartant;">
 				  <th>Date d'inscription</th>
-				  <th>Type</th>
+				  <th>Nom</th>
 				  <th>Intitutlé</th>
 				  <th>Progression</th>
 				</tr>
@@ -233,10 +232,11 @@
 			  {% for panier in panier_payer %}
 				<tr>
 				  <td data-column="Date d'inscription">
-					{{ panier.date|date('d') }}/{{ panier.date|date('m') }}/{{ panier.date|date('Y') }} <a href="#!" class="label label-warning pull-right" title="Durée de formation" style="">{% if panier.service != null %}{% set duree = panier.service.dureeacces/30 %}{{ duree }}Mois{% else %} {% if panier.chapitrecours != null %} {% set duree = panier.chapitrecours.partiecours.produit.dureeacces/30 %}{{ duree }}Mois {% else %} {% for prodpan in panier.produitpaniers %}{% if loop.first %}{% set duree = prodpan.produit.dureeacces/30 %}{{ duree }}Mois{% endif %}{% endfor %}{% endif %}{% endif %}</a>
+					{{ panier.date|date('d') }}/{{ panier.date|date('m') }}/{{ panier.date|date('Y') }} <a href="#!" class="label label-warning pull-right" title="Durée de formation">{% set difference = date("now"|date()).diff(date(panier.date)).days %} {% set resteJours = (panier.getDureeFormation - difference) %}  {% if resteJours >= 0 %}- {{ resteJours }} Jours %} {% else %} <span class="fa fa-times-rectangle-o" style="color: red;"></span> Terminée{% endif %}</a>
 				  </td>
 				  <td data-column="Type">
-					{% if panier.service != null %}Parcours{% else %}{% if panier.chapitrecours != null %}Chapitre{% else %}Cours{% endif %}{% endif %}
+					{# % if panier.service != null %}Parcours{% else %}{% if panier.chapitrecours != null %}Chapitre{% else %}Cours{% endif %}{% endif % #}
+					{% if panier.user != null %}{{ panier.user.name(20) }}{% else %}-{% endif %}
 				  </td>
 				  <td data-column="Intitutlé">
 					{% if panier.service != null %}{{ panier.service.nom }}
@@ -247,7 +247,13 @@
 								<li style="background: #f4f4f4; padding: 7px;"><a href="#!"><span class="fa fa-info-circle"></span> Liste de cours à suivre</a></li>
 								<li class="divider"></li>
 								{% for product in panier.service.produits %}
-									<a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': product.id }) }}"  class="list-group-item">{{ product.titre }}</a>
+
+									{% for prodpan in panier.produitpaniers %}
+										{% if prodpan.produit == product %}
+											<a href="{{ path('produit_produit_positionnement_chapter_cours', {'id': product.id, 'prodpan': prodpan.id }) }}"  class="list-group-item">{{ product.titre }}</a>
+										{% endif %}
+									{% endfor %} 
+									
 								{% endfor %}
 							</ul>
 						</div>
@@ -256,7 +262,7 @@
 							{{ panier.chapitrecours.titre }} <span style="float: right;"><a href="{{ path('produit_produit_presentation_chapter', {'id': panier.chapitrecours.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': panier.chapitrecours.partiecours.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>
 						{% else %}  
 							{% for prodpan in panier.produitpaniers %}
-								{% if loop.first %}{{ prodpan.produit.titre }} <span style="float: right;"><a href="{{ path('produit_produit_detail_produit_market', {'id': prodpan.produit.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': prodpan.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>{% endif %}
+								{% if loop.first %}{{ prodpan.produit.titre }} <span style="float: right;"><a href="{{ path('produit_produit_positionnement_chapter_cours', {'id': prodpan.produit.id, 'prodpan': prodpan.id }) }}" title="Suivre" style="display: inline-block; width: 40px;"><span class="fa fa-eye"></span></a> <a href="{{ path('users_user_detail_panier_user', {'panier': panier.id, 'produit': prodpan.produit.id }) }}" title="statistique" style="display: inline-block; width: 40px;"><span class="fa fa-bar-chart-o"></span></a></span>{% endif %}
 							{% endfor %}  
 						{% endif %}
 					{% endif %}

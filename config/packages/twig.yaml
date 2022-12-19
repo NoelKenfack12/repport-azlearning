@@ -23,3 +23,6 @@ twig:
         commentjouer: <div>Créer  <strong>gratuitement</strong>votre compte</div>
         passwordregex: /^[a-z0-9]([a-zA-Z0-9][\$\(-_\.]?){6,150}$/i
         websiteregex: /(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:.[A-Z0-9][A-Z0-9_-]*)+):?(d+)?\/?/i
+when@test:
+    twig:
+        strict_variables: true

@@ -233,8 +233,8 @@ class Videochapitre
 	
 	protected function getUploadRootDir()
 	{
-	// On retourne le chemin relatif vers l'image pour notre codePHP
-	return  __DIR__.'/../../../../public/'.$this->getUploadDir();
+        // On retourne le chemin relatif vers l'image pour notre codePHP
+        return  __DIR__.'/../../../../public/'.$this->getUploadDir();
 	}
 	
 	public function setFile(UploadedFile $file)
@@ -277,7 +277,7 @@ class Videochapitre
 	if (null !== $this->tempFilename) {
 	$oldFile = $this->getUploadRootDir().'/'.$this->id.'.Key.'.$this->getMykey().'.'.$this->tempFilename;
 	if (file_exists($oldFile)) {
-	unlink($oldFile);
+	    unlink($oldFile);
 	}
 	}
 	$this->file->move( $this->getUploadRootDir(), $this->id.'.Key.'.$this->getMykey().'.'.$this->src);

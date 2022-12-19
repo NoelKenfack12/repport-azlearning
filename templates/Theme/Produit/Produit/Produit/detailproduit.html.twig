@@ -4,9 +4,9 @@
 {% block meta %}
 
 	{{ parent() }}
-	<meta name="keywords" content="{{ site }}, Inscription, Connexion, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos"/>
+	<meta name="keywords" content="{{ site }}, {{ produit.souscategorie.categorie.nom }}, {{ produit.souscategorie.nom }}, {{ produit.titre }}"/>
 	<meta name="author" content="Noel Kenfack"/>
-	<meta name="description" content="{{ site }} - {{ metier }} - Cours diplômant en ligne."/>
+	<meta name="description" content="{{ site }} - {{ produit.souscategorie.categorie.nom }}, {{ produit.souscategorie.nom }}, {{ produit.titre }}"/>
 	
 {% endblock %}
 
@@ -25,547 +25,585 @@
 {% block userblog_body %}
 
 <style>
-@keyframes swing {
-  0% {
-    transform: rotate(0deg);
-  }
-  10% {
-    transform: rotate(10deg);
-  }
-  30% {
-    transform: rotate(0deg);
-  }
-  40% {
-    transform: rotate(-10deg);
-  }
-  50% {
-    transform: rotate(0deg);
-  }
-  60% {
-    transform: rotate(5deg);
-  }
-  70% {
-    transform: rotate(0deg);
-  }
-  80% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes sonar {
-  0% {
-    transform: scale(0.9);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-
-body {
-  font-size: 0.9rem;
-}
-.page-wrapper .sidebar-wrapper,
-.sidebar-wrapper .sidebar-brand > a,
-.sidebar-wrapper .sidebar-dropdown > a:after,
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before,
-.sidebar-wrapper ul li a i,
-.page-wrapper .page-content,
-.sidebar-wrapper .sidebar-search input.search-menu,
-.sidebar-wrapper .sidebar-search .input-group-text,
-.sidebar-wrapper .sidebar-menu ul li a,
-#show-sidebar,
-#close-sidebar {
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-
-/*----------------page-wrapper----------------*/
-
-
-.page-wrapper .theme {
-  width: 40px;
-  height: 40px;
-  display: inline-block;
-  border-radius: 4px;
-  margin: 2px;
-}
-
-.page-wrapper .theme.chiller-theme {
-  background: #1e2229;
-}
-
-/*----------------toggeled sidebar----------------*/
-
-.page-wrapper.toggled .sidebar-wrapper {
-  left: 0px;
-}
-
-@media screen and (min-width: 768px) {
-  .page-wrapper.toggled .page-content {
-    padding-left: 360px; /*Gestion du responsive*/
-  }
-}
-/*----------------show sidebar button----------------*/
-#show-sidebar{
-  position: fixed;
-  left: 0;
-  top: 125px;  /*Gestion du Responsive */
-  border-radius: 0 4px 4px 0px;
-  width: 35px;
-  transition-delay: 0.3s;
-  z-index: 12;
-}
-.page-wrapper.toggled #show-sidebar {
-  left: -40px;
-}
-/*----------------sidebar-wrapper----------------*/
-
-.sidebar-wrapper {
-  width: 350px; /*Gestion du responsive*/
-  height: 100%;
-  max-height: 100%;
-  position: fixed;
-  top: 125px; /*Gestion du Responsive */
-  left: -360px;  /*Gestion du responsive*/
-  z-index: 10;
-}
-
-.sidebar-wrapper ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-wrapper a {
-  text-decoration: none;
-}
-
-/*----------------sidebar-content----------------*/
-
-.sidebar-content {
-  max-height: calc(100% - 30px);
-  height: calc(100% - 30px);
-  overflow-y: auto;
-  position: relative;
-}
-
-.sidebar-content.desktop {
-  overflow-y: hidden;
-}
-
-/*--------------------sidebar-brand----------------------*/
-
-.sidebar-wrapper .sidebar-brand {
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-}
-
-.sidebar-wrapper .sidebar-brand > a {
-  text-transform: uppercase;
-  font-weight: bold;
-  flex-grow: 1;
-}
-
-.sidebar-wrapper .sidebar-brand #close-sidebar {
-  cursor: pointer;
-  font-size: 20px;
-}
-/*--------------------sidebar-header----------------------*/
-
-.sidebar-wrapper .sidebar-header {
-  padding: 20px;
-  overflow: hidden;
-}
-
-.sidebar-wrapper .sidebar-header .user-pic {
-  float: left;
-  width: 60px;
-  padding: 2px;
-  border-radius: 12px;
-  margin-right: 15px;
-  overflow: hidden;
-}
-
-.sidebar-wrapper .sidebar-header .user-pic img {
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
-}
-
-.sidebar-wrapper .sidebar-header .user-info {
-  float: left;
-}
-
-.sidebar-wrapper .sidebar-header .user-info > span {
-  display: block;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-role {
-  font-size: 12px;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-status {
-  font-size: 11px;
-  margin-top: 4px;
-}
-
-.sidebar-wrapper .sidebar-header .user-info .user-status i {
-  font-size: 8px;
-  margin-right: 4px;
-  color: #5cb85c;
-}
-
-/*-----------------------sidebar-search------------------------*/
-
-.sidebar-wrapper .sidebar-search > div {
-  padding: 10px 20px;
-}
-
-/*----------------------sidebar-menu-------------------------*/
-
-.sidebar-wrapper .sidebar-menu {
-  padding-bottom: 10px;
-}
-
-.sidebar-wrapper .sidebar-menu .header-menu span {
-  font-weight: bold;
-  font-size: 14px;
-  padding: 15px 20px 5px 20px;
-  display: inline-block;
-}
-
-.sidebar-wrapper .sidebar-menu ul li a {
-  display: inline-block;
-  width: 100%;
-  text-decoration: none;
-  position: relative;
-  padding: 8px 30px 8px 20px;
-}
-
-.sidebar-wrapper .sidebar-menu ul li a i {
-  margin-right: 10px;
-  font-size: 12px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  border-radius: 4px;
-}
-
-.sidebar-wrapper .sidebar-menu ul li a:hover > i::before {
-  display: inline-block;
-  animation: swing ease-in-out 0.5s 1 alternate;
-}
-
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f105";
-  font-style: normal;
-  display: inline-block;
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  background: 0 0;
-  position: absolute;
-  right: 15px;
-  top: 14px;
-}
-
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {
-  padding: 5px 0;
-}
-
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li {
-  padding-left: 0px;
-  font-size: 13px;
-}
-
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {
-  content: "\f111";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 400;
-  font-style: normal;
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin-right: 10px;
-  font-size: 8px;
-}
-
-.sidebar-wrapper .sidebar-menu ul li a span.label,
-.sidebar-wrapper .sidebar-menu ul li a span.badge {
-  float: right;
-  margin-top: 8px;
-  margin-left: 5px;
-}
-
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .badge,
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .label {
-  float: right;
-  margin-top: 0px;
-}
-
-.sidebar-wrapper .sidebar-menu .sidebar-submenu {
-  display: none;
-}
-
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a:after {
-  transform: rotate(90deg);
-  right: 17px;
-}
-
-/*--------------------------side-footer------------------------------*/
-
-.sidebar-footer {
-  position: fixed;
-  width: 350px;
-  bottom: 0;
-  display: flex;
-}
-
-.sidebar-footer > a {
-  flex-grow: 1;
-  text-align: center;
-  height: 30px;
-  line-height: 30px;
-  position: relative;
-}
-
-.sidebar-footer > a .notification {
-  position: absolute;
-  top: 0;
-}
-
-.badge-sonar {
-  display: inline-block;
-  background: #980303;
-  border-radius: 50%;
-  height: 8px;
-  width: 8px;
-  position: absolute;
-  top: 0;
-}
-
-.badge-sonar:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: 2px solid #980303;
-  opacity: 0;
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  animation: sonar 1.5s infinite;
-}
-
-/*--------------------------page-content-----------------------------*/
-
-.page-wrapper .page-content {
-  display: inline-block;
-  width: 100%;
-  padding-left: 0px;
-  padding-top: 20px;
-}
-
-.page-wrapper .page-content > div {
-  padding: 20px 40px;
-}
-
-.page-wrapper .page-content {
-  overflow-x: hidden;
-}
-
-/*------scroll bar---------------------*/
-
-::-webkit-scrollbar {
-  width: 5px;
-  height: 7px;
-}
-::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
-}
-::-webkit-scrollbar-thumb {
-  background: #525965;
-  border: 0px none #ffffff;
-  border-radius: 0px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #525965;
-}
-::-webkit-scrollbar-thumb:active {
-  background: #525965;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-  border: 0px none #ffffff;
-  border-radius: 50px;
-}
-::-webkit-scrollbar-track:hover {
-  background: transparent;
-}
-::-webkit-scrollbar-track:active {
-  background: transparent;
-}
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-
-/*-----------------------------chiller-theme-------------------------------------------------*/
-
-.chiller-theme .sidebar-wrapper {
-    background: #31353D;
-}
-
-.chiller-theme .sidebar-wrapper .sidebar-header,
-.chiller-theme .sidebar-wrapper .sidebar-search,
-.chiller-theme .sidebar-wrapper .sidebar-menu {
-    border-top: 1px solid #3a3f48;
-}
-
-.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
-.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
-    border-color: transparent;
-    box-shadow: none;
-}
-
-.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,
-.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,
-.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
-.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,
-.chiller-theme .sidebar-wrapper .sidebar-brand>a,
-.chiller-theme .sidebar-wrapper .sidebar-menu ul li a,
-.chiller-theme .sidebar-footer>a {
-    color: #818896;
-}
-
-.chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,
-.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,
-.chiller-theme .sidebar-wrapper .sidebar-header .user-info,
-.chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,
-.chiller-theme .sidebar-footer>a:hover i {
-    color: #b8bfce;
-}
-
-.page-wrapper.chiller-theme.toggled #close-sidebar {
-    color: #bdbdbd;
-}
-
-.page-wrapper.chiller-theme.toggled #close-sidebar:hover {
-    color: #ffffff;
-}
-
-.chiller-theme .sidebar-wrapper ul li:hover a i,
-.chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:hover:before,
-.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus+span,
-.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
-    color: #16c7ff;
-    text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);
-}
-
-.chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,
-.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,
-.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
-.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
-    background: #3a3f48;
-}
-
-.chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {
-    color: #6c7b88;
-}
-
-.chiller-theme .sidebar-footer {
-    background: #3a3f48;
-    box-shadow: 0px -1px 5px #282c33;
-    border-top: 1px solid #464a52;
-}
-
-.chiller-theme .sidebar-footer>a:first-child {
-    border-left: none;
-}
-
-.chiller-theme .sidebar-footer>a:last-child {
-    border-right: none;
-}
-
-
-.btn-video-article{
-	border-radius: 4px;
-	height: 40px;
-	display: inline-block;
-	background: rgba(255,255,255,0.2);
-	padding: 0px 7px 2px 7px;
-}
-.btn-video-article:hover{
-	background: rgba(255,255,255,0.7);
-}
-.btn-video-article a{
-	padding: 5px;
-	display: inline-block!important;
-	border-radius: 100%;
-}
-.btn-video-article a:hover{
-	background: #092759!important;
-}
-.sub-item-left-sidebar{
-   background: rgba(255,255,255,0.1);
-   color: #fff;
-   border-left: 4px solid transparent;
-}
-.sub-item-left-sidebar:hover{
-	background: rgba(255,255,255,0.2); 
-	color: #fff!important;
-	border-left: 4px solid #fff!important;
-}
-
-.active-item-cours{
-	background: rgba(255,255,255,0.2); 
-	color: #fff!important;
-	border-left: 4px solid #fff!important;
-}
-
-.item-link-tabs{
-	padding: 7px 15px;
-	background: #f7f7f7;
-	border: 1px solid #ddd;
-	border-radius: 7px 7px 0px 0px;
-}
-.item-link-tabs.active{
-	background: #092759;
-}
-.item-link-tabs.active a{
-	color: #fff!important;
-}
+	@keyframes swing {
+	0% {
+		transform: rotate(0deg);
+	}
+	10% {
+		transform: rotate(10deg);
+	}
+	30% {
+		transform: rotate(0deg);
+	}
+	40% {
+		transform: rotate(-10deg);
+	}
+	50% {
+		transform: rotate(0deg);
+	}
+	60% {
+		transform: rotate(5deg);
+	}
+	70% {
+		transform: rotate(0deg);
+	}
+	80% {
+		transform: rotate(-5deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+	}
+
+	@keyframes sonar {
+	0% {
+		transform: scale(0.9);
+		opacity: 1;
+	}
+	100% {
+		transform: scale(2);
+		opacity: 0;
+	}
+	}
+
+	body {
+		font-size: 0.9rem;
+	}
+	.page-wrapper .sidebar-wrapper,
+	.sidebar-wrapper .sidebar-brand > a,
+	.sidebar-wrapper .sidebar-dropdown > a:after,
+	.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before,
+	.sidebar-wrapper ul li a i,
+	.page-wrapper .page-content,
+	.sidebar-wrapper .sidebar-search input.search-menu,
+	.sidebar-wrapper .sidebar-search .input-group-text,
+	.sidebar-wrapper .sidebar-menu ul li a,
+	#show-sidebar,
+	#close-sidebar {
+		-webkit-transition: all 0.3s ease;
+		-moz-transition: all 0.3s ease;
+		-ms-transition: all 0.3s ease;
+		-o-transition: all 0.3s ease;
+		transition: all 0.3s ease;
+	}
+
+	/*----------------page-wrapper----------------*/
+
+
+	.page-wrapper .theme {
+		width: 40px;
+		height: 40px;
+		display: inline-block;
+		border-radius: 4px;
+		margin: 2px;
+	}
+
+	.page-wrapper .theme.chiller-theme {
+		background: #1e2229;
+	}
+
+	/*----------------toggeled sidebar----------------*/
+
+	.page-wrapper.toggled .sidebar-wrapper {
+		left: 0px;
+	}
+
+	@media screen and (min-width: 768px) {
+		.page-wrapper.toggled .page-content {
+			padding-left: 360px; /*Gestion du responsive*/
+		}
+	}
+	/*----------------show sidebar button----------------*/
+	#show-sidebar{
+		position: fixed;
+		left: 0;
+		top: 125px;  /*Gestion du Responsive */
+		border-radius: 0 4px 4px 0px;
+		width: 35px;
+		transition-delay: 0.3s;
+		z-index: 12;
+	}
+	.page-wrapper.toggled #show-sidebar {
+		left: -40px;
+	}
+	/*----------------sidebar-wrapper----------------*/
+
+	.sidebar-wrapper {
+		width: 350px; /*Gestion du responsive*/
+		height: 100%;
+		max-height: 100%;
+		position: fixed;
+		top: 125px; /*Gestion du Responsive */
+		left: -360px;  /*Gestion du responsive*/
+		z-index: 10;
+	}
+
+	.sidebar-wrapper ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.sidebar-wrapper a {
+		text-decoration: none;
+	}
+
+	/*----------------sidebar-content----------------*/
+
+	.sidebar-content {
+		max-height: calc(100% - 30px);
+		height: calc(100% - 30px);
+		overflow-y: auto;
+		position: relative;
+	}
+
+	.sidebar-content.desktop {
+		overflow-y: hidden;
+	}
+
+	/*--------------------sidebar-brand----------------------*/
+
+	.sidebar-wrapper .sidebar-brand {
+		padding: 10px 20px;
+		display: flex;
+		align-items: center;
+	}
+
+	.sidebar-wrapper .sidebar-brand > a {
+		text-transform: uppercase;
+		font-weight: bold;
+		flex-grow: 1;
+	}
+
+	.sidebar-wrapper .sidebar-brand #close-sidebar {
+		cursor: pointer;
+		font-size: 20px;
+	}
+	/*--------------------sidebar-header----------------------*/
+
+	.sidebar-wrapper .sidebar-header {
+		padding: 20px;
+		overflow: hidden;
+	}
+
+	.sidebar-wrapper .sidebar-header .user-pic {
+		float: left;
+		width: 60px;
+		padding: 2px;
+		border-radius: 12px;
+		margin-right: 15px;
+		overflow: hidden;
+	}
+
+	.sidebar-wrapper .sidebar-header .user-pic img {
+		object-fit: cover;
+		height: 100%;
+		width: 100%;
+	}
+
+	.sidebar-wrapper .sidebar-header .user-info {
+		float: left;
+	}
+
+	.sidebar-wrapper .sidebar-header .user-info > span {
+		display: block;
+	}
+
+	.sidebar-wrapper .sidebar-header .user-info .user-role {
+		font-size: 12px;
+	}
+
+	.sidebar-wrapper .sidebar-header .user-info .user-status {
+		font-size: 11px;
+		margin-top: 4px;
+	}
+
+	.sidebar-wrapper .sidebar-header .user-info .user-status i {
+		font-size: 8px;
+		margin-right: 4px;
+		color: #5cb85c;
+	}
+
+	/*-----------------------sidebar-search------------------------*/
+
+	.sidebar-wrapper .sidebar-search > div {
+		padding: 10px 20px;
+	}
+
+	/*----------------------sidebar-menu-------------------------*/
+
+	.sidebar-wrapper .sidebar-menu {
+		padding-bottom: 10px;
+	}
+
+	.sidebar-wrapper .sidebar-menu .header-menu span {
+		font-weight: bold;
+		font-size: 14px;
+		padding: 15px 20px 5px 20px;
+		display: inline-block;
+	}
+
+	.sidebar-wrapper .sidebar-menu ul li a {
+		display: inline-block;
+		width: 100%;
+		text-decoration: none;
+		position: relative;
+		padding: 8px 30px 8px 20px;
+	}
+
+	.sidebar-wrapper .sidebar-menu ul li a i {
+		margin-right: 10px;
+		font-size: 12px;
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		border-radius: 4px;
+	}
+
+	.sidebar-wrapper .sidebar-menu ul li a:hover > i::before {
+		display: inline-block;
+		animation: swing ease-in-out 0.5s 1 alternate;
+	}
+
+	.sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+		content: "\f105";
+		font-style: normal;
+		display: inline-block;
+		font-style: normal;
+		font-variant: normal;
+		text-rendering: auto;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-align: center;
+		background: 0 0;
+		position: absolute;
+		right: 15px;
+		top: 14px;
+	}
+
+	.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {
+		padding: 5px 0;
+	}
+
+	.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li {
+		padding-left: 0px;
+		font-size: 13px;
+	}
+
+	.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {
+		content: "\f111";
+		font-family: "Font Awesome 5 Free";
+		font-weight: 400;
+		font-style: normal;
+		display: inline-block;
+		text-align: center;
+		text-decoration: none;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		margin-right: 10px;
+		font-size: 8px;
+	}
+
+	.sidebar-wrapper .sidebar-menu ul li a span.label,
+	.sidebar-wrapper .sidebar-menu ul li a span.badge {
+		float: right;
+		margin-top: 8px;
+		margin-left: 5px;
+	}
+
+	.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .badge,
+	.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .label {
+		float: right;
+		margin-top: 0px;
+	}
+
+	.sidebar-wrapper .sidebar-menu .sidebar-submenu {
+		display: none;
+	}
+
+	.sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a:after {
+		transform: rotate(90deg);
+		right: 17px;
+	}
+
+	/*--------------------------side-footer------------------------------*/
+
+	.sidebar-footer {
+		position: fixed;
+		width: 350px;
+		bottom: 0;
+		display: flex;
+	}
+
+	.sidebar-footer > a {
+		flex-grow: 1;
+		text-align: center;
+		height: 30px;
+		line-height: 30px;
+		position: relative;
+	}
+
+	.sidebar-footer > a .notification {
+		position: absolute;
+		top: 0;
+	}
+
+	.badge-sonar {
+		display: inline-block;
+		background: #980303;
+		border-radius: 50%;
+		height: 8px;
+		width: 8px;
+		position: absolute;
+		top: 0;
+	}
+
+	.badge-sonar:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		border: 2px solid #980303;
+		opacity: 0;
+		border-radius: 50%;
+		width: 100%;
+		height: 100%;
+		animation: sonar 1.5s infinite;
+	}
+
+	/*--------------------------page-content-----------------------------*/
+
+	.page-wrapper .page-content {
+		display: inline-block;
+		width: 100%;
+		padding-left: 0px;
+		padding-top: 20px;
+	}
+
+	.page-wrapper .page-content > div {
+	padding: 20px 40px;
+	}
+
+	.page-wrapper .page-content {
+	overflow-x: hidden;
+	}
+
+	/*------scroll bar---------------------*/
+
+	::-webkit-scrollbar {
+	width: 5px;
+	height: 7px;
+	}
+	::-webkit-scrollbar-button {
+	width: 0px;
+	height: 0px;
+	}
+	::-webkit-scrollbar-thumb {
+	background: #525965;
+	border: 0px none #ffffff;
+	border-radius: 0px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+	background: #525965;
+	}
+	::-webkit-scrollbar-thumb:active {
+	background: #525965;
+	}
+	::-webkit-scrollbar-track {
+	background: transparent;
+	border: 0px none #ffffff;
+	border-radius: 50px;
+	}
+	::-webkit-scrollbar-track:hover {
+	background: transparent;
+	}
+	::-webkit-scrollbar-track:active {
+	background: transparent;
+	}
+	::-webkit-scrollbar-corner {
+	background: transparent;
+	}
+
+
+	/*-----------------------------chiller-theme-------------------------------------------------*/
+
+	.chiller-theme .sidebar-wrapper {
+		background: #31353D;
+	}
+
+	.chiller-theme .sidebar-wrapper .sidebar-header,
+	.chiller-theme .sidebar-wrapper .sidebar-search,
+	.chiller-theme .sidebar-wrapper .sidebar-menu {
+		border-top: 1px solid #3a3f48;
+	}
+
+	.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+	.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
+		border-color: transparent;
+		box-shadow: none;
+	}
+
+	.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,
+	.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,
+	.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+	.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,
+	.chiller-theme .sidebar-wrapper .sidebar-brand>a,
+	.chiller-theme .sidebar-wrapper .sidebar-menu ul li a,
+	.chiller-theme .sidebar-footer>a {
+		color: #818896;
+	}
+
+	.chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,
+	.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,
+	.chiller-theme .sidebar-wrapper .sidebar-header .user-info,
+	.chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,
+	.chiller-theme .sidebar-footer>a:hover i {
+		color: #b8bfce;
+	}
+
+	.page-wrapper.chiller-theme.toggled #close-sidebar {
+		color: #bdbdbd;
+	}
+
+	.page-wrapper.chiller-theme.toggled #close-sidebar:hover {
+		color: #ffffff;
+	}
+
+	.chiller-theme .sidebar-wrapper ul li:hover a i,
+	.chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:hover:before,
+	.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus+span,
+	.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
+		color: #16c7ff;
+		text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);
+	}
+
+	.chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,
+	.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,
+	.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+	.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
+		background: #3a3f48;
+	}
+
+	.chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {
+		color: #6c7b88;
+	}
+
+	.chiller-theme .sidebar-footer {
+		background: #3a3f48;
+		box-shadow: 0px -1px 5px #282c33;
+		border-top: 1px solid #464a52;
+	}
+
+	.chiller-theme .sidebar-footer>a:first-child {
+		border-left: none;
+	}
+
+	.chiller-theme .sidebar-footer>a:last-child {
+		border-right: none;
+	}
+
+
+	.btn-video-article{
+		border-radius: 4px;
+		height: 40px;
+		display: inline-block;
+		background: rgba(255,255,255,0.2);
+		padding: 0px 7px 2px 7px;
+	}
+	.btn-video-article:hover{
+		background: rgba(255,255,255,0.7);
+	}
+	.btn-video-article a{
+		padding: 5px;
+		display: inline-block!important;
+		border-radius: 100%;
+	}
+	.btn-video-article a:hover{
+		background: #092759!important;
+	}
+	.sub-item-left-sidebar{
+	background: rgba(255,255,255,0.1);
+	color: #fff;
+	border-left: 4px solid transparent;
+	}
+	.sub-item-left-sidebar:hover{
+		background: rgba(255,255,255,0.2); 
+		color: #fff!important;
+		border-left: 4px solid #fff!important;
+	}
+
+	.active-item-cours{
+		background: rgba(255,255,255,0.2); 
+		color: #fff!important;
+		border-left: 4px solid #fff!important;
+	}
+
+	.item-link-tabs{
+		padding: 7px 15px;
+		background: #f7f7f7;
+		border: 1px solid #ddd;
+		border-radius: 7px 7px 0px 0px;
+	}
+	.item-link-tabs.active{
+		background: #092759;
+	}
+	.item-link-tabs.active a{
+		color: #fff!important;
+	}
+	.MsoListParagraphCxSpFirst, .MsoListParagraphCxSpMiddle, .MsoListParagraphCxSpLast, .MsoListParagraph{
+		text-indent: 0pt!important;
+		margin: 0px!important;
+	}
+	.detail-course-height{
+		height: 250px;
+	}
+	.detail-course-margin{
+		margin-top: 200px;
+	}
+	@media screen and (max-width: 768px){
+		.detail-course-height{
+			height: auto;
+		}
+		.detail-course-margin{
+			margin-top: 15px;
+		}
+	}
 </style>
 
-
-<section style="background: #092759; height: 250px; padding-top: 20px;">
+<section class="detail-course-height" style="background: #4e7cff;  padding-top: 20px;">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7" style="color: #fff;">
-				<h2 class="">{{ produit.titre }}</h2>
-				<div>{{ produit.description|raw }}</div>
+				<div id="breadcrumb" class="breadcrumb-dash" style="">
+					<a href="#!" class="breadcrumb-close">Accueil</a>
+					<a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': produit.souscategorie.categorie.id }) }}" class="breadcrumb-link">
+					  <span class="fa fa-bandcamp"></span> {{ produit.souscategorie.categorie.nom }}
+					</a>
+					<a href="#!" class="breadcrumb-link">{{ produit.souscategorie.nom }}</a>
+					<a href="#breadcrumb" class="breadcrumb--active">Détail du cours</a>
+				</div>
+				<h2>{{ produit.titre }}</h2>
+				<a href="#!" class="text-left" style="display: block; text-decoration: none; color: #fff;">
+					<strong>4,7</strong>
+					<div class="star-ratings-css" style="margin-left: 0px; display: inline-block;">
+						<div class="star-ratings-css-top" style="width: 82%;  white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+						<div class="star-ratings-css-bottom" style="white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+					</div>
+					<strong> (1 614 notes)</strong> <span>6 692 participants</span>
+				</a>
+				<div style="margin-top: 20px;">
+					Crée par <a href="{{ path('users_user_user_accueil', {'id': produit.id }) }}"style="text-decoration: underline; color: #fff;">{{ produit.user.name(50) }}</a>, Formateur AZ
+				</div>
+				<div style="margin-bottom: 15px;">
+					Dernière mise à jour {{ produit.date|date('d') }}/{{ produit.date|date('m') }}/{{ produit.date|date('Y') }}; Langue: <span class="fa fa-globe"></span> Français
+				</div>
 			</div>
 
 			<div class="col-md-5">
-				<div class="img-thumbnail" style="min-height: 300px; padding: 7px;">
+				<div class="img-thumbnail" style="height: 420px; padding: 7px;">
 				
 					<div class="variation-contenu-ressource" style="height: 300px;">
 						<div class="loader-wrap">
@@ -578,24 +616,29 @@ body {
 							</div>
 						</div>
 					</div>
+
+					<div class="text-center" style="margin-top: 10px;">
+						<h3>Prix officiel: {{ produit.newprise|numberFormat }} {{ devise }}</h3>
+						<a href="#!" class="btn btn-primary btn-block souscription-cours-online" value="1">Commander</a>
+					</div>
 					
 					<script type="text/javascript">
-					$(document).ready(function(){
-						$.ajax({
-						url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'cours', 'id': produit.id, 'mess': mess }) }}',
-						type : 'POST',
-						dataType : 'html',
-						success : function(code_html, statut){ // success est toujours en place, bien sûr !
-							$('.variation-contenu-ressource').replaceWith(code_html);
-						},
+						$(document).ready(function(){
+							$.ajax({
+							url : '{{ path('produit_produit_async_ressources_formation_dwld',{'type': 'cours', 'id': produit.id, 'mess': mess }) }}',
+							type : 'POST',
+							dataType : 'html',
+							success : function(code_html, statut){ // success est toujours en place, bien sûr !
+								$('.variation-contenu-ressource').replaceWith(code_html);
+							},
 
-						error : function(resultat, statut, erreur){
-							alert("Echec");
-						}
+							error : function(resultat, statut, erreur){
+								alert("Echec");
+							}
 
+							});
 						});
-					});
-				</script>
+				    </script>
 					
 				</div>
 			</div>
@@ -606,21 +649,30 @@ body {
 <section style="margin-top: 15px;">
 	<div class="container">
 		<div class="row">
+			<style>
+				strong{
+					color: #000000, #9db93c, #ff1616;
+				}
+			</style>
 			<div class="col-md-7">
-				<div class="alert alert-success text-left" style="padding: 15px;  margin-bottom: 20px; border: 1px solid transparent; border-radius: 0px;"><span class="fa fa-info-circle"></span> Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu par l'état. <a href="#!" class="btn btn-primary souscription-cours-online"> Inscrivez-vous maintenant <span class="fa fa-angle-double-right"></span> </a> <span class="fa fa-check pull-right"></span></div>
+				<div class="text-left" style="background: #fff; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+					<a href="#!" class="btn btn-primary souscription-cours-online float-right" style="margin-top: 15px;"> C'est parti </a> 
+					<h2>Inscrivez vous à ce cours</h2>
+					<div>Accédez à toutes les ressources de ce cours et obtenez un certificat reconnu par l'état.</div>
+				</div>
 			
 				<div class="panel-text">
-					<div style="border-bottom: 1px solid #ddd;" class="text-primary"><strong><span class="mdi-communication-textsms"></span> {{ produit.titre }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+					<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-communication-textsms"></span> {{ produit.titre }} <a href="#!" class="open-content pull-right" value="down" name="1"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 					<div class="content-panel-1">{{ produit.description|raw }}</div>
 				</div>
 				
 				<div class="panel-text" style="margin-top: 15px;">
-					<div style="border-bottom: 1px solid #ddd;" class="text-info"><strong><span class="mdi-action-question-answer"></span> Objectifs de ce cours <a href="#!" class="open-content pull-right" value="down" name="2"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+					<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-action-question-answer"></span> Objectifs de ce cours <a href="#!" class="open-content pull-right" value="down" name="2"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 					<div class="content-panel-2">{{ produit.objectif|raw }}</div>
 				</div>
 				
 				<div class="panel-text" style="margin-top: 15px;">
-					<div style="border-bottom: 1px solid #ddd;" class="text-warning"><strong><span class="mdi-action-announcement"></span> Pré-requis <a href="#!" class="open-content pull-right" value="down" name="3"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
+					<div style="border-bottom: 1px solid #ddd;"><strong><span class="mdi-action-announcement"></span> Pré-requis <a href="#!" class="open-content pull-right" value="down" name="3"><span class="mdi-hardware-keyboard-arrow-down"></span></a></strong></div>
 					<div class="content-panel-3">{{ produit.prerequis|raw }}</div>
 				</div>
 
@@ -638,15 +690,11 @@ body {
 
 			</div>
 
-			<div class="col-md-5"> 
+			<div class="col-md-5 detail-course-margin" style=""> 
 				
-				<div class="card" style="margin-top: 100px; padding: 25px;">
+				<div class="card" style="padding: 25px;">
 					<h2 class="text-left">
 						À propos de ce cours
-
-						{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
-							<a href="{{ path('produit_produit_modification_produit_controller', {'id': produit.id }) }}" style="float: right; font-size: 15px;;"><span class="fa fa-pencil"></span> Modifier</a>
-						{% endif %}
 					</h2>
 
 					<div>
@@ -671,13 +719,21 @@ body {
 					</ul>
 
 					<div>
-						<strong>Prix officiel pour accéder à toutes les ressources du cours:</strong> <span class="badge badge-secondary">{{ produit.newprise }} {{ devise }}</span>
+						<strong>Prix officiel pour accéder à toutes les ressources du cours:</strong> <span class="badge badge-secondary">{{ produit.newprise|numberFormat }} {{ devise }}</span>
 					</div>
 					<div style="padding: 10px 0px;">
 						<h2>
 							<a href="#!" class="btn btn-primary souscription-cours-online" value="1">Souscrire à cette formation</a></li>
 						</h2>
 					</div>
+
+					<div style="margin-top: 15px;">
+					{% if app.user == produit.user or is_granted('ROLE_GESTION') %}
+						<a href="{{ path('produit_produit_modification_produit_controller', {'id': produit.id }) }}" style="font-size: 15px; margin-right: 10px;"><span class="fa fa-pencil"></span> Modifier</a>
+						<a href="{{ path('produit_produit_classement_lecons_chapitres', {'id': produit.id }) }}" style="font-size: 15px; margin-right: 10px;"><span class="fa fa-random"></span> Classer</a>
+					{% endif %}
+					</div>
+					
 				</div>	
 
 				<div  class="card" style="padding: 25px; margin-top: 10px; ">
@@ -776,105 +832,58 @@ body {
 				  </div>
 
 				  <h2>Support du cours</h2>
+				
 				<div class="list-group">
-					{% for support in supportchapitres %}
+					{% for support in supportchapitres|slice(0,4) %}
 					  <div class="list-group-item">
 						<a href="{{ path('produit_produit_presentation_chapter', {'id': support.chapitrecours.id }) }}">{{ support.chapitrecours.titre }}</a> 
 						<span class="fa fa-angle-right"> </span>
 						Support Numéro: {{ support.num }}
-						<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-file-text-o"></span> Supports </a>
-						<ul class="dropdown-menu" style="width: 300px; float: right; margin-right: 50px; padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
-							<li class="divider"></li>
-							{% if prodpan != null %}
-								<li><a href="{{ path('produit_produit_telecharger_support_chapter', {'id': support.id}) }}" target="_blank"><span class="fa fa-arrow-circle-o-down"></span> Télchargez le support</a></li>
-							{% else %}
-								<li><a href="#!" class="souscription-cours-online"><span class="fa fa-arrow-circle-o-down"></span> Télchargez le support</a></li>
-							{% endif %}
-							{% if app.user == produit.user %}
-							<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': support.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un support</a></li>
-							{% endif %}
-						</ul>
 					  </div>
 					{% else %}	  
 						<div class="alert panel-text">
 							<strong>Aucune donnée pour cette section</strong>
 						</div>
-					{% endfor %}	  
+					{% endfor %}
+					<div class="list-group-item">
+						<a href="#!">Tous les supports de cours <span class="badge">{{ supportchapitres|length}}</span></a> 
+					</div>	  
 				</div>
 				
 				<h2>Travaux pratiques</h2>
 				<div class="list-group">
-				    {% for pratique in pratiquechapitres %}
+				    {% for pratique in pratiquechapitres|slice(0,4) %}
 					  <div class="list-group-item">
 						<a href="{{ path('produit_produit_presentation_chapter', {'id': pratique.chapitrecours.id }) }}">{{ pratique.chapitrecours.titre }}</a> 
 						<span class="fa fa-angle-right"> </span>
 						TP N°: {{ pratique.num }}
-						<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-file-text-o"></span> Supports </a>
-						<ul class="dropdown-menu" style="width: 300px; float: right; margin-right: 50px; padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
-							<li class="divider"></li>
-							{% if prodpan != null %}
-								<li><a href="{{ path('produit_produit_download_travaux_pratique', {'id': pratique.id }) }}" target="_blank"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a></li>
-								<li class="divider"></li>
-								{% if prodpan.produit != null %}
-								<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
-								{% else %}
-									{% if prodpan.panier.chapitrecours != null %}
-									<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
-									{% endif %}
-								{% endif %}
-							{% else %}
-								<li><a href="#!" class="souscription-cours-online"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez le Tp</a></li>
-							{% endif %}
-							
-							<li class="divider"></li>
-							{% if app.user == produit.user %}
-							<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': pratique.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un Tp</a></li>
-							{% endif %}
-						</ul>
 					  </div>
 					{% else %}	  
 						<div class="alert panel-text">
 							<strong>Aucune donnée pour cette section</strong>
 						</div>
 					{% endfor %}
+					<div class="list-group-item">
+						<a href="#!">Tous les TP du cours <span class="badge">{{ pratiquechapitres|length}}</span></a> 
+					</div>	
 				</div>
 
 				<h2>Exercices</h2>
 				<div class="list-group">
-				    {% for exercice in exerciceparties %}
+				    {% for exercice in exerciceparties|slice(0,4)  %}
 					  <div class="list-group-item">
-						
 						<a href="{{ path('produit_produit_presentation_chapter', {'id': exercice.chapitrecours.id }) }}">{{ exercice.chapitrecours.titre }}</a> 
 						<span class="fa fa-angle-right"> </span>
 						Exervice N°: {{ exercice.num }}
-						<a class="dropdown-toggle pull-right " data-toggle="dropdown" style="float: right; cursor: pointer"><span class=" fa fa-file-text-o"></span> Supports </a>
-						<ul class="dropdown-menu" style="width: 300px; float: right; margin-right: 50px; padding: 7px; box-shadow: 0px 4px 10px #c9c9c9;background: #fff; border-radius: 5px;">
-							<li class="divider"></li>
-							{% if prodpan != null %}
-								<li><a href="{{ path('produit_produit_telecharge_exercice', {'id': exercice.id }) }}" target="_blank"><span class=" fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a></li>
-								<li class="divider"></li>
-								{% if prodpan.produit != null %}
-								<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
-								{% else %}
-									{% if prodpan.panier.chapitrecours != null %}
-									<li><a href="{{ path('users_user_detail_panier_user', {'panier': prodpan.panier.id, 'produit': prodpan.panier.chapitrecours.partiecours.produit.id }) }}"><span class=" fa fa-arrow-circle-o-up"></span> Déposez votre correction</a></li>
-									{% endif %}
-								{% endif %}
-							{% else %}
-								<li><a href="#!" class="souscription-cours-online"><span class="fa fa-arrow-circle-o-down"></span> Télchargez l'éxercice</a></li>
-							{% endif %}
-							
-							<li class="divider"></li>
-							{% if app.user == produit.user %}
-								<li><a  href="{{ path('produit_produit_user_modif_chapter', {'id': exercice.id }) }}"><span class="fa fa-file-text-o"></span> Ajouter un Exercice</a></li>
-							{% endif %}
-						</ul>
 					  </div>
 					{% else %}	  
 						<div class="alert panel-text">
 							<strong>Aucune donnée pour cette section</strong>
 						</div>
 					{% endfor %}
+					<div class="list-group-item">
+						<a href="#!">Tous les exercices du cours <span class="badge">{{ exerciceparties|length}}</span></a> 
+					</div>	
 				</div>
 				{#
 				<h2>Auto-évaluation des compétences</h2>
@@ -1029,7 +1038,7 @@ body {
 			<h5 class="card-title" style="margin-bottom: 5px;">{{ produit.name(60) }}</h5>
 			<h6 class="card-subtitle mb-2 text-muted"><span class="fa fa-angle-right"></span> Ce cours uniquement</h6>
 			<p class="card-text">{{ produit.description|raw }}</p>
-			<a href="#!" class="card-link"><strong>{{ produit.newprise }} {{ devise }}</strong></a>
+			<a href="#!" class="card-link"><strong>{{ produit.newprise|numberFormat }} {{ devise }}</strong></a>
 		    <a href="#!" class="card-link btn btn-primary souscription-cours-btn" style="float: right;">Souscription</a>
 		</div>
 	</div>
@@ -1052,25 +1061,26 @@ body {
 		<div class="text-left form-souscription-user pass-souscription-cours" style="border: 1px solid #ddd; border-radius: 7px; padding: 20px; margin-top: 15px; background: #f7f7f7;">
 			<h3>Prix unique de souscription au cours {{ produit.name(60) }}</h3>
 			<div>
-				<span class="badge badge-primary">{{ produit.newprise }} {{ devise }}</span>
+				<span class="badge badge-primary">{{ produit.newprise|numberFormat }} {{ devise }}</span>
 			</div>
 			<div style="border-top: 1px solid #ddd; margin-top: 15px;">
-				Pour souscrire, veuillez rentrez votre mot de passe.
+				Pour souscrire, veuillez rentrer votre mot de passe.
 			</div>
 			
 			<div class="clearfix"></div>
 			<form action="{{ path('produit_produit_ajouter_product_panier', {'id': produit.id }) }}" method="post" style="margin-top: 15px;">
-				<div class="form-group">
-					<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+				<div class="form-group" style="position: sticky;">
+					<input type="password" placeholder="Rentrez votre mot de passe" id="password-field2" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px;">
 					<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+					<span toggle="#password-field2" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
 				</div>
 				<div style="margin-top: 15px;">
-					<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le payement avec votre compte</button>
+					<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte</button>
 				</div>
 			</form>
 			{% if app.user != null %}
 			<div class="alert alert-info" style="margin-top: 15px;">
-				<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal }} {{ devise }}</span>  </div>
+				<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal|numberFormat }} {{ devise }}</span>  </div>
 				{% if app.user.soldeprincipal < produit.newprise  %}
 				<a href="{{ path('produit_service_yourcv_recrutement') }}" class="">
 					<span style="color: red; font-size: 16px;">Solde Insufisant</span>: Cliquez ici pour créditer
@@ -1084,17 +1094,18 @@ body {
 			<div class="text-left form-souscription-user pass-souscription-formation" style="border: 1px solid #ddd; border-radius: 7px; padding: 20px; margin-top: 15px; background: #f7f7f7;">
 				<h3>Prix unique de souscription à la formation {{ oldservice.nom }}</h3>
 				<div>
-					<span class="badge badge-primary">{{ oldservice.nprix }} {{ devise }}</span>
+					<span class="badge badge-primary">{{ oldservice.nprix|numberFormat }} {{ devise }}</span>
 				</div>
 				<div style="border-top: 1px solid #ddd; margin-top: 15px;">
-					Pour souscrire, veuillez rentrez votre mot de passe.
+					Pour souscrire, veuillez rentrer votre mot de passe.
 				</div>
 				
 				<div class="clearfix"></div>
 				<form action="{{ path('produit_service_add_formation_panier', {'id': oldservice.id }) }}" method="post" style="margin-top: 15px;">
-					<div class="form-group">
-						<input type="password" placeholder="Rentrez votre mot de passe" id="password" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px; border: 3px solid #ddd;"/>
+					<div class="form-group" style="position: sticky;">
+						<input type="password" placeholder="Rentrez votre mot de passe" id="password-field" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px; border: 3px solid #ddd;"/>
 						<input type="hidden" placeholder="Rentrez votre mot de passe" id="typedeformation" name="_typedeformation" required class="input-type-deformation" style="margin-top: 15px; width: 100%; border-radius: 0px;">
+						<span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
 					</div>
 					<div style="margin-top: 15px;">
 						<button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte</button>
@@ -1102,7 +1113,7 @@ body {
 				</form>
 				{% if app.user != null %}
 				<div class="alert alert-info" style="margin-top: 15px;">
-					<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal }} {{ devise }}</span>  </div>
+					<div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal|numberFormat }} {{ devise }}</span>  </div>
 					{% if app.user.soldeprincipal < oldservice.nprix  %}
 					<a href="{{ path('produit_service_yourcv_recrutement') }}" style="text-decoration: underline;">
 						<span style="color: red; font-size: 16px;">Solde Insufisant</span>: Cliquez ici pour créditer
@@ -1130,7 +1141,54 @@ body {
 </div>
 </div>
 </div>
-	
+
+
+<div id="sppmodal-container-cours" class="sppmodal-container" style="color: #333;">
+	<div class="sppmodal-background">
+		<div class="sppmodal ">
+			<div class="row">
+			<div class="col-md-12">
+				<a href="#!" class="float-right close-sppmodal">
+					<img src="{{ asset('template/images/close.svg') }}" class="img-size-15"/>
+				</a>
+				<h3 class="text-left" style="font-family: OpenSans-Bold; color: #333; padding: 0px;margin: 0px;">Bravo !!!</h3>
+			</div>
+			<div class="col-md-12">
+				<hr>
+			</div>
+			<div class="col-md-12">
+					
+				<div class="text-left">
+					<div class="col-sm-12 col-md-12 text-center" style="margin-bottom: 20px;">
+						<h3 style="font-family: OpenSans-Bold; color: #333;">
+							<div>
+								<img src="{{ asset('template/images/messagefin.png') }}" alt="" style="height: 100px;">
+							</div>
+							Vous venez de regarder la vidéo de présentation de cette formation
+						</h3>
+						
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+				<div style="margin: 30px 0px 15px 0px;">
+					<h4 style="color: #333;">Que souhaitez-vous faire maintenant ?</h4>
+				</div>
+
+				<div>
+					<div class="btn-group" role="group" aria-label="Basic example">
+					<button type="button" class="btn btn-primary" onclick="souscrireLaFormation();" style="white-space: normal; text-transform: capitalize;">M'inscrire immediatement au cours</button>
+					<button type="button" class="btn btn-secondary" onclick="poursuivreLaFormation();" style="white-space: normal; text-transform: capitalize;">Poursuivre avec la première leçon</button>
+					</div>
+				</div>
+
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 {% endblock %}
 
 {% block srcjavascripttemplate %}
@@ -1138,6 +1196,17 @@ body {
 {% endblock %}
 
 {% block javascripttemplate %}
+
+function souscrireLaFormation(){
+	$('#sppmodal-container-cours').addClass('out');
+	$('body').removeClass('sppmodal-active');
+	$('.souscription-cours-online').trigger('click');
+}
+$('.close-sppmodal').click(function(){
+	$('#sppmodal-container-cours').addClass('out');
+	$('body').removeClass('sppmodal-active');
+});
+
 
 jQuery(function($){
 

@@ -183,40 +183,40 @@ var extensionsImgValides= new Array({{ imagesite|raw }});
 var maximgsize = 1500000;
 $(".form_subject_forum").on("submit", function() {
 if($('#produit_servicebundle_serviceedit_nom').val().length < minchamp1 || $('#produit_servicebundle_serviceedit_nom').val().length > maxchamp1){
-$("div.champ1").addClass("has-error");
-$("div.alertnotif1").show("slow").delay(6000).hide("slow");
-$('.control-info-champ1').html($('#produit_servicebundle_serviceedit_nom').val().length+'/'+maxchamp1);
-$('#produit_servicebundle_serviceedit_nom').focus();
-return false;
+	$("div.champ1").addClass("has-error");
+	$("div.alertnotif1").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ1').html($('#produit_servicebundle_serviceedit_nom').val().length+'/'+maxchamp1);
+	$('#produit_servicebundle_serviceedit_nom').focus();
+	return false;
 }
 if($('#produit_servicebundle_serviceedit_description').val().length < minchamp2 || $('#produit_servicebundle_serviceedit_description').val().length > maxchamp2){
-$("div.champ2").addClass("has-error");
-$("div.alertnotif2").show("slow").delay(6000).hide("slow");
-$('.control-info-champ2').html($('#produit_servicebundle_serviceedit_description').val().length+'/'+maxchamp2);
-$('#produit_servicebundle_serviceedit_description').focus();
-return false;
+	$("div.champ2").addClass("has-error");
+	$("div.alertnotif2").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ2').html($('#produit_servicebundle_serviceedit_description').val().length+'/'+maxchamp2);
+	$('#produit_servicebundle_serviceedit_description').focus();
+	return false;
 }
 if($('#produit_servicebundle_serviceedit_keyword').val().length != minchamp3 && $('#produit_servicebundle_serviceedit_keyword').val().length > maxchamp3){
-$("div.champ3").addClass("has-error");
-$("div.alertnotif3").show("slow").delay(6000).hide("slow");
-$('.control-info-champ3').html($('#produit_servicebundle_serviceedit_keyword').val().length+'/'+maxchamp3);
-$('#produit_servicebundle_serviceedit_keyword').focus();
-return false;
+	$("div.champ3").addClass("has-error");
+	$("div.alertnotif3").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ3').html($('#produit_servicebundle_serviceedit_keyword').val().length+'/'+maxchamp3);
+	$('#produit_servicebundle_serviceedit_keyword').focus();
+	return false;
 }
 if(!is_int($('#produit_servicebundle_serviceedit_rang').val()) || $('#produit_servicebundle_serviceedit_rang').val() < 0){
-$("div.champ4").addClass("has-error");
-$("div.alertnotif4").show("slow").delay(6000).hide("slow");
-$('.control-info-champ4').html('Not Int');
-$('#produit_servicebundle_serviceedit_rang').focus();
-return false;
+	$("div.champ4").addClass("has-error");
+	$("div.alertnotif4").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ4').html('Not Int');
+	$('#produit_servicebundle_serviceedit_rang').focus();
+	return false;
 }
 if($('#produit_servicebundle_serviceedit_souscategorie').val() == -1)
 {
-$("div.champ5").addClass("has-error");
-$("div.alertnotif5").show("slow").delay(6000).hide("slow");
-$('.control-info-champ5').html('Sélectionnez une Catégorie');
-$('#produit_servicebundle_serviceedit_souscategorie').focus();
-return false;
+	$("div.champ5").addClass("has-error");
+	$("div.alertnotif5").show("slow").delay(6000).hide("slow");
+	$('.control-info-champ5').html('Sélectionnez une Catégorie');
+	$('#produit_servicebundle_serviceedit_souscategorie').focus();
+	return false;
 }
 if(scriptVerifFile('produit_servicebundle_serviceedit_imgservice_file',extensionsImgValides,maximgsize) == false)
 {
@@ -244,13 +244,13 @@ function scriptVerifFile(champ,listeExt,taillemax)
 {
 var files = $('#'+champ)[0].files;
 if (files.length > 0){
-file = files[0],
-filename = file.name;
-filesize = file.size;
+	file = files[0],
+	filename = file.name;
+	filesize = file.size;
 }else{
-filename = '';
-filesize = 0;
-return true;
+	filename = '';
+	filesize = 0;
+	return true;
 }
 if(filesize == 0 || filesize > taillemax)
 {
@@ -325,5 +325,5 @@ controlScroll();
 </script>	
 {% endblock %}
 {% block javascripttemplate %}
-$('.competition-service').addClass('position-user');
+	$('.competition-service').addClass('position-user');
 {% endblock %}

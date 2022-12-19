@@ -1,0 +1,30 @@
+<div class="text-left form-souscription-user pass-souscription-cours" style="border: 1px solid #ddd; border-radius: 7px; padding: 20px; margin-top: 15px; background: #f7f7f7;">
+    <h3>Prix unique de souscription au pack {{ offre.nom }}</h3>
+    <div>
+        <span class="badge badge-primary">{{ offre.newprise|numberFormat }} {{ devise }}</span>
+    </div>
+    <div style="border-top: 1px solid #ddd; margin-top: 15px;">
+        Pour souscrire, veuillez rentrer votre mot de passe.
+    </div>
+    
+    <div class="clearfix"></div>
+    <form action="{{ path('pricing_offre_validation_souscription_premium', {'id': offre.id }) }}" method="post" style="margin-top: 15px;">
+        <div class="form-group" style="position: sticky;">
+            <input type="password" placeholder="Rentrez votre mot de passe" id="password-field2" name="_password" required class="form-control" style="margin-top: 15px; width: 100%; border-radius: 5px;">
+            <span toggle="#password-field2" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 7px;"></span>
+        </div>
+        <div style="margin-top: 15px;">
+            <button type="submit" class="btn btn-primary btn-block bg-struct" style="border-radius: 0px;">Confirmez le paiement avec votre compte</button>
+        </div>
+    </form>
+    {% if app.user != null %}
+    <div class="alert alert-info" style="margin-top: 15px;">
+        <div>Votre solde actuel est de: <span class="badge badge-danger">{{ app.user.soldeprincipal|numberFormat }} {{ devise }}</span>  </div>
+        {% if app.user.soldeprincipal < offre.newprise  %}
+        <a href="{{ path('produit_service_yourcv_recrutement') }}" class="">
+            <span style="color: red; font-size: 16px;">Solde Insufisant</span>: Cliquez ici pour créditer
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>

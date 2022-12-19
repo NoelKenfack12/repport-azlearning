@@ -34,6 +34,7 @@ class StatistiqueController extends AbstractController
 		}
 
         return $this->render('Theme/Users/User/Statistique/etatsouscription.html.twig',
-        array('user'=>$this->getUser(), 'currentmois'=>$mois,'currentannee'=>$annee,'currentjour'=>$jour));
+        array('user'=>$this->getUser(), 'currentmois'=>$mois,'currentannee'=>$annee,
+        'currentjour'=>$jour, 'liste_panier'=>$liste_panier));
     }
 }

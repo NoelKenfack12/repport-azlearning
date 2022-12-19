@@ -1,0 +1,251 @@
+<style>
+	.header-card{
+		box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); padding: 7px; background: #092759; margin: -1px -1px 0px -1px; color: #fff;
+	}
+</style>
+<div class="toutleblock">
+<div class="panel panel-widget">
+	<div class="compose-left">
+		<div class="chat-grid widget-shadow">
+		<div class="head header-card">Gestion du Site</div>
+			<ul>
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+				<a class="img-slide open-element" href="{{ path('users_adminuser_accueil_administration') }}">
+					
+					<div class="col-xs-12">
+						<div style="float: left; margin-right: 15px;">
+							<span class="fa fa-sliders" style="font-size: 40px;"></span>
+						</div>
+						<strong>Images et Slides</strong></br>
+						Accueil, Inscription, connexion
+					</div>
+					<div class="clearfix"> </div>	
+				</a>
+				</li>
+				
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="admin-site open-element" href="{{ path('users_adminuser_ajout_nouveau_admin') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-sun-o" style="font-size: 40px;"></span>
+							</div>
+							<strong>Gestion des Admins</strong></br>
+							Ajout, Suppression
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="categorie-produit open-element" href="{{ path('users_adminuser_categorisation_produit_plateforme') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-tasks" style="font-size: 40px;"></span>
+							</div>
+							<strong>Modules de formation</strong></br>
+							Cours
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="article-service open-element" href="{{ path('users_adminuser_ajouter_nouveau_service') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-low-vision" style="font-size: 40px;"></span>
+							</div>
+							<strong>Offres de formation</strong></br>
+							Parcours
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li style="border-bottom: 1px solid rgb(29, 27, 27); padding: 7px 0px; margin-right: -1px;">
+					<a class="competition-service open-element" href="{{ path('users_adminuser_ajouter_nouvelle_competition_user') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-question-circle" style="font-size: 40px;"></span>
+							</div>
+							<strong>Modules du forum</strong></br>
+							Cours, parcours, formations
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="fiche-enligne open-element" href="{{ path('users_adminuser_liste_dossier_recrutement') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-file-text-o" style="font-size: 40px;"></span>
+							</div>
+							<strong>Fiches d'ajout des fonds</strong></br>
+							Comptes utilisateurs
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="fiche-commandes" href="{{ path('users_adminuser_liste_panier_non_livrer') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-cart-arrow-down" style="font-size: 40px;"></span>
+							</div>
+							<strong>Liste des commandes</strong></br>
+							Comptes utilisateurs
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-widget">
+	<div class="compose-left">
+		<div class="chat-grid widget-shadow">
+		<div class="head header-card">Gestion de l'entreprise</div>
+			<ul>
+				<li  style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="menu-about-us open-element" href="{{ path('users_adminuser_gestion_info_entreprise') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-info-circle" style="font-size: 40px;"></span>
+							</div>
+							<strong>Informations À propos</strong></br>
+							Présentation
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li  style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="new-service open-element" href="{{ path('users_adminusers_add_new_service') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-bandcamp" style="font-size: 40px;"></span>
+							</div>
+							<strong>Valeurs ajoutés</strong></br>
+							Accueil
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li  style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="villes-service open-element" href="{{ path('produit_service_ajouter_ville') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-map-marker" style="font-size: 40px;"></span>
+							</div>
+							<strong>Nos villes</strong></br>
+							Villes d'opérations
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li  style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="villes-service open-element" href="{{ path('users_adminuser_form_pays_continent') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-map-marker" style="font-size: 40px;"></span>
+							</div>
+							<strong>Liste des pays</strong></br>
+							Gestions des pays et continents
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="mytestimonials open-element" href="{{ path('users_adminuser_liste_all_user') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-users" style="font-size: 40px;"></span>
+							</div>
+							<strong>Utilisateurs </strong></br>
+							Formateurs & Elèves
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li  style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="message-inbox open-element" href="{{ path('users_adminuser_liste_message_recu') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-envelope-o" style="font-size: 40px;"></span>
+							</div>
+							<strong>Messages Inbox</strong></br>
+							Contacts, Conseils
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="campagne-mail open-element" href="{{ path('users_adminuser_message_email_new_letter') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-send-o" style="font-size: 40px;"></span>
+							</div>
+							<strong>Campagne E-mail</strong></br>
+							Diffusion d'emails
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+				
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="campagne-mail open-element" href="{{ path('users_adminuser_catalogue_chantier_pro') }}">
+		
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-assistive-listening-systems" style="font-size: 40px;"></span>
+							</div>
+							<strong>Liste des métiers</strong></br>
+							Recommandations
+						</div>
+						
+						<div class="clearfix"></div>	
+					</a>
+				</li>
+
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="campagne-mail open-element" href="{{ path('users_adminuser_parametres_administration') }}">
+		
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-cog" style="font-size: 40px;"></span>
+							</div>
+							<strong>Paramettres du site</strong></br>
+							Personnalisation
+						</div>
+						
+						<div class="clearfix"></div>	
+					</a>
+				</li>
+
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="campagne-mail open-element" href="{{ path('users_adminuser_liste_doc_and_candidature') }}">
+		
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-file" style="font-size: 40px;"></span>
+							</div>
+							<strong>Candidatures et Flyers</strong></br>
+							Téléchargement et upload des documents
+						</div>
+						
+						<div class="clearfix"></div>	
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+				
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 stop-courant-panel">
+				
+</div>
+</div>	
+
+	

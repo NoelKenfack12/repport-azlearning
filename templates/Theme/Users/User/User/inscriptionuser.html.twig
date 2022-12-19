@@ -1,162 +1,259 @@
 {% extends "Theme/Users/User/layoutlogin.html.twig" %}
-
 {% block meta %}
-
 	{{ parent() }}
-	<meta name="keywords" content="{{ site }}, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos, Informatique Cameroun, Génie logicielle."/>
-	<meta name="author" content="Noel Kenfack, noel.kenfack@afhunt.com"/>
-	<meta name="description" content="{{ site }} - {{ metier }} - Suivez à votre rythme une formation professionnelle sur la plateforme d'e-learning de l'institut de formation proffessionnelle AZ corporation."/>
-	
+	<meta name="keywords" content="{{ site }}, Business, Innovation,Administration"/>
+	<meta name="author" content="Noel Kenfack"/>
+	<meta name="description" content="{{ site }} | Inscription | Cameroun | {{ metier }}" />
 {% endblock %}
 
 {% block title %}
-	{{ parent() }} | {{ site }} | Créez un nouveau compte et suivez votre formation à distance.
+	{{ parent() }} | Inscription
 {% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+
+	<style media="screen">
+	.tint {
+		background: linear-gradient(
+			rgba(0, 0, 0, .6),
+			rgba(0, 0, 0, .1)),
+			url("{% if signupbg != null and signupbg.src != null %}{{ asset(signupbg.getwebpath) }}{% else %}https://images.unsplash.com/photo-1420745981456-b95fe23f5753?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb{% endif %}") 100% / cover ;
+		height: 100%;
+		padding: 1.5em;
+		width: 50%;
+		background-size: cover;
+		}
+
+		h1 {
+		margin-bottom: .25em;
+		}
+
+		h1,
+		p,
+		a {
+			color: rgba(255, 255, 255, .95);
+		}
+		.select2-container--default .select2-selection--single {
+			background-color: #fff;
+			border: 1px solid #aaa;
+			border-radius: 27px 0px 0px 27px!important;
+			padding-top: 10px!important;
+		}
+		.select2-container .select2-selection--single {
+			height: 55px!important;
+		}
+		.select2-container--default .select2-selection--single .select2-selection__arrow b {
+			margin-top: 10px!important;
+		}
+		.login-wrapper .login-btn{
+			background-color: #092759;
+			border: 1px solid #092759;
+		}
+		.login-wrapper .login-btn:hover{
+			background-color: #fff;
+			border: 1px solid #76b4e7;
+			color: #76b4e7;
+		}
+		.login-check-box .custom-control-label::before{
+			left: 0px;
+		}
+		.custom-control-input {
+			width: 0px!important;
+		}
+	</style>
+{% endblock %}
+
 
 {% block userblog_body %}
 
-<style>
-	.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-		width: 100%!important;
-		
-	}
-	.bootstrap-select>select {
-    	width: 100%!important;
-	}
-	.focus-input100{
-		position: relative;
-	}
-	.bootstrap-select>.dropdown-toggle {
-		height: 55px;
-		position: relative;
-		border-radius: 40px 0px 0px 40px;
-		background: #f4f4f4;
-		padding-top: 15px;
-		border: 1px solid #ddd;
-	}
-</style>
-<div class="container-login100">
-	<div style="background: url('{{ asset('template/images/banniere.jpg') }}');
-  background-repeat: no-repeat;
-  background-size: cover; min-height: 250px; position: fixed; width: 100%; top: 0px; left: 0px;">
-	
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-6 d-flex">
+  <div class="login-wrapper m-auto">
+	<div class="brand-wrapper" style="margin-bottom: 20px;">
+	  <img src="{% if paramlogosm != null and paramlogosm.src != null %}{{ asset(paramlogosm.getwebpath) }}{% else %}{{ asset('template/images/logo.png') }}{% endif %}" alt="logo" class="logo">
+	  {% if paramlogosm != null  %}
+		<a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #343a40;">{{ paramlogosm.link }}</span> <span style="color: #739fec;"> {{ paramlogosm.valeur }}</span></strong></a>
+		{% else %}
+			<a href="{{ path('users_user_acces_plateforme') }}"><strong><span style="color: #343a40;">AZ</span> <span style="color: #739fec;"> E-learning</span></strong></a>
+	{% endif %}
 	</div>
-	<div class="wrap-login100" style="position: relative; z-index: 100;">
-			{{ form_start(form, {'attr': {'id': 'form_post_new_product','action': path('users_user_inscription_user'), 'class': 'login-form login100-form validate-form p-l-55 p-r-55 p-t-178'  }}) }}
-			<div class="login100-form-title" style="margin-bottom: 150px;">
-				<div class="text-center"><strong>C'est beaucoup mieux avec un compte !</strong></div>
-                <div class="text-center" style="padding-top: 10px; text-align: center; display: block; font-size: 12px;">Veuillez remplir les champs ci-dessous </div>
-			</div>
+	<p class="login-description">Créez un  nouveau compte !</p>
 
-			{% for infos in app.session.flashbag.get('information') %}
-				{% if loop.last %}
-					<p class="center" style="color: red; padding: 7px; font-weight: bold;">{{ infos }}</p>
-				{% endif %}
-			{% endfor %}
-			<span style="color:red;">{{ form_errors(form) }}</span>
-			<div>
-				<span style="color:red;">{{ form_errors(form) }}</span>
-			</div>
-			<div>
-				<span style="color:red;">{{ form_errors(form.nom) }}</span>
-			</div>
-			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
-				{{ form_widget(form.nom, {'attr': {'class': 'input100', 'placeholder': 'Entrez votre nom'}}) }}
-				<span class="focus-input100"></span>
-			</div>
-			
-			<div>
-				<span style="color:red;">{{ form_errors(form.prenom) }}</span>
-			</div>
-			
-			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
-				{{ form_widget(form.prenom,{'attr': {'class': 'input100', 'placeholder': 'Entrez votre prenom'}}) }}
-				<span class="focus-input100"></span>
-			</div>
-			
-			<div>
-				<span style="color:red;">{{ form_errors(form.username) }}</span>
-			</div>
 
-			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
-				{{ form_widget(form.username, {'attr': {'class': 'input100', 'placeholder': 'Entrez votre Email ou Numéro de téléphone'}}) }}
-				<span class="focus-input100"></span>
-			</div>
-			
-			<div>
-				<span style="color:red;">{{ form_errors(form.password) }}</span>
-			</div>
-			
-			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
-				{{ form_widget(form.password, {'attr': {'class': 'input100', 'placeholder': 'Entrez votre Mot de passe'}}) }}
-				<span toggle="#users_userbundle_user_password" class="fa fa-fw fa-eye field-icon toggle-password" style="margin-top: -35px;"></span>
-			</div>
+	{% for infos in app.session.flashbag.get('information') %}
+	{% if loop.last %}
+		<p class="text-center" style="color: red;">{{ infos }}</p>
+	{% endif %}
+	{% endfor %}
 
-			<div>
-				<span style="color:red;">{{ form_errors(form.tel) }}</span>
-			</div>
+	{% if pack != '' %}
+		{% set signUrl = path('users_user_inscription_user', {'pack': pack }) %}
+	{% else %}
+		{% set signUrl = path('users_user_inscription_user') %}
+	{% endif %}
 
-			<div class="wrap-input100 validate-input m-b-16" style="margin-top: 20px;">
-				<div class="row">
-					<div class="col-6 col-md-6" style="padding-right: 0px;">
-						<select id="pays_code" class="selectpicker show-menu-arrow" name="pays" data-live-search="true" data-live-search-placeholder="Search" data-size="5">
-							{% for continent in liste_continent %} 
-							  <optgroup label="{{ continent.nom }}">
-								  {% set liste_pays = continent.listePays() %}
-								  {% for pays in liste_pays %}
-									<option data-content="{{ pays.nom[:13] }} <span class='badge badge-success'> {{ pays.code }}</span>">{{ pays.id }}</option>
-								  {% endfor %}
-							  </optgroup>
-							{% endfor %}
-							
-						</select>						  
-					</div>
-					<div class="col-6 col-md-6" style="padding-left: 0px;">
-						{{ form_widget(form.tel, {'attr': {'class': 'input100', 'placeholder': 'Entrez votre Numéro de téléphone', 'style':'border-radius: 0px 27px 27px 0px;'}}) }}
-						
-					</div>
-				</div>
-			</div>
+	{{ form_start(form, {'attr': {'class': 'login-form form-validation','action': signUrl }}) }}
+	  <div class="form-group">
+		<span style="color:red;">{{ form_errors(form) }}</span>
+		<span style="color:red;">{{ form_errors(form.nom) }}</span>
+	  </div>
+	  <div class="form-group">
+		{{ form_label(form.nom, 'Nom de famille',{'attr': {'class': 'sr-only'}}) }}
+		<div class="input-group">
+		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
+			<span class="input-group-text"><i class="fa fa-user"></i></span>
+		  </div>
+		  {{ form_widget(form.nom,{'attr': {'class': 'form-control', 'placeholder': 'Nom de famille'}}) }}
+		</div>
+	  </div>
+	  <div class="form-group">
+		  <div><span style="color:red;">{{ form_errors(form.prenom) }}</span></div>
+		{{ form_label(form.prenom, 'Prenom',{'attr': {'class': 'sr-only'}}) }}
+		<div class="input-group">
+		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
+			<span class="input-group-text"><i class="fa fa-list-alt"></i></span>
+		  </div>
+		  {{ form_widget(form.prenom,{'attr': {'class': 'form-control', 'placeholder': 'Prenom'}}) }}
+		</div>
+	  </div>
+	  <div class="form-group">
+		<div><span style="color:red;">{{ form_errors(form.username) }}</span></div>
+		{{ form_label(form.username, 'Email ou Téléphone',{'attr': {'class': 'sr-only'}}) }}
+		<div class="input-group">
+		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
+			<span class="input-group-text"><i class="fa fa-envelope"></i></span>
+		  </div>
+		  {{ form_widget(form.username,{'attr': {'class': 'form-control', 'placeholder': 'Email ou Téléphone'}}) }}
+		</div>
+	  </div>
+	  <div class="form-group">
+		<div><span style="color:red;">{{ form_errors(form.password) }}</span></div>
+		{{ form_label(form.password, 'Mot de passe',{'attr': {'class': 'sr-only'}}) }}
+		<div class="input-group">
+		  <div class="input-group-prepend" style="padding: 15px 10px 15px 0px;">
+			<span class="input-group-text"><i class="fa fa-lock"></i></span>
+		  </div>
+		  {{ form_widget(form.password,{'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+		  <span toggle="#user_password" class="fa fa-fw fa-eye-slash field-icon toggle-password" style="top: 10px;"></span>
+		</div>
+	  </div>
 
-			<div class="container-login100-form-btn">
-				<button class="login100-form-btn">
-					Je m'inscris
-				</button>
-			</div>
+	  <div>
+		<span style="color:red;">{{ form_errors(form.tel) }}</span>
+	 </div>
 
-			<div class="flex-col-c p-t-100 p-b-40">
-				<span class="txt1 p-b-9">
-					Vous avez un compte AZ ?
-				</span>
-
-				<a href="{{ path('login') }}" class="txt3">
-					Se connecter
-				</a>
+	<div class="form-group">
+		<div class="row" style="padding: 0px;">
+			<div class="col-6 col-md-6" style="padding-right: 0px;">
+				<select id="my_select" class="selectpicker" name="pays" style="width: 100%;">
+					{% for continent in liste_continent %} 
+					  <optgroup label="{{ continent.nom }}">
+						  {% set liste_pays = continent.listePays() %}
+						  {% for pays in liste_pays %}
+							<option value="{{ pays.id }}"> <span class='badge badge-success'> {{ pays.code }}</span> {{ pays.nom }}</option>
+						  {% endfor %}
+					  </optgroup>
+					{% endfor %}
+				</select>						  
 			</div>
-			{{ form_end(form) }}
-		</form>
+			<div class="col-6 col-md-6" style="padding-left: 0px;">
+				{{ form_widget(form.tel, {'attr': {'class': 'form-control', 'placeholder': 'Numéro de téléphone', 'style':'border-radius: 0px 27px 27px 0px; border: 1px solid #ddd;'}}) }}
+				
+			</div>
+		</div>
+	</div>
+
+	<button name="login" id="login" class="btn btn-block login-btn" style="cursor: pointer;">S'inscrire</button>
+	{{ form_end(form) }}
+
+	{% if pack != '' %}
+		{% set loginUrl = path('login', {'pack': pack }) %}
+	{% else %}
+		{% set loginUrl = path('login') %}
+	{% endif %}
+	<p class="login-wrapper-footer-text">Vous avez un compte ? </br>
+		<a href="{{ loginUrl }}" class="text-reset">Connectez-vous</a>
+	</p>
+	<nav class="social-links">
+		<a href="http://facebook.com/AZcorpAfrica" target="_blank"><i class="fa fa-facebook-f"></i></a>
+		<a href="https://twitter.com/gaielbleriot?lang=en" target="_blank"><i class="fa fa-twitter"></i></a>
+		<a href="https://wa.me/237699934926" target="_blank"><i class="fa fa-whatsapp"></i></a>
+		<a href="https://www.youtube.com/channel/UCvlgTzTAw1tABaOXhDM7U8g" target="_blank"><i class="fa fa-youtube"></i></a>
+	</nav>
+  </div>
+</div>
+
+
+<div class="col-md-6 px-0 d-none d-md-block">
+
+<div style="background: #f2f2f2; position: fixed; width: 100%; border: 1px solid #ddd; height: 100%;">
+
+	<div class="tint">
+   <h1>{% if signupbg != null %}{{ signupbg.link }}{% else %}Actualité de la semaine{% endif %}</h1>
+   <p>{% if signupbg != null %}{{ signupbg.valeur }}{% else %}Suivez toute l'actualité de {{ site }}.{% endif %}</p>
+	</div>
+
+	<div >
+		<h1 class="title">{{ site }}</h1>
+		<h1 class="title title-large">{{ site }}</h1>
+	</div>
+
+	<div style="position: absolute; bottom: 5px; padding: 5px 20px;">
+		<a href="{{ path('users_user_acces_plateforme') }}" style="color: #fff;">Accueil</a> <span class="fa fa-circle" style="font-size: 11px; color: #fff;"></span>
+		<a href="{{ path('produit_produit_accueil_boutique_produit') }}" style="color: #fff;">Cours</a> <span class="fa fa-circle" style="font-size: 11px; color: #fff;"></span>
+		<a href="{{ path('produit_service_visiter_notre_blog') }}" style="color: #fff;">Formations</a> <span class="fa fa-circle" style="font-size: 11px; color: #fff;"></span>
+		<a href="{{ path('produit_service_forum_site') }}" style="color: #fff;">Forum</a>
 	</div>
 </div>
 
-{% include 'Theme/General/Template/Menu/menubottom.html.twig' %}
+</div>
+</div>
+</div>
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="{{ asset('template/bootselecct/css/bootstrap-select.min.css') }}">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="{{ asset('template/bootselecct/js/bootstrap-select.min.js') }}"></script>
-
-
+<link href="{{ asset('template/css/select2.min.css') }}" rel="stylesheet"/>
+<script src="{{ asset('template/js/select2.min.js') }}"></script>
 <script type="text/javascript">
-	$('.my-select').selectpicker();
+	var $disabledResults = $("#my_select");
+	$disabledResults.select2();
 </script>
 
 {% endblock %}
 
 {% block javascripttemplate %}
-
 $('#users_userbundle_user_nom').focus();
 
-
-
+$('.form-validation').on('submit',function(){
+	if($('#users_userbundle_user_nom').val().length < 3 || $('#users_userbundle_user_nom').val().length > 60)
+	{
+	   $('#users_userbundle_user_nom').focus();
+	   $('#users_userbundle_user_nom').val('');
+	   $('#users_userbundle_user_nom').attr('placeholder','Plus de 2 caractères');
+	   return false;
+	}
+	if($('#users_userbundle_user_prenom').val().length < 3 || $('#users_userbundle_user_prenom').val().length > 60)
+	{
+	   $('#users_userbundle_user_prenom').focus();
+	   $('#users_userbundle_user_prenom').val('');
+	   $('#users_userbundle_user_prenom').attr('placeholder','Plus de 2 caractères');
+	   return false;
+	}
+	if(!{{ mailregex }}.test($('#users_userbundle_user_username').val()) && !{{ number }}.test($('#users_userbundle_user_username').val()))
+	{
+	   $('#users_userbundle_user_username').focus();
+	   $('#users_userbundle_user_username').val('');
+	   $('#users_userbundle_user_username').attr('placeholder','Email ou Tel Invalid');
+	   return false;
+	}
+	if(!{{ passwordregex }}.test($('#users_userbundle_user_password').val()))
+	{
+	   $('#users_userbundle_user_password').focus();
+	   $('#users_userbundle_user_password').val('');
+	   $('#users_userbundle_user_password').attr('placeholder','Mot de passe invalid');
+	   return false;
+	}
+});
 {% endblock %}
+

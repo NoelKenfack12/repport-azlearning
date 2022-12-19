@@ -47,6 +47,7 @@
 						<div class="clearfix"> </div>	
 					</a>
 				</li>
+				
 				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
 					<a class="article-service open-element" href="{{ path('users_adminuser_ajouter_nouveau_service') }}">
 						<div class="col-xs-12">
@@ -59,6 +60,7 @@
 						<div class="clearfix"> </div>	
 					</a>
 				</li>
+
 				<li style="border-bottom: 1px solid rgb(29, 27, 27); padding: 7px 0px; margin-right: -1px;">
 					<a class="competition-service open-element" href="{{ path('users_adminuser_ajouter_nouvelle_competition_user') }}">
 						<div class="col-xs-12">
@@ -86,13 +88,39 @@
 				</li>
 
 				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
-					<a class="fiche-commandes" href="{{ path('users_adminuser_liste_panier_non_livrer') }}">
+					<a class="fiche-commandes" id="panier-nonlivrer" href="{{ path('users_adminuser_liste_panier_non_livrer') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-bandcamp" style="font-size: 40px;"></span>
+							</div>
+							<strong>Formations actives</strong></br>
+							Liste de formation en cours
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="fiche-commandes" id="panier-livrer" href="{{ path('users_adminuser_tousles_panier_livrer') }}">
 						<div class="col-xs-12">
 							<div style="float: left; margin-right: 15px;">
 								<span class="fa fa-cart-arrow-down" style="font-size: 40px;"></span>
 							</div>
-							<strong>Liste des commandes</strong></br>
-							Comptes utilisateurs
+							<strong>Formations cloturées</strong></br>
+							Liste des formations expirées
+						</div>
+						<div class="clearfix"> </div>	
+					</a>
+				</li>
+
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="fiche-commandes" id="panier-livrer" href="{{ path('users_adminuser_liste_produit') }}">
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-cart-arrow-down" style="font-size: 40px;"></span>
+							</div>
+							<strong>Abonnement</strong></br>
+							Nos plans d'abonnement
 						</div>
 						<div class="clearfix"> </div>	
 					</a>
@@ -202,6 +230,36 @@
 							</div>
 							<strong>Liste des métiers</strong></br>
 							Recommandations
+						</div>
+						
+						<div class="clearfix"></div>	
+					</a>
+				</li>
+
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="campagne-mail open-element" href="{{ path('users_adminuser_parametres_administration') }}">
+		
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-cog" style="font-size: 40px;"></span>
+							</div>
+							<strong>Paramettres du site</strong></br>
+							Personnalisation
+						</div>
+						
+						<div class="clearfix"></div>	
+					</a>
+				</li>
+
+				<li style="border-bottom: 1px solid #ddd; padding: 7px 0px; margin-right: -1px;">
+					<a class="campagne-mail open-element" href="{{ path('users_adminuser_liste_doc_and_candidature') }}">
+		
+						<div class="col-xs-12">
+							<div style="float: left; margin-right: 15px;">
+								<span class="fa fa-file" style="font-size: 40px;"></span>
+							</div>
+							<strong>Candidatures et Flyers</strong></br>
+							Téléchargement et upload des documents
 						</div>
 						
 						<div class="clearfix"></div>	

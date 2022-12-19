@@ -37,33 +37,23 @@
 <div class="container">
 	<div class="row mt centered">
 		<div class="col-lg-12" style="padding: 3px 7px;">
-			<h1 style="background: #ECF0F1; display: block; text-align: left;"><span class="mdi-action-subject"></span> {{ produit.titre[:50] }}
-			<div class="btn-group pull-right" style="margin-top: -10px; padding: 0px;">
-			<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; padding: 0px; margin: 0px;"><i class="mdi-hardware-keyboard-arrow-down" style="padding: 0px; margin: 0px;"></i></a>
-				<ul class="dropdown-menu pull-right" style="margin-top: 0px; border-radius: 0px;">
-					<li><a href="{{ path('produit_produit_modification_produit_controller', {'id': produit.id }) }}"><span class=" fa fa-pencil"></span> Modifier le cours</a></li>
-					<li class="divider"></li>
-					<li><a href="#"><span class="fa fa-th"></span> Certificats 120</a></li>
-				</ul>
-			</div>
+			<h1 style="background: #ECF0F1; display: block; text-align: left;">
+				<span class="mdi-action-subject"></span> {{ produit.titre[:50] }}
 			</h1>
 		</div>
 		<div class="col-lg-12" style="padding:0px 7px;">
 		<div class="divider" style="margin-top: -12px;"></div>
 		</div>
 		<div class="col-lg-12" style="padding: 0px 7px;">
-		<h1 style="background: #BDC3C7; display: block; text-align: left; margin-top: -12px;">
-		<a href="#!" class="formats-cours" title="Format Description: accès libre et gratuit en ligne"><span class="mdi-av-my-library-books" style="margin: 3px;" title="Format autorisé"></span></a> 
-		<a href="#!" class="formats-cours" title="Format Vidéos: accès gratuit ou payant en ligne"><span class="mdi-notification-voice-chat" title="Format autorisé" style="margin: 3px;"></span></a> 
-		<a href="#!" class="formats-cours" title="Format E-book: accès gratuit ou payant en ligne"><span class="mdi-hardware-phone-android" title="Format autorisé" style="margin: 3px;"></span></a> 
-		<a href="#!" class="formats-cours-ban"><span class="mdi-maps-local-library" title="Format Livre papier: non gérer." style="margin: 3px;"></span> </a>
-		<a href="#!" class="formats-cours" title="Exercices et TP: accès gratuit ou payant en ligne"><span class="mdi-action-assignment-turned-in" title="Validation de la formation" style="margin: 3px;"></span></a>
-		<a href="#!" class="formats-cours" title="Certificat: pris en charge pour ce cours"><span class="mdi-action-wallet-membership" title="Certificat" style="margin: 3px;"></span></a>
-		
-		
-		<span class="pull-right" style="font-size: 15px; background: #f0ad4e; margin: 7px; color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); padding: 5px; border-radius: 5px;"><span class="mdi-image-iso" style="font-size: 14px;"></span> Note</span>
-		
-		</h1>
+			<h1 style="background: #BDC3C7; display: block; text-align: left; margin-top: -12px;">
+				<a href="#!" class="formats-cours" title="Format Description: accès libre et gratuit en ligne"><span class="mdi-av-my-library-books" style="margin: 3px;" title="Format autorisé"></span></a> 
+				<a href="#!" class="formats-cours" title="Format Vidéos: accès gratuit ou payant en ligne"><span class="mdi-notification-voice-chat" title="Format autorisé" style="margin: 3px;"></span></a> 
+				<a href="#!" class="formats-cours" title="Format E-book: accès gratuit ou payant en ligne"><span class="mdi-hardware-phone-android" title="Format autorisé" style="margin: 3px;"></span></a> 
+				<a href="#!" class="formats-cours-ban"><span class="mdi-maps-local-library" title="Format Livre papier: non gérer." style="margin: 3px;"></span> </a>
+				<a href="#!" class="formats-cours" title="Exercices et TP: accès gratuit ou payant en ligne"><span class="mdi-action-assignment-turned-in" title="Validation de la formation" style="margin: 3px;"></span></a>
+				<a href="#!" class="formats-cours" title="Certificat: pris en charge pour ce cours"><span class="mdi-action-wallet-membership" title="Certificat" style="margin: 3px;"></span></a>		
+				<span class="pull-right" style="font-size: 15px; background: #f0ad4e; margin: 7px; color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); padding: 5px; border-radius: 5px;"><span class="mdi-image-iso" style="font-size: 14px;"></span> Note</span>	
+			</h1>
 		</div>
 		<div class="col-lg-12" style="padding:0px 7px;">
 		<div class="divider" style="margin-top: -7px;"></div>
@@ -285,4 +275,12 @@ function controlScroll()
 	}
 }
 controlScroll();
+
+{% for infos in app.session.flashbag.get('information') %}
+{% if loop.first %}
+	resetNotif();
+	alertify.alert("{{ infos }}");
+{% endif %}
+{% endfor %}
+
 {% endblock %}

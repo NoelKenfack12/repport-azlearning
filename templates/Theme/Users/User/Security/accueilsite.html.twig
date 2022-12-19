@@ -6,7 +6,7 @@
 	<meta name="keywords" content="{{ site }}, Az corporation, E-learning, Az E-learning, Cours diplomant, cours en ligne, cours vidéos, Informatique Cameroun, Génie logicielle."/>
 	<meta name="author" content="Noel Kenfack, noel.kenfack@afhunt.com"/>
 	<meta name="description" content="{{ site }} - {{ metier }} - Suivez à votre rythme une formation professionnelle sur la plateforme d'e-learning de l'institut de formation proffessionnelle AZ corporation."/>
-	
+
 {% endblock %}
 
 {% block title %}
@@ -16,7 +16,6 @@
 {% endblock %}
 
 {% block stylesheets %}
-
 {{ parent() }}
 
 <script src="{{ asset('template/js/owl.carousel.min.js') }}"></script>
@@ -456,7 +455,7 @@ button.owl-next, button{
 		<h2 class="text-left">
 			Nos partenaires
 		</h2>
-		<div>Ces structures qui font la fierté du groupe AZ Corporation : elles nous ont donné l'opportunité de nous exprimer…</div>
+		<div>Voici les structures qui font la fierté du groupe AZ Corporation en accompagnant au premier plan notre projet e-learning …</div>
 		<div class="custom-partners">
 			<div id="client-logos" class="owl-carousel text-center">
 				<div class="item" >
@@ -489,36 +488,7 @@ button.owl-next, button{
 					<img src="{{ asset('template/images/partner/Logo_partenaire6.png') }}" alt=""/>
 					</div>
 				</div>
-				<div class="item">
-					<div class="client-inners">
-					<img src="{{ asset('template/images/partner/Logo_partenaire7.png') }}" alt=""/>
-					</div>
-				</div>
-				<div class="item">
-					<div class="client-inners">
-					<img src="{{ asset('template/images/partner/Logo_partenaire8.png') }}" alt=""/>
-					</div>
-				</div>
-				<div class="item">
-					<div class="client-inners">
-					<img src="{{ asset('template/images/partner/Logo_partenaire9.png') }}" alt=""/>
-					</div>
-				</div>
-				<div class="item">
-					<div class="client-inners">
-					<img src="{{ asset('template/images/partner/Logo_partenaire10.png') }}" alt=""/>
-					</div>
-				</div>
-				<div class="item">
-					<div class="client-inners">
-					<img src="{{ asset('template/images/partner/Logo_partenaire11.png') }}" alt=""/>
-					</div>
-				</div>
-				<div class="item">
-					<div class="client-inners">
-					<img src="{{ asset('template/images/partner/Logo_partenaire12.png') }}" alt=""/>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 
@@ -679,133 +649,130 @@ button.owl-next, button{
 </section>
 		
 <div class="content-wrapper" style="margin-bottom: -20px;">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
-					<h2>Appréciés en ce moment</h2>
-					<p>Consultez les cours les plus suivis en ce moment dans notre institut</p>
-				</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
+				<h2>Appréciés en ce moment</h2>
+				<p>Consultez les cours les plus suivis en ce moment dans notre institut</p>
 			</div>
 		</div>
-            
-		<div class="row">
-			<div class="col-md-12">
-				<div class="owl-carousel staff-list" style="padding-top: 10px;">
-					{% for produit in produit_aime %}
+	</div>
+		
+	<div class="row">
+		<div class="col-md-12">
+			<div class="owl-carousel staff-list" style="padding-top: 10px;">
+				{% for produit in produit_aime %}
 					<div class="card-cours"  style="background: transparent;">
 						{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
 					</div>
-					{% endfor %}
-				</div>
+				{% endfor %}
 			</div>
-		</div>
-    
-		
-        <script type="text/javascript">
-		$(document).ready(function(){
-		  $(".owl-carousel").owlCarousel({
-			  items:4,
-			  autoplay:false,
-			  margin:30,
-			  loop:true,
-			  nav:true,
-			  responsive: {
-				0:{
-					items: 1,
-					nav:true
-				},
-				600:{
-					items: 3,
-					nav:false
-				},
-				1000:{
-					items: 4,
-					nav:true,
-					loop:false
-				}
-			  },
-			  navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
-		  });
-		});
-        </script>
-		
-		
-		<div class="row">
-			<div class="col-md-12">
-				<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
-					<h2> Les plus visités</h2>
-					<p>Voici les les cours les plus recherchés par nos abonnés en ce moment</p>
-				</div>
-			</div>
-		</div>
-            
-		<div class="row">
-
-			<div class="col-md-12">
-				<div class="owl-carousel staff-list" id="owl-carousel" style="padding-top: 10px;">
-
-					{% for produit in produit_visite %}
-						<div class="card-cours" style="background: transparent;">
-							{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
-						</div>
-					{% endfor %}
-
-				</div>
-			</div>
-		</div>
-    
-		
-        <script type="text/javascript">
-
-		
-	
-		$(document).ready(function(){
-		  $("#owl-carousel").owlCarousel({
-			  items: 4,
-			  autoplay:false,
-			  margin:30,
-			  loop:true,
-			  nav:true,
-			  responsive:{
-				0:{
-					items:1,
-					nav:true
-				},
-				600:{
-					items: 3,
-					nav:false
-				},
-				1000:{
-					items: 4,
-					nav:true,
-					loop:false
-				}
-			  },
-			  navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
-		  });
-		});
-        </script>
-</div>
-
-<section class="theme-bg-light">
-	<div class="container">
-		<div class="row">
-		<div class="col-md-12 text-center" style="height: 150px; padding: 20px;">
-			
-			<h2>Récommandations</h2>
-			<p>Aidez-nous à choisir les cours adaptés aux compétences que vous désirez avoir</p>
-			<a href="{{ path('produit_service_search_recommandations_user') }}" class="btn btn-primary">Mes recommandations</a>
-		</div>
 		</div>
 	</div>
-</section>
+
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$(".owl-carousel").owlCarousel({
+			items:4,
+			autoplay:false,
+			margin:30,
+			loop:true,
+			nav:true,
+			responsive: {
+			0:{
+				items: 1,
+				nav:true
+			},
+			600:{
+				items: 3,
+				nav:false
+			},
+			1000:{
+				items: 4,
+				nav:true,
+				loop:false
+			}
+			},
+			navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
+		});
+	});
+	</script>
+	
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="section-title" style="margin-bottom: -10px;margin-top: 20px;">
+				<h2> Les plus visités</h2>
+				<p>Voici les les cours les plus recherchés par nos abonnés en ce moment</p>
+			</div>
+		</div>
+	</div>
+		
+	<div class="row">
+		<div class="col-md-12">
+			<div class="owl-carousel staff-list" id="owl-carousel" style="padding-top: 10px;">
+
+				{% for produit in produit_visite %}
+					<div class="card-cours" style="background: transparent;">
+						{% include 'Theme/Produit/Produit/Produit/produitdescript.html.twig' %}
+					</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#owl-carousel").owlCarousel({
+			items: 4,
+			autoplay:false,
+			margin:30,
+			loop:true,
+			nav:true,
+			responsive:{
+			0:{
+				items:1,
+				nav:true
+			},
+			600:{
+				items: 3,
+				nav:false
+			},
+			1000:{
+				items: 4,
+				nav:true,
+				loop:false
+			}
+			},
+			navText:["<i class='fa fa-arrow-left'></i>","<i class='fa fa-arrow-right'></i>" ]
+		});
+	});
+	</script>
+</div>
+
+
+<section style="background: #fff; padding: 15px 0px; margin-top: 15px;">
+	<div class="container">
+		<div style="">
+			<div class="row">
+				<div class="col-md-12">
+					<a href="{{ path('produit_service_search_recommandations_user') }}" class="btn btn-primary float-right">Mes recommandations</a>
+					<h2>Récommandations</h2>
+					<p>Aidez-nous à choisir les cours adaptés aux compétences que vous désirez avoir</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>	
 
 <div class="content-wrapper">	
 	<div class="row">
 		<div class="col-md-12">
 			<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
 				<h2>Meilleures catégories</h2>
-				<p>"Nous les avons recensé d’après nous visiteurs et internautes 
+				<p>"Nous les avons recensé d’après nos visiteurs et internautes 
 				(d'après les sondages faits à l'institut et sur nos réseaux sociaux). Voici vos meilleures catégories selon vous. "
 				</p>
 			</div>
@@ -814,12 +781,12 @@ button.owl-next, button{
 	<div class="row">
 		{% for categorie in liste_categorie %}
 		<div class="col-md-3">
-			<div class="container-cat" style="background: url('{% if categorie.src != null %}{{ asset(categorie.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}'); background-size: cover;">
-			  <p class="title-cat" style="font-size: 15px;">
-				<span class="subtitle-cat" style="color: #fff!important; text-shadow: 0 0 3px #092759, 0 0 5px #092759; font-size: 20px;">
+			<div class="container-cat" style="background: url('{% if categorie.src != null %}{{ asset(categorie.getwebpath) }}{% else %}{{ asset('template/images/present.png') }}{% endif %}'); background-repeat: no-repeat; background-size: cover; background-position-x: center; ">
+			  <p class="title-cat" style="font-size: 15px;"><!-- span>background-size: cover;</span -->
+				<span class="subtitle-cat" style="background: #fff!important; color: #333!important; font-weight: bold; font-size: 20px;">
 				  {{ categorie.nom }}
 				</span>
-				{{ categorie.description[:100] }}..
+				<span style="background: #333!important;">{{ categorie.description[:100] }}..</span>
 			  </p>
 			  <a href="{{ path('produit_produit_liste_produit_souscategorie', {'id': categorie.id }) }}" class="button-cat" style="display: block; text-decoration: none;">Consulter</a>
 			</div>
@@ -828,13 +795,15 @@ button.owl-next, button{
 	</div>
 </div>
 
-<section class="theme-bg-light">
+<section style="background: #fff; padding: 15px 0px; margin-top: 15px;">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center" style="height: 150px; padding: 20px;">
-				<h2>Devenir Enseignant </h2>
-				<p>Rejoingnez la communauté grandissante d'enseignant(e)s {{ site }}</p>
-				<a href="{{ path('produit_service_souscription_programme_formateur') }}" class="btn btn-primary">Devenir enseignant</a>
+		<div style="">
+			<div class="row">
+				<div class="col-md-12">
+					<a href="{{ path('produit_service_souscription_programme_formateur') }}" class="btn btn-primary float-right">Devenir enseignant</a>
+					<h2>Devenir Enseignant </h2>
+					<p>Rejoingnez la communauté grandissante d'enseignant(e)s {{ site }}</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -845,6 +814,7 @@ button.owl-next, button{
 		 <div class="row">
 			<div class="col-md-12">
 				<div class="section-title" style="margin-bottom: 10px;margin-top: 20px;">
+					<a href="{{ path('produit_service_visiter_notre_blog') }}" class="btn btn-primary float-right">Toutes les formations</a>
 					<h2>Nos offres de formation</h2>
 					<p>
 					A des moments particuliers de l'année, nous lancons des campagnes de formation pour permettre à tous nos abonnés de renforcer leurs capacités à moindre coût. Découvrez nos campagnes de formation actuellement disponibles et 100% à distance.
