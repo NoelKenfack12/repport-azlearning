@@ -49,19 +49,19 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<select name="typecompte" id="" class="form-control">
-												<option value="autres">Type de compte</option>
-												<option value="eleve">Elèves</option>
-												<option value="formateur">Formteurs</option>
-												<option value="administrateur">Administrateurs</option>
+												<option value="autres" {% if typecompte == "autres" %}selected{% endif %}>Type de compte</option>
+												<option value="eleve" {% if typecompte == "eleve" %}selected{% endif %}>Elèves</option>
+												<option value="formateur" {% if typecompte == "formateur" %}selected{% endif %}>Formteurs</option>
+												<option value="admin" {% if typecompte == "admin" %}selected{% endif %}>Administrateurs</option>
 											</select>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<select name="filtre" id="" class="form-control">
-												<option value="0">Filtres</option>
-												<option value="30">Inscrit ce mois</option>
-												<option value="60">Inscrit il y'a deux mois</option>
+												<option value="0" {% if filtre == 0 %}selected{% endif %}>Filtres</option>
+												<option value="30" {% if filtre == 30 %}selected{% endif %}>Inscrit ce mois</option>
+												<option value="60" {% if filtre == 60 %}selected{% endif %}>Inscrit il y'a deux mois</option>
 											</select>
 										</div>
 									</div>
